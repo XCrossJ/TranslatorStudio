@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TranslatorStudioClassLibrary.Class;
+using TranslatorStudioClassLibrary.Interface;
 using TranslatorStudioClassLibrary.Repository;
 
 namespace TranslatorStudioClassLibraryTest.Repository
 {
     [TestClass]
+    [TestCategory("Project Data Repository Test")]
     public class ProjectDataRepositoryTest
     {
         [TestMethod]
@@ -26,7 +27,7 @@ namespace TranslatorStudioClassLibraryTest.Repository
             };
 
             //Act
-            ProjectData actual = new ProjectDataRepository().CreateProjectDataFromArray(projectName, newRawLines);
+            IProjectData actual = new ProjectDataRepository().CreateProjectDataFromArray(projectName, newRawLines);
 
             //Assert
             Assert.AreEqual(expected, actual); // Is not a true equals. Need to develop more.

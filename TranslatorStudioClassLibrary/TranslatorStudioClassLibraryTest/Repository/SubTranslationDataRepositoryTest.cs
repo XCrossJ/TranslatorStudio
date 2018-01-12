@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace TranslatorStudioClassLibraryTest.Repository
 {
     [TestClass]
+    [TestCategory("Sub Translation Data Repository Test")]
     public class SubTranslationDataRepositoryTest
     {
         [TestMethod]

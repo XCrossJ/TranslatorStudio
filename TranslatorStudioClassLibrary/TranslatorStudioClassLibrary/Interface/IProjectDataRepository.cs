@@ -6,11 +6,11 @@ namespace TranslatorStudioClassLibrary.Interface
 {
     public interface IProjectDataRepository
     {
-        ProjectData CreateProjectDataFromArray(string fileName, string[] rawLines);
+        IProjectData CreateProjectDataFromArray(string fileName, string[] rawLines);
         
-        ProjectData CreateProjectDataFromStream(string fileName, StreamReader sr);
+        IProjectData CreateProjectDataFromStream(string fileName, StreamReader sr);
 
-        ProjectData CreateProjectDataFromDocument(string fileName, Document document);
+        IProjectData CreateProjectDataFromDocument(string fileName, Document document);
 
     }
 }

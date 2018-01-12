@@ -6,11 +6,11 @@ namespace TranslatorStudioClassLibrary.Interface
 {
     public interface ITranslationDataRepository
     {
-        TranslationData CreateTranslationDataFromStream(string fileName, StreamReader sr);
+        ITranslationData CreateTranslationDataFromStream(string fileName, StreamReader sr);
 
-        TranslationData CreateTranslationDataFromDocument(string fileName, Document document);
+        ITranslationData CreateTranslationDataFromDocument(string fileName, Document document);
 
-        TranslationData CreateTranslationDataFromProject(IProjectData project);
+        ITranslationData CreateTranslationDataFromProject(IProjectData project);
 
     }
 }

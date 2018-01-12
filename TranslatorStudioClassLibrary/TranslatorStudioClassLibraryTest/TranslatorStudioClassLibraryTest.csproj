@@ -70,6 +70,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\TranslationDataTest.cs" />
+    <Compile Include="Class\ProjectDataTest.cs" />
+    <Compile Include="Class\SubTranslationDataTest.cs" />
     <Compile Include="Repository\ProjectDataRepositoryTest.cs" />
     <Compile Include="Repository\TranslationDataRepositoryTest.cs" />
     <Compile Include="Repository\SubTranslationDataRepositoryTest.cs" />

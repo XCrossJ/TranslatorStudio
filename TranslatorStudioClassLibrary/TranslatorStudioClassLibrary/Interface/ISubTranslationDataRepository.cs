@@ -1,9 +1,9 @@
-﻿using TranslatorStudioClassLibrary.Class;
+﻿using System.Collections.Generic;
 
 namespace TranslatorStudioClassLibrary.Interface
 {
     public interface ISubTranslationDataRepository
     {
-        SubTranslationData GetSubData(bool[] conditionList);
+        ISubTranslationData GetSubData(bool[] conditionList);
     }
 }

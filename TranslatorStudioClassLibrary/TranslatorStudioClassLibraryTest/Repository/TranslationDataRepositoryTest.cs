@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TranslatorStudioClassLibrary.Class;
+using TranslatorStudioClassLibrary.Interface;
 using TranslatorStudioClassLibrary.Repository;
 
 namespace TranslatorStudioClassLibraryTest.Factory
 {
     [TestClass]
-    public class TranslationDataFactoryTest
+    [TestCategory("Translation Data Repository Test")]
+    public class TranslationDataRepositoryTest
     {
         [TestMethod]
         public void CreateTranslationDataFromProject()
@@ -25,7 +27,7 @@ namespace TranslatorStudioClassLibraryTest.Factory
             TranslationData expected = new TranslationData(data);
 
             //Act
-            TranslationData actual = new TranslationDataRepository().CreateTranslationDataFromProject(data);
+            ITranslationData actual = new TranslationDataRepository().CreateTranslationDataFromProject(data);
 
             //Assert
             Assert.AreEqual(expected, actual);

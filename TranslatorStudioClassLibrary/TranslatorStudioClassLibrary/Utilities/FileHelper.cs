@@ -5,19 +5,20 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Microsoft.Office.Interop.Word;
 using TranslatorStudioClassLibrary.Repository;
+using TranslatorStudioClassLibrary.Interface;
 
 namespace TranslatorStudioClassLibrary.Utilities
 {
     public static class FileHelper
     {
-        public static TranslationData OpenTextFile(string path, string fileName)
+        public static ITranslationData OpenTextFile(string path, string fileName)
         {
             StreamReader sr = new StreamReader(path, Encoding.Default, true);
             var data = new TranslationDataRepository().CreateTranslationDataFromStream(fileName, sr);
             return data;
         }
 
-        public static TranslationData OpenDocFile(string path, string fileName)
+        public static ITranslationData OpenDocFile(string path, string fileName)
         {
             Application application = new Application();
             Document document = new Document();
@@ -32,7 +33,7 @@ namespace TranslatorStudioClassLibrary.Utilities
             return data;
         }
 
-        public static TranslationData OpenTSPFile(string path, string fileName)
+        public static ITranslationData OpenTSPFile(string path, string fileName)
         {
             string output = File.ReadAllText(path);
             var projectData = JsonConvert.DeserializeObject<ProjectData>(output);

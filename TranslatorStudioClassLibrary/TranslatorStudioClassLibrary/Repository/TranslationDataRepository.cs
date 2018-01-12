@@ -12,19 +12,19 @@ namespace TranslatorStudioClassLibrary.Repository
 {
     public class TranslationDataRepository: ITranslationDataRepository
     {
-        public TranslationData CreateTranslationDataFromDocument(string fileName, Document document)
+        public ITranslationData CreateTranslationDataFromDocument(string fileName, Document document)
         {
             var project = new ProjectDataRepository().CreateProjectDataFromDocument(fileName, document);
 
             return new TranslationData(project);
         }
 
-        public TranslationData CreateTranslationDataFromProject(IProjectData project)
+        public ITranslationData CreateTranslationDataFromProject(IProjectData project)
         {
             return new TranslationData(project);
         }
 
-        public TranslationData CreateTranslationDataFromStream(string fileName, StreamReader sr)
+        public ITranslationData CreateTranslationDataFromStream(string fileName, StreamReader sr)
         {
             var project = new ProjectDataRepository().CreateProjectDataFromStream(fileName, sr);
 

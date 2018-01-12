@@ -40,6 +40,7 @@ namespace TranslatorStudioClassLibrary.Interface
 
         string GetSaveString();
 
+        void StartDefaultMode();
         int StartMarkedOnlyMode();
         int StartIncompleteOnlyMode();
         int StartCompleteOnlyMode();

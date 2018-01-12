@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TranslatorStudioClassLibrary.Class;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
+using TranslatorStudioClassLibrary.Interface;
 using TranslatorStudioClassLibrary.Repository;
 using TranslatorStudioClassLibrary.Utilities;
 
@@ -8,14 +8,15 @@ using TranslatorStudioClassLibrary.Utilities;
 namespace TranslatorStudioClassLibraryTest.Utilities
 {
     [TestClass]
+    [TestCategory("Extension Helper Test")]
     public class ExtensionHelperTest
     {
         [TestMethod]
-        public void ToJsonStringTest()
+        public void ToJSONStringTest()
         {
             //Arrange
-            ProjectData project = new ProjectDataRepository().CreateProjectDataFromArray("test", new string[] { "test" });
-            string expected = "{\"ProjectName\":\"test\",\"RawLines\":[\"test\"],\"TranslatedLines\":[null],\"CompletedLines\":[false],\"MarkedLines\":[false]}";
+            IProjectData project = new ProjectDataRepository().CreateProjectDataFromArray("test", new string[] { "test" });
+            string expected = JsonConvert.SerializeObject(project);
             string actual;
 
             //Act

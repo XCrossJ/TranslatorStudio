@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using TranslatorStudioClassLibrary.Class;
 using TranslatorStudioClassLibrary.Interface;
 
@@ -10,7 +6,7 @@ namespace TranslatorStudioClassLibrary.Repository
 {
     public class SubTranslationDataRepository : ISubTranslationDataRepository
     {
-        public SubTranslationData GetSubData(bool[] conditionList)
+        public ISubTranslationData GetSubData(bool[] conditionList)
         {
             var newIndexReference = new List<int>();
             for (int i = 0; i < conditionList.Length; i++)
@@ -24,7 +20,7 @@ namespace TranslatorStudioClassLibrary.Repository
             return ConstructSubTranslationData(newIndexReference);
         }
 
-        private SubTranslationData ConstructSubTranslationData(List<int> newIndexReference)
+        private ISubTranslationData ConstructSubTranslationData(List<int> newIndexReference)
         {
             return new SubTranslationData()
             {

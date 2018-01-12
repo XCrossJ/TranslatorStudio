@@ -8,7 +8,7 @@ namespace TranslatorStudioClassLibrary.Repository
 {
     public class ProjectDataRepository : IProjectDataRepository
     {
-        public ProjectData CreateProjectDataFromArray(string fileName, string[] rawLines)
+        public IProjectData CreateProjectDataFromArray(string fileName, string[] rawLines)
         {
             var newRawLines = new List<string>();
             foreach (var item in rawLines)
@@ -19,7 +19,7 @@ namespace TranslatorStudioClassLibrary.Repository
             return ConstructProjectData(fileName, newRawLines);
         }
 
-        public ProjectData CreateProjectDataFromStream(string fileName, StreamReader sr)
+        public IProjectData CreateProjectDataFromStream(string fileName, StreamReader sr)
         {
             var newRawLines = new List<string>();
             using (sr)
@@ -33,7 +33,7 @@ namespace TranslatorStudioClassLibrary.Repository
             return ConstructProjectData(fileName, newRawLines);
         }
 
-        public ProjectData CreateProjectDataFromDocument(string fileName, Document document)
+        public IProjectData CreateProjectDataFromDocument(string fileName, Document document)
         {
             var newRawLines = new List<string>();
 
@@ -46,13 +46,13 @@ namespace TranslatorStudioClassLibrary.Repository
         }
 
 
-        private ProjectData ConstructProjectData(string fileName, List<string> newRawLines)
+        private IProjectData ConstructProjectData(string fileName, List<string> newRawLines)
         {
             var newTranslatedLines = new string[newRawLines.Count];
             var newCompletedLines = new bool[newRawLines.Count];
             var newMarkedLines = new bool[newRawLines.Count];
 
-            ProjectData project = new ProjectData
+            IProjectData project = new ProjectData
             {
                 ProjectName = fileName,
                 RawLines = newRawLines,

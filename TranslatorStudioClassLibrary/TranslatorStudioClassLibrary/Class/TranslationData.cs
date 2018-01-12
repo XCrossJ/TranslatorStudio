@@ -144,9 +144,16 @@ namespace TranslatorStudioClassLibrary.Class
             return Data.ToJSONString();
         }
 
+        public void StartDefaultMode()
+        {
+            DefaultTranslationMode = true;
+            CurrentIndex = 0;
+        }
+
         public int StartMarkedOnlyMode()
         {
             SubData = new SubTranslationDataRepository().GetSubData(MarkedLines);
+            DefaultTranslationMode = false;
             return SubData.NumberOfLines;
         }
 
@@ -159,12 +166,14 @@ namespace TranslatorStudioClassLibrary.Class
                 incompleteLines[i] = !incompleteLines[i];
             }
             SubData = new SubTranslationDataRepository().GetSubData(incompleteLines);
+            DefaultTranslationMode = false;
             return SubData.NumberOfLines;
         }
 
         public int StartCompleteOnlyMode()
         {
             SubData = new SubTranslationDataRepository().GetSubData(CompletedLines);
+            DefaultTranslationMode = false;
             return SubData.NumberOfLines;
         }
 
