@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using TranslatorStudio.Utilities;
-using TranslatorStudioClassLibrary.Class;
+using TranslatorStudioClassLibrary.Interface;
+using TranslatorStudioClassLibrary.Utilities;
 
 namespace TranslatorStudio.Forms
 {
@@ -51,28 +51,13 @@ namespace TranslatorStudio.Forms
         #region Methods
         private void OpenFile(string fileExt, string path, string fileName)
         {
-            string previousSavePath = "";
-            TranslationData data;
-            switch (fileExt)
-            {
-                case ".tsp":
-                    data = FileHelper.OpenTSPFile(path, fileName);
-                    previousSavePath = path;
-                    break;
-                case ".docx":
-                    data = FileHelper.OpenDocFile(path, fileName);
-                    break;
-                case ".txt":
-                    data = FileHelper.OpenTextFile(path, fileName);
-                    break;
-                default:
-                    throw new Exception("File Type Not Handled.");
-            }
-
+            var openData = FileHelper.OpenHandler(fileExt, path, fileName);
+            ITranslationData data = openData.Item1;
+            string previousSavePath = openData.Item2;
             _desk = new FrmDesk(data, previousSavePath, this);
             OpenDesk();
         }
-        public void SetDesk(TranslationData data)
+        public void SetDesk(ITranslationData data)
         {
             _desk = new FrmDesk(data, this);
         }

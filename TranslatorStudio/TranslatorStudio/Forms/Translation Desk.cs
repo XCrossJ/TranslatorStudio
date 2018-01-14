@@ -1,18 +1,18 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using TranslatorStudio.Forms;
 using TranslatorStudio.Utilities;
-using TranslatorStudioClassLibrary.Class;
+using TranslatorStudioClassLibrary.Interface;
+using TranslatorStudioClassLibrary.Utilities;
 
 namespace TranslatorStudio
 {
     public partial class FrmDesk : Form
     {
         #region Global Variables
-        private TranslationData _data;
+        private ITranslationData _data;
         private frmNew _new;
         public FrmHub Hub { get; set; }
         public FrmPreview Preview { get; set; }
@@ -26,7 +26,7 @@ namespace TranslatorStudio
         {
             InitializeComponent();
         }
-        public FrmDesk(TranslationData data, string prevSavePath, FrmHub hub)
+        public FrmDesk(ITranslationData data, string prevSavePath, FrmHub hub)
         {
             InitializeComponent();
 
@@ -35,7 +35,7 @@ namespace TranslatorStudio
             Hub = hub;
             DeskSetup();
         }
-        public FrmDesk(TranslationData data, FrmHub hub)
+        public FrmDesk(ITranslationData data, FrmHub hub)
         {
             InitializeComponent();
 
@@ -233,12 +233,12 @@ namespace TranslatorStudio
 
         private void tsmiGoogleTranslate_Click(object sender, EventArgs e)
         {
-            btnGoogleTranslate_Click(sender, e);
+            OpenGoogleTranslate();
         }
 
         private void tsmiWeblio_Click(object sender, EventArgs e)
         {
-            btnWeblio_Click(sender, e);
+            OpenWeblio();
         }
 
         private void tsmiShortcuts_Click(object sender, EventArgs e)
@@ -392,12 +392,12 @@ namespace TranslatorStudio
 
         private void OpenGoogleTranslate()
         {
-            Process.Start(ApplicationData.GoogleTranslate);
+            ApplicationData.GoogleTranslate.StartProcess();
         }
 
         private void OpenWeblio()
         {
-            Process.Start(ApplicationData.Weblio);
+            ApplicationData.Weblio.StartProcess();
         }
 
         private void ShowAbout()
@@ -412,16 +412,15 @@ namespace TranslatorStudio
 
         private void FlipCompleteState()
         {
-            chkComplete.Checked = !chkComplete.Checked;
+            chkComplete.FlipCheckboxState();
         }
 
         private void FlipMarkedState()
         {
-            chkMark.Checked = !chkMark.Checked;
+            chkMark.FlipCheckboxState();
         }
         #endregion
-
-
+        
         #region Other Events
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -450,23 +449,26 @@ namespace TranslatorStudio
         {
             switch (keyData)
             {
+                case (Keys.Control | Keys.N):
+                    NewProject();
+                    return true;
                 case (Keys.Control | Keys.S):
-                    tsmiSave_Click(this, new EventArgs());
+                    SaveProject();
                     return true;
                 case (Keys.Control | Keys.E):
-                    tsmiExport_Click(this, new EventArgs());
+                    ExportProject();
                     return true;
                 case (Keys.Control | Keys.P):
-                    btnPreview_Click(this, new EventArgs());
+                    PreviewProject();
                     return true;
                 case (Keys.Control | Keys.R):
-                    btnCopyRaw_Click(this, new EventArgs());
+                    CopyRaw();
                     return true;
                 case (Keys.Control | Keys.G):
-                    btnGoogleTranslate_Click(this, new EventArgs());
+                    OpenGoogleTranslate();
                     return true;
                 case (Keys.Control | Keys.W):
-                    btnWeblio_Click(this, new EventArgs());
+                    OpenWeblio();
                     return true;
                 case (Keys.Control | Keys.T):
                     rtbTranslationContent.Focus();
@@ -484,10 +486,10 @@ namespace TranslatorStudio
                     DecreaseTextSize();
                     return true;
                 case (Keys.Control | Keys.Enter):
-                    chkComplete.Checked = !chkComplete.Checked;
+                    FlipCompleteState();
                     return true;
                 case (Keys.Control | Keys.M):
-                    chkMark.Checked = !chkMark.Checked;
+                    FlipMarkedState();
                     return true;
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
@@ -534,11 +536,10 @@ namespace TranslatorStudio
 
         private void BeginDefaultMode()
         {
-            _data.DefaultTranslationMode = true;
+            _data.StartDefaultMode();
             _numberOfLines = _data.NumberOfLines;
             nudLineNumber.Maximum = _numberOfLines;
             nudLineNumber.Value = 1;
-            _data.CurrentIndex = 0;
         }
         private void BeginMarkedOnlyMode()
         {
@@ -593,40 +594,26 @@ namespace TranslatorStudio
 
         private void OpenFile(string fileExt, string path, string fileName)
         {
-            string previousSavePath = "";
-            TranslationData data;
-            switch (fileExt)
-            {
-                case ".tsp":
-                    data = FileHelper.OpenTSPFile(path, fileName);
-                    previousSavePath = path;
-                    break;
-                case ".docx":
-                    data = FileHelper.OpenDocFile(path, fileName);
-                    break;
-                case ".txt":
-                    data = FileHelper.OpenTextFile(path, fileName);
-                    break;
-                default:
-                    throw new Exception("File Type Not Handled.");
-            }
+            var openData = FileHelper.OpenHandler(fileExt, path, fileName);
+            ITranslationData data = openData.Item1;
+            _previousSavePath = openData.Item2;
             ResetTranslationDesk(data);
         }
 
-        public void UpdateTranslationData(TranslationData data)
+        public void UpdateTranslationData(ITranslationData data)
         {
             _data = data;
             UpdateDesk();
         }
 
-        public void ResetTranslationDesk(TranslationData data)
+        public void ResetTranslationDesk(ITranslationData data)
         {
             _data = data;
             cmbEditMode.SelectedIndex = 0;
             UpdateDesk();
         }
 
-        public void ResetTranslationProject(TranslationData data)
+        public void ResetTranslationProject(ITranslationData data)
         {
             _data = data;
             _previousSavePath = "";

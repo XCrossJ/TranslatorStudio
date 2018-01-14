@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using Microsoft.Office.Interop.Word;
 using TranslatorStudioClassLibrary.Repository;
 using TranslatorStudioClassLibrary.Interface;
+using System;
 
 namespace TranslatorStudioClassLibrary.Utilities
 {
@@ -41,14 +42,37 @@ namespace TranslatorStudioClassLibrary.Utilities
             return data;
         }
 
-        public static bool SaveProject(TranslationData data, string path)
+        public static Tuple<ITranslationData, string> OpenHandler(string fileExt, string path, string fileName)
+        {
+            string previousSavePath = "";
+            ITranslationData data;
+            switch (fileExt)
+            {
+                case ".tsp":
+                    data = OpenTSPFile(path, fileName);
+                    previousSavePath = path;
+                    break;
+                case ".docx":
+                    data = OpenDocFile(path, fileName);
+                    break;
+                case ".txt":
+                    data = OpenTextFile(path, fileName);
+                    break;
+                default:
+                    throw new Exception("File Type Not Handled.");
+            }
+            var openData = new Tuple<ITranslationData, string>(data, previousSavePath);
+            return openData;
+        }
+
+        public static bool SaveProject(ITranslationData data, string path)
         {
             var json = JObject.Parse(data.GetSaveString());
             File.WriteAllText(path, json.ToString());
             return true;
         }
 
-        public static void ExportTranslation(TranslationData data, string path)
+        public static void ExportTranslation(ITranslationData data, string path)
         {
             using (StreamWriter sw = new StreamWriter(path))
             {

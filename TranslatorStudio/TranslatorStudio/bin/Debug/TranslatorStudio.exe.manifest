@@ -55,26 +55,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TranslatorStudio.exe" size="1569296">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TranslatorStudio.exe" size="1564672">
       <assemblyIdentity name="TranslatorStudio" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>gZ7TyBEQZgiCEy+f38I9pfc5E7FNDa6d0HPar/2VpXg=</dsig:DigestValue>
+        <dsig:DigestValue>FofU8vnQ0bnkc1Vzp85LczgWUM4sID+anYlUCCUTBd4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TranslatorStudioClassLibrary.dll" size="17408">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TranslatorStudioClassLibrary.dll" size="18944">
       <assemblyIdentity name="TranslatorStudioClassLibrary" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>4S7NByjUjNNMBynHms3MAFFofnwsLCHVILaTiCg1Rxw=</dsig:DigestValue>
+        <dsig:DigestValue>d0U1pLQTE6u95eayvF20z3GQ7CCw8k+PuHCVPIqq3TQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -87,13 +87,13 @@
       <dsig:DigestValue>WUp+Yp8RKrbXcmiGWTRSHINLhDxbax1jy38T1lhp67g=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="TranslatorStudio.exe.config" size="189">
+  <file name="TranslatorStudio.exe.config" size="186">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>6N7MliNbVJSIAIPrecIshMbZ7zEoKLr5SQvud4LDUOw=</dsig:DigestValue>
+      <dsig:DigestValue>GUHS+OFx1101tsQAmSxc2HiZ6DFfxLEUn0Es0Znho/o=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

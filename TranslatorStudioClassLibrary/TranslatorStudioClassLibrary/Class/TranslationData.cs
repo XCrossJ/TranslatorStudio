@@ -154,6 +154,7 @@ namespace TranslatorStudioClassLibrary.Class
         {
             SubData = new SubTranslationDataRepository().GetSubData(MarkedLines);
             DefaultTranslationMode = false;
+            CurrentIndex = 0;
             return SubData.NumberOfLines;
         }
 
@@ -167,6 +168,7 @@ namespace TranslatorStudioClassLibrary.Class
             }
             SubData = new SubTranslationDataRepository().GetSubData(incompleteLines);
             DefaultTranslationMode = false;
+            CurrentIndex = 0;
             return SubData.NumberOfLines;
         }
 
@@ -174,6 +176,7 @@ namespace TranslatorStudioClassLibrary.Class
         {
             SubData = new SubTranslationDataRepository().GetSubData(CompletedLines);
             DefaultTranslationMode = false;
+            CurrentIndex = 0;
             return SubData.NumberOfLines;
         }
 

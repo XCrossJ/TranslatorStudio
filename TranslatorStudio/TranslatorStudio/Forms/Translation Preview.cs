@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using TranslatorStudio.Utilities;
-using TranslatorStudioClassLibrary.Class;
+using TranslatorStudioClassLibrary.Interface;
 using TranslatorStudioClassLibrary.Utilities;
 
 namespace TranslatorStudio.Forms
@@ -14,12 +14,12 @@ namespace TranslatorStudio.Forms
 
         #region Global Variables
         private FrmDesk _desk;
-        private TranslationData _data;
+        private ITranslationData _data;
         private bool _dataChanged = false;
         #endregion
 
         #region Constructors
-        public FrmPreview(FrmDesk desk, TranslationData data)
+        public FrmPreview(FrmDesk desk, ITranslationData data)
         {
             InitializeComponent();
             _desk = desk;

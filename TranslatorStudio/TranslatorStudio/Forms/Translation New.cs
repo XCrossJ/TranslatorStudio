@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using TranslatorStudioClassLibrary.Class;
+using TranslatorStudioClassLibrary.Interface;
 using TranslatorStudioClassLibrary.Repository;
 
 namespace TranslatorStudio.Forms
@@ -26,12 +27,19 @@ namespace TranslatorStudio.Forms
         #region Control Events
         private void btnQuit_Click(object sender, EventArgs e)
         {
-            Close();
+            QuitNew();
         }
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
-            string fileName = !string.IsNullOrEmpty(txtProjectName.Text) ? txtProjectName.Text: "";
+            CreateNewProject();
+        }
+        #endregion
+
+        #region Action Methods
+        private void CreateNewProject()
+        {
+            string fileName = !string.IsNullOrEmpty(txtProjectName.Text) ? txtProjectName.Text : "";
             string[] rawLines = !string.IsNullOrEmpty(rtbRAW.Text) ? rtbRAW.Lines : null;
 
             if (rawLines != null || rawLines.Length != 0)
@@ -52,6 +60,11 @@ namespace TranslatorStudio.Forms
                 MessageBox.Show("Raw is Empty or Null. Please enter raw.");
             }
         }
+
+        private void QuitNew()
+        {
+            Close();
+        }
         #endregion
 
         #region Methods
@@ -60,19 +73,19 @@ namespace TranslatorStudio.Forms
             switch (keyData)
             {
                 case (Keys.Control | Keys.Enter):
-                    btnCreate_Click(this, new EventArgs());
+                    CreateNewProject();
                     return true;
                 case (Keys.Control | Keys.Escape):
-                    btnQuit_Click(this, new EventArgs());
+                    QuitNew();
                     return true;
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
             }
         }
 
-        private void CreateProject(ProjectData _data)
+        private void CreateProject(IProjectData _data)
         {
-            TranslationData data = new TranslationData(_data);
+            ITranslationData data = new TranslationData(_data);
             if (_hub != null)
             {
                 _hub.SetDesk(data);

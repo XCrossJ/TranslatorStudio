@@ -26,7 +26,6 @@ C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudio\Translator
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\bin\Debug\TranslatorStudioClassLibrary.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\bin\Debug\Newtonsoft.Json.xml
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.csprojResolveAssemblyReference.cache
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.FrmDesk.resources
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.Forms.FrmHub.resources
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.Forms.frmNew.resources
