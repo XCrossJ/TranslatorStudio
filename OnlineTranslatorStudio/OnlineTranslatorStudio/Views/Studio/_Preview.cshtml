@@ -16,4 +16,29 @@
             </tr>
         }
     </table>
+
+    @*<div id="rawSection" class="col-xs-6">
+        <div class="row">
+            <label>Raw</label>
+        </div>
+        @foreach (var item in Model.RawLines)
+        {
+            <div class="row">
+                <p>@item</p>
+            </div>
+        }
+    </div>
+
+    <div id="translationSection" class="col-xs-6">
+        <div class="row">
+            <label>Translation</label>
+        </div>
+        @foreach (var item in Model.TranslatedLines)
+        {
+            <div class="row">
+                <input class="form-control" type="text" value="@item" />
+            </div>
+        }
+    </div>*@
+
 </div>

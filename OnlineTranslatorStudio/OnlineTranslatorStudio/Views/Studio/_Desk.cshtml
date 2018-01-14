@@ -1,0 +1,22 @@
+﻿@model TranslatorStudioClassLibrary.Class.TranslationData
+
+<div id="desk" class="row">
+    <div id="rawSection" class="col-xs-6">
+        <div class="row">
+            @Html.LabelFor(Model => Model.CurrentRaw, new { @class = "control-label" })
+        </div>
+        <div class="row">
+            @Html.TextAreaFor(Model => Model.CurrentRaw, new { @class = "form-control", style = "max-width: 100%; width: 80%;" });
+            @*<p>@Model.CurrentRaw</p>*@
+        </div>
+    </div>
+    <div id="translationSection" class="col-xs-6">
+        <div class="row">
+            @Html.LabelFor(Model => Model.CurrentTranslation, new { @class = "control-label" })
+        </div>
+        <div class="row">
+            @Html.TextAreaFor(Model => Model.CurrentTranslation, new { @class = "form-control", style = "max-width: 100%; width: 80%;" });
+        </div>
+        @*<input class="form-control" type="text" value="@Model.CurrentTranslation" />*@
+    </div>
+</div>

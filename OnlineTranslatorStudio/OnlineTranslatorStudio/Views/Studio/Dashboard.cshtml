@@ -6,101 +6,79 @@
     var percentage = ViewBag.percentage;
     //int percentage = Model.NumberOfLines != 0 ? percentage = ((Model.NumberOfCompletedLines / Model.NumberOfLines) * 100) : 0;
 
-    List<Furigana> furigana = new List<Furigana>();
+    //List<Furigana> furigana = new List<Furigana>();
 
-    foreach (var item in Model.RawLines)
-    {
-        furigana.Add(new Furigana(item));
-    }
+    //foreach (var item in Model.RawLines)
+    //{
+    //    furigana.Add(new Furigana(item));
+    //}
 
 }
 
-<div class="col-xs-12">
-    <h2>Dashboard</h2>
-    <div id="status" class="row">
-        <div class="col-xs-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4>Project Details</h4>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <table class="table table-condensed">
-                            <tr>
-                                <th><b>Project Name</b></th>
-                                <td>@Model.ProjectName</td>
-                            </tr>
-                            <tr>
-                                <th><b>Current Line</b></th>
-                                <td>@(Model.CurrentIndex + 1) / @Model.NumberOfLines</td>
-                            </tr>
-                            <tr>
-                                <th><b>Progress</b></th>
-                                <td>@Model.NumberOfCompletedLines / @Model.NumberOfLines</td>
-                            </tr>
-                        </table>
-                    </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3">
+            <h2>Dashboard</h2>
+            <div id="status" class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4>Project Details</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <table class="table table-condensed">
+                                    <tr>
+                                        <th><b>Project Name</b></th>
+                                        <td>@Model.ProjectName</td>
+                                    </tr>
+                                    <tr>
+                                        <th><b>Current Line</b></th>
+                                        <td>@(Model.CurrentIndex + 1) / @Model.NumberOfLines</td>
+                                    </tr>
+                                    <tr>
+                                        <th><b>Progress</b></th>
+                                        <td>@Model.NumberOfCompletedLines / @Model.NumberOfLines</td>
+                                    </tr>
+                                </table>
+                            </div>
 
-                    <div class="row">
-                        <div class="progress">
-                            <div id="progressBar" class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="@percentage" aria-valuemin="0" aria-valuemax="100" style="width: @percentage%;">
-                                <span class="sr-only">@percentage% Complete</span>
+                            <div class="row">
+                                <div class="progress">
+                                    <div id="progressBar" class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="@percentage" aria-valuemin="0" aria-valuemax="100" style="width: @percentage%;">
+                                        <span class="sr-only">@percentage% Complete</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+        </div>
+        <div class="col-sm-9">
+            <div class="col-xs-12">
+                <h2>Desk</h2>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#deskTab">Desk</a></li>
+                    <li><a data-toggle="tab" href="#previewTab">Preview</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="deskTab" class="tab-pane fade in active">
+                        @Html.Partial("_Desk", Model)
+                    </div>
+                    <div id="previewTab" class="tab-pane fade">
+                        @Html.Partial("_Preview", Model)
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
-
-    @*@Html.Partial("_Preview", Model);*@
-    
-    <div id="desk" class="row">
-        <div id="rawSection" class="col-xs-6">
-            <div class="row">
-                @Html.LabelFor(Model => Model.CurrentRaw, new { @class = "control-label" })
-            </div>
-            <div class="row">
-                @Html.TextAreaFor(Model => Model.CurrentRaw, new { @class = "form-control", style = "max-width: 100%; width: 80%;" });
-                @*<p>@Model.CurrentRaw</p>*@
-            </div>
-        </div>
-        <div id="translationSection" class="col-xs-6">
-            <div class="row">
-                @Html.LabelFor(Model => Model.CurrentTranslation, new { @class = "control-label" })
-            </div>
-            <div class="row">
-                @Html.TextAreaFor(Model => Model.CurrentTranslation, new { @class = "form-control", style = "max-width: 100%; width: 80%;" });
-            </div>
-            @*<input class="form-control" type="text" value="@Model.CurrentTranslation" />*@
-        </div>
-    </div>
-
-    @*<div id="rawSection" class="col-xs-6">
-        <div class="row">
-            <label>Raw</label>
-        </div>
-        @foreach (var item in Model.RawLines)
-        {
-            <div class="row">
-                <p>@item</p>
-            </div>
-        }
-    </div>
-
-    <div id="translationSection" class="col-xs-6">
-        <div class="row">
-            <label>Translation</label>
-        </div>
-        @foreach (var item in Model.TranslatedLines)
-        {
-            <div class="row">
-                <input class="form-control" type="text" value="@item"/>
-            </div>
-        }
-    </div>*@
-
 </div>
+
+
 
 
 <script>

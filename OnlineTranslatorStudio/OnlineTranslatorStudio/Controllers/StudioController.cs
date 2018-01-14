@@ -1,10 +1,11 @@
 ﻿using OnlineTranslatorStudio.Models;
-using OnlineTranslatorStudio.Utilities;
 using System;
 using System.IO;
 using System.Web.Mvc;
 using TranslatorStudioClassLibrary.Class;
+using TranslatorStudioClassLibrary.Interface;
 using TranslatorStudioClassLibrary.Repository;
+using TranslatorStudioClassLibrary.Utilities;
 
 namespace OnlineTranslatorStudio.Controllers
 {
@@ -22,7 +23,7 @@ namespace OnlineTranslatorStudio.Controllers
         [HttpPost]
         public ActionResult Dashboard(OnlineTranslationRequest translationRequest, string submit)
         {
-            TranslationData data = new TranslationData();
+            ITranslationData data = new TranslationData();
 
             switch (submit)
             {
@@ -37,10 +38,8 @@ namespace OnlineTranslatorStudio.Controllers
                             var filePath = @"C:\Temp\" + fileName;
                             file.SaveAs(filePath);
 
-                            if (fileType == ".txt")
-                                data = FileHelper.OpenTextFile(filePath, fileName);
-                            if (fileType == ".tsp")
-                                data = FileHelper.OpenTSPFile(filePath, fileName);
+                            var openData = FileHelper.OpenHandler(fileType, filePath, fileName);
+                            data = openData.Item1;
                         }
                     }
                     else
@@ -50,12 +49,11 @@ namespace OnlineTranslatorStudio.Controllers
 
                     break;
                 case "Create":
-
                     if (translationRequest != null)
                     {
                         string fileName = translationRequest.ProjectName;
                         string[] rawData = translationRequest.RawData.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                        ProjectData project = new ProjectDataRepository().CreateProjectDataFromArray(fileName, rawData);
+                        IProjectData project = new ProjectDataRepository().CreateProjectDataFromArray(fileName, rawData);
                         data = new TranslationDataRepository().CreateTranslationDataFromProject(project);
                     }
                     else
@@ -79,17 +77,15 @@ namespace OnlineTranslatorStudio.Controllers
         public ActionResult Desk()
         {
             var file = Request.Files[0];
-            TranslationData data = new TranslationData();
+            ITranslationData data = new TranslationData();
             if (file != null & file.ContentLength > 0)
             {
                 var filePath = file.FileName;
                 var fileName = Path.GetFileName(filePath);
                 var fileType = Path.GetExtension(filePath);
 
-                if (fileType == ".txt")
-                    data = FileHelper.OpenTextFile(filePath, fileName);
-                if (fileType == ".tsp")
-                    data = FileHelper.OpenTSPFile(filePath, fileName);
+                var openData = FileHelper.OpenHandler(fileType, filePath, fileName);
+                data = openData.Item1;
             }
             if (data.NumberOfLines != 0)
                 ViewBag.percentage = data.NumberOfCompletedLines * 100 / data.NumberOfLines;

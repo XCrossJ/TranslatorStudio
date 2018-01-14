@@ -186,7 +186,7 @@ C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\Onli
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\System.Web.WebPages.xml
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\System.Web.WebPages.Deployment.xml
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\System.Web.WebPages.Razor.xml
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\obj\Debug\OnlineTranslatorStudio.csprojResolveAssemblyReference.cache
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\obj\Debug\OnlineTranslatorStudio.csproj.CoreCompileInputs.cache
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\obj\Debug\OnlineTranslatorStudio.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\obj\Debug\OnlineTranslatorStudio.pdb
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\obj\Debug\OnlineTranslatorStudio.csprojResolveAssemblyReference.cache
