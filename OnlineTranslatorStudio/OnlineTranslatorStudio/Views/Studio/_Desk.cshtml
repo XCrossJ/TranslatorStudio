@@ -20,3 +20,41 @@
         @*<input class="form-control" type="text" value="@Model.CurrentTranslation" />*@
     </div>
 </div>
+
+<script>
+    var translationData;
+    $(document).ready(function () {
+        translationData = @Html.Raw(OnlineTranslatorStudio.Utilities.OnlineStudioHelper.ToJson(Model));
+        console.log(translationData);
+    });
+
+    $(document).keydown(function () {
+        if ((event.which == 39) & (event.altKey == true) & (event.ctrlKey == true)) {
+            incrementIndex();
+        }
+        if ((event.which == 37) & (event.altKey == true) & (event.ctrlKey == true)) {
+            decrementIndex();
+        }
+    });
+
+    function incrementIndex() {
+        if (translationData.currentIndex < translationData.maxIndex) {
+            translationData.currentIndex++;
+            reloadDesk();
+        }
+    }
+
+    function decrementIndex() {
+        if (translationData.currentIndex > 0) {
+            translationData.currentIndex--;
+            reloadDesk();
+        }
+    }
+
+    function reloadDesk() {
+        translationData.currentRaw = translationData.rawLines[translationData.currentIndex];
+        translationData.currentTranslation = translationData.translatedLines[translationData.currentIndex];
+        $("#CurrentRaw").text(translationData.currentRaw);
+        $("#CurrentTranslation").text(translationData.currentTranslation);
+    }
+</script>

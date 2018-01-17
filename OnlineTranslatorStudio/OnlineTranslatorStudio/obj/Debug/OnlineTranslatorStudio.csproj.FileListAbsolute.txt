@@ -94,6 +94,17 @@ C:\Users\Joshua Juandy\documents\visual studio 2017\Projects\OnlineTranslatorStu
 C:\Users\Joshua Juandy\documents\visual studio 2017\Projects\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\Gem.dll
 C:\Users\Joshua Juandy\documents\visual studio 2017\Projects\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\TranslatorStudioClassLibrary.dll
 C:\Users\Joshua Juandy\documents\visual studio 2017\Projects\OnlineTranslatorStudio\OnlineTranslatorStudio\obj\Debug\OnlineTranslatorStudio.csproj.CoreCompileInputs.cache
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\System.IO.Compression.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\VBCSCompiler.exe
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\System.Security.Cryptography.Primitives.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\ApplicationInsights.config
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\csc.exe
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\csc.exe.config
@@ -102,13 +113,9 @@ C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\Onli
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\csi.exe.config
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\csi.rsp
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\Microsoft.CodeAnalysis.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\Microsoft.CSharp.Core.targets
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\Microsoft.VisualBasic.Core.targets
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\Microsoft.Win32.Primitives.dll
@@ -117,7 +124,6 @@ C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\Onli
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\System.Diagnostics.Process.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\System.Diagnostics.StackTrace.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\System.IO.Compression.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\System.IO.Pipes.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\System.Security.AccessControl.dll
@@ -136,16 +142,7 @@ C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\Onli
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\vbc.exe
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\vbc.exe.config
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\vbc.rsp
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\VBCSCompiler.exe
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\VBCSCompiler.exe.config
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\System.Collections.Immutable.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\System.IO.FileSystem.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\System.IO.FileSystem.Primitives.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\System.Reflection.Metadata.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\roslyn\System.Security.Cryptography.Primitives.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\OnlineTranslatorStudio.dll.config
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\OnlineTranslatorStudio.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\OnlineTranslatorStudio.pdb
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\Antlr3.Runtime.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\Gem.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\Microsoft.AI.Agent.Intercept.dll
@@ -189,4 +186,6 @@ C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\Onli
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\obj\Debug\OnlineTranslatorStudio.csproj.CoreCompileInputs.cache
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\obj\Debug\OnlineTranslatorStudio.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\obj\Debug\OnlineTranslatorStudio.pdb
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\obj\Debug\OnlineTranslatorStudio.csprojResolveAssemblyReference.cache
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\OnlineTranslatorStudio.dll.config
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\OnlineTranslatorStudio.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\bin\OnlineTranslatorStudio.pdb

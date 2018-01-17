@@ -76,6 +76,7 @@ C:\Users\Joshua Juandy\documents\visual studio 2017\Projects\OnlineTranslatorStu
 C:\Users\Joshua Juandy\documents\visual studio 2017\Projects\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\obj\Debug\OnlineTranslatorStudio.Tests.csproj.CoreCompileInputs.cache
 C:\Users\Joshua Juandy\documents\visual studio 2017\Projects\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\obj\Debug\OnlineTranslatorStudio.Tests.dll
 C:\Users\Joshua Juandy\documents\visual studio 2017\Projects\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\obj\Debug\OnlineTranslatorStudio.Tests.pdb
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\obj\Debug\OnlineTranslatorStudio.Tests.csproj.CoreCompileInputs.cache
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\bin\Debug\ApplicationInsights.config
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\bin\Debug\roslyn\csc.exe
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\bin\Debug\roslyn\csc.exe.config
@@ -138,8 +139,8 @@ C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\Onli
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\bin\Debug\System.Web.WebPages.Deployment.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\bin\Debug\System.Web.WebPages.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\bin\Debug\System.Web.WebPages.Razor.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\bin\Debug\TranslatorStudioClassLibrary.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\bin\Debug\System.Web.Optimization.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\bin\Debug\TranslatorStudioClassLibrary.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\bin\Debug\OnlineTranslatorStudio.pdb
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\bin\Debug\OnlineTranslatorStudio.dll.config
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\bin\Debug\Newtonsoft.Json.xml
@@ -151,6 +152,5 @@ C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\Onli
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\bin\Debug\System.Web.WebPages.Razor.xml
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\bin\Debug\System.Web.Optimization.xml
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\obj\Debug\OnlineTranslatorStudio.Tests.csprojResolveAssemblyReference.cache
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\obj\Debug\OnlineTranslatorStudio.Tests.csproj.CoreCompileInputs.cache
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\obj\Debug\OnlineTranslatorStudio.Tests.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio.Tests\obj\Debug\OnlineTranslatorStudio.Tests.pdb
