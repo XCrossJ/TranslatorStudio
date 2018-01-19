@@ -186,6 +186,8 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Javascript\gem.furigana.js" />
+    <Content Include="Javascript\TranslationData.js" />
+    <Content Include="Javascript\TranslationDeskHandler.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
