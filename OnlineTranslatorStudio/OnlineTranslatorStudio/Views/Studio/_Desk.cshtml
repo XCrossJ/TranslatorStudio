@@ -59,31 +59,27 @@
     console.log(translationData);
 
     $(document).keydown(function () {
-        //if ((event.which == 39) & (event.altKey == true) & (event.ctrlKey == true)) {
-        if ((event.which == 39) & (event.ctrlKey == true)) {
+        if ((event.which == 39) & (event.altKey == true) & (event.ctrlKey == true)) {
+        //if ((event.which == 39) & (event.ctrlKey == true)) {
             //translationData.IncrementIndex();
-            incrementIndexHandler(translationData);
+            incrementIndex(translationData);
         }
-        //if ((event.which == 37) & (event.altKey == true) & (event.ctrlKey == true)) {
-        if ((event.which == 37) & (event.ctrlKey == true)) {
+        if ((event.which == 37) & (event.altKey == true) & (event.ctrlKey == true)) {
+        //if ((event.which == 37) & (event.ctrlKey == true)) {
             //translationData.DecrementIndex();
-            decrementIndexHandler(translationData);
+            decrementIndex(translationData);
         }
     });
 
-    function incrementIndexHandler(translationData) {
-        incrementIndex(translationdata);
-    }
-
-    function decrementIndexHandler(translationData) {
-        decrementIndex(translationData);
-    }
-
-    //function reloadDesk() {
-    //    $("#CurrentRaw").text(translationData.CurrentRaw);
-    //    $("#CurrentTranslation").text(translationData.CurrentTranslation);
-    //    $("#CurrentMarked").prop('checked', translationData.CurrentMarked);
-    //    $("#CurrentCompletion").prop('checked', translationData.CurrentCompletion);
+    //function incrementIndexHandler() {
+    //    console.log("Hit Increment Index Handler");
+    //    incrementIndex(translationData);
     //}
+
+    //function decrementIndexHandler() {
+    //    console.log("Hit Decrement Index Handler");
+    //    decrementIndex(translationData);
+    //}
+    
 
 </script>

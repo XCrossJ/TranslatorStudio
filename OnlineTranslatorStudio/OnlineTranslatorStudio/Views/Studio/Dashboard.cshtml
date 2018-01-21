@@ -30,15 +30,15 @@
                                 <table class="table table-condensed">
                                     <tr>
                                         <th><b>Project Name</b></th>
-                                        <td>@Model.ProjectName</td>
+                                        <td>@Html.TextBoxFor(Model => Model.ProjectName, new { @class = "form-control" }) </td>
                                     </tr>
                                     <tr>
                                         <th><b>Current Line</b></th>
-                                        <td>@(Model.CurrentIndex + 1) / @Model.NumberOfLines</td>
+                                        <td><span id="CurrentIndex">@(Model.CurrentIndex + 1)</span> / <span class="NumberOfLines">@Model.NumberOfLines</span></td>
                                     </tr>
                                     <tr>
                                         <th><b>Progress</b></th>
-                                        <td>@Model.NumberOfCompletedLines / @Model.NumberOfLines</td>
+                                        <td>@Model.NumberOfCompletedLines / <span class="NumberOfLines">@Model.NumberOfLines</span></td>
                                     </tr>
                                 </table>
                             </div>

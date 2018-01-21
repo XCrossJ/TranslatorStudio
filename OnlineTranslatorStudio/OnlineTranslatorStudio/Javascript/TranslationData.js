@@ -64,23 +64,7 @@ class TranslationData {
     }
 
     get NumberOfCompletedLines() {
-        return DetermineCompletedLines(this.CompletedLines);
-    }
-
-    // Methods
-    IncrementIndex() {
-        if (translationData.currentIndex < translationData.maxIndex) {
-            translationData.currentIndex++;
-        }
-    }
-
-    DecrementIndex() {
-        if (translationData.currentIndex > 0) {
-            translationData.currentIndex--;
-        }
-    }
-
-    DetermineCompletedLines(completedLines) {
+        //return this.DetermineCompletedLines(this.CompletedLines);
         var result = 0;
         for (var i = 0; i < completedLines.length; i++) {
             if (completedLines[i] == true) {
@@ -89,4 +73,27 @@ class TranslationData {
         }
         return result;
     }
+
+    // Methods
+    IncrementIndex() {
+        if (this.currentIndex < this.maxIndex) {
+            this.currentIndex++;
+        }
+    }
+
+    DecrementIndex() {
+        if (this.currentIndex > 0) {
+            this.currentIndex--;
+        }
+    }
+
+    //DetermineCompletedLines(completedLines) {
+    //    var result = 0;
+    //    for (var i = 0; i < completedLines.length; i++) {
+    //        if (completedLines[i] == true) {
+    //            result++;
+    //        }
+    //    }
+    //    return result;
+    //}
 }

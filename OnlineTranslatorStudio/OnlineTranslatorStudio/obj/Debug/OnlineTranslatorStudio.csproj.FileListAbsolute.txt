@@ -285,3 +285,4 @@ C:\Users\juandyj\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTran
 C:\Users\juandyj\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\obj\Debug\OnlineTranslatorStudio.csproj.CoreCompileInputs.cache
 C:\Users\juandyj\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\obj\Debug\OnlineTranslatorStudio.dll
 C:\Users\juandyj\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\obj\Debug\OnlineTranslatorStudio.pdb
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\OnlineTranslatorStudio\OnlineTranslatorStudio\obj\Debug\OnlineTranslatorStudio.csprojResolveAssemblyReference.cache
