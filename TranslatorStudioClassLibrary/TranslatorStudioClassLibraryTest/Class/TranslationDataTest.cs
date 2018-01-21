@@ -16,9 +16,9 @@ namespace TranslatorStudioClassLibraryTest.Class
         private readonly Mock<IProjectData> mockProjectData;
         private readonly string mockProjectName;
         private readonly List<string> mockRawLines;
-        private readonly string[] mockTranslatedLines;
-        private readonly bool[] mockMarkedLines;
-        private readonly bool[] mockCompleteLines;
+        private readonly List<string> mockTranslatedLines;
+        private readonly List<bool> mockMarkedLines;
+        private readonly List<bool> mockCompleteLines;
         
         public TranslationDataTest()
         {
@@ -38,7 +38,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                 "Raw Line 10"
             };
 
-            mockTranslatedLines = new string[]
+            mockTranslatedLines = new List<string>
             {
                 "Translated Line 1",
                 "Translated Line 2",
@@ -52,7 +52,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                 "Translated Line 10"
             };
 
-            mockMarkedLines = new bool[]
+            mockMarkedLines = new List<bool>
             {
                 true,
                 false,
@@ -66,7 +66,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                 false
             };
 
-            mockCompleteLines = new bool[]
+            mockCompleteLines = new List<bool>
             {
                 false,
                 false,
@@ -376,6 +376,22 @@ namespace TranslatorStudioClassLibraryTest.Class
 
         #endregion
 
+        #region Constructor
+        [TestMethod]
+        public void TranslationData_ProjectDataConstructorTest()
+        {
+            // Arrange
+            var expected = new TranslationData(mockProjectData.Object);
+
+            // Act
+            var actual = new TranslationData(mockProjectData.Object);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        #endregion
+
         #region Methods Tests
 
         [TestMethod]
@@ -499,8 +515,8 @@ namespace TranslatorStudioClassLibraryTest.Class
             var translationData = new TranslationData(mockProjectData.Object);
 
             var expected = mockMarkedLines.Where(m => m).Count() - 1;
-            var expectedIndex = Array.IndexOf(mockMarkedLines, true);
-
+            var expectedIndex = mockMarkedLines.IndexOf(true);
+            
             //Act
             translationData.StartMarkedOnlyMode();
             var actual = translationData.MaxIndex;
@@ -526,7 +542,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             var translationData = new TranslationData(mockProjectData.Object);
 
             var expected = mockCompleteLines.Where(i => !i).Count() - 1;
-            var expectedIndex = Array.IndexOf(mockCompleteLines, false);
+            var expectedIndex = mockCompleteLines.IndexOf(false);
 
             //Act
             translationData.StartIncompleteOnlyMode();
@@ -553,7 +569,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             var translationData = new TranslationData(mockProjectData.Object);
 
             var expected = mockCompleteLines.Where(c => c).Count() - 1;
-            var expectedIndex = Array.IndexOf(mockCompleteLines, true);
+            var expectedIndex = mockCompleteLines.IndexOf(true);
 
             //Act
             translationData.StartCompleteOnlyMode();

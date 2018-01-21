@@ -13,27 +13,21 @@ namespace TranslatorStudioClassLibraryTest.Class
         private readonly IProjectData mockProjectData;
         private readonly string mockProjectName;
         private readonly List<string> mockRawLines;
-        private readonly string[] mockTranslatedLines;
-        private readonly bool[] mockCompletedLines;
-        private readonly bool[] mockMarkedLines;
+        private readonly List<string> mockTranslatedLines;
+        private readonly List<bool> mockCompletedLines;
+        private readonly List<bool> mockMarkedLines;
 
         public ProjectDataTest()
         {
             mockProjectName = "Mock Project Name";
             mockRawLines = new List<string> { "", "" };
-            mockTranslatedLines = new string[] { "", "" };
-            mockCompletedLines = new bool[] { true, false };
-            mockMarkedLines = new bool[] { false, true };
+            mockTranslatedLines = new List<string> { "", "" };
+            mockCompletedLines = new List<bool> { true, false };
+            mockMarkedLines = new List<bool> { false, true };
             mockProjectData = new ProjectData();
-            //{
-            //    ProjectName = mockProjectName,
-            //    RawLines = mockRawLines,
-            //    TranslatedLines = mockTranslatedLines,
-            //    MarkedLines = mockMarkedLines,
-            //    CompletedLines = mockCompletedLines
-            //};
         }
 
+        #region Properties Tests
         [TestMethod]
         public void ProjectName_Test()
         {
@@ -103,5 +97,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             Assert.AreEqual(expected, actual);
 
         }
+        #endregion
+
     }
 }

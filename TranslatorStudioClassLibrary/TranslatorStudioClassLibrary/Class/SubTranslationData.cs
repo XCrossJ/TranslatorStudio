@@ -3,13 +3,63 @@ using TranslatorStudioClassLibrary.Interface;
 
 namespace TranslatorStudioClassLibrary.Class
 {
+    /// <summary>
+    /// Class that contains the properties and method relevant for Sub Translation Data.
+    /// Implements Sub Translation Data Interface.
+    /// </summary>
     public class SubTranslationData : ISubTranslationData
     {
+        #region Properties
+        /// <summary>
+        /// Index Reference:
+        ///     property that contains the index reference.
+        ///     returns type List<int>.
+        /// </summary>
+        public List<int> IndexReference { get; set; }
+
+        /// <summary>
+        /// Current Reference:
+        ///     property that contains the current reference.
+        ///     returns type int.
+        /// </summary>
+        public int CurrentReference => IndexReference[CurrentIndex];
+
+        /// <summary>
+        /// Current Index:
+        ///     property that contains the current index in the translation mode.
+        ///     returns type int.
+        /// </summary>
+        public int CurrentIndex { get; set; }
+        /// <summary>
+        /// Max Index:
+        ///     property that contains the max index in the translation.
+        ///     returns type int.
+        /// </summary>
+        public int MaxIndex => IndexReference.Count - 1;
+
+        /// <summary>
+        /// Number Of Lines:
+        ///     property that contains the number of lines in the translation.
+        ///     returns type int.
+        /// </summary>
+        public int NumberOfLines => IndexReference.Count;
+        #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Sub Translation Data Default Constructor:
+        ///     Creates empty Sub Translation Data.
+        /// </summary>
         public SubTranslationData()
         {
             IndexReference = new List<int>();
         }
 
+        /// <summary>
+        /// Sub Translation Data Condition List Constructor:
+        ///     Creates Sub Translation Data based on passed bool array.
+        /// </summary>
+        /// <param name="conditionList"></param>
         public SubTranslationData(bool[] conditionList)
         {
             IndexReference = new List<int>();
@@ -21,15 +71,6 @@ namespace TranslatorStudioClassLibrary.Class
                 }
             }
         }
-
-        public List<int> IndexReference { get; set; }
-
-        public int CurrentReference => IndexReference[CurrentIndex];
-
-        public int CurrentIndex { get; set; }
-        public int MaxIndex => IndexReference.Count - 1;
-
-        public int NumberOfLines => IndexReference.Count;
-
+        #endregion
     }
 }

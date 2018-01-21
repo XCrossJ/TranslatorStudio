@@ -34,6 +34,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             mockSubTranslationData = new SubTranslationData(mockConditionList);
         }
 
+        #region Properties Tests
         [TestMethod]
         public void IndexReference_Test()
         {
@@ -101,5 +102,6 @@ namespace TranslatorStudioClassLibraryTest.Class
             //Assert
             Assert.AreEqual(expected, actual);
         }
+        #endregion
     }
 }

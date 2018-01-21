@@ -1,5 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Microsoft.Office.Interop.Word;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using TranslatorStudioClassLibrary.Class;
 using TranslatorStudioClassLibrary.Interface;
 using TranslatorStudioClassLibrary.Repository;
@@ -10,33 +15,200 @@ namespace TranslatorStudioClassLibraryTest.Repository
     [TestCategory("Project Data Repository Test")]
     public class ProjectDataRepositoryTest
     {
+        private readonly string mockProjectName;
+        private readonly List<string> mockRawLines;
+        private readonly List<string> mockTranslatedLines;
+        private readonly List<bool> mockMarkedLines;
+        private readonly List<bool> mockCompleteLines;
+
+        public ProjectDataRepositoryTest()
+        {
+            mockProjectName = "Mock Test Project Name";
+
+            mockRawLines = new List<string>
+            {
+                "Raw Line 1",
+                "Raw Line 2",
+                "Raw Line 3",
+                "Raw Line 4",
+                "Raw Line 5",
+                "Raw Line 6",
+                "Raw Line 7",
+                "Raw Line 8",
+                "Raw Line 9",
+                "Raw Line 10"
+            };
+
+            mockTranslatedLines = new List<string>
+            {
+                "Translated Line 1",
+                "Translated Line 2",
+                "Translated Line 3",
+                "Translated Line 4",
+                "Translated Line 5",
+                "Translated Line 6",
+                "Translated Line 7",
+                "Translated Line 8",
+                "Translated Line 9",
+                "Translated Line 10"
+            };
+
+            mockMarkedLines = new List<bool>
+            {
+                true,
+                false,
+                true,
+                false,
+                false,
+                true,
+                false,
+                true,
+                true,
+                false
+            };
+
+            mockCompleteLines = new List<bool>
+            {
+                false,
+                false,
+                true,
+                false,
+                true,
+                true,
+                true,
+                false,
+                true,
+                false
+            };
+        }
+
         [TestMethod]
-        public void CreateProjectDataFromArrayTest()
+        public void CreateProjectDataFromArray_Test()
         {
             //Arrange
-            var projectName = "Test";
-            var newRawLines = new string[] { "Line1", "Line2", "Line3" };
-            var rawLines = new List<string>() { "Line1", "Line2", "Line3" };
-            ProjectData expected = new ProjectData()
+            var expected = new ProjectData()
             {
-                ProjectName = projectName,
-                RawLines = rawLines,
-                TranslatedLines = new string[rawLines.Count],
-                CompletedLines = new bool[rawLines.Count],
-                MarkedLines = new bool[rawLines.Count]
+                ProjectName = mockProjectName,
+                RawLines = mockRawLines
             };
 
             //Act
-            IProjectData actual = new ProjectDataRepository().CreateProjectDataFromArray(projectName, newRawLines);
+            var actual = new ProjectDataRepository().CreateProjectDataFromArray(mockProjectName, mockRawLines.ToArray());
 
             //Assert
             Assert.AreEqual(expected, actual); // Is not a true equals. Need to develop more.
             CollectionAssert.AreEqual(expected.RawLines, actual.RawLines);
-            CollectionAssert.AreEqual(expected.TranslatedLines, actual.TranslatedLines);
-            CollectionAssert.AreEqual(expected.CompletedLines, actual.CompletedLines);
-            CollectionAssert.AreEqual(expected.MarkedLines, actual.MarkedLines);
+        }
+
+        [TestMethod]
+        public void CreateProjectDataFromStream_Test()
+        {
+            // Arrange
+            var expectedName = mockProjectName;
+            var expectedRaw = mockRawLines;
+            var writeStream = new MemoryStream();
+
+            using (StreamWriter writer = new StreamWriter(writeStream))
+            {
+                foreach (var line in expectedRaw)
+                {
+                    writer.WriteLine(line);
+                }
+                writer.Flush();
+            }
+
+            var readStream = new MemoryStream(writeStream.ToArray());
+            var reader = new StreamReader(readStream);
+
+            // Act
+            var projectData = new ProjectDataRepository().CreateProjectDataFromStream(expectedName, reader);
+            var actualName = projectData.ProjectName;
+            var actualRaw = projectData.RawLines;
+
+            // Assert
+            Assert.AreEqual(expectedName, actualName);
+            CollectionAssert.AreEqual(expectedRaw, actualRaw);
+        }
+
+        [TestMethod]
+        [TestCategory("Not Implemented Correctly")]
+        public void CreateProjectDataFrom_Document()
+        {
+            // Arrange
+            var expectedName = mockProjectName;
+            var expectedRaw = mockRawLines;
+            var document = new Mock<Document>();
+
+            var paragraphs = new Mock<Paragraphs>();
+
+            paragraphs.Setup(
+                    x => x.Count)
+                .Returns(expectedRaw.Count);
+
+            for (int i = 0; i < expectedRaw.Count; i++)
+            {
+                paragraphs.Setup(x => x[It.Is<int>(n => n == i)].Range.Text).Returns(expectedRaw[i]);
+            }
+
+            document.Setup(
+                    x => x.Paragraphs)
+                .Returns(paragraphs.Object);
+
+
+            // Act
+            var projectData = new ProjectDataRepository().CreateProjectDataFromDocument(expectedName, document.Object);
+            var actualName = projectData.ProjectName;
+            var actualRaw = projectData.RawLines;
+
+            // Assert
+            Assert.AreEqual(expectedName, actualName);
+            //CollectionAssert.AreEqual(expected, actual);
+            Assert.AreEqual(expectedRaw.Count, actualRaw.Count); // Not a true assert. Need to redo this test.
+
         }
 
 
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void GivenEmptyArrayRaiseException()
+        {
+            // Arrange
+            var emptyArray= new string[0];
+
+            // Act
+            var actual = new ProjectDataRepository().CreateProjectDataFromArray(mockProjectName, emptyArray);
+
+            // Assert
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void GivenEmptyStreamRaiseException()
+        {
+            // Arrange
+            var emptyStream = new StreamReader(new MemoryStream());
+
+            // Act
+            var actual = new ProjectDataRepository().CreateProjectDataFromStream(mockProjectName, emptyStream);
+
+            // Assert
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        [TestCategory("Not Implemented Correctly")]
+        public void GivenEmptyDocumentRaiseException()
+        {
+            // Arrange
+            var emptyDocument = new Document();
+
+            // Act
+            var actual = new ProjectDataRepository().CreateProjectDataFromDocument(mockProjectName, emptyDocument);
+
+            // Assert
+
+        }
     }
 }
