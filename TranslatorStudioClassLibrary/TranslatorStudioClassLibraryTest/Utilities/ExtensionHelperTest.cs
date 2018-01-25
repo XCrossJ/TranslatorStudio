@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using TranslatorStudioClassLibrary.Class;
 using TranslatorStudioClassLibrary.Interface;
-using TranslatorStudioClassLibrary.Repository;
 using TranslatorStudioClassLibrary.Utilities;
 
 
@@ -38,7 +37,7 @@ namespace TranslatorStudioClassLibraryTest.Utilities
         }
 
         [TestMethod]
-        public void ToJSONStringTest()
+        public void ToJSONString_Test()
         {
             //Arrange
             string expected = JsonConvert.SerializeObject(mockProjectData);
@@ -52,7 +51,7 @@ namespace TranslatorStudioClassLibraryTest.Utilities
         }
 
         [TestMethod]
-        public void GetNumberFormatTest()
+        public void GetNumberFormat_Test()
         {
             //Arrange
             var expected = "0000";

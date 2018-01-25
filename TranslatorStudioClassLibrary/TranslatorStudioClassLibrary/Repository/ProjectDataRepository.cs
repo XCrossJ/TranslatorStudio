@@ -51,8 +51,7 @@ namespace TranslatorStudioClassLibrary.Repository
                     while (!sr.EndOfStream)
                     {
                         var line = sr.ReadLine();
-                        if (line.Any())
-                            newRawLines.Add(line);
+                        newRawLines.Add(line);
                     }
                 }
 

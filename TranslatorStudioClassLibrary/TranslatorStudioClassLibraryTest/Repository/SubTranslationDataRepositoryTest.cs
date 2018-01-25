@@ -13,7 +13,6 @@ namespace TranslatorStudioClassLibraryTest.Repository
     public class SubTranslationDataRepositoryTest
     {
         private readonly List<bool> mockConditionList;
-        private readonly List<bool> mockCompleteLines;
 
         public SubTranslationDataRepositoryTest()
         {

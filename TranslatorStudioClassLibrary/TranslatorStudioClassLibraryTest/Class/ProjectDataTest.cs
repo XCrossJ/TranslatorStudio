@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TranslatorStudioClassLibrary.Class;
 using TranslatorStudioClassLibrary.Interface;
+using TranslatorStudioClassLibrary.Utilities;
 
 namespace TranslatorStudioClassLibraryTest.Class
 {
@@ -95,6 +96,22 @@ namespace TranslatorStudioClassLibraryTest.Class
 
             //Assert
             Assert.AreEqual(expected, actual);
+
+        }
+        #endregion
+
+        #region Methods Tests
+        [TestMethod]
+        public void GetProjectSaveString_Test()
+        {
+            //Arrange
+            var expectedSaveString = mockProjectData.ToJSONString();
+
+            //Act
+            var actualSaveString = mockProjectData.GetSaveString();
+
+            //Assert
+            Assert.AreEqual(expectedSaveString, actualSaveString);
 
         }
         #endregion

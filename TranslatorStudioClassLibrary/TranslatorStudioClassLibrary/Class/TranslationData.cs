@@ -28,14 +28,12 @@ namespace TranslatorStudioClassLibrary.Class
         /// <summary>
         /// DefaultTranslationMode:
         ///     property that determines whether Default Translation Mode is turned on or not.
-        ///     returns type bool.
         /// </summary>
         public bool DefaultTranslationMode { get; set; } = true;
 
         /// <summary>
         /// Project Name:
         ///     property that contains the name of the project.
-        ///     returns type string.
         /// </summary>
         public string ProjectName
         {
@@ -45,7 +43,6 @@ namespace TranslatorStudioClassLibrary.Class
         /// <summary>
         /// Raw Lines:
         ///     property that contains all of the raw lines in the translation.
-        ///     returns type List<string>.
         /// </summary>
         public List<string> RawLines
         {
@@ -55,7 +52,6 @@ namespace TranslatorStudioClassLibrary.Class
         /// <summary>
         /// Translated Lines:
         ///     property that contains all of the translated lines in the translation.
-        ///     returns type List<string>.
         /// </summary>
         public List<string> TranslatedLines
         {
@@ -65,7 +61,6 @@ namespace TranslatorStudioClassLibrary.Class
         /// <summary>
         /// Completed Lines:
         ///     property that contains the completion status of each line in the translation.
-        ///     returns type List<bool>.
         /// </summary>
         public List<bool> CompletedLines
         {
@@ -75,7 +70,6 @@ namespace TranslatorStudioClassLibrary.Class
         /// <summary>
         /// Marked Lines:
         ///     property that contains the marked status of each line in the translation.
-        ///     returns type List<bool>.
         /// </summary>
         public List<bool> MarkedLines
         {
@@ -88,7 +82,6 @@ namespace TranslatorStudioClassLibrary.Class
         /// <summary>
         /// Current Raw:
         ///     property that contains the current raw line in the translation.
-        ///     returns type string.
         /// </summary>
         public string CurrentRaw
         {
@@ -104,7 +97,6 @@ namespace TranslatorStudioClassLibrary.Class
         /// <summary>
         /// Current Translation:
         ///     property that contains the current translated line in the translation.
-        ///     returns type string.
         /// </summary>
         public string CurrentTranslation
         {
@@ -120,7 +112,6 @@ namespace TranslatorStudioClassLibrary.Class
         /// <summary>
         /// Current Completion:
         ///     property that contains the completion status of the current line in the translation.
-        ///     returns type bool.
         /// </summary>
         public bool CurrentCompletion
         {
@@ -136,7 +127,6 @@ namespace TranslatorStudioClassLibrary.Class
         /// <summary>
         /// Current Marked:
         ///     property that contains the marked status of the current line in the translation.
-        ///     returns type bool.
         /// </summary>
         public bool CurrentMarked
         {
@@ -153,13 +143,11 @@ namespace TranslatorStudioClassLibrary.Class
         /// <summary>
         /// _index:
         ///     private property that contains the current index.
-        ///     returns type int.
         /// </summary>
         private int _index = 0;
         /// <summary>
         /// Current Index:
         ///     property that contains the current index in the translation.
-        ///     returns type int.
         /// </summary>
         public int CurrentIndex
         {
@@ -176,20 +164,17 @@ namespace TranslatorStudioClassLibrary.Class
         /// <summary>
         /// Max Index:
         ///     property that contains the max index in the translation.
-        ///     returns type int.
         /// </summary>
         public int MaxIndex => DefaultTranslationMode ? RawLines.Count - 1 : SubData.MaxIndex;
 
         /// <summary>
         /// Number Of Lines:
         ///     property that contains the number of lines in the translation.
-        ///     returns type int.
         /// </summary>
         public int NumberOfLines => RawLines.Count;
         /// <summary>
         /// Numbder Of Completed Lines:
-        ///     property that contains max number of lines in the translations.
-        ///     returns type int.
+        ///     property that contains number of completed lines in the translations.
         /// </summary>
         public int NumberOfCompletedLines => CompletedLines.Where(c => c).Count();
         #endregion
@@ -242,13 +227,13 @@ namespace TranslatorStudioClassLibrary.Class
         }
 
         /// <summary>
-        /// Get Save String:
+        /// Get Project Save String:
         ///     gets the save string of the project data.
         /// </summary>
         /// <returns>string: JSON string of project data.</returns>
-        public string GetSaveString()
+        public string GetProjectSaveString()
         {
-            return Data.ToJSONString();
+            return Data.GetSaveString();
         }
 
         /// <summary>
@@ -265,10 +250,11 @@ namespace TranslatorStudioClassLibrary.Class
         /// Start Marked Only Mode:
         ///     initiates marked only translation mode.
         /// </summary>
+        /// <param name="subRepo">ISubTranslationDataRepository: object that implements Sub Translation Data Repository Interface.</param>
         /// <returns>int: returns number of lines.</returns>
-        public int StartMarkedOnlyMode()
+        public int StartMarkedOnlyMode(ISubTranslationDataRepository subRepo)
         {
-            SubData = new SubTranslationDataRepository().GetSubData(MarkedLines);
+            SubData = subRepo.GetSubData(MarkedLines);
             DefaultTranslationMode = false;
             CurrentIndex = 0;
             return SubData.NumberOfLines;
@@ -278,8 +264,9 @@ namespace TranslatorStudioClassLibrary.Class
         /// Start Incomplete Only Mode:
         ///     initates incomplete only translation mode.
         /// </summary>
+        /// <param name="subRepo">ISubTranslationDataRepository: object that implements Sub Translation Data Repository Interface.</param>
         /// <returns>int: returns number of lines.</returns>
-        public int StartIncompleteOnlyMode()
+        public int StartIncompleteOnlyMode(ISubTranslationDataRepository subRepo)
         {
             var incompleteLines = new List<bool>();
             foreach (var line in CompletedLines)
@@ -287,7 +274,7 @@ namespace TranslatorStudioClassLibrary.Class
                 incompleteLines.Add(!line);
             }
 
-            SubData = new SubTranslationDataRepository().GetSubData(incompleteLines);
+            SubData = subRepo.GetSubData(incompleteLines);
             DefaultTranslationMode = false;
             CurrentIndex = 0;
             return SubData.NumberOfLines;
@@ -297,10 +284,11 @@ namespace TranslatorStudioClassLibrary.Class
         /// Start Complete Only Mode:
         ///     initiates complete only translation mode.
         /// </summary>
+        /// <param name="subRepo">ISubTranslationDataRepository: object that implements Sub Translation Data Repository Interface.</param>
         /// <returns>int: returns number of lines.</returns>
-        public int StartCompleteOnlyMode()
+        public int StartCompleteOnlyMode(ISubTranslationDataRepository subRepo)
         {
-            SubData = new SubTranslationDataRepository().GetSubData(CompletedLines);
+            SubData = subRepo.GetSubData(CompletedLines);
             DefaultTranslationMode = false;
             CurrentIndex = 0;
             return SubData.NumberOfLines;

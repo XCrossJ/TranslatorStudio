@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TranslatorStudioClassLibrary.Interface;
+using TranslatorStudioClassLibrary.Utilities;
 
 namespace TranslatorStudioClassLibrary.Class
 {
@@ -13,31 +14,26 @@ namespace TranslatorStudioClassLibrary.Class
         /// <summary>
         /// Project Name:
         ///     property that contains the name of the project.
-        ///     returns type string.
         /// </summary>
         public string ProjectName { get; set; }
         /// <summary>
         /// Raw Lines:
         ///     property that contains all of the raw lines in the project.
-        ///     returns type List<string>.
         /// </summary>
         public List<string> RawLines { get; set; }
         /// <summary>
         /// Translated Lines:
         ///     property that contains all of the translated lines in the project.
-        ///     returns type List<string>.
         /// </summary>
         public List<string> TranslatedLines { get; set; }
         /// <summary>
         /// Completed Lines:
         ///     property that contains the completion status of each line in the project.
-        ///     returns type List<bool>.
         /// </summary>
         public List<bool> CompletedLines { get; set; }
         /// <summary>
         /// Marked Lines:
         ///     property that contains the marked status of each line in the project.
-        ///     returns type List<bool>.
         /// </summary>
         public List<bool> MarkedLines { get; set; }
         #endregion
@@ -50,6 +46,13 @@ namespace TranslatorStudioClassLibrary.Class
         public ProjectData()
         {
 
+        }
+        #endregion
+
+        #region Methods
+        public string GetSaveString()
+        {
+            return this.ToJSONString();
         }
         #endregion
 
@@ -73,5 +76,6 @@ namespace TranslatorStudioClassLibrary.Class
                 return true;
             }
         }
+        
     }
 }

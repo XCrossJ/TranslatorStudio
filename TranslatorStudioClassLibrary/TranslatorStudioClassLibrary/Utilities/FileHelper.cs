@@ -12,13 +12,36 @@ namespace TranslatorStudioClassLibrary.Utilities
 {
     public static class FileHelper
     {
+        /// <summary>
+        /// Translation Data Repository: repository that obtains translation data.
+        /// </summary>
+        private static readonly ITranslationDataRepository translationDataRepository = new TranslationDataRepository();
+        /// <summary>
+        /// Project Data Repository: repository that obtains project data.
+        /// </summary>
+        private static readonly IProjectDataRepository projectDataRepository = new ProjectDataRepository();
+
+        /// <summary>
+        /// Open Text File:
+        ///     opens translation data from text file.
+        /// </summary>
+        /// <param name="path">string: path of the file.</param>
+        /// <param name="fileName">string: name of the file.</param>
+        /// <returns>ITranslationData: object that implements Translation Data Interface.</returns>
         public static ITranslationData OpenTextFile(string path, string fileName)
         {
             StreamReader sr = new StreamReader(path, Encoding.Default, true);
-            var data = new TranslationDataRepository().CreateTranslationDataFromStream(fileName, sr);
+            var data = translationDataRepository.CreateTranslationDataFromStream(projectDataRepository, fileName, sr);
             return data;
         }
 
+        /// <summary>
+        /// Open Doc File:
+        ///     opens translation data from word document.
+        /// </summary>
+        /// <param name="path">string: path of the file.</param>
+        /// <param name="fileName">string: name of the file.</param>
+        /// <returns>ITranslationData: object that implements Translation Data Interface.</returns>
         public static ITranslationData OpenDocFile(string path, string fileName)
         {
             Application application = new Application();
@@ -26,7 +49,7 @@ namespace TranslatorStudioClassLibrary.Utilities
 
             document = application.Documents.Open(path);
 
-            var data = new TranslationDataRepository().CreateTranslationDataFromDocument(fileName, document);
+            var data = translationDataRepository.CreateTranslationDataFromDocument(projectDataRepository, fileName, document);
 
             document.Close();
             application.Quit();
@@ -34,6 +57,13 @@ namespace TranslatorStudioClassLibrary.Utilities
             return data;
         }
 
+        /// <summary>
+        /// Open TSP File:
+        ///     opens translation data from translation studio project file.
+        /// </summary>
+        /// <param name="path">string: path of the file.</param>
+        /// <param name="fileName">string: name of the file.</param>
+        /// <returns>ITranslationData: object that implements Translation Data Interface.</returns>
         public static ITranslationData OpenTSPFile(string path, string fileName)
         {
             string output = File.ReadAllText(path);
@@ -42,6 +72,14 @@ namespace TranslatorStudioClassLibrary.Utilities
             return data;
         }
 
+        /// <summary>
+        /// Open Handler:
+        ///     handler that returns TranslationData and Previous Save Path from parameters.
+        /// </summary>
+        /// <param name="fileExt">string: extension of the file.</param>
+        /// <param name="path">string: path of the file.</param>
+        /// <param name="fileName">string: name of the file.</param>
+        /// <returns>Tuple: object that returns an object that implements Translation Data Interface and a string.</returns>
         public static Tuple<ITranslationData, string> OpenHandler(string fileExt, string path, string fileName)
         {
             string previousSavePath = "";
@@ -52,6 +90,7 @@ namespace TranslatorStudioClassLibrary.Utilities
                     data = OpenTSPFile(path, fileName);
                     previousSavePath = path;
                     break;
+                case ".doc":
                 case ".docx":
                     data = OpenDocFile(path, fileName);
                     break;
@@ -65,13 +104,33 @@ namespace TranslatorStudioClassLibrary.Utilities
             return openData;
         }
 
+        /// <summary>
+        /// Save Project:
+        ///     saves translation project data to file.
+        /// </summary>
+        /// <param name="data">ITranslationData: translation data to save.</param>
+        /// <param name="path">string: path of the file.</param>
+        /// <returns>bool: the result of the save.</returns>
         public static bool SaveProject(ITranslationData data, string path)
         {
-            var json = JObject.Parse(data.GetSaveString());
-            File.WriteAllText(path, json.ToString());
-            return true;
+            try
+            {
+                var json = JObject.Parse(data.GetProjectSaveString());
+                File.WriteAllText(path, json.ToString());
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
+        /// <summary>
+        /// Export Translation:
+        ///     exports translated lines in translation project to file.
+        /// </summary>
+        /// <param name="data">ITranslationData: translation data to save.</param>
+        /// <param name="path">string: path of the file.</param>
         public static void ExportTranslation(ITranslationData data, string path)
         {
             using (StreamWriter sw = new StreamWriter(path))

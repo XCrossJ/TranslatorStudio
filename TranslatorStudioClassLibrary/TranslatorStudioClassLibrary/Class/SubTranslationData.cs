@@ -13,34 +13,29 @@ namespace TranslatorStudioClassLibrary.Class
         /// <summary>
         /// Index Reference:
         ///     property that contains the index reference.
-        ///     returns type List<int>.
         /// </summary>
         public List<int> IndexReference { get; set; }
 
         /// <summary>
         /// Current Reference:
         ///     property that contains the current reference.
-        ///     returns type int.
         /// </summary>
         public int CurrentReference => IndexReference[CurrentIndex];
 
         /// <summary>
         /// Current Index:
         ///     property that contains the current index in the translation mode.
-        ///     returns type int.
         /// </summary>
         public int CurrentIndex { get; set; }
         /// <summary>
         /// Max Index:
         ///     property that contains the max index in the translation.
-        ///     returns type int.
         /// </summary>
         public int MaxIndex => IndexReference.Count - 1;
 
         /// <summary>
         /// Number Of Lines:
         ///     property that contains the number of lines in the translation.
-        ///     returns type int.
         /// </summary>
         public int NumberOfLines => IndexReference.Count;
         #endregion
@@ -57,7 +52,7 @@ namespace TranslatorStudioClassLibrary.Class
 
         /// <summary>
         /// Sub Translation Data Condition List Constructor:
-        ///     Creates Sub Translation Data based on passed bool array.
+        ///     Creates Sub Translation Data based on condition list.
         /// </summary>
         /// <param name="conditionList"></param>
         public SubTranslationData(bool[] conditionList)

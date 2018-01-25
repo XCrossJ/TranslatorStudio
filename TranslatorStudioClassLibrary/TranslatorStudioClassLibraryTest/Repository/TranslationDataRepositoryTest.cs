@@ -14,11 +14,15 @@ namespace TranslatorStudioClassLibraryTest.Factory
     [TestCategory("Translation Data Repository Test")]
     public class TranslationDataRepositoryTest
     {
+        private readonly Mock<IProjectData> mockProjectData;
         private readonly string mockProjectName;
         private readonly List<string> mockRawLines;
         private readonly List<string> mockTranslatedLines;
         private readonly List<bool> mockMarkedLines;
         private readonly List<bool> mockCompleteLines;
+
+        private readonly Mock<IProjectDataRepository> mockProjectDataRepository;
+        private readonly ITranslationDataRepository translationDataRepository;
 
         public TranslationDataRepositoryTest()
         {
@@ -79,7 +83,44 @@ namespace TranslatorStudioClassLibraryTest.Factory
                 true,
                 false
             };
-            
+
+            mockProjectData = new Mock<IProjectData>();
+
+            mockProjectData.Setup(
+                    x => x.ProjectName)
+                .Returns(mockProjectName);
+
+            mockProjectData.Setup(
+                    x => x.RawLines)
+                .Returns(mockRawLines);
+
+            mockProjectData.Setup(
+                    x => x.TranslatedLines)
+                .Returns(mockTranslatedLines);
+
+            mockProjectData.Setup(
+                    x => x.MarkedLines)
+                .Returns(mockMarkedLines);
+
+            mockProjectData.Setup(
+                    x => x.CompletedLines)
+                .Returns(mockCompleteLines);
+
+            mockProjectDataRepository = new Mock<IProjectDataRepository>();
+
+            mockProjectDataRepository.Setup(
+                    x => x.CreateProjectDataFromArray(It.IsAny<string>(), It.IsAny<string[]>()))
+                .Returns(mockProjectData.Object);
+
+            mockProjectDataRepository.Setup(
+                    x => x.CreateProjectDataFromStream(It.IsAny<string>(), It.IsAny<StreamReader>()))
+                .Returns(mockProjectData.Object);
+
+            mockProjectDataRepository.Setup(
+                    x => x.CreateProjectDataFromDocument(It.IsAny<string>(), It.IsAny<Document>()))
+                .Returns(mockProjectData.Object);
+
+            translationDataRepository = new TranslationDataRepository();
         }
 
         [TestMethod]
@@ -113,62 +154,38 @@ namespace TranslatorStudioClassLibraryTest.Factory
             // Arrange
             var expectedName = mockProjectName;
             var expectedRaw = mockRawLines;
-            var writeStream = new MemoryStream();
-
-            using (StreamWriter writer = new StreamWriter(writeStream))
-            {
-                foreach (var line in expectedRaw)
-                {
-                    writer.WriteLine(line);
-                }
-                writer.Flush();
-            }
-
-            var readStream = new MemoryStream(writeStream.ToArray());
-            var reader = new StreamReader(readStream);
-
+            
             // Act
-            var translationData = new TranslationDataRepository().CreateTranslationDataFromStream(expectedName, reader);
+            var translationData = translationDataRepository.CreateTranslationDataFromStream(mockProjectDataRepository.Object, expectedName, new StreamReader(new MemoryStream()));
             var actualName = translationData.ProjectName;
             var actualRaw = translationData.RawLines;
 
             // Assert
+            mockProjectDataRepository.Verify(
+                    x => x.CreateProjectDataFromStream(It.IsAny<string>(), It.IsAny<StreamReader>()),
+                Times.Once);
+
             Assert.AreEqual(expectedName, actualName);
             CollectionAssert.AreEqual(expectedRaw, actualRaw);
 
         }
 
         [TestMethod]
-        [TestCategory("Not Implemented Correctly")]
         public void CreateTranslationDataFromDocument_Test()
         {
             // Arrange
             var expected = mockRawLines;
-            var document = new Mock<Document>();
-
-            var paragraphs = new Mock<Paragraphs>();
-
-            paragraphs.Setup(
-                    x => x.Count)
-                .Returns(expected.Count);
-
-            for (int i = 0; i < expected.Count; i++)
-            {
-                paragraphs.Setup(x => x[It.Is<int>(n => n == i)].Range.Text).Returns(expected[i]);
-            }
-
-            document.Setup(
-                    x => x.Paragraphs)
-                .Returns(paragraphs.Object);
-
-
+            
             // Act
-            var translationData = new TranslationDataRepository().CreateTranslationDataFromDocument("", document.Object);
+            var translationData = translationDataRepository.CreateTranslationDataFromDocument(mockProjectDataRepository.Object, "", new Document());
             var actual = translationData.RawLines;
 
             // Assert
-            //CollectionAssert.AreEqual(expected, actual);
-            Assert.AreEqual(expected.Count, actual.Count); // Not a true assert. Need to redo this test.
+            mockProjectDataRepository.Verify(
+                    x => x.CreateProjectDataFromDocument(It.IsAny<string>(), It.IsAny<Document>()),
+                Times.Once);
+
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         [TestMethod]
@@ -186,7 +203,7 @@ namespace TranslatorStudioClassLibraryTest.Factory
             };
             
             // Act
-            var actual = new TranslationDataRepository().CreateTranslationDataFromProject(data);
+            var actual = translationDataRepository.CreateTranslationDataFromProject(data);
 
             // Assert
 

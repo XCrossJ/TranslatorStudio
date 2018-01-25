@@ -16,14 +16,15 @@ namespace TranslatorStudioClassLibrary.Repository
         /// Create Translation Data From Stream:
         ///     creates translation data from stream reader.
         /// </summary>
+        /// <param name="repo">IProjectDataRepository: object that implements Project Data Repository Interface</param>
         /// <param name="fileName">string: the name of the file.</param>
         /// <param name="sr">StreamReader: the stream reader used to read the file.</param>
         /// <returns>ITranslationData: object that implements Translation Data Interface.</returns>
-        public ITranslationData CreateTranslationDataFromDocument(string fileName, Document document)
+        public ITranslationData CreateTranslationDataFromDocument(IProjectDataRepository repo, string fileName, Document document)
         {
             try
             {
-                var project = new ProjectDataRepository().CreateProjectDataFromDocument(fileName, document);
+                var project = repo.CreateProjectDataFromDocument(fileName, document);
 
                 return CreateTranslationDataFromProject(project);
             }
@@ -61,13 +62,14 @@ namespace TranslatorStudioClassLibrary.Repository
         /// Create Translation Data From Project:
         ///     create translation data from project.
         /// </summary>
+        /// <param name="repo">IProjectDataRepository: object that implements Project Data Repository Interface</param>
         /// <param name="project">IProjectData: object that implements Project Data Interface</param>
         /// <returns>ITranslationData: object that implements Translation Data Interface.</returns>
-        public ITranslationData CreateTranslationDataFromStream(string fileName, StreamReader sr)
+        public ITranslationData CreateTranslationDataFromStream(IProjectDataRepository repo, string fileName, StreamReader sr)
         {
             try
             {
-                var project = new ProjectDataRepository().CreateProjectDataFromStream(fileName, sr);
+                var project = repo.CreateProjectDataFromStream(fileName, sr);
 
                 return CreateTranslationDataFromProject(project);
             }

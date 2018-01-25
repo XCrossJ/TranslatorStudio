@@ -21,6 +21,8 @@ namespace TranslatorStudioClassLibraryTest.Repository
         private readonly List<bool> mockMarkedLines;
         private readonly List<bool> mockCompleteLines;
 
+        private readonly IProjectDataRepository projectDataRepository;
+
         public ProjectDataRepositoryTest()
         {
             mockProjectName = "Mock Test Project Name";
@@ -80,6 +82,8 @@ namespace TranslatorStudioClassLibraryTest.Repository
                 true,
                 false
             };
+
+            projectDataRepository = new ProjectDataRepository();
         }
 
         [TestMethod]
@@ -93,7 +97,7 @@ namespace TranslatorStudioClassLibraryTest.Repository
             };
 
             //Act
-            var actual = new ProjectDataRepository().CreateProjectDataFromArray(mockProjectName, mockRawLines.ToArray());
+            var actual = projectDataRepository.CreateProjectDataFromArray(mockProjectName, mockRawLines.ToArray());
 
             //Assert
             Assert.AreEqual(expected, actual); // Is not a true equals. Need to develop more.
@@ -121,7 +125,7 @@ namespace TranslatorStudioClassLibraryTest.Repository
             var reader = new StreamReader(readStream);
 
             // Act
-            var projectData = new ProjectDataRepository().CreateProjectDataFromStream(expectedName, reader);
+            var projectData = projectDataRepository.CreateProjectDataFromStream(expectedName, reader);
             var actualName = projectData.ProjectName;
             var actualRaw = projectData.RawLines;
 
@@ -156,7 +160,7 @@ namespace TranslatorStudioClassLibraryTest.Repository
 
 
             // Act
-            var projectData = new ProjectDataRepository().CreateProjectDataFromDocument(expectedName, document.Object);
+            var projectData = projectDataRepository.CreateProjectDataFromDocument(expectedName, document.Object);
             var actualName = projectData.ProjectName;
             var actualRaw = projectData.RawLines;
 
@@ -176,7 +180,7 @@ namespace TranslatorStudioClassLibraryTest.Repository
             var emptyArray= new string[0];
 
             // Act
-            var actual = new ProjectDataRepository().CreateProjectDataFromArray(mockProjectName, emptyArray);
+            var actual = projectDataRepository.CreateProjectDataFromArray(mockProjectName, emptyArray);
 
             // Assert
 
@@ -190,7 +194,7 @@ namespace TranslatorStudioClassLibraryTest.Repository
             var emptyStream = new StreamReader(new MemoryStream());
 
             // Act
-            var actual = new ProjectDataRepository().CreateProjectDataFromStream(mockProjectName, emptyStream);
+            var actual = projectDataRepository.CreateProjectDataFromStream(mockProjectName, emptyStream);
 
             // Assert
 
@@ -205,7 +209,7 @@ namespace TranslatorStudioClassLibraryTest.Repository
             var emptyDocument = new Document();
 
             // Act
-            var actual = new ProjectDataRepository().CreateProjectDataFromDocument(mockProjectName, emptyDocument);
+            var actual = projectDataRepository.CreateProjectDataFromDocument(mockProjectName, emptyDocument);
 
             // Assert
 
