@@ -30,7 +30,7 @@
                                 <table class="table table-condensed">
                                     <tr>
                                         <th><b>Project Name</b></th>
-                                        <td>@Html.TextBoxFor(Model => Model.ProjectName, new { @class = "form-control" }) </td>
+                                        <td>@Html.TextBoxFor(Model => Model.ProjectName, new { @class = "form-control", @onkeypress = "updateProjectName(translationData, this.value)" }) </td>
                                     </tr>
                                     <tr>
                                         <th><b>Current Line</b></th>

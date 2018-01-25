@@ -1,4 +1,6 @@
-﻿using OnlineTranslatorStudio.Models;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using OnlineTranslatorStudio.Models;
 using System;
 using System.IO;
 using System.Web.Mvc;
@@ -54,6 +56,12 @@ namespace OnlineTranslatorStudio.Controllers
                         string fileName = translationRequest.ProjectName;
                         string[] rawData = translationRequest.RawData.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
                         IProjectData project = new ProjectDataRepository().CreateProjectDataFromArray(fileName, rawData);
+
+                        for (int i = 0; i < project.TranslatedLines.Length; i++)
+                        {
+                            project.TranslatedLines[i] = string.Empty;
+                        }
+                        
                         data = new TranslationDataRepository().CreateTranslationDataFromProject(project);
                     }
                     else
@@ -92,6 +100,29 @@ namespace OnlineTranslatorStudio.Controllers
             else
                 ViewBag.percentage = 0;
             return View(data);
+        }
+
+        public ActionResult SaveProject(ProjectData data)
+        {
+            var translationData = new TranslationDataRepository().CreateTranslationDataFromProject(data);
+            var saveString = translationData.GetSaveString();
+            var json = JObject.Parse(saveString);
+
+            var fileName = $"{translationData.ProjectName}.tsp";
+
+            FileInfo info = new FileInfo(fileName);
+            if (!info.Exists)
+            {
+                using (StreamWriter streamWriter = info.CreateText())
+                {
+                    using (JsonTextWriter jsonWriter = new JsonTextWriter(streamWriter))
+                    {
+                        json.WriteTo(jsonWriter);
+                    }
+                }
+            }
+
+            return File(fileName, "text/plain");
         }
 
         // GET: Studio/Details/5

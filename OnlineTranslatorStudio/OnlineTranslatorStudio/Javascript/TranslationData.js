@@ -27,36 +27,72 @@ class TranslationData {
         return this.projectData.projectName;
     }
 
+    set ProjectName(value) {
+        this.projectData.projectName = value;
+    }
+
     get RawLines() {
         return this.projectData.rawLines;
+    }
+
+    set RawLines(value) {
+        this.projectData.rawLines = value;
     }
 
     get TranslatedLines() {
         return this.projectData.translatedLines;
     }
 
+    set TranslatedLines(value) {
+        this.projectData.translatedLines = value;
+    }
+
     get MarkedLines() {
         return this.projectData.markedLines;
+    }
+
+    set MarkedLines(value) {
+        this.projectData.markedLines = value;
     }
 
     get CompletedLines() {
         return this.projectData.completedLines;
     }
 
+    set CompletedLines(value) {
+        this.projectData.completedLines = value;
+    }
+
     get CurrentRaw() {
         return this.RawLines[this.currentIndex];
+    }
+
+    set CurrentRaw(value) {
+        this.RawLines[this.currentIndex] = value;
     }
 
     get CurrentTranslation() {
         return this.TranslatedLines[this.currentIndex];
     }
 
+    set CurrentTranslation(value) {
+        this.TranslatedLines[this.currentIndex] = value;
+    }
+
     get CurrentMarked() {
         return this.MarkedLines[this.currentIndex];
     }
 
+    set CurrentMarked(value) {
+        this.MarkedLines[this.currentIndex] = value;
+    }
+
     get CurrentCompletion() {
         return this.CompletedLines[this.currentIndex];
+    }
+
+    set CurrentCompletion(value) {
+        this.CompletedLines[this.currentIndex] = value;
     }
 
     get NumberOfLines() {

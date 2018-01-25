@@ -7,7 +7,7 @@
                 @Html.LabelFor(Model => Model.CurrentRaw, new { @class = "control-label" })
             </div>
             <div class="row">
-                @Html.TextAreaFor(Model => Model.CurrentRaw, new { @class = "form-control", style = "max-width: 100%; width: 80%;" })
+                @Html.TextAreaFor(Model => Model.CurrentRaw, new { @class = "form-control", style = "max-width: 100%; width: 80%;", @onkeypress = "updateCurrentRaw(translationData, this.value)" })
                 @*<p>@Model.CurrentRaw</p>*@
             </div>
         </div>
@@ -16,7 +16,7 @@
                 @Html.LabelFor(Model => Model.CurrentTranslation, new { @class = "control-label" })
             </div>
             <div class="row">
-                @Html.TextAreaFor(Model => Model.CurrentTranslation, new { @class = "form-control", style = "max-width: 100%; width: 80%;" })
+                @Html.TextAreaFor(Model => Model.CurrentTranslation, new { @class = "form-control", style = "max-width: 100%; width: 80%;", @onkeypress = "updateCurrentTranslation(translationData, this.value)" })
             </div>
             @*<input class="form-control" type="text" value="@Model.CurrentTranslation" />*@
         </div>
@@ -24,11 +24,11 @@
     <div id="miscSection" class="row">
         <div id="checkSection" class="col-xs-12">
             <label class="checkbox-inline">
-                @Html.CheckBoxFor(Model => Model.CurrentMarked, new { @checked = Model.CurrentMarked })
+                @Html.CheckBoxFor(Model => Model.CurrentMarked, new { @checked = Model.CurrentMarked, @onchange = "updateCurrentMarked(translationData, this.value)" })
                 @Html.DisplayNameFor(Model => Model.CurrentMarked)
             </label>
             <label class="checkbox-inline">
-                @Html.CheckBoxFor(Model => Model.CurrentCompletion, new { @checked = Model.CurrentCompletion })
+                @Html.CheckBoxFor(Model => Model.CurrentCompletion, new { @checked = Model.CurrentCompletion, @onchange = "updateCurrentCompletion(translationData, this.value)" })
                 @Html.DisplayNameFor(Model => Model.CurrentCompletion)
             </label>
         </div>
@@ -57,29 +57,6 @@
     console.log(projectData);
     var translationData = new TranslationData(projectData);
     console.log(translationData);
-
-    $(document).keydown(function () {
-        if ((event.which == 39) & (event.altKey == true) & (event.ctrlKey == true)) {
-        //if ((event.which == 39) & (event.ctrlKey == true)) {
-            //translationData.IncrementIndex();
-            incrementIndex(translationData);
-        }
-        if ((event.which == 37) & (event.altKey == true) & (event.ctrlKey == true)) {
-        //if ((event.which == 37) & (event.ctrlKey == true)) {
-            //translationData.DecrementIndex();
-            decrementIndex(translationData);
-        }
-    });
-
-    //function incrementIndexHandler() {
-    //    console.log("Hit Increment Index Handler");
-    //    incrementIndex(translationData);
-    //}
-
-    //function decrementIndexHandler() {
-    //    console.log("Hit Decrement Index Handler");
-    //    decrementIndex(translationData);
-    //}
     
 
 </script>
