@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TranslatorStudioClassLibrary.Class;
 using TranslatorStudioClassLibrary.Interface;
@@ -31,7 +32,11 @@ namespace TranslatorStudioClassLibraryTest.Class
                 }
             }
 
-            mockSubTranslationData = new SubTranslationData(mockConditionList);
+            mockSubTranslationData = new SubTranslationData()
+            {
+                IndexReference = mockIndexReference,
+                CurrentIndex = mockIndexReference.First(),
+            };
         }
 
         #region Properties Tests

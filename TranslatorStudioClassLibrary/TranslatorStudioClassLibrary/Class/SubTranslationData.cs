@@ -47,24 +47,7 @@ namespace TranslatorStudioClassLibrary.Class
         /// </summary>
         public SubTranslationData()
         {
-            IndexReference = new List<int>();
-        }
-
-        /// <summary>
-        /// Sub Translation Data Condition List Constructor:
-        ///     Creates Sub Translation Data based on condition list.
-        /// </summary>
-        /// <param name="conditionList"></param>
-        public SubTranslationData(bool[] conditionList)
-        {
-            IndexReference = new List<int>();
-            for (int i = 0; i < conditionList.Length; i++)
-            {
-                if (conditionList[i])
-                {
-                    IndexReference.Add(i);
-                }
-            }
+            
         }
         #endregion
     }

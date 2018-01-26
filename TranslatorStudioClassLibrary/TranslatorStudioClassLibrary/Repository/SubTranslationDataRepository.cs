@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TranslatorStudioClassLibrary.Class;
 using TranslatorStudioClassLibrary.Interface;
 
@@ -18,12 +19,18 @@ namespace TranslatorStudioClassLibrary.Repository
         /// <returns>ISubTranslationData: object that implements Sub Translation Data Interface.</returns>
         public ISubTranslationData GetSubData(List<bool> conditionList)
         {
+            if (conditionList.Count == 0)
+                throw new Exception("Passed Condition List is Empty.");
+
             var newIndexReference = new List<int>();
             for (int i = 0; i < conditionList.Count; i++)
             {
                 if (conditionList[i]) newIndexReference.Add(i);
             }
-            
+
+            if (newIndexReference.Count == 0)
+                throw new Exception("Condition list retrieved no indices.");
+
             return ConstructSubTranslationData(newIndexReference);
         }
 

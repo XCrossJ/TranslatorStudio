@@ -53,5 +53,35 @@ namespace TranslatorStudioClassLibraryTest.Repository
             CollectionAssert.AreEqual(expected, actual);
 
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        [TestCategory("Exception Test")]
+        public void GivenEmptyConditionListRaiseException()
+        {
+            //Arrange
+            var conditionList = new List<bool>();
+
+            //Act
+            var SubData = new SubTranslationDataRepository().GetSubData(conditionList);
+
+            //Assert
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        [TestCategory("Exception Test")]
+        public void GivenFalseConditionListRaiseException()
+        {
+            //Arrange
+            var conditionList = Enumerable.Repeat(false, 10).ToList();
+
+            //Act
+            var SubData = new SubTranslationDataRepository().GetSubData(conditionList);
+
+            //Assert
+
+        }
     }
 }
