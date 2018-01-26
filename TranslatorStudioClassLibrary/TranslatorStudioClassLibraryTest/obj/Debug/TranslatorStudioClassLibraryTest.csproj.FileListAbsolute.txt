@@ -23,33 +23,6 @@ C:\Users\Joshua Juandy\documents\visual studio 2017\Projects\TranslatorStudioCla
 C:\Users\Joshua Juandy\documents\visual studio 2017\Projects\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Moq.pdb
 C:\Users\Joshua Juandy\documents\visual studio 2017\Projects\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Moq.xml
 C:\Users\Joshua Juandy\documents\visual studio 2017\Projects\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\System.Threading.Tasks.Extensions.xml
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\TranslatorStudioClassLibraryTest.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\TranslatorStudioClassLibraryTest.pdb
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Castle.Core.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Moq.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Newtonsoft.Json.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\System.Threading.Tasks.Extensions.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\System.ValueTuple.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\TranslatorStudioClassLibrary.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\TranslatorStudioClassLibrary.pdb
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Castle.Core.xml
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Moq.pdb
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Moq.xml
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Newtonsoft.Json.xml
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\System.Threading.Tasks.Extensions.xml
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\obj\Debug\TranslatorStudioClassLibraryTest.csprojResolveAssemblyReference.cache
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\obj\Debug\TranslatorStudioClassLibraryTest.csproj.CoreCompileInputs.cache
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\obj\Debug\TranslatorStudioClassLibraryTest.dll
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\obj\Debug\TranslatorStudioClassLibraryTest.pdb
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\TranslatorStudioClassLibraryTest.dll.config
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\System.ValueTuple.xml
 C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
 C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
 C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
@@ -77,3 +50,30 @@ C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\Tran
 C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\obj\Debug\TranslatorStudioClassLibraryTest.csproj.CoreCompileInputs.cache
 C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\obj\Debug\TranslatorStudioClassLibraryTest.dll
 C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\obj\Debug\TranslatorStudioClassLibraryTest.pdb
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\TranslatorStudioClassLibraryTest.dll.config
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\TranslatorStudioClassLibraryTest.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\TranslatorStudioClassLibraryTest.pdb
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Castle.Core.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Moq.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\System.Threading.Tasks.Extensions.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\System.ValueTuple.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\TranslatorStudioClassLibrary.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\TranslatorStudioClassLibrary.pdb
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Castle.Core.xml
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Moq.pdb
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Moq.xml
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\System.ValueTuple.xml
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\obj\Debug\TranslatorStudioClassLibraryTest.csprojResolveAssemblyReference.cache
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\obj\Debug\TranslatorStudioClassLibraryTest.csproj.CoreCompileInputs.cache
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\obj\Debug\TranslatorStudioClassLibraryTest.dll
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\obj\Debug\TranslatorStudioClassLibraryTest.pdb

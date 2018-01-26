@@ -190,6 +190,7 @@ namespace TranslatorStudioClassLibraryTest.Factory
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
+        [TestCategory("Exception Test")]
         public void GivenNoRawInProjectRaiseException()
         {
             // Arrange

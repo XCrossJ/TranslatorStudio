@@ -23,6 +23,7 @@ namespace TranslatorStudioClassLibraryTest.Class
 
         private readonly Mock<ISubTranslationDataRepository> mockSubTranslationDataRepository;
         private readonly Mock<ISubTranslationData> mockSubData;
+
         public TranslationDataTest()
         {
             mockProjectName = "Mock Test Project Name";
@@ -448,6 +449,188 @@ namespace TranslatorStudioClassLibraryTest.Class
             Assert.AreEqual(expectedIndex, translationData.CurrentIndex);
         }
 
+        [TestMethod]
+        public void InsertLine_Test()
+        {
+            //Arrange
+            var translationData = new TranslationData(mockProjectData.Object);
+
+            int? index = 5;
+            int insertIndex = index ?? translationData.NumberOfLines; 
+            string insertRawValue = "Inserted Raw Line";
+            string expectedRawValue = insertRawValue ?? "";
+
+
+            var expectedRawLines = mockRawLines.ToList();
+            var expectedTranslatedLines = mockTranslatedLines.ToList();
+            var expectedCompletedLines = mockCompleteLines.ToList();
+            var expectedMarkedLines = mockMarkedLines.ToList();
+
+            expectedRawLines.Insert(insertIndex, insertRawValue);
+            expectedTranslatedLines.Insert(insertIndex, "");
+            expectedCompletedLines.Insert(insertIndex, false);
+            expectedMarkedLines.Insert(insertIndex, false);
+
+            //Act
+            translationData.InsertLine(insertIndex, insertRawValue);
+
+            //Assert
+            mockProjectData.Verify(
+                    x => x.RawLines,
+                Times.AtLeastOnce);
+            mockProjectData.Verify(
+                    x => x.TranslatedLines,
+                Times.Once);
+            mockProjectData.Verify(
+                    x => x.CompletedLines,
+                Times.Once);
+            mockProjectData.Verify(
+                    x => x.MarkedLines,
+                Times.Once);
+
+            Assert.AreEqual(expectedRawValue, translationData.RawLines[insertIndex]);
+            
+            CollectionAssert.AreEqual(expectedRawLines, translationData.RawLines);
+            CollectionAssert.AreEqual(expectedTranslatedLines, translationData.TranslatedLines);
+            CollectionAssert.AreEqual(expectedCompletedLines, translationData.CompletedLines);
+            CollectionAssert.AreEqual(expectedMarkedLines, translationData.MarkedLines);
+
+        }
+
+        [TestMethod]
+        public void InsertLine_With_Null_Values_Test()
+        {
+            //Arrange
+            var translationData = new TranslationData(mockProjectData.Object);
+
+            int? index = null;
+            int insertIndex = index ?? translationData.NumberOfLines;
+            string insertRawValue = null;
+            string expectedRawValue = insertRawValue ?? "";
+
+
+            var expectedRawLines = mockRawLines.ToList();
+            var expectedTranslatedLines = mockTranslatedLines.ToList();
+            var expectedCompletedLines = mockCompleteLines.ToList();
+            var expectedMarkedLines = mockMarkedLines.ToList();
+
+            expectedRawLines.Insert(insertIndex, expectedRawValue);
+            expectedTranslatedLines.Insert(insertIndex, "");
+            expectedCompletedLines.Insert(insertIndex, false);
+            expectedMarkedLines.Insert(insertIndex, false);
+
+            //Act
+            translationData.InsertLine(insertIndex, insertRawValue);
+
+            //Assert
+            mockProjectData.Verify(
+                    x => x.RawLines,
+                Times.AtLeastOnce);
+            mockProjectData.Verify(
+                    x => x.TranslatedLines,
+                Times.Once);
+            mockProjectData.Verify(
+                    x => x.CompletedLines,
+                Times.Once);
+            mockProjectData.Verify(
+                    x => x.MarkedLines,
+                Times.Once);
+
+            Assert.AreEqual(expectedRawValue, translationData.RawLines[insertIndex]);
+
+            CollectionAssert.AreEqual(expectedRawLines, translationData.RawLines);
+            CollectionAssert.AreEqual(expectedTranslatedLines, translationData.TranslatedLines);
+            CollectionAssert.AreEqual(expectedCompletedLines, translationData.CompletedLines);
+            CollectionAssert.AreEqual(expectedMarkedLines, translationData.MarkedLines);
+
+        }
+
+        [TestMethod]
+        public void RemoveLine_Test()
+        {
+            //Arrange
+            var translationData = new TranslationData(mockProjectData.Object);
+
+            int? index = 5;
+            int removeIndex = index ?? translationData.MaxIndex;
+
+            var expectedRawLines = mockRawLines.ToList();
+            var expectedTranslatedLines = mockTranslatedLines.ToList();
+            var expectedCompletedLines = mockCompleteLines.ToList();
+            var expectedMarkedLines = mockMarkedLines.ToList();
+
+            expectedRawLines.RemoveAt(removeIndex);
+            expectedTranslatedLines.RemoveAt(removeIndex);
+            expectedCompletedLines.RemoveAt(removeIndex);
+            expectedMarkedLines.RemoveAt(removeIndex);
+
+            //Act
+            translationData.RemoveLine(removeIndex);
+
+            //Assert
+            mockProjectData.Verify(
+                    x => x.RawLines,
+                Times.AtLeastOnce);
+            mockProjectData.Verify(
+                    x => x.TranslatedLines,
+                Times.Once);
+            mockProjectData.Verify(
+                    x => x.CompletedLines,
+                Times.Once);
+            mockProjectData.Verify(
+                    x => x.MarkedLines,
+                Times.Once);
+
+            CollectionAssert.AreEqual(expectedRawLines, translationData.RawLines);
+            CollectionAssert.AreEqual(expectedTranslatedLines, translationData.TranslatedLines);
+            CollectionAssert.AreEqual(expectedCompletedLines, translationData.CompletedLines);
+            CollectionAssert.AreEqual(expectedMarkedLines, translationData.MarkedLines);
+
+        }
+
+        [TestMethod]
+        public void RemoveLine_With_Null_Values_Test()
+        {
+            //Arrange
+            var translationData = new TranslationData(mockProjectData.Object);
+
+            int? index = null;
+            int removeIndex = index ?? translationData.MaxIndex;
+
+            var expectedRawLines = mockRawLines.ToList();
+            var expectedTranslatedLines = mockTranslatedLines.ToList();
+            var expectedCompletedLines = mockCompleteLines.ToList();
+            var expectedMarkedLines = mockMarkedLines.ToList();
+
+            expectedRawLines.RemoveAt(removeIndex);
+            expectedTranslatedLines.RemoveAt(removeIndex);
+            expectedCompletedLines.RemoveAt(removeIndex);
+            expectedMarkedLines.RemoveAt(removeIndex);
+
+            //Act
+            translationData.RemoveLine(removeIndex);
+
+            //Assert
+            mockProjectData.Verify(
+                    x => x.RawLines,
+                Times.AtLeastOnce);
+            mockProjectData.Verify(
+                    x => x.TranslatedLines,
+                Times.Once);
+            mockProjectData.Verify(
+                    x => x.CompletedLines,
+                Times.Once);
+            mockProjectData.Verify(
+                    x => x.MarkedLines,
+                Times.Once);
+
+            CollectionAssert.AreEqual(expectedRawLines, translationData.RawLines);
+            CollectionAssert.AreEqual(expectedTranslatedLines, translationData.TranslatedLines);
+            CollectionAssert.AreEqual(expectedCompletedLines, translationData.CompletedLines);
+            CollectionAssert.AreEqual(expectedMarkedLines, translationData.MarkedLines);
+
+        }
+
 
         [TestMethod]
         public void IncrementCurrentLine_At_Max_Index_Test()
@@ -744,6 +927,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             //Assert
             Assert.AreEqual(expectedProjectData, actualProjectData);
         }
+
 
         #endregion
 

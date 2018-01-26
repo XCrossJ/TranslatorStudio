@@ -136,7 +136,7 @@ namespace TranslatorStudioClassLibraryTest.Repository
 
         [TestMethod]
         [TestCategory("Not Implemented Correctly")]
-        public void CreateProjectDataFrom_Document()
+        public void CreateProjectDataFromDocument_Test()
         {
             // Arrange
             var expectedName = mockProjectName;
@@ -174,6 +174,7 @@ namespace TranslatorStudioClassLibraryTest.Repository
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
+        [TestCategory("Exception Test")]
         public void GivenEmptyArrayRaiseException()
         {
             // Arrange
@@ -188,6 +189,7 @@ namespace TranslatorStudioClassLibraryTest.Repository
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
+        [TestCategory("Exception Test")]
         public void GivenEmptyStreamRaiseException()
         {
             // Arrange
@@ -203,6 +205,7 @@ namespace TranslatorStudioClassLibraryTest.Repository
         [TestMethod]
         [ExpectedException(typeof(Exception))]
         [TestCategory("Not Implemented Correctly")]
+        [TestCategory("Exception Test")]
         public void GivenEmptyDocumentRaiseException()
         {
             // Arrange

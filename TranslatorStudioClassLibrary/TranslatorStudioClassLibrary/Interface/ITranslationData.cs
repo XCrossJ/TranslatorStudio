@@ -104,6 +104,20 @@ namespace TranslatorStudioClassLibrary.Interface
         void DecrementCurrentLine();
 
         /// <summary>
+        /// Insert Line:
+        ///     inserts specified raw line to project data at index.
+        /// </summary>
+        /// <param name="index">int: index at which to insert value (null will insert value at end).</param>
+        /// <param name="rawValue">string: value of raw line to insert.</param>
+        void InsertLine(int? index, string rawValue);
+        /// <summary>
+        /// Remove Line:
+        ///     removes line from project data at index.
+        /// </summary>
+        /// <param name="index">int: index at which to remove value (null will remove value at end).</param>
+        void RemoveLine(int? index);
+
+        /// <summary>
         /// Get Project Save String:
         ///     gets the save string of the project data.
         /// </summary>

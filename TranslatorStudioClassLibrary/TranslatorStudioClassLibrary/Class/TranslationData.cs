@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TranslatorStudioClassLibrary.Interface;
-using TranslatorStudioClassLibrary.Repository;
-using TranslatorStudioClassLibrary.Utilities;
 
 namespace TranslatorStudioClassLibrary.Class
 {
@@ -224,6 +222,38 @@ namespace TranslatorStudioClassLibrary.Class
         {
             if (CurrentIndex != 0)
                 CurrentIndex--;
+        }
+
+        /// <summary>
+        /// Insert Line:
+        ///     inserts specified raw line to project data at index.
+        /// </summary>
+        /// <param name="index">int: index at which to insert value (null will insert value at end).</param>
+        /// <param name="rawValue">string: value of raw line to insert.</param>
+        public void InsertLine(int? index, string rawValue)
+        {
+            int insertionIndex = index ?? NumberOfLines;
+
+            rawValue = rawValue ?? "";
+            RawLines.Insert(insertionIndex, rawValue);
+            TranslatedLines.Insert(insertionIndex, "");
+            CompletedLines.Insert(insertionIndex, false);
+            MarkedLines.Insert(insertionIndex, false);
+        }
+
+        /// <summary>
+        /// Remove Line:
+        ///     removes line from project data at index.
+        /// </summary>
+        /// <param name="index">int: index at which to remove value (null will remove value at end).</param>
+        public void RemoveLine(int? index)
+        {
+            int insertionIndex = index ?? MaxIndex;
+
+            RawLines.RemoveAt(insertionIndex);
+            TranslatedLines.RemoveAt(insertionIndex);
+            CompletedLines.RemoveAt(insertionIndex);
+            MarkedLines.RemoveAt(insertionIndex);
         }
 
         /// <summary>
