@@ -57,7 +57,7 @@ namespace OnlineTranslatorStudio.Controllers
                         string[] rawData = translationRequest.RawData.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
                         IProjectData project = new ProjectDataRepository().CreateProjectDataFromArray(fileName, rawData);
 
-                        for (int i = 0; i < project.TranslatedLines.Length; i++)
+                        for (int i = 0; i < project.TranslatedLines.Count; i++)
                         {
                             project.TranslatedLines[i] = string.Empty;
                         }
@@ -104,11 +104,12 @@ namespace OnlineTranslatorStudio.Controllers
 
         public ActionResult SaveProject(ProjectData data)
         {
-            var translationData = new TranslationDataRepository().CreateTranslationDataFromProject(data);
-            var saveString = translationData.GetSaveString();
+            //https://www.codeproject.com/Tips/1156485/How-to-Create-and-Download-File-with-Ajax-in-ASP-N
+
+            var saveString = data.GetSaveString();
             var json = JObject.Parse(saveString);
 
-            var fileName = $"{translationData.ProjectName}.tsp";
+            var fileName = $"{data.ProjectName}.tsp";
 
             FileInfo info = new FileInfo(fileName);
             if (!info.Exists)

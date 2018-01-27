@@ -1510,11 +1510,6 @@
             <param name="metric">Metric definition.</param>
             <param name="value">Metric value.</param>
         </member>
-        <member name="F:Microsoft.ApplicationInsights.Extensibility.Implementation.CallContextHelpers.OperationContextSlotName">
-            <summary>
-            Name of the operation context store item present in the context.
-            </summary>
-        </member>
         <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.CallContextHelpers.SaveOperationContext(Microsoft.ApplicationInsights.Extensibility.Implementation.OperationContextForCallContext)">
             <summary>
             Saves the context store to the call context.
@@ -1628,12 +1623,40 @@
             Sanitizing stack to 32k while selecting the initial and end stack trace.
             </summary>
         </member>
+        <member name="T:Microsoft.ApplicationInsights.Extensibility.Implementation.External.AjaxCallData">
+            <summary>
+            Partial class to add the EventData attribute and any additional customizations to the generated type.
+            </summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.Extensibility.Implementation.External.AvailabilityData">
+            <summary>
+            Partial class to add the EventData attribute and any additional customizations to the generated type.
+            </summary>
+        </member>
         <member name="T:Microsoft.ApplicationInsights.Extensibility.Implementation.External.ContextTagKeys">
             <summary>
             Holds the static singleton instance of ContextTagKeys.
             </summary>
         </member>
+        <member name="T:Microsoft.ApplicationInsights.Extensibility.Implementation.External.DataPoint">
+            <summary>
+            Partial class to add the EventData attribute and any additional customizations to the generated type.
+            </summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.Extensibility.Implementation.External.EventData">
+            <summary>
+            Partial class to add the EventData attribute and any additional customizations to the generated type.
+            </summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.Extensibility.Implementation.External.ExceptionData">
+            <summary>
+            Partial class to add the EventData attribute and any additional customizations to the generated type.
+            </summary>
+        </member>
         <member name="T:Microsoft.ApplicationInsights.Extensibility.Implementation.External.ExceptionDetails">
+            <summary>
+            Partial class to add the EventData attribute and any additional customizations to the generated type.
+            </summary>
             <summary>
             Additional implementation for ExceptionDetails.
             </summary>
@@ -1641,6 +1664,51 @@
         <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.External.ExceptionDetails.CreateWithoutStackInfo(System.Exception,Microsoft.ApplicationInsights.Extensibility.Implementation.External.ExceptionDetails)">
             <summary>
             Creates a new instance of ExceptionDetails from a System.Exception and a parent ExceptionDetails.
+            </summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.Extensibility.Implementation.External.MessageData">
+            <summary>
+            Partial class to add the EventData attribute and any additional customizations to the generated type.
+            </summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.Extensibility.Implementation.External.MetricData">
+            <summary>
+            Partial class to add the EventData attribute and any additional customizations to the generated type.
+            </summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.Extensibility.Implementation.External.PageViewData">
+            <summary>
+            Partial class to add the EventData attribute and any additional customizations to the generated type.
+            </summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.Extensibility.Implementation.External.PageViewPerfData">
+            <summary>
+            Partial class to add the EventData attribute and any additional customizations to the generated type.
+            </summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.Extensibility.Implementation.External.PerformanceCounterData">
+            <summary>
+            Partial class to add the EventData attribute and any additional customizations to the generated type.
+            </summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.Extensibility.Implementation.External.RemoteDependencyData">
+            <summary>
+            Partial class to add the EventData attribute and any additional customizations to the generated type.
+            </summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.Extensibility.Implementation.External.RequestData">
+            <summary>
+            Partial class to add the EventData attribute and any additional customizations to the generated type.
+            </summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.Extensibility.Implementation.External.SessionStateData">
+            <summary>
+            Partial class to add the EventData attribute and any additional customizations to the generated type.
+            </summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.Extensibility.Implementation.External.StackFrame">
+            <summary>
+            Partial class to add the EventData attribute and any additional customizations to the generated type.
             </summary>
         </member>
         <member name="T:Microsoft.ApplicationInsights.Extensibility.Implementation.External.Tags">
@@ -2228,16 +2296,51 @@
             Event Source exposes Application Insights telemetry information as ETW events.
             </summary>
             <summary>
-            RichPayload Event Source (.Net 4.5 version)
-            It dynamically checks the runtime version and only emits the event if the runtime is .Net Framework 4.6 and above.
-            As .Net 4.5 project doesn't support EventDataAttribute, the class uses the anonymous type (RichPayloadEventSource.TelemetryHandler.cs) for the corresponding telemetry data type.
-            The anonymous type keeps the same properties and layout as the telemetry data type schema. 
-            Once you update the data type, you should also update the anonymous type.
+            Event Source exposes Application Insights telemetry information as ETW events.
             </summary>
+        </member>
+        <member name="F:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.Log">
+            <summary>RichPayloadEventSource instance.</summary>
+        </member>
+        <member name="F:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.EventSourceInternal">
+            <summary>Event source.</summary>
+        </member>
+        <member name="F:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.EventProviderName">
+            <summary>Event provider name.</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.#ctor">
             <summary>
-            Define the telemetry handlers.
-            Create anonymous type for each AI telemetry data type.
+            Initializes a new instance of the RichPayloadEventSource class.
             </summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.Process(Microsoft.ApplicationInsights.Channel.ITelemetry)">
+            <summary>
+            Process a collected telemetry item.
+            </summary>
+            <param name="item">A collected Telemetry item.</param>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.ProcessOperationStart(Microsoft.ApplicationInsights.Extensibility.Implementation.OperationTelemetry)">
+            <summary>
+            Record an operation start.
+            </summary>
+            <param name="operation">The operation.</param>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.ProcessOperationStop(Microsoft.ApplicationInsights.Extensibility.Implementation.OperationTelemetry)">
+            <summary>
+            Record an operation stop.
+            </summary>
+            <param name="operation">The operation.</param>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.Dispose">
+            <summary>
+            Disposes the object.
+            </summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.Dispose(System.Boolean)">
+            <summary>
+            Disposes the object.
+            </summary>
+            <param name="disposing">True if disposing.</param>
         </member>
         <member name="T:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.Keywords">
             <summary>
@@ -2297,110 +2400,6 @@
         <member name="F:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.Keywords.Operations">
             <summary>
             Keyword for operations (Start/Stop).
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.Log">
-            <summary>RichPayloadEventSource instance.</summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.EventSourceInternal">
-            <summary>Event source.</summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.EventProviderName">
-            <summary>Event provider name.</summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.telemetryHandlers">
-            <summary>A dictionary mapping each telemetry item type to its handler.</summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.operationStartStopHandler">
-            <summary>Handler for <see cref="T:Microsoft.ApplicationInsights.Extensibility.Implementation.OperationTelemetry"/> start/stop operations.</summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.#ctor">
-            <summary>
-            Initializes a new instance of the RichPayloadEventSource class.
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.Process(Microsoft.ApplicationInsights.Channel.ITelemetry)">
-            <summary>
-            Process a collected telemetry item.
-            </summary>
-            <param name="item">A collected Telemetry item.</param>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.ProcessOperationStart(Microsoft.ApplicationInsights.Extensibility.Implementation.OperationTelemetry)">
-            <summary>
-            Record an operation start.
-            </summary>
-            <param name="operation">The operation which is about to start.</param>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.ProcessOperationStop(Microsoft.ApplicationInsights.Extensibility.Implementation.OperationTelemetry)">
-            <summary>
-            Record an operation stop.
-            </summary>
-            <param name="operation">The operation which has just stopped.</param>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.Dispose">
-            <summary>
-            Disposes the object.
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.Dispose(System.Boolean)">
-            <summary>
-            Disposes the object.
-            </summary>
-            <param name="disposing">True if disposing.</param>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.CreateTelemetryHandlers(System.Diagnostics.Tracing.EventSource)">
-            <summary>
-            Create handlers for all AI telemetry types.
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.CreateOperationStartStopHandler(System.Diagnostics.Tracing.EventSource)">
-            <summary>
-            Create a handler for <see cref="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.ProcessOperationStart(Microsoft.ApplicationInsights.Extensibility.Implementation.OperationTelemetry)"/> and <see cref="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.ProcessOperationStop(Microsoft.ApplicationInsights.Extensibility.Implementation.OperationTelemetry)"/>
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.CreateHandlerForRequestTelemetry(System.Diagnostics.Tracing.EventSource,System.Reflection.MethodInfo,System.Type,System.Reflection.PropertyInfo)">
-            <summary>
-            Create handler for request telemetry.
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.CreateHandlerForTraceTelemetry(System.Diagnostics.Tracing.EventSource,System.Reflection.MethodInfo,System.Type,System.Reflection.PropertyInfo)">
-            <summary>
-            Create handler for trace telemetry.
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.CreateHandlerForEventTelemetry(System.Diagnostics.Tracing.EventSource,System.Reflection.MethodInfo,System.Type,System.Reflection.PropertyInfo)">
-            <summary>
-            Create handler for event telemetry.
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.CreateHandlerForDependencyTelemetry(System.Diagnostics.Tracing.EventSource,System.Reflection.MethodInfo,System.Type,System.Reflection.PropertyInfo)">
-            <summary>
-            Create handler for dependency telemetry.
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.CreateHandlerForMetricTelemetry(System.Diagnostics.Tracing.EventSource,System.Reflection.MethodInfo,System.Type,System.Reflection.PropertyInfo)">
-            <summary>
-            Create handler for metric telemetry.
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.CreateHandlerForExceptionTelemetry(System.Diagnostics.Tracing.EventSource,System.Reflection.MethodInfo,System.Type,System.Reflection.PropertyInfo)">
-            <summary>
-            Create handler for exception telemetry.
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.CreateHandlerForPerformanceCounterTelemetry(System.Diagnostics.Tracing.EventSource,System.Reflection.MethodInfo,System.Type,System.Reflection.PropertyInfo)">
-            <summary>
-            Create handler for performance counter telemetry.
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.CreateHandlerForPageViewTelemetry(System.Diagnostics.Tracing.EventSource,System.Reflection.MethodInfo,System.Type,System.Reflection.PropertyInfo)">
-            <summary>
-            Create handler for page view telemetry.
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.RichPayloadEventSource.CreateHandlerForSessionStateTelemetry(System.Diagnostics.Tracing.EventSource,System.Reflection.MethodInfo,System.Type,System.Reflection.PropertyInfo)">
-            <summary>
-            Create handler for session state telemetry.
             </summary>
         </member>
         <member name="M:Microsoft.ApplicationInsights.Extensibility.Implementation.SdkVersionUtils.GetSdkVersion(System.String)">
@@ -3218,7 +3217,7 @@
         </member>
         <member name="T:Microsoft.ApplicationInsights.Extensibility.OperationCorrelationTelemetryInitializer">
             <summary>
-            Telemetry initializer that populates OperationContext for the telemetry item based on context stored in CallContext.
+            Telemetry initializer that populates OperationContext for the telemetry item based on context stored in an AsyncLocal variable.
             </summary>
         </member>
         <member name="M:Microsoft.ApplicationInsights.Extensibility.OperationCorrelationTelemetryInitializer.Initialize(Microsoft.ApplicationInsights.Channel.ITelemetry)">

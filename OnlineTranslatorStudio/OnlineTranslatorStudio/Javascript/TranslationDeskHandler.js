@@ -12,38 +12,38 @@ var completionSelector = "#CurrentCompletion";
 
 $(document).keydown(function () {
     // Key Code Right Arrow = 39
-    //if ((event.which == 39) & (event.altKey == true) & (event.ctrlKey == true)) {
-    if ((event.which == 39) & (event.ctrlKey == true)) {
+    //if ((event.which === 39) & (event.altKey === true) & (event.ctrlKey === true)) {
+    if ((event.which === 39) & (event.ctrlKey === true)) {
         incrementIndex(translationData);
     }
 
     // Key Code Left Arrow = 37
-    //if ((event.which == 37) & (event.altKey == true) & (event.ctrlKey == true)) {
-    if ((event.which == 37) & (event.ctrlKey == true)) {
+    //if ((event.which === 37) & (event.altKey === true) & (event.ctrlKey === true)) {
+    if ((event.which === 37) & (event.ctrlKey === true)) {
         decrementIndex(translationData);
     }
 
     // Key Code M = 77
-    if ((event.which == 77) & (event.altKey == true) & (event.ctrlKey == true)) {
+    if ((event.which === 77) & (event.altKey === true) & (event.ctrlKey === true)) {
         var checkBox = $("#CurrentMarked");
         checkBox.prop('checked', !checkBox.prop('checked'));
     }
 
     // Key Code Enter = 13
-    //if ((event.which == 13) & (event.altKey == true) & (event.ctrlKey == true)) {
-    if ((event.which == 13) & (event.ctrlKey == true)) {
+    //if ((event.which === 13) & (event.altKey === true) & (event.ctrlKey === true)) {
+    if ((event.which === 13) & (event.ctrlKey === true)) {
         var checkBox = $("#CurrentCompletion");
         checkBox.prop('checked', !checkBox.prop('checked'));
     }
 
     // Key Code S = 83
-    if ((event.which == 83) & (event.altKey == true) & (event.ctrlKey == true)) {
-    //if ((event.which == 78) & (event.altKey == true) & (event.ctrlKey == true)) {
+    if ((event.which === 83) & (event.altKey === true) & (event.ctrlKey === true)) {
+    //if ((event.which === 78) & (event.altKey === true) & (event.ctrlKey === true)) {
         $.ajax({
             url: "/Studio/SaveProject",
             type: "POST",
             contentType: "application/json",
-            data: JSON.stringify({ data: translationData.projectData }),
+            data: JSON.stringify({ data: translationData.projectData })//,
             //success: function (response) {
             //    response ? alert("It worked!") : alert("It didn't work.");
             //} // get your response here

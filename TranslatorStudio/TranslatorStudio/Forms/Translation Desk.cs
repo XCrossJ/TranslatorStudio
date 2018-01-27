@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
-using TranslatorStudio.Forms;
 using TranslatorStudio.Utilities;
 using TranslatorStudioClassLibrary.Interface;
+using TranslatorStudioClassLibrary.Repository;
 using TranslatorStudioClassLibrary.Utilities;
 
-namespace TranslatorStudio
+namespace TranslatorStudio.Forms
 {
     public partial class FrmDesk : Form
     {
@@ -19,6 +19,8 @@ namespace TranslatorStudio
         private string _previousSavePath;
         private int _numberOfLines;
         private bool _unsavedData = true;
+
+        private readonly ISubTranslationDataRepository subTranslationDataRepository = new SubTranslationDataRepository();
         #endregion
 
         #region Constructor
@@ -70,18 +72,11 @@ namespace TranslatorStudio
         private void UpdateStatus()
         {
             txtProjectName.Text = _data.ProjectName;
-            lblCurrentLine.Text = $@"/ {_numberOfLines}";
+            lblMaxLine.Text = $@"/ {_numberOfLines}";
             lblProgress.Text = $@"{_data.NumberOfCompletedLines} / {_data.NumberOfLines}";
-            UpdateProgressBar(_data.NumberOfCompletedLines, _data.NumberOfLines);
+            prgProgress.UpdateProgressBar(_data.NumberOfCompletedLines, _data.NumberOfLines);
         }
-
-        private void UpdateProgressBar(int value, int max)
-        {
-            prgProgress.Minimum = 0;
-            prgProgress.Maximum = max;
-            prgProgress.Value = value;
-            prgProgress.Refresh();
-        }
+        
         #endregion
 
 
@@ -89,6 +84,11 @@ namespace TranslatorStudio
         private void FrmDesk_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void rtbRawContent_TextChanged(object sender, EventArgs e)
+        {
+            _data.CurrentRaw = rtbRawContent.Text;
         }
 
         private void rtbTranslationContent_TextChanged(object sender, EventArgs e)
@@ -117,9 +117,21 @@ namespace TranslatorStudio
             UpdateDesk();
         }
 
-        private void btnCopyRaw_Click(object sender, EventArgs e)
+        private void btnInsert_Click(object sender, EventArgs e)
         {
-            CopyRaw();
+            _data.InsertLine(_data.CurrentIndex, null);
+            NumberOfLinesChanged();
+            UpdateDesk();
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            if (_data.NumberOfLines > 1)
+            {
+                _data.RemoveLine(_data.CurrentIndex);
+                NumberOfLinesChanged();
+                UpdateDesk();
+            }
         }
 
         private void btnPreview_Click(object sender, EventArgs e)
@@ -148,17 +160,6 @@ namespace TranslatorStudio
             }
             UpdateDesk();
         }
-
-        private void btnGoogleTranslate_Click(object sender, EventArgs e)
-        {
-            OpenGoogleTranslate();
-        }
-
-        private void btnWeblio_Click(object sender, EventArgs e)
-        {
-            OpenWeblio();
-        }
-
 
         #region Toolbar Events
         private void tsmiNew_Click(object sender, EventArgs e)
@@ -301,12 +302,7 @@ namespace TranslatorStudio
 
         private void OpenProject()
         {
-            var openRawFileDialog = new OpenFileDialog
-            {
-                Multiselect = false,
-                Filter = $@"Source and Project files (*.txt;*.docx;*.tsp)|*.txt;*.docx;*.tsp|All files (*.*)|*.*",
-                Title = "Open Project or Raw Source File"
-            };
+            var openRawFileDialog = ApplicationData.OpenProjectDialog();
 
             if (openRawFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -319,12 +315,7 @@ namespace TranslatorStudio
 
         private void SaveProjectAs()
         {
-            var saveProjectFileDialog = new SaveFileDialog
-            {
-                Filter = $@"Translator Studio Project files (*.tsp)|*.tsp",
-                Title = "Save the Translation Project",
-                FileName = _data.ProjectName
-            };
+            var saveProjectFileDialog = ApplicationData.SaveProjectDialog(_data.ProjectName);
             if (saveProjectFileDialog.ShowDialog() == DialogResult.OK)
             {
                 if (saveProjectFileDialog.FileName != "")
@@ -332,35 +323,28 @@ namespace TranslatorStudio
                     _unsavedData = !FileHelper.SaveProject(_data, saveProjectFileDialog.FileName);
                     _previousSavePath = saveProjectFileDialog.FileName;
                 }
+                else
+                    ApplicationData.MsgBox_SaveProject_NoFileName();
             }
         }
 
         private void SaveProject()
         {
             if (!string.IsNullOrEmpty(_previousSavePath))
-            {
                 _unsavedData = !FileHelper.SaveProject(_data, _previousSavePath);
-            }
             else
-            {
                 SaveProjectAs();
-            }
         }
 
         private void ExportProject()
         {
-            var exportProjectFileDialog = new SaveFileDialog
-            {
-                Filter = $@"Text files (*.txt)|*.txt",
-                Title = "Export current translation",
-                FileName = _data.ProjectName
-            };
+            var exportProjectFileDialog = ApplicationData.ExportProjectDialog(_data.ProjectName);
             exportProjectFileDialog.ShowDialog();
 
             if (exportProjectFileDialog.FileName != "")
-            {
                 FileHelper.ExportTranslation(_data, exportProjectFileDialog.FileName);
-            }
+            else
+                ApplicationData.MsgBox_ExportProject_NoFileName();
         }
         
         private void PreviewProject()
@@ -371,11 +355,15 @@ namespace TranslatorStudio
 
         private void CopyRaw()
         {
-            var copyText = rtbRawContent.Text;
-            if (!string.IsNullOrEmpty(copyText))
-                Clipboard.SetText(copyText);
-            else
-                MessageBox.Show("Unable to copy to clipboard because Raw is empty.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            try
+            {
+                rtbRawContent.Text.CopyTextToClipboard();
+            }
+            catch (ArgumentNullException)
+            {
+                ApplicationData.MsgBox_CopyRaw_RawEmpty();
+            }
+
         }
 
         private void ChangeCurrentCompletion(bool currentCompletion)
@@ -500,96 +488,77 @@ namespace TranslatorStudio
         #region Methods
         private void GoToNextLine()
         {
-            if (nudLineNumber.Value < nudLineNumber.Maximum)
-                nudLineNumber.Value++;
+            nudLineNumber.IncrementNumericUpDown();
             UpdateDesk();
         }
 
         private void GoToPrevLine()
         {
-            if (nudLineNumber.Value > nudLineNumber.Minimum)
-                nudLineNumber.Value--;
+            nudLineNumber.DecrementNumericUpDown();
             UpdateDesk();
         }
 
         private void IncreaseTextSize()
         {
-            var currentSize = rtbRawContent.Font.Size;
-            currentSize += 1;
-            if (currentSize < 30)
-            {
-                rtbRawContent.Font = new Font(rtbRawContent.Font.Name, currentSize, rtbRawContent.Font.Style, rtbRawContent.Font.Unit);
-                rtbTranslationContent.Font = rtbRawContent.Font;
-            }
+            rtbRawContent.Font.IncreaseFontSize();
+            rtbTranslationContent.Font.IncreaseFontSize();
         }
 
         private void DecreaseTextSize()
         {
-            var currentSize = rtbRawContent.Font.Size;
-            currentSize -= 1;
-            if (currentSize > 0)
-            {
-                rtbRawContent.Font = new Font(rtbRawContent.Font.Name, currentSize, rtbRawContent.Font.Style, rtbRawContent.Font.Unit);
-                rtbTranslationContent.Font = rtbRawContent.Font;
-            }
+            rtbRawContent.Font.DecreaseFontSize();
+            rtbTranslationContent.Font.DecreaseFontSize();
+        }
+
+        private void NumberOfLinesChanged()
+        {
+            _numberOfLines = nudLineNumber.ChangeNumericUpDownMaximum(_data.NumberOfLines);
         }
 
         private void BeginDefaultMode()
         {
             _data.StartDefaultMode();
-            _numberOfLines = _data.NumberOfLines;
-            nudLineNumber.Maximum = _numberOfLines;
+            _numberOfLines = nudLineNumber.ChangeNumericUpDownMaximum(_data.NumberOfLines);
             nudLineNumber.Value = 1;
         }
         private void BeginMarkedOnlyMode()
         {
-            var noneMarked = Array.TrueForAll(_data.MarkedLines, value => { return value == false; });
-            if (!noneMarked)
+            try
             {
-                _data.DefaultTranslationMode = false;
-                _numberOfLines = _data.StartMarkedOnlyMode();
-                nudLineNumber.Maximum = _numberOfLines;
+                _numberOfLines = nudLineNumber.ChangeNumericUpDownMaximum(_data.StartMarkedOnlyMode(subTranslationDataRepository));
                 nudLineNumber.Value = 1;
             }
-            else
+            catch (Exception)
             {
-                MessageBox.Show("No lines were marked. Returning to Default Mode.", "No Marked Lines!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ApplicationData.MsgBox_BeginMarkedOnlyMode_NoneMarked();
                 cmbEditMode.SelectedIndex = 0;
             }
         }
         private void BeginIncompleteOnlyMode()
         {
-            var noneIncomplete = Array.TrueForAll(_data.CompletedLines, value => { return value == true; });
-            if (!noneIncomplete)
+            try
             {
-                _data.DefaultTranslationMode = false;
-                _numberOfLines = _data.StartIncompleteOnlyMode();
-                nudLineNumber.Maximum = _numberOfLines;
+                _numberOfLines = nudLineNumber.ChangeNumericUpDownMaximum(_data.StartMarkedOnlyMode(subTranslationDataRepository));
                 nudLineNumber.Value = 1;
             }
-            else
+            catch (Exception)
             {
-                MessageBox.Show("No lines were incomplete. Returning to Default Mode.", "No Incomplete Lines!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ApplicationData.MsgBox_BeginIncompleteOnlyMode_NoneIncomplete();
                 cmbEditMode.SelectedIndex = 0;
             }
-
         }
         private void BeginCompleteOnlyMode()
         {
-            var noneComplete = Array.TrueForAll(_data.CompletedLines, value => { return value == false; });
-            if (!noneComplete)
+            try
             {
-                _data.DefaultTranslationMode = false;
-                _numberOfLines = _data.StartCompleteOnlyMode();
-                nudLineNumber.Maximum = _numberOfLines;
+                _numberOfLines = nudLineNumber.ChangeNumericUpDownMaximum(_data.StartCompleteOnlyMode(subTranslationDataRepository));
                 nudLineNumber.Value = 1;
             }
-            else
+            catch (Exception)
             {
-                MessageBox.Show("No lines were complete. Returning to Default Mode.", "No Complete Lines!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ApplicationData.MsgBox_BeginCompleteOnlyMode_NoneComplete();
                 cmbEditMode.SelectedIndex = 0;
             }
-
         }
 
         private void OpenFile(string fileExt, string path, string fileName)

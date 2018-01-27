@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using TranslatorStudioClassLibrary.Class;
+using TranslatorStudio.Consumers;
+using TranslatorStudio.Interfaces;
+using TranslatorStudio.Utilities;
 using TranslatorStudioClassLibrary.Interface;
 using TranslatorStudioClassLibrary.Repository;
 
@@ -11,15 +13,23 @@ namespace TranslatorStudio.Forms
         #region Constructor
         private FrmHub _hub;
         private FrmDesk _desk;
-        
-        public frmNew(FrmHub hub)
+        private readonly ITranslationDataRepository translationDataRepository;
+        private readonly INewConsumer consumer;
+
+        public frmNew()
         {
             InitializeComponent();
+            translationDataRepository = new TranslationDataRepository();
+            consumer = new NewConsumer();
+        }
+
+        public frmNew(FrmHub hub) : this()
+        {
             _hub = hub;
         }
-        public frmNew(FrmDesk desk)
+
+        public frmNew(FrmDesk desk) : this()
         {
-            InitializeComponent();
             _desk = desk;
         }
         #endregion
@@ -36,28 +46,34 @@ namespace TranslatorStudio.Forms
         }
         #endregion
 
-        #region Action Methods
+        #region Methods
         private void CreateNewProject()
         {
             string fileName = !string.IsNullOrEmpty(txtProjectName.Text) ? txtProjectName.Text : "";
             string[] rawLines = !string.IsNullOrEmpty(rtbRAW.Text) ? rtbRAW.Lines : null;
+            DialogResult dialogResult = ApplicationData.MsgBox_NewProject_Confirmation(this);
 
-            if (rawLines != null || rawLines.Length != 0)
-            {
-                switch (MessageBox.Show(this, "Load this raw text into the new project?", "Confirm Text", MessageBoxButtons.YesNoCancel))
-                {
-                    case DialogResult.Yes:
-                        CreateProject(new ProjectDataRepository().CreateProjectDataFromArray(fileName, rawLines));
-                        break;
-                    case DialogResult.No:
-                    case DialogResult.Cancel:
-                    default:
-                        break;
-                }
-            }
+            var projectData = consumer.CreateNewProjectFromRaw(dialogResult, fileName, rawLines);
+
+            if (projectData != null)
+                CreateProject(projectData);
             else
+                MessageBox.Show("Raw is Empty or Null. Please provide Raw Text To Translate.");
+        }
+
+        private void CreateProject(IProjectData _data)
+        {
+            ITranslationData data = translationDataRepository.CreateTranslationDataFromProject(_data);
+            if (_hub != null)
             {
-                MessageBox.Show("Raw is Empty or Null. Please enter raw.");
+                _hub.SetDesk(data);
+                Close();
+                _hub.OpenDesk();
+            }
+            if (_desk != null)
+            {
+                _desk.ResetTranslationProject(data);
+                Close();
             }
         }
 
@@ -67,7 +83,7 @@ namespace TranslatorStudio.Forms
         }
         #endregion
 
-        #region Methods
+        #region Overrides
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             switch (keyData)
@@ -80,22 +96,6 @@ namespace TranslatorStudio.Forms
                     return true;
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
-            }
-        }
-
-        private void CreateProject(IProjectData _data)
-        {
-            ITranslationData data = new TranslationData(_data);
-            if (_hub != null)
-            {
-                _hub.SetDesk(data);
-                Close();
-                _hub.OpenDesk();
-            }
-            if (_desk != null)
-            {
-                _desk.ResetTranslationProject(data);
-                Close();
             }
         }
         #endregion

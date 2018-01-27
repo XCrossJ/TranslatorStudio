@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace TranslatorStudio
+namespace TranslatorStudio.Forms
 {
     partial class FrmDesk
     {
@@ -80,7 +80,6 @@ namespace TranslatorStudio
             this.spcRaw = new System.Windows.Forms.SplitContainer();
             this.spcTranslation = new System.Windows.Forms.SplitContainer();
             this.btnPreview = new System.Windows.Forms.Button();
-            this.btnCopyRaw = new System.Windows.Forms.Button();
             this.lblEditModeHeading = new System.Windows.Forms.Label();
             this.cmbEditMode = new System.Windows.Forms.ComboBox();
             this.lblProgressHeading = new System.Windows.Forms.Label();
@@ -90,11 +89,11 @@ namespace TranslatorStudio
             this.lblStatusHeading = new System.Windows.Forms.Label();
             this.lblProjectHeading = new System.Windows.Forms.Label();
             this.nudLineNumber = new System.Windows.Forms.NumericUpDown();
-            this.lblCurrentLine = new System.Windows.Forms.Label();
+            this.lblMaxLine = new System.Windows.Forms.Label();
             this.spcTools = new System.Windows.Forms.SplitContainer();
             this.txtProjectName = new System.Windows.Forms.TextBox();
-            this.btnWeblio = new System.Windows.Forms.Button();
-            this.btnGoogleTranslate = new System.Windows.Forms.Button();
+            this.btnRemove = new System.Windows.Forms.Button();
+            this.btnInsert = new System.Windows.Forms.Button();
             this.lblTools = new System.Windows.Forms.Label();
             this.pnlDesk = new System.Windows.Forms.Panel();
             this.cmsDesk.SuspendLayout();
@@ -135,13 +134,14 @@ namespace TranslatorStudio
             this.rtbRawContent.ContextMenuStrip = this.cmsDesk;
             this.rtbRawContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbRawContent.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtbRawContent.ImeMode = System.Windows.Forms.ImeMode.On;
             this.rtbRawContent.Location = new System.Drawing.Point(0, 0);
             this.rtbRawContent.Name = "rtbRawContent";
-            this.rtbRawContent.ReadOnly = true;
             this.rtbRawContent.Size = new System.Drawing.Size(771, 203);
             this.rtbRawContent.TabIndex = 0;
             this.rtbRawContent.TabStop = false;
             this.rtbRawContent.Text = "";
+            this.rtbRawContent.TextChanged += new System.EventHandler(this.rtbRawContent_TextChanged);
             // 
             // cmsDesk
             // 
@@ -237,7 +237,7 @@ namespace TranslatorStudio
             this.rtbTranslationContent.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtbTranslationContent.Location = new System.Drawing.Point(0, 0);
             this.rtbTranslationContent.Name = "rtbTranslationContent";
-            this.rtbTranslationContent.Size = new System.Drawing.Size(771, 200);
+            this.rtbTranslationContent.Size = new System.Drawing.Size(771, 176);
             this.rtbTranslationContent.TabIndex = 0;
             this.rtbTranslationContent.Text = "";
             this.rtbTranslationContent.TextChanged += new System.EventHandler(this.rtbTranslationContent_TextChanged);
@@ -245,7 +245,7 @@ namespace TranslatorStudio
             // chkComplete
             // 
             this.chkComplete.AutoSize = true;
-            this.chkComplete.Location = new System.Drawing.Point(120, 78);
+            this.chkComplete.Location = new System.Drawing.Point(120, 53);
             this.chkComplete.Name = "chkComplete";
             this.chkComplete.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.chkComplete.Size = new System.Drawing.Size(111, 17);
@@ -289,7 +289,7 @@ namespace TranslatorStudio
             this.tsmiNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsmiNew.Name = "tsmiNew";
             this.tsmiNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.tsmiNew.Size = new System.Drawing.Size(152, 22);
+            this.tsmiNew.Size = new System.Drawing.Size(146, 22);
             this.tsmiNew.Text = "&New";
             this.tsmiNew.Click += new System.EventHandler(this.tsmiNew_Click);
             // 
@@ -299,47 +299,47 @@ namespace TranslatorStudio
             this.tsmiOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsmiOpen.Name = "tsmiOpen";
             this.tsmiOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.tsmiOpen.Size = new System.Drawing.Size(152, 22);
+            this.tsmiOpen.Size = new System.Drawing.Size(146, 22);
             this.tsmiOpen.Text = "&Open";
             this.tsmiOpen.Click += new System.EventHandler(this.tsmiOpen_Click);
             // 
             // tssFile
             // 
             this.tssFile.Name = "tssFile";
-            this.tssFile.Size = new System.Drawing.Size(149, 6);
+            this.tssFile.Size = new System.Drawing.Size(143, 6);
             // 
             // tsmiSave
             // 
             this.tsmiSave.Image = ((System.Drawing.Image)(resources.GetObject("tsmiSave.Image")));
             this.tsmiSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsmiSave.Name = "tsmiSave";
-            this.tsmiSave.Size = new System.Drawing.Size(152, 22);
+            this.tsmiSave.Size = new System.Drawing.Size(146, 22);
             this.tsmiSave.Text = "&Save";
             this.tsmiSave.Click += new System.EventHandler(this.tsmiSave_Click);
             // 
             // tsmiSaveAs
             // 
             this.tsmiSaveAs.Name = "tsmiSaveAs";
-            this.tsmiSaveAs.Size = new System.Drawing.Size(152, 22);
+            this.tsmiSaveAs.Size = new System.Drawing.Size(146, 22);
             this.tsmiSaveAs.Text = "Save &As";
             this.tsmiSaveAs.Click += new System.EventHandler(this.tsmiSaveAs_Click);
             // 
             // tsmiExport
             // 
             this.tsmiExport.Name = "tsmiExport";
-            this.tsmiExport.Size = new System.Drawing.Size(152, 22);
+            this.tsmiExport.Size = new System.Drawing.Size(146, 22);
             this.tsmiExport.Text = "&Export";
             this.tsmiExport.Click += new System.EventHandler(this.tsmiExport_Click);
             // 
             // tssFile2
             // 
             this.tssFile2.Name = "tssFile2";
-            this.tssFile2.Size = new System.Drawing.Size(149, 6);
+            this.tssFile2.Size = new System.Drawing.Size(143, 6);
             // 
             // tsmiExit
             // 
             this.tsmiExit.Name = "tsmiExit";
-            this.tsmiExit.Size = new System.Drawing.Size(152, 22);
+            this.tsmiExit.Size = new System.Drawing.Size(146, 22);
             this.tsmiExit.Text = "E&xit";
             this.tsmiExit.Click += new System.EventHandler(this.tsmiExit_Click);
             // 
@@ -494,7 +494,7 @@ namespace TranslatorStudio
             // chkMark
             // 
             this.chkMark.AutoSize = true;
-            this.chkMark.Location = new System.Drawing.Point(121, 101);
+            this.chkMark.Location = new System.Drawing.Point(121, 76);
             this.chkMark.Name = "chkMark";
             this.chkMark.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.chkMark.Size = new System.Drawing.Size(110, 17);
@@ -517,7 +517,7 @@ namespace TranslatorStudio
             // spcDesk.Panel2
             // 
             this.spcDesk.Panel2.Controls.Add(this.spcTranslation);
-            this.spcDesk.Size = new System.Drawing.Size(771, 483);
+            this.spcDesk.Size = new System.Drawing.Size(771, 459);
             this.spcDesk.SplitterDistance = 242;
             this.spcDesk.TabIndex = 0;
             // 
@@ -555,34 +555,24 @@ namespace TranslatorStudio
             // spcTranslation.Panel2
             // 
             this.spcTranslation.Panel2.Controls.Add(this.rtbTranslationContent);
-            this.spcTranslation.Size = new System.Drawing.Size(771, 237);
+            this.spcTranslation.Size = new System.Drawing.Size(771, 213);
             this.spcTranslation.SplitterDistance = 33;
             this.spcTranslation.TabIndex = 15;
             // 
             // btnPreview
             // 
-            this.btnPreview.Location = new System.Drawing.Point(120, 49);
+            this.btnPreview.Location = new System.Drawing.Point(12, 144);
             this.btnPreview.Name = "btnPreview";
-            this.btnPreview.Size = new System.Drawing.Size(111, 23);
+            this.btnPreview.Size = new System.Drawing.Size(219, 23);
             this.btnPreview.TabIndex = 3;
             this.btnPreview.Text = "Preview Translation";
             this.btnPreview.UseVisualStyleBackColor = true;
             this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
             // 
-            // btnCopyRaw
-            // 
-            this.btnCopyRaw.Location = new System.Drawing.Point(13, 49);
-            this.btnCopyRaw.Name = "btnCopyRaw";
-            this.btnCopyRaw.Size = new System.Drawing.Size(101, 23);
-            this.btnCopyRaw.TabIndex = 2;
-            this.btnCopyRaw.Text = "Copy Raw";
-            this.btnCopyRaw.UseVisualStyleBackColor = true;
-            this.btnCopyRaw.Click += new System.EventHandler(this.btnCopyRaw_Click);
-            // 
             // lblEditModeHeading
             // 
             this.lblEditModeHeading.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEditModeHeading.Location = new System.Drawing.Point(13, 75);
+            this.lblEditModeHeading.Location = new System.Drawing.Point(12, 49);
             this.lblEditModeHeading.Name = "lblEditModeHeading";
             this.lblEditModeHeading.Size = new System.Drawing.Size(97, 23);
             this.lblEditModeHeading.TabIndex = 0;
@@ -597,7 +587,7 @@ namespace TranslatorStudio
             "Incomplete Lines",
             "Marked Lines",
             "Complete Lines"});
-            this.cmbEditMode.Location = new System.Drawing.Point(13, 101);
+            this.cmbEditMode.Location = new System.Drawing.Point(12, 75);
             this.cmbEditMode.Name = "cmbEditMode";
             this.cmbEditMode.Size = new System.Drawing.Size(97, 21);
             this.cmbEditMode.TabIndex = 4;
@@ -606,16 +596,16 @@ namespace TranslatorStudio
             // lblProgressHeading
             // 
             this.lblProgressHeading.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblProgressHeading.Location = new System.Drawing.Point(12, 194);
+            this.lblProgressHeading.Location = new System.Drawing.Point(12, 140);
             this.lblProgressHeading.Name = "lblProgressHeading";
-            this.lblProgressHeading.Size = new System.Drawing.Size(128, 23);
+            this.lblProgressHeading.Size = new System.Drawing.Size(97, 23);
             this.lblProgressHeading.TabIndex = 0;
-            this.lblProgressHeading.Text = "Overall Progress";
+            this.lblProgressHeading.Text = "Progress";
             this.lblProgressHeading.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // prgProgress
             // 
-            this.prgProgress.Location = new System.Drawing.Point(4, 243);
+            this.prgProgress.Location = new System.Drawing.Point(4, 166);
             this.prgProgress.Name = "prgProgress";
             this.prgProgress.Size = new System.Drawing.Size(224, 23);
             this.prgProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
@@ -624,7 +614,7 @@ namespace TranslatorStudio
             // lblProgress
             // 
             this.lblProgress.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblProgress.Location = new System.Drawing.Point(128, 217);
+            this.lblProgress.Location = new System.Drawing.Point(131, 140);
             this.lblProgress.Name = "lblProgress";
             this.lblProgress.Size = new System.Drawing.Size(100, 23);
             this.lblProgress.TabIndex = 0;
@@ -633,9 +623,9 @@ namespace TranslatorStudio
             // lblCurrentLineHeading
             // 
             this.lblCurrentLineHeading.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentLineHeading.Location = new System.Drawing.Point(12, 129);
+            this.lblCurrentLineHeading.Location = new System.Drawing.Point(12, 114);
             this.lblCurrentLineHeading.Name = "lblCurrentLineHeading";
-            this.lblCurrentLineHeading.Size = new System.Drawing.Size(128, 23);
+            this.lblCurrentLineHeading.Size = new System.Drawing.Size(97, 23);
             this.lblCurrentLineHeading.TabIndex = 0;
             this.lblCurrentLineHeading.Text = "Current Line";
             this.lblCurrentLineHeading.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -663,7 +653,7 @@ namespace TranslatorStudio
             // 
             // nudLineNumber
             // 
-            this.nudLineNumber.Location = new System.Drawing.Point(106, 155);
+            this.nudLineNumber.Location = new System.Drawing.Point(106, 117);
             this.nudLineNumber.Maximum = new decimal(new int[] {
             1,
             0,
@@ -686,14 +676,14 @@ namespace TranslatorStudio
             0});
             this.nudLineNumber.ValueChanged += new System.EventHandler(this.nudLineNumber_ValueChanged);
             // 
-            // lblCurrentLine
+            // lblMaxLine
             // 
-            this.lblCurrentLine.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentLine.Location = new System.Drawing.Point(170, 155);
-            this.lblCurrentLine.Name = "lblCurrentLine";
-            this.lblCurrentLine.Size = new System.Drawing.Size(58, 23);
-            this.lblCurrentLine.TabIndex = 0;
-            this.lblCurrentLine.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblMaxLine.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMaxLine.Location = new System.Drawing.Point(170, 113);
+            this.lblMaxLine.Name = "lblMaxLine";
+            this.lblMaxLine.Size = new System.Drawing.Size(58, 23);
+            this.lblMaxLine.TabIndex = 0;
+            this.lblMaxLine.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // spcTools
             // 
@@ -712,7 +702,7 @@ namespace TranslatorStudio
             this.spcTools.Panel1.Controls.Add(this.lblProgressHeading);
             this.spcTools.Panel1.Controls.Add(this.lblStatusHeading);
             this.spcTools.Panel1.Controls.Add(this.prgProgress);
-            this.spcTools.Panel1.Controls.Add(this.lblCurrentLine);
+            this.spcTools.Panel1.Controls.Add(this.lblMaxLine);
             this.spcTools.Panel1.Controls.Add(this.lblProgress);
             this.spcTools.Panel1.Controls.Add(this.lblCurrentLineHeading);
             this.spcTools.Panel1.Controls.Add(this.nudLineNumber);
@@ -720,17 +710,16 @@ namespace TranslatorStudio
             // 
             // spcTools.Panel2
             // 
-            this.spcTools.Panel2.Controls.Add(this.btnWeblio);
-            this.spcTools.Panel2.Controls.Add(this.btnGoogleTranslate);
+            this.spcTools.Panel2.Controls.Add(this.btnRemove);
+            this.spcTools.Panel2.Controls.Add(this.btnInsert);
             this.spcTools.Panel2.Controls.Add(this.lblTools);
             this.spcTools.Panel2.Controls.Add(this.chkComplete);
             this.spcTools.Panel2.Controls.Add(this.chkMark);
             this.spcTools.Panel2.Controls.Add(this.btnPreview);
             this.spcTools.Panel2.Controls.Add(this.lblEditModeHeading);
-            this.spcTools.Panel2.Controls.Add(this.btnCopyRaw);
             this.spcTools.Panel2.Controls.Add(this.cmbEditMode);
             this.spcTools.Size = new System.Drawing.Size(237, 483);
-            this.spcTools.SplitterDistance = 269;
+            this.spcTools.SplitterDistance = 211;
             this.spcTools.TabIndex = 0;
             this.spcTools.TabStop = false;
             // 
@@ -739,29 +728,29 @@ namespace TranslatorStudio
             this.txtProjectName.Location = new System.Drawing.Point(12, 60);
             this.txtProjectName.Multiline = true;
             this.txtProjectName.Name = "txtProjectName";
-            this.txtProjectName.Size = new System.Drawing.Size(215, 61);
+            this.txtProjectName.Size = new System.Drawing.Size(215, 41);
             this.txtProjectName.TabIndex = 1;
             this.txtProjectName.TextChanged += new System.EventHandler(this.txtProjectName_TextChanged);
             // 
-            // btnWeblio
+            // btnRemove
             // 
-            this.btnWeblio.Location = new System.Drawing.Point(13, 159);
-            this.btnWeblio.Name = "btnWeblio";
-            this.btnWeblio.Size = new System.Drawing.Size(101, 39);
-            this.btnWeblio.TabIndex = 7;
-            this.btnWeblio.Text = "Go To: Weblio";
-            this.btnWeblio.UseVisualStyleBackColor = true;
-            this.btnWeblio.Click += new System.EventHandler(this.btnWeblio_Click);
+            this.btnRemove.Location = new System.Drawing.Point(135, 102);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(96, 23);
+            this.btnRemove.TabIndex = 25;
+            this.btnRemove.Text = "Remove Line";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
-            // btnGoogleTranslate
+            // btnInsert
             // 
-            this.btnGoogleTranslate.Location = new System.Drawing.Point(120, 159);
-            this.btnGoogleTranslate.Name = "btnGoogleTranslate";
-            this.btnGoogleTranslate.Size = new System.Drawing.Size(111, 39);
-            this.btnGoogleTranslate.TabIndex = 8;
-            this.btnGoogleTranslate.Text = "Go To: Google Translate";
-            this.btnGoogleTranslate.UseVisualStyleBackColor = true;
-            this.btnGoogleTranslate.Click += new System.EventHandler(this.btnGoogleTranslate_Click);
+            this.btnInsert.Location = new System.Drawing.Point(12, 102);
+            this.btnInsert.Name = "btnInsert";
+            this.btnInsert.Size = new System.Drawing.Size(97, 23);
+            this.btnInsert.TabIndex = 24;
+            this.btnInsert.Text = "Insert Line";
+            this.btnInsert.UseVisualStyleBackColor = true;
+            this.btnInsert.Click += new System.EventHandler(this.btnInsert_Click);
             // 
             // lblTools
             // 
@@ -781,7 +770,7 @@ namespace TranslatorStudio
             this.pnlDesk.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlDesk.Location = new System.Drawing.Point(237, 24);
             this.pnlDesk.Name = "pnlDesk";
-            this.pnlDesk.Size = new System.Drawing.Size(771, 483);
+            this.pnlDesk.Size = new System.Drawing.Size(771, 459);
             this.pnlDesk.TabIndex = 18;
             // 
             // FrmDesk
@@ -789,7 +778,7 @@ namespace TranslatorStudio
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1008, 507);
+            this.ClientSize = new System.Drawing.Size(1008, 483);
             this.Controls.Add(this.pnlDesk);
             this.Controls.Add(this.spcTools);
             this.Controls.Add(this.mnuStrip);
@@ -841,7 +830,6 @@ namespace TranslatorStudio
         private ToolStripMenuItem tsmiExport;
         private CheckBox chkMark;
         private SplitContainer spcDesk;
-        private Button btnCopyRaw;
         private ToolStripMenuItem tsmiEdit;
         private ComboBox cmbEditMode;
         private Label lblEditModeHeading;
@@ -865,13 +853,11 @@ namespace TranslatorStudio
         private Label lblStatusHeading;
         private Label lblProjectHeading;
         private NumericUpDown nudLineNumber;
-        private Label lblCurrentLine;
+        private Label lblMaxLine;
         private SplitContainer spcTools;
         private Label lblTools;
         private SplitContainer spcRaw;
         private SplitContainer spcTranslation;
-        private Button btnWeblio;
-        private Button btnGoogleTranslate;
         private Panel pnlDesk;
         private ToolStripMenuItem tsmiTools;
         private ToolStripMenuItem tsmiMarkComplete;
@@ -895,5 +881,7 @@ namespace TranslatorStudio
         private ToolStripMenuItem tsmiNew;
         private ToolStripMenuItem tsmiOpen;
         private ToolStripSeparator tssFile;
+        private Button btnRemove;
+        private Button btnInsert;
     }
 }

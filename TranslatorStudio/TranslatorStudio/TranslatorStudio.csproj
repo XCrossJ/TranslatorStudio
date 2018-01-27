@@ -55,13 +55,19 @@
     <ManifestKeyFile>TranslatorStudio_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\XCrossJ_Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
@@ -84,10 +90,12 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="TranslatorStudioClassLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MayonakaSignal.XCrossJ.TranslatorStudioClassLibrary.1.0.1\lib\net452\TranslatorStudioClassLibrary.dll</HintPath>
+      <HintPath>..\packages\MayonakaSignal.XCrossJ.TranslatorStudioClassLibrary.1.0.2\lib\net452\TranslatorStudioClassLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Consumers\HubConsumer.cs" />
+    <Compile Include="Consumers\NewConsumer.cs" />
     <Compile Include="Forms\Translation Hub.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,6 +120,8 @@
     <Compile Include="Forms\Translation Shortcuts.Designer.cs">
       <DependentUpon>Translation Shortcuts.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IHubConsumer.cs" />
+    <Compile Include="Interfaces\INewConsumer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Forms\Translation Desk.cs">
@@ -148,6 +158,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -176,5 +187,6 @@
   <ItemGroup>
     <Content Include="Resources\XCrossJ_Icon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
