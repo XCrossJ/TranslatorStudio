@@ -77,3 +77,4 @@ C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrar
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\obj\Debug\TranslatorStudioClassLibraryTest.csproj.CoreCompileInputs.cache
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\obj\Debug\TranslatorStudioClassLibraryTest.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\obj\Debug\TranslatorStudioClassLibraryTest.pdb
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibraryTest\bin\Debug\TranslatorStudioClassLibrary.xml

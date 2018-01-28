@@ -21,4 +21,4 @@ C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrar
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibrary\obj\Debug\TranslatorStudioClassLibrary.csproj.CoreCompileInputs.cache
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibrary\obj\Debug\TranslatorStudioClassLibrary.dll
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibrary\obj\Debug\TranslatorStudioClassLibrary.pdb
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibrary\obj\Debug\TranslatorStudioClassLibrary.csprojResolveAssemblyReference.cache
+C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudioClassLibrary\TranslatorStudioClassLibrary\bin\Debug\TranslatorStudioClassLibrary.xml
