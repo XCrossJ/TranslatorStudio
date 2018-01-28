@@ -96,6 +96,8 @@
   <ItemGroup>
     <Compile Include="Consumers\HubConsumer.cs" />
     <Compile Include="Consumers\NewConsumer.cs" />
+    <Compile Include="Consumers\PreviewConsumer.cs" />
+    <Compile Include="Consumers\ShortcutsConsumer.cs" />
     <Compile Include="Forms\Translation Hub.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,6 +123,8 @@
       <DependentUpon>Translation Shortcuts.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IHubConsumer.cs" />
+    <Compile Include="Interfaces\IPreviewConsumer.cs" />
+    <Compile Include="Interfaces\IShortcutsConsumer.cs" />
     <Compile Include="Interfaces\INewConsumer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

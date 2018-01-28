@@ -18,8 +18,8 @@ namespace TranslatorStudio.Utilities
             new string[] { "Prev Line", "(Ctrl + Alt + Left-Arrow)" },
             new string[] { "Increase Font Size", "(Ctrl + Alt + Up-Arrow)" },
             new string[] { "Decrease Font Size", "(Ctrl + Alt + Down-Arrow)" },
-            new string[] { "Mark Complete", "(Ctrl + M)" },
-            new string[] { "Mark for Attention", "(Ctrl + Enter)" },
+            new string[] { "Mark Complete", "(Ctrl + Enter)" },
+            new string[] { "Mark for Attention", "(Ctrl + M)" },
             new string[] { "Copy Raw", "(Ctrl + R)" },
             new string[] { "Preview Translation", "(Ctrl + P)" },
             new string[] { "Go to Google Translate", "(Ctrl + G)" },
@@ -148,6 +148,16 @@ namespace TranslatorStudio.Utilities
             var icon = MessageBoxIcon.Warning;
 
             return MessageBox.Show(message, caption, buttons, icon);
+        }
+
+        public static DialogResult MsgBox_ClosePreview_Confirmation(IWin32Window owner)
+        {
+            var message = "Do you want to bring the changes made in this preview to the original project?";
+            var caption = "Closing";
+            var buttons = MessageBoxButtons.YesNoCancel;
+            var icon = MessageBoxIcon.Question;
+
+            return MessageBox.Show(owner, message, caption, buttons, icon);
         }
 
         #endregion

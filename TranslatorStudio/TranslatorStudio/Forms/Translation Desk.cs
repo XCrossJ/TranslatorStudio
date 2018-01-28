@@ -500,14 +500,16 @@ namespace TranslatorStudio.Forms
 
         private void IncreaseTextSize()
         {
-            rtbRawContent.Font.IncreaseFontSize();
-            rtbTranslationContent.Font.IncreaseFontSize();
+            var newFont = FormHelper.IncreaseFontSize(rtbRawContent.Font);
+            rtbRawContent.Font = newFont;
+            rtbTranslationContent.Font = newFont;
         }
 
         private void DecreaseTextSize()
         {
-            rtbRawContent.Font.DecreaseFontSize();
-            rtbTranslationContent.Font.DecreaseFontSize();
+            var newFont = FormHelper.DecreaseFontSize(rtbRawContent.Font);
+            rtbRawContent.Font = newFont;
+            rtbTranslationContent.Font = newFont;
         }
 
         private void NumberOfLinesChanged()
@@ -538,7 +540,7 @@ namespace TranslatorStudio.Forms
         {
             try
             {
-                _numberOfLines = nudLineNumber.ChangeNumericUpDownMaximum(_data.StartMarkedOnlyMode(subTranslationDataRepository));
+                _numberOfLines = nudLineNumber.ChangeNumericUpDownMaximum(_data.StartIncompleteOnlyMode(subTranslationDataRepository));
                 nudLineNumber.Value = 1;
             }
             catch (Exception)

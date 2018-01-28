@@ -43,23 +43,25 @@ namespace TranslatorStudio.Utilities
             checkBox.Checked = !checkBox.Checked;
         }
 
-        public static void IncreaseFontSize(this Font currentFont)
+        public static Font IncreaseFontSize(this Font currentFont)
         {
             var currentSize = currentFont.Size;
             currentSize += 1;
             if (currentSize < 30)
                 currentFont = new Font(currentFont.Name, currentSize, currentFont.Style, currentFont.Unit);
+            return currentFont;
         }
 
-        public static void DecreaseFontSize(this Font currentFont)
+        public static Font DecreaseFontSize(this Font currentFont)
         {
             var currentSize = currentFont.Size;
             currentSize -= 1;
             if (currentSize > 0)
                 currentFont = new Font(currentFont.Name, currentSize, currentFont.Style, currentFont.Unit);
+            return currentFont;
         }
 
-        
+
         #endregion
 
         public static void StartProcess(this string processName)

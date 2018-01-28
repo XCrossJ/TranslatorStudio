@@ -7,7 +7,7 @@ namespace TranslatorStudio.Interfaces
     public interface IHubConsumer
     {
         #region Properties
-        FrmHub FrmHub { get; set; }
+        FrmHub Hub { get; set; }
         #endregion
 
         #region Methods

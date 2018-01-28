@@ -15,14 +15,14 @@ namespace TranslatorStudio.Consumers
 {
     public class HubConsumer : IHubConsumer
     {
-        public FrmHub FrmHub { get; set; }
+        public FrmHub Hub { get; set; }
         public HubConsumer()
         {
 
         }
         public HubConsumer(FrmHub frmHub)
         {
-            FrmHub = frmHub;
+            Hub = frmHub;
         }
 
         public void Quit()
@@ -33,7 +33,7 @@ namespace TranslatorStudio.Consumers
         public bool OpenFile()
         {
             var openFileDialog = ApplicationData.OpenProjectDialog();
-            FrmHub.Desk = CreateDeskFromOpenFile(openFileDialog);
+            Hub.Desk = CreateDeskFromOpenFile(openFileDialog);
             return OpenDesk();
         }
 
@@ -49,7 +49,7 @@ namespace TranslatorStudio.Consumers
                 ITranslationData data = openData.Item1;
                 string previousSavePath = openData.Item2;
 
-                return new FrmDesk(data, previousSavePath, FrmHub);
+                return new FrmDesk(data, previousSavePath, Hub);
             }
             else
                 throw new Exception("Open File Operation Cancelled.");
@@ -57,21 +57,21 @@ namespace TranslatorStudio.Consumers
 
         public bool OpenDesk()
         {
-            FrmHub.Desk.Show();
-            FrmHub.Hide();
+            Hub.Desk.Show();
+            Hub.Hide();
             return true;
         }
 
         public bool OpenNewFile()
         {
-            FrmHub.New = new frmNew(FrmHub);
-            FrmHub.New.ShowDialog();
+            Hub.New = new frmNew(Hub);
+            Hub.New.ShowDialog();
             return true;
         }
 
         public bool SetDesk(ITranslationData data)
         {
-            FrmHub.Desk = new FrmDesk(data, FrmHub);
+            Hub.Desk = new FrmDesk(data, Hub);
             return true;
         }
 
