@@ -35,3 +35,20 @@ C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudio\Translator
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.pdb
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.Forms.FrmDesk.resources
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.csprojResolveAssemblyReference.cache
+C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\bin\Debug\TranslatorStudio.exe.config
+C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\bin\Debug\TranslatorStudio.exe
+C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\bin\Debug\TranslatorStudio.pdb
+C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\bin\Debug\Newtonsoft.Json.dll
+C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\bin\Debug\TranslatorStudioClassLibrary.dll
+C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\bin\Debug\Newtonsoft.Json.xml
+C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.csprojResolveAssemblyReference.cache
+C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.Forms.FrmDesk.resources
+C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.Forms.FrmHub.resources
+C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.Forms.frmNew.resources
+C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.Forms.FrmPreview.resources
+C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.Forms.FrmShortcuts.resources
+C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.Properties.Resources.resources
+C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.csproj.GenerateResource.Cache
+C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.csproj.CoreCompileInputs.cache
+C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.exe
+C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.pdb

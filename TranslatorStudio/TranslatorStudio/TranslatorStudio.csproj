@@ -94,6 +94,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Consumers\DeskConsumer.cs" />
     <Compile Include="Consumers\HubConsumer.cs" />
     <Compile Include="Consumers\NewConsumer.cs" />
     <Compile Include="Consumers\PreviewConsumer.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Forms\Translation Shortcuts.Designer.cs">
       <DependentUpon>Translation Shortcuts.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IDeskConsumer.cs" />
     <Compile Include="Interfaces\IHubConsumer.cs" />
     <Compile Include="Interfaces\IPreviewConsumer.cs" />
     <Compile Include="Interfaces\IShortcutsConsumer.cs" />
