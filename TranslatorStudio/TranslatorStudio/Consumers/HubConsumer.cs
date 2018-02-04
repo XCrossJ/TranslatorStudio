@@ -32,9 +32,16 @@ namespace TranslatorStudio.Consumers
 
         public bool OpenFile()
         {
-            var openFileDialog = ApplicationData.OpenProjectDialog();
-            Hub.Desk = CreateDeskFromOpenFile(openFileDialog);
-            return OpenDesk();
+            try
+            {
+                var openFileDialog = ApplicationData.OpenProjectDialog();
+                Hub.Desk = CreateDeskFromOpenFile(openFileDialog);
+                return OpenDesk();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public FrmDesk CreateDeskFromOpenFile(OpenFileDialog dialog)

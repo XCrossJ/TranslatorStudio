@@ -391,6 +391,27 @@ namespace TranslatorStudio.Consumers
                     return false;
             }
         }
+        public bool ConfirmSave(FormClosingEventArgs e)
+        {
+            // Confirm user wants to close
+            if (Desk.UnsavedData)
+            {
+                switch(ApplicationData.MsgBox_CloseDesk_Confirmation(Desk))
+                {
+                    case DialogResult.Yes:
+                        Desk.Hub.Show();
+                        break;
+                    case DialogResult.No:
+                    case DialogResult.Cancel:
+                    default:
+                        e.Cancel = true;
+                        break;
+                }
+            }
+            else
+                Desk.Hub.Show();
+            return true;
+        }
 
         public bool CloseDesk()
         {

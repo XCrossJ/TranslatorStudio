@@ -160,6 +160,15 @@ namespace TranslatorStudio.Utilities
             return MessageBox.Show(owner, message, caption, buttons, icon);
         }
 
+        public static DialogResult MsgBox_CloseDesk_Confirmation(IWin32Window owner)
+        {
+            var message = "Are you sure you want to close? (Any unsaved data will be lost)";
+            var caption = "Closing";
+            var buttons = MessageBoxButtons.YesNoCancel;
+            var icon = MessageBoxIcon.Question;
+
+            return MessageBox.Show(owner, message, caption, buttons, icon);
+        }
         #endregion
 
     }

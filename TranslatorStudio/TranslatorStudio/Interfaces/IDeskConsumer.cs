@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using TranslatorStudio.Forms;
 using TranslatorStudioClassLibrary.Interface;
 
@@ -65,6 +60,7 @@ namespace TranslatorStudio.Interfaces
         bool ResetTranslationProject(ITranslationData data);
 
         bool ProcessShortcuts(Keys keyData);
+        bool ConfirmSave(FormClosingEventArgs e);
 
         bool CloseDesk();
         #endregion

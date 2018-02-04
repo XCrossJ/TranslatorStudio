@@ -34,7 +34,6 @@ C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudio\Translator
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.exe
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.pdb
 C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.Forms.FrmDesk.resources
-C:\Users\Joshua Juandy\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.csprojResolveAssemblyReference.cache
 C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\bin\Debug\TranslatorStudio.exe.config
 C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\bin\Debug\TranslatorStudio.exe
 C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\bin\Debug\TranslatorStudio.pdb

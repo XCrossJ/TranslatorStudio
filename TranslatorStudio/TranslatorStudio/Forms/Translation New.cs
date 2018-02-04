@@ -2,9 +2,6 @@
 using System.Windows.Forms;
 using TranslatorStudio.Consumers;
 using TranslatorStudio.Interfaces;
-using TranslatorStudio.Utilities;
-using TranslatorStudioClassLibrary.Interface;
-using TranslatorStudioClassLibrary.Repository;
 
 namespace TranslatorStudio.Forms
 {

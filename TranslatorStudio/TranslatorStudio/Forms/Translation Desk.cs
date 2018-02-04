@@ -27,18 +27,18 @@ namespace TranslatorStudio.Forms
         #endregion
 
         #region Public Controls
-        public TextBox TxtProjectName { get => txtProjectName; }
-        public Label LblMaxLine { get => lblMaxLine; }
-        public Label LblProgress { get => lblProgress; }
-        public ProgressBar PrgProgress { get => prgProgress; }
+        public TextBox TxtProjectName => txtProjectName;
+        public Label LblMaxLine => lblMaxLine;
+        public Label LblProgress => lblProgress;
+        public ProgressBar PrgProgress => prgProgress;
 
-        public RichTextBox RtbRawContent { get => rtbRawContent; }
-        public RichTextBox RtbTranslationContent { get => rtbTranslationContent; }
-        public CheckBox ChkComplete { get => chkComplete; }
-        public CheckBox ChkMark { get => chkMark; }
+        public RichTextBox RtbRawContent => rtbRawContent;
+        public RichTextBox RtbTranslationContent => rtbTranslationContent;
+        public CheckBox ChkComplete => chkComplete;
+        public CheckBox ChkMark => chkMark;
 
-        public NumericUpDown NudLineNumber { get => nudLineNumber; }
-        public ComboBox CmbEditMode { get => cmbEditMode; }
+        public NumericUpDown NudLineNumber => nudLineNumber;
+        public ComboBox CmbEditMode => cmbEditMode;
         #endregion
 
         #region Constructor
@@ -255,24 +255,7 @@ namespace TranslatorStudio.Forms
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
-
-            // Confirm user wants to close
-            if (UnsavedData)
-            {
-                switch (MessageBox.Show(this, "Are you sure you want to close? (Any unsaved data will be lost)", "Closing", MessageBoxButtons.YesNoCancel))
-                {
-                    case DialogResult.Yes:
-                        Hub.Show();
-                        break;
-                    case DialogResult.No:
-                    case DialogResult.Cancel:
-                    default:
-                        e.Cancel = true;
-                        break;
-                }
-            }
-            else
-                Hub.Show();
+            consumer.ConfirmSave(e);
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
