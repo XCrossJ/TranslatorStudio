@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using OnlineTranslatorStudio.Attributes;
 using OnlineTranslatorStudio.Models;
 using System;
 using System.IO;
@@ -37,6 +38,7 @@ namespace OnlineTranslatorStudio.Controllers
                         {
                             var fileName = Path.GetFileName(file.FileName);
                             var fileType = Path.GetExtension(fileName);
+                            // Need to treat this at some point
                             var filePath = @"C:\Temp\" + fileName;
                             file.SaveAs(filePath);
 
@@ -101,29 +103,47 @@ namespace OnlineTranslatorStudio.Controllers
                 ViewBag.percentage = 0;
             return View(data);
         }
-
-        public ActionResult SaveProject(ProjectData data)
+        
+        [HttpPost]
+        public JsonResult ExportProject(ProjectData data)
         {
             //https://www.codeproject.com/Tips/1156485/How-to-Create-and-Download-File-with-Ajax-in-ASP-N
 
             var saveString = data.GetSaveString();
             var json = JObject.Parse(saveString);
 
-            var fileName = $"{data.ProjectName}.tsp";
+            var fileName = $@"{data.ProjectName}.tsp";
 
-            FileInfo info = new FileInfo(fileName);
-            if (!info.Exists)
+            //save the file to server temp folder
+            string fullPath = Path.Combine(Server.MapPath("~/temp"), fileName);
+
+            FileStream file = new FileStream(fullPath, FileMode.Create, FileAccess.Write);
+            using (StreamWriter streamWriter = new StreamWriter(file))
             {
-                using (StreamWriter streamWriter = info.CreateText())
+                using (JsonTextWriter jsonWriter = new JsonTextWriter(streamWriter))
                 {
-                    using (JsonTextWriter jsonWriter = new JsonTextWriter(streamWriter))
-                    {
-                        json.WriteTo(jsonWriter);
-                    }
+                    json.WriteTo(jsonWriter);
                 }
             }
+            file.Close();
 
-            return File(fileName, "text/plain");
+            //var errorMessage = "you can return the errors in here!";
+
+            //return the Excel file name
+            var response = Json(new { fileName = fileName, errorMessage = "" });
+            return response;
+        }
+
+        [HttpGet]
+        [DeleteFile] //Action Filter, it will auto delete the file after download, 
+        public ActionResult DownloadProject(string file)
+        {
+            //get the temp folder and file path in server
+            string fullPath = Path.Combine(Server.MapPath("~/temp"), file);
+
+            //return the file for download, this is an Excel 
+            //so I set the file content type to "application/vnd.ms-excel"
+            return File(fullPath, "text/plain", file);
         }
 
         // GET: Studio/Details/5

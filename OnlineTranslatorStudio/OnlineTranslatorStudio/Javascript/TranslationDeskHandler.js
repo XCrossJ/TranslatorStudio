@@ -10,6 +10,8 @@ var translationSelector = "#CurrentTranslation";
 var markedSelector = "#CurrentMarked";
 var completionSelector = "#CurrentCompletion";
 
+
+
 $(document).keydown(function () {
     // Key Code Right Arrow = 39
     //if ((event.which === 39) & (event.altKey === true) & (event.ctrlKey === true)) {
@@ -38,19 +40,23 @@ $(document).keydown(function () {
 
     // Key Code S = 83
     if ((event.which === 83) & (event.altKey === true) & (event.ctrlKey === true)) {
-    //if ((event.which === 78) & (event.altKey === true) & (event.ctrlKey === true)) {
+        //if ((event.which === 78) & (event.altKey === true) & (event.ctrlKey === true)) {
         $.ajax({
-            url: "/Studio/SaveProject",
+            url: "/Studio/ExportProject",
             type: "POST",
             contentType: "application/json",
-            data: JSON.stringify({ data: translationData.projectData })//,
-            //success: function (response) {
-            //    response ? alert("It worked!") : alert("It didn't work.");
-            //} // get your response here
+            data: JSON.stringify({ data: translationData.projectData }),
+            dataType: "json",
+            success: function (data) {
+                //$.unblockUI();
+                if (data.fileName != "") {
+                    window.location.href = "/Studio/DownloadProject/?file=" + data.fileName;
+                }
+
+            } // get your response here
         });
     }
 });
-
 
 function incrementIndex(data) {
     updateDesk(data);
