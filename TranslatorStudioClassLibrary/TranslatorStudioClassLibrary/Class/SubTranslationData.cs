@@ -11,39 +11,33 @@ namespace TranslatorStudioClassLibrary.Class
     {
         #region Properties
         /// <summary>
-        /// Index Reference:
-        ///     property that contains the index reference.
+        /// Contains the index references of the lines that meet the criteria.
         /// </summary>
         public List<int> IndexReference { get; set; }
 
         /// <summary>
-        /// Current Reference:
-        ///     property that contains the current reference.
+        /// Contains the current line reference.
         /// </summary>
         public int CurrentReference => IndexReference[CurrentIndex];
 
         /// <summary>
-        /// Current Index:
-        ///     property that contains the current index in the translation mode.
+        /// Contains the current index reference used to access the line in the main translation project.
         /// </summary>
         public int CurrentIndex { get; set; }
         /// <summary>
-        /// Max Index:
-        ///     property that contains the max index in the translation.
+        /// Contains the max index in the sub translation project.
         /// </summary>
         public int MaxIndex => IndexReference.Count - 1;
 
         /// <summary>
-        /// Number Of Lines:
-        ///     property that contains the number of lines in the translation.
+        /// Contains the number of lines in the sub translation project.
         /// </summary>
         public int NumberOfLines => IndexReference.Count;
         #endregion
 
         #region Constructors
         /// <summary>
-        /// Sub Translation Data Default Constructor:
-        ///     Creates empty Sub Translation Data.
+        /// Creates empty Sub Translation Data.
         /// </summary>
         public SubTranslationData()
         {

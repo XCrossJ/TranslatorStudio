@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using TranslatorStudioClassLibrary.Class;
 using TranslatorStudioClassLibrary.Interface;
+using TranslatorStudioClassLibrary.Utilities;
 
 namespace TranslatorStudioClassLibrary.Repository
 {
@@ -13,120 +14,94 @@ namespace TranslatorStudioClassLibrary.Repository
     /// </summary>
     public class ProjectDataRepository : IProjectDataRepository
     {
+        #region Public Methods
         /// <summary>
-        /// Create Project Data From Array:
-        ///     creates project data from array.
+        /// Creates project data from array.
         /// </summary>
-        /// <param name="fileName">string: the name of the file.</param>
-        /// <param name="rawLines">string[]: array of strings that holds the raw lines.</param>
-        /// <returns>IProjectData: object that implements Project Data Interface.</returns>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="rawLines">Array of strings that holds the raw lines.</param>
+        /// <exception cref="Exception.EmptyRawException">Thrown when provided raw lines are empty.</exception>
+        /// <returns>Object that implements Project Data Interface.</returns>
         public IProjectData CreateProjectDataFromArray(string fileName, string[] rawLines)
         {
-            try
-            {
-                var newRawLines = rawLines.ToList();
-                
-                return ConstructProjectData(fileName, newRawLines);
-            }
-            catch (System.Exception e)
-            {
-                throw e;
-            }
+            var newRawLines = rawLines.ToList();
+
+            return ConstructProjectData(fileName, newRawLines);
         }
 
         /// <summary>
-        /// Create Project Data From Stream:
-        ///     creates project data from stream reader.
+        /// Creates project data from stream reader.
         /// </summary>
-        /// <param name="fileName">string: the name of the file.</param>
-        /// <param name="sr">StreamReader: the stream reader used to read the file.</param>
-        /// <returns>IProjectData: object that implements Project Data Interface.</returns>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="sr">The stream reader used to read the file.</param>
+        /// <exception cref="Exception.EmptyRawException">Thrown when provided raw lines are empty.</exception>
+        /// <returns>Object that implements Project Data Interface.</returns>
         public IProjectData CreateProjectDataFromStream(string fileName, StreamReader sr)
         {
-            try
+            var newRawLines = new List<string>();
+            using (sr)
             {
-                var newRawLines = new List<string>();
-                using (sr)
+                while (!sr.EndOfStream)
                 {
-                    while (!sr.EndOfStream)
-                    {
-                        var line = sr.ReadLine();
-                        newRawLines.Add(line);
-                    }
+                    var line = sr.ReadLine();
+                    newRawLines.Add(line);
                 }
-
-                return ConstructProjectData(fileName, newRawLines);
             }
-            catch (System.Exception e)
-            {
 
-                throw e;
-            }
+            return ConstructProjectData(fileName, newRawLines);
         }
 
         /// <summary>
-        /// Create Project Data From Document:
-        ///     creates project data from document.
+        /// Creates project data from word document.
         /// </summary>
-        /// <param name="fileName">string: the name of the file.</param>
-        /// <param name="document">Document: the document that will be used in the conversion.</param>
-        /// <returns>IProjectData: object that implements Project Data Interface.</returns>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="document">The document that will be used in the conversion.</param>
+        /// <exception cref="Exception.EmptyRawException">Thrown when provided raw lines are empty.</exception>
+        /// <returns>Object that implements Project Data Interface.</returns>
         public IProjectData CreateProjectDataFromDocument(string fileName, Document document)
         {
-            try
-            {
-                var newRawLines = new List<string>();
+            var newRawLines = new List<string>();
 
-                for (int i = 0; i < document.Paragraphs.Count; i++) // May need to get rid of this.
-                {
-                    if (!(i == 0 && document.Paragraphs[i + 1].Range.Text == "\r"))
-                        newRawLines.Add(document.Paragraphs[i + 1].Range.Text);
-                }
-
-                return ConstructProjectData(fileName, newRawLines);
-            }
-            catch (System.Exception e)
+            for (int i = 0; i < document.Paragraphs.Count; i++) // May need to get rid of this.
             {
-                throw e;
+                if (!(i == 0 && document.Paragraphs[i + 1].Range.Text == "\r"))
+                    newRawLines.Add(document.Paragraphs[i + 1].Range.Text);
             }
+
+            return ConstructProjectData(fileName, newRawLines);
         }
+        #endregion
 
-
+        #region Private Methods
         /// <summary>
-        /// Construct Project Data:
-        ///     private method that constructs project data. Used by other creation methods.
+        /// Private method that constructs project data. Used by other creation methods.
         /// </summary>
-        /// <param name="fileName">string: the name of the file.</param>
-        /// <param name="newRawLines">List<string>: the raw lines used to construct the project.</param>
-        /// <returns>IProjectData: object that implements Project Data Interface.</returns>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="newRawLines">The raw lines used to construct the project.</param>
+        /// <exception cref="Exception.EmptyRawException">Thrown when provided raw lines are empty.</exception>
+        /// <returns>Object that implements Project Data Interface.</returns>
         private IProjectData ConstructProjectData(string fileName, List<string> newRawLines)
         {
-            try
+            if (!newRawLines.Any())
+                throw ExceptionHelper.NewEmptyRawException();
+
+            var numberOfItems = newRawLines.Count;
+            var newTranslatedLines = new string[numberOfItems].ToList();
+            var newCompletedLines = new bool[numberOfItems].ToList();
+            var newMarkedLines = new bool[numberOfItems].ToList();
+
+            IProjectData project = new ProjectData
             {
-                if (!newRawLines.Any())
-                    throw new System.Exception("No Raw Lines were submitted into the project.");
+                ProjectName = fileName,
+                RawLines = newRawLines,
+                TranslatedLines = newTranslatedLines,
+                CompletedLines = newCompletedLines,
+                MarkedLines = newMarkedLines
+            };
 
-                var numberOfItems = newRawLines.Count;
-                var newTranslatedLines = new string[numberOfItems].ToList();
-                var newCompletedLines = new bool[numberOfItems].ToList();
-                var newMarkedLines = new bool[numberOfItems].ToList();
-
-                IProjectData project = new ProjectData
-                {
-                    ProjectName = fileName,
-                    RawLines = newRawLines,
-                    TranslatedLines = newTranslatedLines,
-                    CompletedLines = newCompletedLines,
-                    MarkedLines = newMarkedLines
-                };
-
-                return project;
-            }
-            catch (System.Exception e)
-            {
-                throw e;
-            }
+            return project;
         }
+        #endregion
 
     }
 }

@@ -2,28 +2,59 @@
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.Office.Interop.Word;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TranslatorStudioClassLibrary.Class;
 using TranslatorStudioClassLibrary.Interface;
 using TranslatorStudioClassLibrary.Repository;
+using Xunit;
 
 namespace TranslatorStudioClassLibraryTest.Factory
 {
-    [TestClass]
-    [TestCategory("Translation Data Repository Test")]
+    /// <summary>
+    /// Contains tests that are run against Translation Data Repository class.
+    /// </summary>
+    [Collection("Translation Data Repository Test")]
+    [Trait("Category", "Unit")]
+    [Trait("Class", "Translation Data Repository")]
     public class TranslationDataRepositoryTest
     {
+        /// <summary>
+        /// Mock of Project Data.
+        /// </summary>
         private readonly Mock<IProjectData> mockProjectData;
+        /// <summary>
+        /// Mock of Project Name.
+        /// </summary>
         private readonly string mockProjectName;
+        /// <summary>
+        /// Mock of Raw Lines.
+        /// </summary>
         private readonly List<string> mockRawLines;
+        /// <summary>
+        /// Mock of Translated Lines.
+        /// </summary>
         private readonly List<string> mockTranslatedLines;
+        /// <summary>
+        /// Mock of Marked Lines.
+        /// </summary>
         private readonly List<bool> mockMarkedLines;
-        private readonly List<bool> mockCompleteLines;
+        /// <summary>
+        /// Mock of Completed Lines.
+        /// </summary>
+        private readonly List<bool> mockCompletedLines;
 
+        /// <summary>
+        /// Mock of Project Data Repository.
+        /// </summary>
         private readonly Mock<IProjectDataRepository> mockProjectDataRepository;
+        /// <summary>
+        /// Translation Data Repository under test.
+        /// </summary>
         private readonly ITranslationDataRepository translationDataRepository;
 
+        /// <summary>
+        /// Constructor to set up test code.
+        /// </summary>
         public TranslationDataRepositoryTest()
         {
             mockProjectName = "Mock Test Project Name";
@@ -70,7 +101,7 @@ namespace TranslatorStudioClassLibraryTest.Factory
                 false
             };
 
-            mockCompleteLines = new List<bool>
+            mockCompletedLines = new List<bool>
             {
                 false,
                 false,
@@ -104,7 +135,7 @@ namespace TranslatorStudioClassLibraryTest.Factory
 
             mockProjectData.Setup(
                     x => x.CompletedLines)
-                .Returns(mockCompleteLines);
+                .Returns(mockCompletedLines);
 
             mockProjectDataRepository = new Mock<IProjectDataRepository>();
 
@@ -123,7 +154,34 @@ namespace TranslatorStudioClassLibraryTest.Factory
             translationDataRepository = new TranslationDataRepository();
         }
 
-        [TestMethod]
+        #region Constructor Tests
+
+        /// <summary>
+        /// Given that Translation Data Repository is invoked, Default Constructor returns valid Translation Data Repository.
+        /// </summary>
+        [Fact]
+        public void TranslationDataRepository_DefaultConstructor_Test()
+        {
+            //Arrange
+            var expected = translationDataRepository;
+
+            //Act
+            var actual = new TranslationDataRepository();
+
+            //Assert
+            Assert.IsType<TranslationDataRepository>(actual);
+            Assert.IsAssignableFrom<ITranslationDataRepository>(actual);
+            Assert.NotStrictEqual(expected, actual);
+        }
+
+        #endregion
+
+        #region Methods Tests
+
+        /// <summary>
+        /// Given that Project Data passed is valid, Create Translation Data From Project returns valid Translation Data.
+        /// </summary>
+        [Fact]
         public void CreateTranslationDataFromProject_Test()
         {
             // Arrange
@@ -132,83 +190,96 @@ namespace TranslatorStudioClassLibraryTest.Factory
                 ProjectName = mockProjectName,
                 RawLines = mockRawLines,
                 TranslatedLines = mockTranslatedLines,
-                CompletedLines = mockCompleteLines,
+                CompletedLines = mockCompletedLines,
                 MarkedLines = mockMarkedLines
             };
             var expected = new TranslationData(data);
 
             // Act
-            var actual = new TranslationDataRepository().CreateTranslationDataFromProject(data);
+            var actual = translationDataRepository.CreateTranslationDataFromProject(data);
 
             // Assert
-            Assert.AreEqual(expected, actual);
-            CollectionAssert.AreEqual(expected.RawLines, actual.RawLines);
-            CollectionAssert.AreEqual(expected.TranslatedLines, actual.TranslatedLines);
-            CollectionAssert.AreEqual(expected.CompletedLines, actual.CompletedLines);
-            CollectionAssert.AreEqual(expected.MarkedLines, actual.MarkedLines);
+            Assert.IsType<TranslationData>(actual);
+            Assert.IsAssignableFrom<ITranslationData>(actual);
+            Assert.NotStrictEqual(expected, actual);
         }
 
-        [TestMethod]
+        /// <summary>
+        /// Given that Stream Reader passed is valid, Create Translation Data From Stream returns valid Translation Data.
+        /// </summary>
+        [Fact]
         public void CreateTranslationDataFromStream_Test()
         {
             // Arrange
-            var expectedName = mockProjectName;
-            var expectedRaw = mockRawLines;
-            
+            var expected = new TranslationData(mockProjectData.Object);
+
             // Act
-            var translationData = translationDataRepository.CreateTranslationDataFromStream(mockProjectDataRepository.Object, expectedName, new StreamReader(new MemoryStream()));
-            var actualName = translationData.ProjectName;
-            var actualRaw = translationData.RawLines;
+            var actual = translationDataRepository.CreateTranslationDataFromStream(mockProjectDataRepository.Object, mockProjectName, new StreamReader(new MemoryStream()));
 
             // Assert
             mockProjectDataRepository.Verify(
                     x => x.CreateProjectDataFromStream(It.IsAny<string>(), It.IsAny<StreamReader>()),
                 Times.Once);
 
-            Assert.AreEqual(expectedName, actualName);
-            CollectionAssert.AreEqual(expectedRaw, actualRaw);
-
+            Assert.IsType<TranslationData>(actual);
+            Assert.IsAssignableFrom<ITranslationData>(actual);
+            Assert.NotStrictEqual(expected, actual);
         }
 
-        [TestMethod]
+        /// <summary>
+        /// Given that Document passed is valid, Create Translation Data From Document returns valid Translation Data.
+        /// </summary>
+        [Fact]
         public void CreateTranslationDataFromDocument_Test()
         {
             // Arrange
-            var expected = mockRawLines;
-            
+            var expected = new TranslationData(mockProjectData.Object);
+
             // Act
-            var translationData = translationDataRepository.CreateTranslationDataFromDocument(mockProjectDataRepository.Object, "", new Document());
-            var actual = translationData.RawLines;
+            var actual = translationDataRepository.CreateTranslationDataFromDocument(mockProjectDataRepository.Object, "", new Document());
 
             // Assert
             mockProjectDataRepository.Verify(
                     x => x.CreateProjectDataFromDocument(It.IsAny<string>(), It.IsAny<Document>()),
                 Times.Once);
 
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.IsType<TranslationData>(actual);
+            Assert.IsAssignableFrom<ITranslationData>(actual);
+            Assert.NotStrictEqual(expected, actual);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(Exception))]
-        [TestCategory("Exception Test")]
+        #endregion
+
+        #region Exception Tests
+
+        /// <summary>
+        /// Given that Project Data has empty raw, Create Translation Data From Project will throw EmptyRaw Exception.
+        /// </summary>
+        [Fact]
+        [Trait("Category", "Exception")]
         public void GivenNoRawInProjectRaiseException()
         {
             // Arrange
             IProjectData data = new ProjectData()
             {
-                ProjectName = "",
-                RawLines = new List<string>(),
-                TranslatedLines = new List<string>(),
-                CompletedLines = new List<bool>(),
-                MarkedLines = new List<bool>()
+                RawLines = new List<string>()
             };
-            
+
+            var expectedMessage = "No Raw Lines were submitted into the project.";
+            var expected = new Exception(expectedMessage);
+
             // Act
-            var actual = translationDataRepository.CreateTranslationDataFromProject(data);
+            var actual = Record.Exception(() => translationDataRepository.CreateTranslationDataFromProject(data));
+            var actualMessage = actual.Message;
 
             // Assert
-
+            Assert.IsType<Exception>(actual);
+            Assert.NotStrictEqual(expected, actual);
+            Assert.Equal(expectedMessage, actualMessage);
         }
+
+        #endregion
+
 
     }
 }

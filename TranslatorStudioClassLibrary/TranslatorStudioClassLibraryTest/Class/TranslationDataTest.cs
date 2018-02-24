@@ -1,29 +1,58 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TranslatorStudioClassLibrary.Class;
 using TranslatorStudioClassLibrary.Interface;
-using TranslatorStudioClassLibrary.Utilities;
-using TranslatorStudioClassLibrary.Repository;
+using TranslatorStudioClassLibrary.Exception;
+using Xunit;
 
 namespace TranslatorStudioClassLibraryTest.Class
 {
-    [TestClass]
-    [TestCategory("Translation Data Test")]
+    /// <summary>
+    /// Contains tests to run against Translation Data class.
+    /// </summary>
+    [Collection("Translation Data Test")]
+    [Trait("Category", "Unit")]
+    [Trait("Class", "Translation Data")]
     public class TranslationDataTest
     {
+        /// <summary>
+        /// Mock of Project Data.
+        /// </summary>
         private readonly Mock<IProjectData> mockProjectData;
+        /// <summary>
+        /// Mock of Project Name.
+        /// </summary>
         private readonly string mockProjectName;
+        /// <summary>
+        /// Mock of Raw Lines.
+        /// </summary>
         private readonly List<string> mockRawLines;
+        /// <summary>
+        /// Mock of Translated Lines.
+        /// </summary>
         private readonly List<string> mockTranslatedLines;
+        /// <summary>
+        /// Mock of Marked Lines.
+        /// </summary>
         private readonly List<bool> mockMarkedLines;
-        private readonly List<bool> mockCompleteLines;
+        /// <summary>
+        /// Mock of Completed lines.
+        /// </summary>
+        private readonly List<bool> mockCompletedLines;
 
+        /// <summary>
+        /// Mock of Sub Translation Data Repository.
+        /// </summary>
         private readonly Mock<ISubTranslationDataRepository> mockSubTranslationDataRepository;
+        /// <summary>
+        /// Mock of Sub Translation Data.
+        /// </summary>
         private readonly Mock<ISubTranslationData> mockSubData;
 
+        /// <summary>
+        /// Constructor for test setup.
+        /// </summary>
         public TranslationDataTest()
         {
             mockProjectName = "Mock Test Project Name";
@@ -70,7 +99,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                 false
             };
 
-            mockCompleteLines = new List<bool>
+            mockCompletedLines = new List<bool>
             {
                 false,
                 false,
@@ -104,7 +133,7 @@ namespace TranslatorStudioClassLibraryTest.Class
 
             mockProjectData.Setup(
                     x => x.CompletedLines)
-                .Returns(mockCompleteLines);
+                .Returns(mockCompletedLines);
 
             mockSubTranslationDataRepository = new Mock<ISubTranslationDataRepository>();
 
@@ -120,22 +149,30 @@ namespace TranslatorStudioClassLibraryTest.Class
 
         #region Project Data Tests
 
-        [TestMethod]
-        public void DefaultTranslationMode_Test()
+        /// <summary>
+        /// Given that Translation Data is successfully created, Default Translation Mode returns translation mode status of the translation project.
+        /// </summary>
+        [Fact]
+        public void TranslationData_DefaultTranslationMode_Test()
         {
             //Arrange
             var translationData = new TranslationData(mockProjectData.Object);
 
             var expected = true;
+
             //Act
             var actual = translationData.DefaultTranslationMode;
 
             //Assert
-            Assert.AreEqual(expected, actual);
+            Assert.IsType<bool>(actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
-        public void ProjectName_Test()
+        /// <summary>
+        /// Given that Translation Data is successfully created, Project Name returns the name of the translation project.
+        /// </summary>
+        [Fact]
+        public void TranslationData_ProjectName_Test()
         {
             //Arrange
             var expected = mockProjectName;
@@ -150,11 +187,15 @@ namespace TranslatorStudioClassLibraryTest.Class
                     x => x.ProjectName,
                 Times.Once);
 
-            Assert.AreEqual(expected, actual);
+            Assert.IsType<string>(actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
-        public void RawLines_Test()
+        /// <summary>
+        /// Given that Translation Data is successfully created, Raw Lines returns the raw lines in the translation project.
+        /// </summary>
+        [Fact]
+        public void TranslationData_RawLines_Test()
         {
             //Arrange
             var expected = mockRawLines;
@@ -169,11 +210,15 @@ namespace TranslatorStudioClassLibraryTest.Class
                     x => x.RawLines,
                 Times.Once);
 
-            Assert.AreEqual(expected, actual);
+            Assert.IsType<List<string>>(actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
-        public void TranslatedLines_Test()
+        /// <summary>
+        /// Given that Translation Data is successfully created, Translated lines returns the translated lines in the translation project.
+        /// </summary>
+        [Fact]
+        public void TranslationData_TranslatedLines_Test()
         {
             //Arrange
             var expected = mockTranslatedLines;
@@ -188,14 +233,18 @@ namespace TranslatorStudioClassLibraryTest.Class
                     x => x.TranslatedLines,
                 Times.Once);
 
-            Assert.AreEqual(expected, actual);
+            Assert.IsType<List<string>>(actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
-        public void CompletedLines_Test()
+        /// <summary>
+        /// Given that Translation Data is successfully created, Completed Lines returns the line completion status in the translation project.
+        /// </summary>
+        [Fact]
+        public void TranslationData_CompletedLines_Test()
         {
             //Arrange
-            var expected = mockCompleteLines;
+            var expected = mockCompletedLines;
 
             var translationData = new TranslationData(mockProjectData.Object);
 
@@ -207,11 +256,15 @@ namespace TranslatorStudioClassLibraryTest.Class
                     x => x.CompletedLines,
                 Times.Once);
 
-            Assert.AreEqual(expected, actual);
+            Assert.IsType<List<bool>>(actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
-        public void MarkedLines_Test()
+        /// <summary>
+        /// Given that Translation Data is successfully created, Marked Lines returns the line marked status in the translation project.
+        /// </summary>
+        [Fact]
+        public void TranslationData_MarkedLines_Test()
         {
             //Arrange
             var expected = mockMarkedLines;
@@ -226,7 +279,8 @@ namespace TranslatorStudioClassLibraryTest.Class
                     x => x.MarkedLines,
                 Times.Once);
 
-            Assert.AreEqual(expected, actual);
+            Assert.IsType<List<bool>>(actual);
+            Assert.Equal(expected, actual);
         }
 
         #endregion
@@ -234,12 +288,15 @@ namespace TranslatorStudioClassLibraryTest.Class
 
         #region Project Controls Tests
 
-        [TestMethod]
-        public void CurrentRaw_Test()
+        /// <summary>
+        /// Given that Current Index is assigned a valid integer, Current Raw returns raw line at index from Raw Lines.
+        /// </summary>
+        /// <param name="currentIndex">A valid integer to be assigned to current index.</param>
+        [Theory]
+        [InlineData(1)]
+        public void TranslationData_CurrentRaw_Test(int currentIndex)
         {
             //Arrange
-            var currentIndex = 1;
-
             var translationData = new TranslationData(mockProjectData.Object)
             {
                 CurrentIndex = currentIndex
@@ -255,15 +312,19 @@ namespace TranslatorStudioClassLibraryTest.Class
                     x => x.RawLines,
                 Times.Once);
 
-            Assert.AreEqual(expected, actual);
+            Assert.IsType<string>(actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
-        public void CurrentTranslation_Test()
+        /// <summary>
+        /// Given that Current Index is assigned a valid integer, Current Translation returns translated line at index from Translated Lines
+        /// </summary>
+        /// <param name="currentIndex">A valid integer to be assigned to current index.</param>
+        [Theory]
+        [InlineData(1)]
+        public void TranslationData_CurrentTranslation_Test(int currentIndex)
         {
             //Arrange
-            var currentIndex = 1;
-
             var translationData = new TranslationData(mockProjectData.Object)
             {
                 CurrentIndex = currentIndex
@@ -279,21 +340,25 @@ namespace TranslatorStudioClassLibraryTest.Class
                     x => x.TranslatedLines,
                 Times.Once);
 
-            Assert.AreEqual(expected, actual);
+            Assert.IsType<string>(actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
-        public void CurrentCompletion_Test()
+        /// <summary>
+        /// Given that Current Index is assigned a valid integer, Current Completion returns line completion status at index from Completed Lines
+        /// </summary>
+        /// <param name="currentIndex">A valid integer to be assigned to current index.</param>
+        [Theory]
+        [InlineData(1)]
+        public void TranslationData_CurrentCompletion_Test(int currentIndex)
         {
             //Arrange
-            var currentIndex = 1;
-
             var translationData = new TranslationData(mockProjectData.Object)
             {
                 CurrentIndex = currentIndex
             };
 
-            var expected = mockCompleteLines[currentIndex];
+            var expected = mockCompletedLines[currentIndex];
 
             //Act
             var actual = translationData.CurrentCompletion;
@@ -303,15 +368,19 @@ namespace TranslatorStudioClassLibraryTest.Class
                 x => x.CompletedLines,
                 Times.Once);
 
-            Assert.AreEqual(expected, actual);
+            Assert.IsType<bool>(actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
-        public void CurrentMarked_Test()
+        /// <summary>
+        /// Given that Current Index is assigned a valid integer, Current Marked returns line marked status at index from Marked Lines
+        /// </summary>
+        /// <param name="currentIndex">A valid integer to be assigned to current index.</param>
+        [Theory]
+        [InlineData(1)]
+        public void TranslationData_CurrentMarked_Test(int currentIndex)
         {
             //Arrange
-            var currentIndex = 1;
-
             var translationData = new TranslationData(mockProjectData.Object)
             {
                 CurrentIndex = currentIndex
@@ -327,11 +396,15 @@ namespace TranslatorStudioClassLibraryTest.Class
                 x => x.MarkedLines,
                 Times.Once);
 
-            Assert.AreEqual(expected, actual);
+            Assert.IsType<bool>(actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
-        public void MaxIndex_Test()
+        /// <summary>
+        /// Given that Translation Data is successfully created, Max Index returns maximum possible index of translation project.
+        /// </summary>
+        [Fact]
+        public void TranslationData_MaxIndex_Test()
         {
             //Arrange
             var translationData = new TranslationData(mockProjectData.Object);
@@ -346,35 +419,43 @@ namespace TranslatorStudioClassLibraryTest.Class
                     x => x.RawLines,
                 Times.Once);
 
-            Assert.AreEqual(expected, actual);
+            Assert.IsType<int>(actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
-        public void NumberOfLines_Test()
+        /// <summary>
+        /// Given that Translation Data is successfully created, Number Of Lines returns the total number of lines in the translation project.
+        /// </summary>
+        [Fact]
+        public void TranslationData_NumberOfLines_Test()
         {
             //Arrange
             var translationData = new TranslationData(mockProjectData.Object);
 
-            var expected = mockRawLines.Count - 1;
+            var expected = mockRawLines.Count;
 
             //Act
-            var actual = translationData.MaxIndex;
+            var actual = translationData.NumberOfLines;
 
             //Assert
             mockProjectData.Verify(
                 x => x.RawLines,
                 Times.Once);
 
-            Assert.AreEqual(expected, actual);
+            Assert.IsType<int>(actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
-        public void NumberOfCompletedLines_Test()
+        /// <summary>
+        /// Given that Translation Data is successfully created, Number of Completed Lines returns number of lines marked as completed in the translation project.
+        /// </summary>
+        [Fact]
+        public void TranslationData_NumberOfCompletedLines_Test()
         {
             //Arrange
             var translationData = new TranslationData(mockProjectData.Object);
 
-            var expected = mockCompleteLines.Where(c => c).Count();
+            var expected = mockCompletedLines.Where(c => c).Count();
 
             //Act
             var actual = translationData.NumberOfCompletedLines;
@@ -384,78 +465,121 @@ namespace TranslatorStudioClassLibraryTest.Class
                     x => x.CompletedLines,
                 Times.Once);
 
-            Assert.AreEqual(expected, actual);
+            Assert.IsType<int>(actual);
+            Assert.Equal(expected, actual);
         }
 
         #endregion
 
         #endregion
 
-        #region Constructor
-        [TestMethod]
-        public void TranslationData_ProjectDataConstructorTest()
+        #region Constructor Tests
+
+        /// <summary>
+        /// Given that Translation Data is invoked, Default Constructor returns valid Translation Data.
+        /// </summary>
+        [Fact]
+        public void TranslationData_DefaultConstructor_Test()
         {
-            // Arrange
+            //Arrange
+            var expected = new TranslationData();
+
+            //Act
+            var actual = new TranslationData();
+
+            //Assert
+            Assert.IsType<TranslationData>(actual);
+            Assert.IsAssignableFrom<ITranslationData>(actual);
+            Assert.NotStrictEqual(expected, actual);
+        }
+
+        /// <summary>
+        /// Given that Project Data is valid, Project Data Constructor returns valid Translation Data.
+        /// </summary>
+        [Fact]
+        public void TranslationData_ProjectDataConstructor_Test()
+        {
+            //Arrange
             var expected = new TranslationData(mockProjectData.Object);
 
-            // Act
+            //Act
             var actual = new TranslationData(mockProjectData.Object);
 
-            // Assert
-            Assert.AreEqual(expected, actual);
+            //Assert
+            Assert.IsType<TranslationData>(actual);
+            Assert.IsAssignableFrom<ITranslationData>(actual);
+            Assert.NotStrictEqual(expected, actual);
         }
 
         #endregion
 
         #region Methods Tests
 
-        [TestMethod]
-        public void IncrementCurrentLine_Test()
+        /// <summary>
+        /// Given that Current Index is assigned a valid integer below Max Index, Increment Current Line increments the current index.
+        /// </summary>
+        /// <param name="currentIndex">A valid integer to be assigned to current index.</param>
+        [Theory]
+        [InlineData(5)]
+        public void TranslationData_IncrementCurrentLine_Test(int currentIndex)
         {
             //Arrange
             var translationData = new TranslationData(mockProjectData.Object)
             {
-                CurrentIndex = 5
+                CurrentIndex = currentIndex
             };
 
-            var expectedIndex = 6;
+            var expectedIndex = ++currentIndex;
 
             //Act
             translationData.IncrementCurrentLine();
+            var actualIndex = translationData.CurrentIndex;
 
             //Assert
             mockProjectData.Verify(
                     x => x.RawLines,
                 Times.Once);
 
-            Assert.AreEqual(expectedIndex, translationData.CurrentIndex);
+            Assert.IsType<int>(actualIndex);
+            Assert.Equal(expectedIndex, actualIndex);
         }
 
-        [TestMethod]
-        public void DecrementCurrentLine_Test()
+        /// <summary>
+        /// Given that Current Index is assigned a valid integer above Min Index, Decrement Current Line decrements the current index.
+        /// </summary>
+        /// <param name="currentIndex">A valid integer to be assigned to current index.</param>
+        [Theory]
+        [InlineData(5)]
+        public void TranslationData_DecrementCurrentLine_Test(int currentIndex)
         {
             //Arrange
             var translationData = new TranslationData(mockProjectData.Object)
             {
-                CurrentIndex = 5
+                CurrentIndex = currentIndex
             };
 
-            var expectedIndex = 4;
+            var expectedIndex = --currentIndex;
 
             //Act
             translationData.DecrementCurrentLine();
+            var actualIndex = translationData.CurrentIndex;
 
             //Assert
-            Assert.AreEqual(expectedIndex, translationData.CurrentIndex);
+            Assert.IsType<int>(actualIndex);
+            Assert.Equal(expectedIndex, actualIndex);
         }
 
-        [TestMethod]
-        public void InsertLine_Test()
+        /// <summary>
+        /// Given that index passed is a valid integer, Insert Line will insert line into translation project at specified index.
+        /// </summary>
+        /// <param name="index">A valid integer used to insert line.</param>
+        [Theory]
+        [InlineData(5)]
+        public void TranslationData_InsertLine_Test(int? index)
         {
             //Arrange
             var translationData = new TranslationData(mockProjectData.Object);
 
-            int? index = 5;
             int insertIndex = index ?? translationData.NumberOfLines; 
             string insertRawValue = "Inserted Raw Line";
             string expectedRawValue = insertRawValue ?? "";
@@ -463,7 +587,7 @@ namespace TranslatorStudioClassLibraryTest.Class
 
             var expectedRawLines = mockRawLines.ToList();
             var expectedTranslatedLines = mockTranslatedLines.ToList();
-            var expectedCompletedLines = mockCompleteLines.ToList();
+            var expectedCompletedLines = mockCompletedLines.ToList();
             var expectedMarkedLines = mockMarkedLines.ToList();
 
             expectedRawLines.Insert(insertIndex, insertRawValue);
@@ -488,17 +612,22 @@ namespace TranslatorStudioClassLibraryTest.Class
                     x => x.MarkedLines,
                 Times.Once);
 
-            Assert.AreEqual(expectedRawValue, translationData.RawLines[insertIndex]);
+            var actualRawValue = translationData.RawLines[insertIndex];
+            Assert.IsType<string>(actualRawValue);
+            Assert.Equal(expectedRawValue,          actualRawValue);
             
-            CollectionAssert.AreEqual(expectedRawLines, translationData.RawLines);
-            CollectionAssert.AreEqual(expectedTranslatedLines, translationData.TranslatedLines);
-            CollectionAssert.AreEqual(expectedCompletedLines, translationData.CompletedLines);
-            CollectionAssert.AreEqual(expectedMarkedLines, translationData.MarkedLines);
+            Assert.Equal(expectedRawLines,          translationData.RawLines);
+            Assert.Equal(expectedTranslatedLines,   translationData.TranslatedLines);
+            Assert.Equal(expectedCompletedLines,    translationData.CompletedLines);
+            Assert.Equal(expectedMarkedLines,       translationData.MarkedLines);
 
         }
 
-        [TestMethod]
-        public void InsertLine_With_Null_Values_Test()
+        /// <summary>
+        /// Given that index passed is a null value, Insert Line will insert line into translation project at end.
+        /// </summary>
+        [Fact]
+        public void TranslationData_InsertLine_With_Null_Values_Test()
         {
             //Arrange
             var translationData = new TranslationData(mockProjectData.Object);
@@ -511,7 +640,7 @@ namespace TranslatorStudioClassLibraryTest.Class
 
             var expectedRawLines = mockRawLines.ToList();
             var expectedTranslatedLines = mockTranslatedLines.ToList();
-            var expectedCompletedLines = mockCompleteLines.ToList();
+            var expectedCompletedLines = mockCompletedLines.ToList();
             var expectedMarkedLines = mockMarkedLines.ToList();
 
             expectedRawLines.Insert(insertIndex, expectedRawValue);
@@ -536,27 +665,31 @@ namespace TranslatorStudioClassLibraryTest.Class
                     x => x.MarkedLines,
                 Times.Once);
 
-            Assert.AreEqual(expectedRawValue, translationData.RawLines[insertIndex]);
+            Assert.Equal(expectedRawValue,          translationData.RawLines[insertIndex]);
 
-            CollectionAssert.AreEqual(expectedRawLines, translationData.RawLines);
-            CollectionAssert.AreEqual(expectedTranslatedLines, translationData.TranslatedLines);
-            CollectionAssert.AreEqual(expectedCompletedLines, translationData.CompletedLines);
-            CollectionAssert.AreEqual(expectedMarkedLines, translationData.MarkedLines);
+            Assert.Equal(expectedRawLines,          translationData.RawLines);
+            Assert.Equal(expectedTranslatedLines,   translationData.TranslatedLines);
+            Assert.Equal(expectedCompletedLines,    translationData.CompletedLines);
+            Assert.Equal(expectedMarkedLines,       translationData.MarkedLines);
 
         }
 
-        [TestMethod]
-        public void RemoveLine_Test()
+        /// <summary>
+        /// Given that index passed is a valid integer, Remove Line will remove line from translation project at specified index.
+        /// </summary>
+        /// <param name="index">A valid integer used to specify line to remove.</param>
+        [Theory]
+        [InlineData(5)]
+        public void TranslationData_RemoveLine_Test(int? index)
         {
             //Arrange
             var translationData = new TranslationData(mockProjectData.Object);
-
-            int? index = 5;
+            
             int removeIndex = index ?? translationData.MaxIndex;
 
             var expectedRawLines = mockRawLines.ToList();
             var expectedTranslatedLines = mockTranslatedLines.ToList();
-            var expectedCompletedLines = mockCompleteLines.ToList();
+            var expectedCompletedLines = mockCompletedLines.ToList();
             var expectedMarkedLines = mockMarkedLines.ToList();
 
             expectedRawLines.RemoveAt(removeIndex);
@@ -581,15 +714,18 @@ namespace TranslatorStudioClassLibraryTest.Class
                     x => x.MarkedLines,
                 Times.Once);
 
-            CollectionAssert.AreEqual(expectedRawLines, translationData.RawLines);
-            CollectionAssert.AreEqual(expectedTranslatedLines, translationData.TranslatedLines);
-            CollectionAssert.AreEqual(expectedCompletedLines, translationData.CompletedLines);
-            CollectionAssert.AreEqual(expectedMarkedLines, translationData.MarkedLines);
+            Assert.Equal(expectedRawLines,          translationData.RawLines);
+            Assert.Equal(expectedTranslatedLines,   translationData.TranslatedLines);
+            Assert.Equal(expectedCompletedLines,    translationData.CompletedLines);
+            Assert.Equal(expectedMarkedLines,       translationData.MarkedLines);
 
         }
 
-        [TestMethod]
-        public void RemoveLine_With_Null_Values_Test()
+        /// <summary>
+        /// Given that index passed is a null value, Remove Line will remove line from translation project at end.
+        /// </summary>
+        [Fact]
+        public void TranslationData_RemoveLine_With_Null_Values_Test()
         {
             //Arrange
             var translationData = new TranslationData(mockProjectData.Object);
@@ -599,7 +735,7 @@ namespace TranslatorStudioClassLibraryTest.Class
 
             var expectedRawLines = mockRawLines.ToList();
             var expectedTranslatedLines = mockTranslatedLines.ToList();
-            var expectedCompletedLines = mockCompleteLines.ToList();
+            var expectedCompletedLines = mockCompletedLines.ToList();
             var expectedMarkedLines = mockMarkedLines.ToList();
 
             expectedRawLines.RemoveAt(removeIndex);
@@ -624,16 +760,18 @@ namespace TranslatorStudioClassLibraryTest.Class
                     x => x.MarkedLines,
                 Times.Once);
 
-            CollectionAssert.AreEqual(expectedRawLines, translationData.RawLines);
-            CollectionAssert.AreEqual(expectedTranslatedLines, translationData.TranslatedLines);
-            CollectionAssert.AreEqual(expectedCompletedLines, translationData.CompletedLines);
-            CollectionAssert.AreEqual(expectedMarkedLines, translationData.MarkedLines);
+            Assert.Equal(expectedRawLines,          translationData.RawLines);
+            Assert.Equal(expectedTranslatedLines,   translationData.TranslatedLines);
+            Assert.Equal(expectedCompletedLines,    translationData.CompletedLines);
+            Assert.Equal(expectedMarkedLines,       translationData.MarkedLines);
 
         }
 
-
-        [TestMethod]
-        public void IncrementCurrentLine_At_Max_Index_Test()
+        /// <summary>
+        /// Given that Current Index is equal to the Max Index, Increment Current Line will not increment index.
+        /// </summary>
+        [Fact]
+        public void TranslationData_IncrementCurrentLine_At_Max_Index_Test()
         {
             //Arrange
             var expectedIndex = mockRawLines.Count() - 1;
@@ -645,17 +783,26 @@ namespace TranslatorStudioClassLibraryTest.Class
             
             //Act
             translationData.IncrementCurrentLine();
+            var actualIndex = translationData.CurrentIndex;
 
             //Assert
             mockProjectData.Verify(
                     x => x.RawLines,
                 Times.Once);
 
-            Assert.AreEqual(expectedIndex, translationData.CurrentIndex);
+            Assert.IsType<int>(actualIndex);
+            Assert.Equal(expectedIndex, actualIndex);
+
+            mockProjectData.Verify(
+                    x => x.RawLines,
+                Times.Once());
         }
 
-        [TestMethod]
-        public void DecrementCurrentLine_At_Min_Index_Test()
+        /// <summary>
+        /// Given that Current Index is equal to the Min Index, Decrement Current Line will not decrement index.
+        /// </summary>
+        [Fact]
+        public void TranslationData_DecrementCurrentLine_At_Min_Index_Test()
         {
             //Arrange
             var expectedIndex = 0;
@@ -667,22 +814,27 @@ namespace TranslatorStudioClassLibraryTest.Class
 
             //Act
             translationData.DecrementCurrentLine();
+            var actualIndex = translationData.CurrentIndex;
 
             //Assert
-            Assert.AreEqual(expectedIndex, translationData.CurrentIndex);
+            Assert.IsType<int>(actualIndex);
+            Assert.Equal(expectedIndex, actualIndex);
         }
 
-        [TestMethod]
-        public void GetProjectSaveString_Test()
+        /// <summary>
+        /// Given that Project Data returns a save string, Get Project Save String returns project data save string.
+        /// </summary>
+        [Fact]
+        public void TranslationData_GetProjectSaveString_Test()
         {
             //Arrange
             var translationData = new TranslationData(mockProjectData.Object);
 
-            var expectedSaveString = mockProjectData.Object.ToJSONString();
+            var expectedSaveString = "Mock Save String";
 
             mockProjectData.Setup(
                     x => x.GetSaveString())
-                .Returns(mockProjectData.Object.ToJSONString());
+                .Returns(expectedSaveString);
 
             //Act
             var actualSaveString = translationData.GetProjectSaveString();
@@ -692,11 +844,15 @@ namespace TranslatorStudioClassLibraryTest.Class
                     x => x.GetSaveString(),
                 Times.Once);
 
-            Assert.AreEqual(expectedSaveString, actualSaveString);
+            Assert.IsType<string>(actualSaveString);
+            Assert.Equal(expectedSaveString, actualSaveString);
         }
 
-        [TestMethod]
-        public void StartDefaultMode()
+        /// <summary>
+        /// Given that Translation Data is successfully created, Start Default Mode switches translation project to default translation mode.
+        /// </summary>
+        [Fact]
+        public void TranslationData_StartDefaultMode()
         {
             //Arrange
             var translationData = new TranslationData(mockProjectData.Object)
@@ -706,43 +862,50 @@ namespace TranslatorStudioClassLibraryTest.Class
 
             var expected = true;
 
-            var numberOfElements = translationData.NumberOfLines;
+            var expectedNumberOfLines = translationData.NumberOfLines;
 
             //Act
             translationData.StartDefaultMode();
             var actual = translationData.DefaultTranslationMode;
+            var actualNumberOfLines = translationData.NumberOfLines;
 
             //Assert
-            Assert.AreEqual(expected, actual);
+            Assert.IsType<bool>(actual);
+            Assert.Equal(expected, actual);
+            Assert.IsType<int>(actualNumberOfLines);
+            Assert.Equal(expectedNumberOfLines, actualNumberOfLines);
 
-            for (int i = 0; i < numberOfElements; i++)
+            for (int i = 0; i < expectedNumberOfLines; i++)
             {
-                Assert.AreEqual(mockRawLines[i], translationData.RawLines[i]);
-                Assert.AreEqual(mockTranslatedLines[i], translationData.TranslatedLines[i]);
-                Assert.AreEqual(mockMarkedLines[i], translationData.MarkedLines[i]);
-                Assert.AreEqual(mockCompleteLines[i], translationData.CompletedLines[i]);
+                Assert.Equal(mockRawLines[i],           translationData.RawLines[i]);
+                Assert.Equal(mockTranslatedLines[i],    translationData.TranslatedLines[i]);
+                Assert.Equal(mockMarkedLines[i],        translationData.MarkedLines[i]);
+                Assert.Equal(mockCompletedLines[i],     translationData.CompletedLines[i]);
             }
 
             mockProjectData.Verify(
-                x => x.RawLines,
-                Times.Exactly(numberOfElements + 1));
+                    x => x.RawLines,
+                Times.Exactly(expectedNumberOfLines + 2));
 
             mockProjectData.Verify(
-                x => x.TranslatedLines,
-                Times.Exactly(numberOfElements));
+                    x => x.TranslatedLines,
+                Times.Exactly(expectedNumberOfLines));
 
             mockProjectData.Verify(
-                x => x.MarkedLines,
-                Times.Exactly(numberOfElements));
+                    x => x.MarkedLines,
+                Times.Exactly(expectedNumberOfLines));
 
             mockProjectData.Verify(
-                x => x.CompletedLines,
-                Times.Exactly(numberOfElements));
+                    x => x.CompletedLines,
+                Times.Exactly(expectedNumberOfLines));
 
         }
 
-        [TestMethod]
-        public void StartMarkedOnlyMode_Test()
+        /// <summary>
+        /// Given that Translation Data is successfully created, Start Marked Only Mode switches translation project to marked only mode.
+        /// </summary>
+        [Fact]
+        public void TranslationData_StartMarkedOnlyMode_Test()
         {
             //Arrange
             var indices = mockMarkedLines.Select((v, i) => new { v, i })
@@ -769,6 +932,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             //Act
             var actualNumberOfLines = translationData.StartMarkedOnlyMode(mockSubTranslationDataRepository.Object);
             var actualMaxIndex = translationData.MaxIndex;
+            var actualMode = translationData.DefaultTranslationMode;
 
             //Assert
             mockProjectData.Verify(
@@ -781,28 +945,50 @@ namespace TranslatorStudioClassLibraryTest.Class
                     x => x.MaxIndex,
                 Times.Once);
 
-            Assert.AreEqual(expectedNumberOfLines, actualNumberOfLines);
-            Assert.AreEqual(expectedMaxIndex, actualMaxIndex);
-            Assert.IsFalse(translationData.DefaultTranslationMode);
+            Assert.IsType<int>(actualNumberOfLines);
+            Assert.Equal(expectedNumberOfLines, actualNumberOfLines);
+            Assert.IsType<int>(actualMaxIndex);
+            Assert.Equal(expectedMaxIndex, actualMaxIndex);
+            Assert.IsType<bool>(actualMode);
+            Assert.False(actualMode);
 
             foreach (var index in indices)
             {
-                Assert.IsTrue(mockMarkedLines[index]);
-                Assert.IsTrue(translationData.MarkedLines[index]);
+                Assert.True(mockMarkedLines[index]);
+                Assert.True(translationData.MarkedLines[index]);
 
-                Assert.AreEqual(mockRawLines[index], translationData.RawLines[index]);
-                Assert.AreEqual(mockTranslatedLines[index], translationData.TranslatedLines[index]);
-                Assert.AreEqual(mockMarkedLines[index], translationData.MarkedLines[index]);
-                Assert.AreEqual(mockCompleteLines[index], translationData.CompletedLines[index]);
+                Assert.Equal(mockRawLines[index],           translationData.RawLines[index]);
+                Assert.Equal(mockTranslatedLines[index],    translationData.TranslatedLines[index]);
+                Assert.Equal(mockMarkedLines[index],        translationData.MarkedLines[index]);
+                Assert.Equal(mockCompletedLines[index],     translationData.CompletedLines[index]);
             }
+
+            mockProjectData.Verify(
+                    x => x.RawLines,
+                Times.Exactly(expectedNumberOfLines));
+
+            mockProjectData.Verify(
+                    x => x.TranslatedLines,
+                Times.Exactly(expectedNumberOfLines));
+
+            mockProjectData.Verify(
+                    x => x.MarkedLines,
+                Times.Exactly(expectedNumberOfLines * 2 + 1));
+
+            mockProjectData.Verify(
+                    x => x.CompletedLines,
+                Times.Exactly(expectedNumberOfLines));
 
         }
 
-        [TestMethod]
-        public void StartIncompleteOnlyMode_Test()
+        /// <summary>
+        /// Given that Translation Data is successfully created, Start Incomplete Only Mode switches translation project to incomplete only mode.
+        /// </summary>
+        [Fact]
+        public void TranslationData_StartIncompleteOnlyMode_Test()
         {
             //Arrange
-            var indices = mockCompleteLines.Select((v, i) => new { v, i })
+            var indices = mockCompletedLines.Select((v, i) => new { v, i })
                 .Where(x => x.v == false)
                 .Select(x => x.i).ToList();
 
@@ -816,9 +1002,8 @@ namespace TranslatorStudioClassLibraryTest.Class
 
             var translationData = new TranslationData(mockProjectData.Object);
 
-            var expectedNumberOfLines = mockCompleteLines.Where(m => !m).Count();
+            var expectedNumberOfLines = mockCompletedLines.Where(m => !m).Count();
             var expectedMaxIndex = expectedNumberOfLines - 1;
-
 
             mockSubTranslationDataRepository.Setup(
                     x => x.GetSubData(It.IsAny<List<bool>>()))
@@ -827,6 +1012,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             //Act
             var actualNumberOfLines = translationData.StartIncompleteOnlyMode(mockSubTranslationDataRepository.Object);
             var actualMaxIndex = translationData.MaxIndex;
+            var actualMode = translationData.DefaultTranslationMode;
 
             //Assert
             mockProjectData.Verify(
@@ -839,28 +1025,49 @@ namespace TranslatorStudioClassLibraryTest.Class
                     x => x.MaxIndex,
                 Times.Once);
 
-            Assert.AreEqual(expectedNumberOfLines, actualNumberOfLines);
-            Assert.AreEqual(expectedMaxIndex, actualMaxIndex);
-            Assert.IsFalse(translationData.DefaultTranslationMode);
+            Assert.IsType<int>(actualNumberOfLines);
+            Assert.Equal(expectedNumberOfLines, actualNumberOfLines);
+            Assert.IsType<int>(actualMaxIndex);
+            Assert.Equal(expectedMaxIndex, actualMaxIndex);
+            Assert.IsType<bool>(actualMode);
+            Assert.False(actualMode);
 
             foreach (var index in indices)
             {
-                Assert.IsFalse(mockCompleteLines[index]);
-                Assert.IsFalse(translationData.CompletedLines[index]);
+                Assert.False(mockCompletedLines[index]);
+                Assert.False(translationData.CompletedLines[index]);
 
-                Assert.AreEqual(mockRawLines[index], translationData.RawLines[index]);
-                Assert.AreEqual(mockTranslatedLines[index], translationData.TranslatedLines[index]);
-                Assert.AreEqual(mockMarkedLines[index], translationData.MarkedLines[index]);
-                Assert.AreEqual(mockCompleteLines[index], translationData.CompletedLines[index]);
+                Assert.Equal(mockRawLines[index],           translationData.RawLines[index]);
+                Assert.Equal(mockTranslatedLines[index],    translationData.TranslatedLines[index]);
+                Assert.Equal(mockMarkedLines[index],        translationData.MarkedLines[index]);
+                Assert.Equal(mockCompletedLines[index],     translationData.CompletedLines[index]);
             }
 
+            mockProjectData.Verify(
+                    x => x.RawLines,
+                Times.Exactly(expectedNumberOfLines));
+
+            mockProjectData.Verify(
+                    x => x.TranslatedLines,
+                Times.Exactly(expectedNumberOfLines));
+
+            mockProjectData.Verify(
+                    x => x.MarkedLines,
+                Times.Exactly(expectedNumberOfLines));
+
+            mockProjectData.Verify(
+                    x => x.CompletedLines,
+                Times.Exactly(expectedNumberOfLines * 2 + 1));
         }
 
-        [TestMethod]
-        public void StartCompleteOnlyMode_Test()
+        /// <summary>
+        /// Given that Translation Data is successfully created, Start Complete Only Mode switches translation project to complete only mode.
+        /// </summary>
+        [Fact]
+        public void TranslationData_StartCompleteOnlyMode_Test()
         {
             //Arrange
-            var indices = mockCompleteLines.Select((v, i) => new { v, i })
+            var indices = mockCompletedLines.Select((v, i) => new { v, i })
                 .Where(x => x.v == true)
                 .Select(x => x.i).ToList();
 
@@ -874,7 +1081,7 @@ namespace TranslatorStudioClassLibraryTest.Class
 
             var translationData = new TranslationData(mockProjectData.Object);
 
-            var expectedNumberOfLines = mockCompleteLines.Where(m => !m).Count();
+            var expectedNumberOfLines = mockCompletedLines.Where(m => !m).Count();
             var expectedMaxIndex = expectedNumberOfLines - 1;
 
             mockSubTranslationDataRepository.Setup(
@@ -884,6 +1091,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             //Act
             var actualNumberOfLines = translationData.StartCompleteOnlyMode(mockSubTranslationDataRepository.Object);
             var actualMaxIndex = translationData.MaxIndex;
+            var actualMode = translationData.DefaultTranslationMode;
 
             //Assert
             mockProjectData.Verify(
@@ -896,25 +1104,46 @@ namespace TranslatorStudioClassLibraryTest.Class
                     x => x.MaxIndex,
                 Times.Once);
 
-            Assert.AreEqual(expectedNumberOfLines, actualNumberOfLines);
-            Assert.AreEqual(expectedMaxIndex, actualMaxIndex);
-            Assert.IsFalse(translationData.DefaultTranslationMode);
+            Assert.IsType<int>(actualNumberOfLines);
+            Assert.Equal(expectedNumberOfLines, actualNumberOfLines);
+            Assert.IsType<int>(actualMaxIndex);
+            Assert.Equal(expectedMaxIndex, actualMaxIndex);
+            Assert.IsType<bool>(actualMode);
+            Assert.False(actualMode);
 
             foreach (var index in indices)
             {
-                Assert.IsTrue(mockCompleteLines[index]);
-                Assert.IsTrue(translationData.CompletedLines[index]);
+                Assert.True(mockCompletedLines[index]);
+                Assert.True(translationData.CompletedLines[index]);
 
-                Assert.AreEqual(mockRawLines[index], translationData.RawLines[index]);
-                Assert.AreEqual(mockTranslatedLines[index], translationData.TranslatedLines[index]);
-                Assert.AreEqual(mockMarkedLines[index], translationData.MarkedLines[index]);
-                Assert.AreEqual(mockCompleteLines[index], translationData.CompletedLines[index]);
+                Assert.Equal(mockRawLines[index],           translationData.RawLines[index]);
+                Assert.Equal(mockTranslatedLines[index],    translationData.TranslatedLines[index]);
+                Assert.Equal(mockMarkedLines[index],        translationData.MarkedLines[index]);
+                Assert.Equal(mockCompletedLines[index],     translationData.CompletedLines[index]);
             }
 
+            mockProjectData.Verify(
+                    x => x.RawLines,
+                Times.Exactly(expectedNumberOfLines));
+
+            mockProjectData.Verify(
+                    x => x.TranslatedLines,
+                Times.Exactly(expectedNumberOfLines));
+
+            mockProjectData.Verify(
+                    x => x.MarkedLines,
+                Times.Exactly(expectedNumberOfLines));
+
+            mockProjectData.Verify(
+                    x => x.CompletedLines,
+                Times.Exactly(expectedNumberOfLines * 2 + 1));
         }
 
-        [TestMethod]
-        public void GetProjectData_Test()
+        /// <summary>
+        /// Given that Translation Data is successfully created, Get Project Data returns the project data object.
+        /// </summary>
+        [Fact]
+        public void TranslationData_GetProjectData_Test()
         {
             //Arrange
             var translationData = new TranslationData(mockProjectData.Object);
@@ -925,10 +1154,49 @@ namespace TranslatorStudioClassLibraryTest.Class
             var actualProjectData = translationData.GetProjectData();
 
             //Assert
-            Assert.AreEqual(expectedProjectData, actualProjectData);
+            Assert.IsAssignableFrom<IProjectData>(actualProjectData);
+            Assert.Equal(expectedProjectData, actualProjectData);
         }
 
+        #endregion
 
+        #region Exception Tests
+        /// <summary>
+        /// Given that Translation Data only has one line, Remove Line will throw RemovalOfLastLine Exception.
+        /// </summary>
+        [Fact]
+        [Trait("Category", "Exception")]
+        public void TranslationData_GivenRemoveLineAtLastLineRaiseException()
+        {
+            //Arrange
+            var translationData = new TranslationData(mockProjectData.Object);
+
+            int? index = 0;
+            int removeIndex = index ?? translationData.MaxIndex;
+
+            mockRawLines.RemoveRange(1, mockRawLines.Count - 1);
+            mockTranslatedLines.RemoveRange(1, mockRawLines.Count - 1);
+            mockCompletedLines.RemoveRange(1, mockRawLines.Count - 1);
+            mockMarkedLines.RemoveRange(1, mockRawLines.Count - 1);
+
+            var expectedMessage = "Cannot remove last line of the translation project.";
+            var expected = new RemovalOfLastLineException(expectedMessage);
+
+            //Act
+            var actual = Record.Exception(() => translationData.RemoveLine(removeIndex));
+            var actualMessage = actual.Message;
+
+            //Assert
+            Assert.IsType<RemovalOfLastLineException>(actual);
+            Assert.NotStrictEqual(expected, actual);
+            Assert.IsType<string>(actualMessage);
+            Assert.Equal(expectedMessage, actual.Message);
+
+
+            mockProjectData.Verify(
+                    x => x.RawLines,
+                Times.Once());
+        }
         #endregion
 
     }

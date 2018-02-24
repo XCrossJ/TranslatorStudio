@@ -13,13 +13,12 @@ namespace TranslatorStudioClassLibrary.Repository
     public class TranslationDataRepository: ITranslationDataRepository
     {
         /// <summary>
-        /// Create Translation Data From Stream:
-        ///     creates translation data from stream reader.
+        /// Creates translation data from word document.
         /// </summary>
-        /// <param name="repo">IProjectDataRepository: object that implements Project Data Repository Interface</param>
-        /// <param name="fileName">string: the name of the file.</param>
-        /// <param name="sr">StreamReader: the stream reader used to read the file.</param>
-        /// <returns>ITranslationData: object that implements Translation Data Interface.</returns>
+        /// <param name="repo">Object that implements Project Data Repository Interface</param>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="document">The document that will be used in the conversion.</param>
+        /// <returns>Object that implements Translation Data Interface.</returns>
         public ITranslationData CreateTranslationDataFromDocument(IProjectDataRepository repo, string fileName, Document document)
         {
             try
@@ -34,14 +33,11 @@ namespace TranslatorStudioClassLibrary.Repository
                 throw e;
             }
         }
-
         /// <summary>
-        /// Create Translation Data From Document:
-        ///     creates translation data from document.
+        /// Create translation data from project.
         /// </summary>
-        /// <param name="fileName">string: name of file.</param>
-        /// <param name="document">Document: the document that will be used in the conversion.</param>
-        /// <returns>ITranslationData: object that implements Translation Data Interface.</returns>
+        /// <param name="project">Object that implements Project Data Interface</param>
+        /// <returns>Object that implements Translation Data Interface.</returns>
         public ITranslationData CreateTranslationDataFromProject(IProjectData project)
         {
             try
@@ -57,14 +53,13 @@ namespace TranslatorStudioClassLibrary.Repository
                 throw e;
             }
         }
-
         /// <summary>
-        /// Create Translation Data From Project:
-        ///     create translation data from project.
+        /// Creates translation data from stream reader.
         /// </summary>
-        /// <param name="repo">IProjectDataRepository: object that implements Project Data Repository Interface</param>
-        /// <param name="project">IProjectData: object that implements Project Data Interface</param>
-        /// <returns>ITranslationData: object that implements Translation Data Interface.</returns>
+        /// <param name="repo">Object that implements Project Data Repository Interface</param>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="sr">The stream reader used to read the file.</param>
+        /// <returns>Object that implements Translation Data Interface.</returns>
         public ITranslationData CreateTranslationDataFromStream(IProjectDataRepository repo, string fileName, StreamReader sr)
         {
             try
@@ -79,6 +74,5 @@ namespace TranslatorStudioClassLibrary.Repository
                 throw e;
             }
         }
-        
     }
 }

@@ -9,31 +9,26 @@ namespace TranslatorStudioClassLibrary.Interface
     {
         #region Property
         /// <summary>
-        /// Index Reference:
-        ///     property that contains the index reference.
+        /// Contains the index references of the lines that meet the criteria.
         /// </summary>
         List<int> IndexReference { get; set; }
 
         /// <summary>
-        /// Current Reference:
-        ///     property that contains the current reference.
+        /// Contains the current line reference.
         /// </summary>
         int CurrentReference { get; }
 
         /// <summary>
-        /// Current Index:
-        ///     property that contains the current index in the translation mode.
+        /// Contains the current index reference used to access the line in the main translation project.
         /// </summary>
         int CurrentIndex { get; set; }
         /// <summary>
-        /// Max Index:
-        ///     property that contains the max index in the translation.
+        /// Contains the max index in the sub translation project.
         /// </summary>
         int MaxIndex { get; }
 
         /// <summary>
-        /// Number Of Lines:
-        ///     property that contains the number of lines in the translation.
+        /// Contains the number of lines in the sub translation project.
         /// </summary>
         int NumberOfLines { get; }
         #endregion

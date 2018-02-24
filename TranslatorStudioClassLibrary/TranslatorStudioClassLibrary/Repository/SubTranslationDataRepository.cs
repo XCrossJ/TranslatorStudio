@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TranslatorStudioClassLibrary.Class;
 using TranslatorStudioClassLibrary.Interface;
 
@@ -12,15 +11,14 @@ namespace TranslatorStudioClassLibrary.Repository
     public class SubTranslationDataRepository : ISubTranslationDataRepository
     {
         /// <summary>
-        /// Get Sub Data:
-        ///     creates sub translation data based on condition list.
+        /// Creates sub translation data based on condition list.
         /// </summary>
-        /// <param name="conditionList">List<bool>: the condition list used to construct the sub data.</param>
-        /// <returns>ISubTranslationData: object that implements Sub Translation Data Interface.</returns>
+        /// <param name="conditionList">The condition list used to construct the sub data.</param>
+        /// <returns>Object that implements Sub Translation Data Interface.</returns>
         public ISubTranslationData GetSubData(List<bool> conditionList)
         {
             if (conditionList.Count == 0)
-                throw new Exception("Passed Condition List is Empty.");
+                throw new System.Exception("Passed Condition List is Empty.");
 
             var newIndexReference = new List<int>();
             for (int i = 0; i < conditionList.Count; i++)
@@ -29,17 +27,16 @@ namespace TranslatorStudioClassLibrary.Repository
             }
 
             if (newIndexReference.Count == 0)
-                throw new Exception("Condition list retrieved no indices.");
+                throw new System.Exception("Condition list retrieved no indices.");
 
             return ConstructSubTranslationData(newIndexReference);
         }
 
         /// <summary>
-        /// Construct Sub Translation Data:
-        ///     private method that constructs sub translation data based on index reference.
+        /// Private method that constructs sub translation data based on index reference.
         /// </summary>
-        /// <param name="newIndexReference">List<int>: index reference list used to construct the sub data.</param>
-        /// <returns>ISubTranslationData: object that implements Sub Translation Data Interface.</returns>
+        /// <param name="newIndexReference">Index reference list used to construct the sub data.</param>
+        /// <returns>Object that implements Sub Translation Data Interface.</returns>
         private ISubTranslationData ConstructSubTranslationData(List<int> newIndexReference)
         {
             return new SubTranslationData

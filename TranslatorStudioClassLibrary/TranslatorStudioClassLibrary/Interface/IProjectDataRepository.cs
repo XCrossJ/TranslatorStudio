@@ -10,30 +10,30 @@ namespace TranslatorStudioClassLibrary.Interface
     public interface IProjectDataRepository
     {
         /// <summary>
-        /// Create Project Data From Array:
-        ///     creates project data from array.
+        /// Creates project data from array.
         /// </summary>
-        /// <param name="fileName">string: the name of the file.</param>
-        /// <param name="rawLines">string[]: array of strings that holds the raw lines.</param>
-        /// <returns>IProjectData: object that implements Project Data Interface.</returns>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="rawLines">Array of strings that holds the raw lines.</param>
+        /// <exception cref="Exception.EmptyRawException">Thrown when provided raw lines are empty.</exception>
+        /// <returns>Object that implements Project Data Interface.</returns>
         IProjectData CreateProjectDataFromArray(string fileName, string[] rawLines);
 
         /// <summary>
-        /// Create Project Data From Stream:
-        ///     creates project data from stream reader.
+        /// Creates project data from stream reader.
         /// </summary>
-        /// <param name="fileName">string: the name of the file.</param>
-        /// <param name="sr">StreamReader: the stream reader used to read the file.</param>
-        /// <returns>IProjectData: object that implements Project Data Interface.</returns>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="sr">The stream reader used to read the file.</param>
+        /// <exception cref="Exception.EmptyRawException">Thrown when provided raw lines are empty.</exception>
+        /// <returns>Object that implements Project Data Interface.</returns>
         IProjectData CreateProjectDataFromStream(string fileName, StreamReader sr);
 
         /// <summary>
-        /// Create Project Data From Document:
-        ///     creates project data from document.
+        /// Creates project data from word document.
         /// </summary>
-        /// <param name="fileName">string: the name of the file.</param>
-        /// <param name="document">Document: the document that will be used in the conversion.</param>
-        /// <returns>IProjectData: object that implements Project Data Interface.</returns>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="document">The document that will be used in the conversion.</param>
+        /// <exception cref="Exception.EmptyRawException">Thrown when provided raw lines are empty.</exception>
+        /// <returns>Object that implements Project Data Interface.</returns>
         IProjectData CreateProjectDataFromDocument(string fileName, Document document);
 
     }

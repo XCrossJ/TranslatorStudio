@@ -1,28 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Microsoft.Office.Interop.Word;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TranslatorStudioClassLibrary.Class;
+using TranslatorStudioClassLibrary.Exception;
 using TranslatorStudioClassLibrary.Interface;
 using TranslatorStudioClassLibrary.Repository;
+using Xunit;
 
 namespace TranslatorStudioClassLibraryTest.Repository
 {
-    [TestClass]
-    [TestCategory("Project Data Repository Test")]
+    /// <summary>
+    /// Contains tests that are run against Project Data Repository class.
+    /// </summary>
+    [Collection("Project Data Repository Test")]
+    [Trait("Category", "Unit")]
+    [Trait("Class", "Project Data Repository")]
     public class ProjectDataRepositoryTest
     {
+        /// <summary>
+        /// Mock of Project Name.
+        /// </summary>
         private readonly string mockProjectName;
+        /// <summary>
+        /// Mock of Raw Lines.
+        /// </summary>
         private readonly List<string> mockRawLines;
+        /// <summary>
+        /// Mock of Translated Lines.
+        /// </summary>
         private readonly List<string> mockTranslatedLines;
+        /// <summary>
+        /// Mock of Marked Lines.
+        /// </summary>
         private readonly List<bool> mockMarkedLines;
-        private readonly List<bool> mockCompleteLines;
+        /// <summary>
+        /// Mock of Completed Lines.
+        /// </summary>
+        private readonly List<bool> mockCompletedLines;
 
+        /// <summary>
+        /// Project Data Repository under test.
+        /// </summary>
         private readonly IProjectDataRepository projectDataRepository;
 
+        /// <summary>
+        /// Constructor to set up test code.
+        /// </summary>
         public ProjectDataRepositoryTest()
         {
             mockProjectName = "Mock Test Project Name";
@@ -69,7 +93,7 @@ namespace TranslatorStudioClassLibraryTest.Repository
                 false
             };
 
-            mockCompleteLines = new List<bool>
+            mockCompletedLines = new List<bool>
             {
                 false,
                 false,
@@ -86,7 +110,34 @@ namespace TranslatorStudioClassLibraryTest.Repository
             projectDataRepository = new ProjectDataRepository();
         }
 
-        [TestMethod]
+        #region Constructor Tests
+
+        /// <summary>
+        /// Given that Project Data Repository is invoked, Default Constructor returns valid Project Data Repository.
+        /// </summary>
+        [Fact]
+        public void ProjectDataRepository_DefaultConstructor_Test()
+        {
+            //Arrange
+            var expected = projectDataRepository;
+
+            //Act
+            var actual = new ProjectDataRepository();
+
+            //Assert
+            Assert.IsType<ProjectDataRepository>(actual);
+            Assert.IsAssignableFrom<IProjectDataRepository>(actual);
+            Assert.NotStrictEqual(expected, actual);
+        }
+
+        #endregion
+
+        #region Methods Tests
+
+        /// <summary>
+        /// Given that Array passes is valid, Create Project Data From Array returns valid Project Data.
+        /// </summary>
+        [Fact]
         public void CreateProjectDataFromArray_Test()
         {
             //Arrange
@@ -100,11 +151,16 @@ namespace TranslatorStudioClassLibraryTest.Repository
             var actual = projectDataRepository.CreateProjectDataFromArray(mockProjectName, mockRawLines.ToArray());
 
             //Assert
-            Assert.AreEqual(expected, actual); // Is not a true equals. Need to develop more.
-            CollectionAssert.AreEqual(expected.RawLines, actual.RawLines);
+            Assert.IsType<ProjectData>(actual);
+            Assert.IsAssignableFrom<IProjectData>(actual);
+            Assert.NotStrictEqual(expected, actual);
+            Assert.Equal(expected.RawLines, actual.RawLines);
         }
 
-        [TestMethod]
+        /// <summary>
+        /// Given that Stream Reader passed is valid, Create Project Data From Stream returns valid Project Data.
+        /// </summary>
+        [Fact]
         public void CreateProjectDataFromStream_Test()
         {
             // Arrange
@@ -130,12 +186,19 @@ namespace TranslatorStudioClassLibraryTest.Repository
             var actualRaw = projectData.RawLines;
 
             // Assert
-            Assert.AreEqual(expectedName, actualName);
-            CollectionAssert.AreEqual(expectedRaw, actualRaw);
+            Assert.IsType<ProjectData>(projectData);
+            Assert.IsAssignableFrom<IProjectData>(projectData);
+            Assert.IsType<string>(actualName);
+            Assert.Equal(expectedName, actualName);
+            Assert.IsType<List<string>>(actualRaw);
+            Assert.Equal(expectedRaw, actualRaw);
         }
 
-        [TestMethod]
-        [TestCategory("Not Implemented Correctly")]
+        /// <summary>
+        /// Given that Document passes is valid, Create Project Data From Document returns valid Project Data;
+        /// </summary>
+        [Fact]
+        [Trait("Category", "Not Implemented Correctly")]
         public void CreateProjectDataFromDocument_Test()
         {
             // Arrange
@@ -154,6 +217,7 @@ namespace TranslatorStudioClassLibraryTest.Repository
                 paragraphs.Setup(x => x[It.Is<int>(n => n == i)].Range.Text).Returns(expectedRaw[i]);
             }
 
+
             document.Setup(
                     x => x.Paragraphs)
                 .Returns(paragraphs.Object);
@@ -165,57 +229,91 @@ namespace TranslatorStudioClassLibraryTest.Repository
             var actualRaw = projectData.RawLines;
 
             // Assert
-            Assert.AreEqual(expectedName, actualName);
-            //CollectionAssert.AreEqual(expected, actual);
-            Assert.AreEqual(expectedRaw.Count, actualRaw.Count); // Not a true assert. Need to redo this test.
-
+            Assert.IsType<string>(actualName);
+            Assert.Equal(expectedName, actualName);
+            Assert.IsType<List<string>>(actualRaw);
+            //Assert.Equal(expectedRaw, actualRaw);
+            Assert.Equal(expectedRaw.Count, actualRaw.Count); // Not a true assert. Need to redo this test.
         }
 
+        #endregion
 
-        [TestMethod]
-        [ExpectedException(typeof(Exception))]
-        [TestCategory("Exception Test")]
+        #region Exception Tests
+
+        /// <summary>
+        /// Given that Array passed is empty, Create Project Data From Array will throw EmptyRaw Exception.
+        /// </summary>
+        [Fact]
+        [Trait("Category", "Exception")]
         public void GivenEmptyArrayRaiseException()
         {
             // Arrange
-            var emptyArray= new string[0];
+            var emptyArray = new string[0];
+
+            var expectedMessage = "No Raw Lines were submitted into the project.";
+            var expected = new EmptyRawException(expectedMessage);
 
             // Act
-            var actual = projectDataRepository.CreateProjectDataFromArray(mockProjectName, emptyArray);
+            var actual = Record.Exception(() => projectDataRepository.CreateProjectDataFromArray(mockProjectName, emptyArray));
+            var actualMessage = actual.Message;
 
             // Assert
-
+            Assert.IsType<EmptyRawException>(actual);
+            Assert.NotStrictEqual(expected, actual);
+            Assert.IsType<string>(actualMessage);
+            Assert.Equal(expectedMessage, actual.Message);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(Exception))]
-        [TestCategory("Exception Test")]
+        /// <summary>
+        /// Given that Stream Reader passed is empty, Create Project Data From Stream will throw EmptyRaw Exception.
+        /// </summary>
+        [Fact]
+        [Trait("Category", "Exception")]
         public void GivenEmptyStreamRaiseException()
         {
             // Arrange
             var emptyStream = new StreamReader(new MemoryStream());
 
+            var expectedMessage = "No Raw Lines were submitted into the project.";
+            var expected = new EmptyRawException(expectedMessage);
+
             // Act
-            var actual = projectDataRepository.CreateProjectDataFromStream(mockProjectName, emptyStream);
+            var actual = Record.Exception(() => projectDataRepository.CreateProjectDataFromStream(mockProjectName, emptyStream));
+            var actualMessage = actual.Message;
 
             // Assert
-
+            Assert.IsType<EmptyRawException>(actual);
+            Assert.NotStrictEqual(expected, actual);
+            Assert.IsType<string>(actualMessage);
+            Assert.Equal(expectedMessage, actual.Message);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(Exception))]
-        [TestCategory("Not Implemented Correctly")]
-        [TestCategory("Exception Test")]
+        /// <summary>
+        /// Given that Document passes is empty, Create Project Data From Document will throw EmptyRaw Exception.
+        /// </summary>
+        [Fact]
+        [Trait("Category", "Not Implemented Correctly")]
+        [Trait("Category", "Exception")]
         public void GivenEmptyDocumentRaiseException()
         {
             // Arrange
             var emptyDocument = new Document();
 
+            var expectedMessage = "No Raw Lines were submitted into the project.";
+            var expected = new EmptyRawException(expectedMessage);
+
             // Act
-            var actual = projectDataRepository.CreateProjectDataFromDocument(mockProjectName, emptyDocument);
+            var actual = Record.Exception(() => projectDataRepository.CreateProjectDataFromDocument(mockProjectName, emptyDocument));
+            var actualMessage = actual.Message;
 
             // Assert
-
+            Assert.IsType<EmptyRawException>(actual);
+            Assert.NotStrictEqual(expected, actual);
+            Assert.IsType<string>(actualMessage);
+            Assert.Equal(expectedMessage, actual.Message);
         }
+
+        #endregion
+
     }
 }

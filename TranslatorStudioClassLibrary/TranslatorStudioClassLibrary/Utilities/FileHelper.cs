@@ -10,6 +10,9 @@ using System;
 
 namespace TranslatorStudioClassLibrary.Utilities
 {
+    /// <summary>
+    /// Helper that contains commonly used methods for file input/output
+    /// </summary>
     public static class FileHelper
     {
         /// <summary>
@@ -98,7 +101,7 @@ namespace TranslatorStudioClassLibrary.Utilities
                     data = OpenTextFile(path, fileName);
                     break;
                 default:
-                    throw new Exception("File Type Not Handled.");
+                    throw new System.Exception("File Type Not Handled.");
             }
             var openData = new Tuple<ITranslationData, string>(data, previousSavePath);
             return openData;
@@ -119,7 +122,7 @@ namespace TranslatorStudioClassLibrary.Utilities
                 File.WriteAllText(path, json.ToString());
                 return true;
             }
-            catch (Exception)
+            catch (System.Exception)
             {
                 return false;
             }
