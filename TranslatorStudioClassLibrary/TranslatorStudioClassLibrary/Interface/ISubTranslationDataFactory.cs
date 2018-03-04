@@ -3,9 +3,9 @@
 namespace TranslatorStudioClassLibrary.Interface
 {
     /// <summary>
-    /// Interface that defines the public properties and methods required to store Sub Translation Data Repository.
+    /// Interface that defines the public properties and methods required to construct Sub Translation Data.
     /// </summary>
-    public interface ISubTranslationDataRepository
+    public interface ISubTranslationDataFactory
     {
         /// <summary>
         /// Creates sub translation data based on condition list.

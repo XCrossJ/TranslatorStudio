@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TranslatorStudioClassLibrary.Class;
+using TranslatorStudioClassLibrary.Exception;
 using TranslatorStudioClassLibrary.Interface;
 using TranslatorStudioClassLibrary.Utilities;
 
-namespace TranslatorStudioClassLibrary.Repository
+namespace TranslatorStudioClassLibrary.Factory
 {
     /// <summary>
-    /// Class that contains the properties and method relevant for Project Data Repository.
-    /// Implements Project Data Repository Interface.
+    /// Class responsible for constructing Project Data.
+    /// Class that contains the properties and method relevant for Project Data Factory.
+    /// Implements Project Data Factory Interface.
     /// </summary>
-    public class ProjectDataRepository : IProjectDataRepository
+    public class ProjectDataFactory : IProjectDataFactory
     {
         #region Public Methods
         /// <summary>
@@ -20,7 +22,7 @@ namespace TranslatorStudioClassLibrary.Repository
         /// </summary>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="rawLines">Array of strings that holds the raw lines.</param>
-        /// <exception cref="Exception.EmptyRawException">Thrown when provided raw lines are empty.</exception>
+        /// <exception cref="EmptyRawException">Thrown when provided raw lines are empty.</exception>
         /// <returns>Object that implements Project Data Interface.</returns>
         public IProjectData CreateProjectDataFromArray(string fileName, string[] rawLines)
         {
@@ -34,7 +36,7 @@ namespace TranslatorStudioClassLibrary.Repository
         /// </summary>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="sr">The stream reader used to read the file.</param>
-        /// <exception cref="Exception.EmptyRawException">Thrown when provided raw lines are empty.</exception>
+        /// <exception cref="EmptyRawException">Thrown when provided raw lines are empty.</exception>
         /// <returns>Object that implements Project Data Interface.</returns>
         public IProjectData CreateProjectDataFromStream(string fileName, StreamReader sr)
         {
@@ -56,7 +58,7 @@ namespace TranslatorStudioClassLibrary.Repository
         /// </summary>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="document">The document that will be used in the conversion.</param>
-        /// <exception cref="Exception.EmptyRawException">Thrown when provided raw lines are empty.</exception>
+        /// <exception cref="EmptyRawException">Thrown when provided raw lines are empty.</exception>
         /// <returns>Object that implements Project Data Interface.</returns>
         public IProjectData CreateProjectDataFromDocument(string fileName, Document document)
         {
@@ -78,12 +80,12 @@ namespace TranslatorStudioClassLibrary.Repository
         /// </summary>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="newRawLines">The raw lines used to construct the project.</param>
-        /// <exception cref="Exception.EmptyRawException">Thrown when provided raw lines are empty.</exception>
+        /// <exception cref="EmptyRawException">Thrown when provided raw lines are empty.</exception>
         /// <returns>Object that implements Project Data Interface.</returns>
         private IProjectData ConstructProjectData(string fileName, List<string> newRawLines)
         {
             if (!newRawLines.Any())
-                throw ExceptionHelper.NewEmptyRawException();
+                throw ExceptionHelper.NewEmptyRawException;
 
             var numberOfItems = newRawLines.Count;
             var newTranslatedLines = new string[numberOfItems].ToList();

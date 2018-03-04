@@ -1,24 +1,48 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using TranslatorStudioClassLibrary.Class;
 using TranslatorStudioClassLibrary.Interface;
 using TranslatorStudioClassLibrary.Utilities;
-
+using Xunit;
 
 namespace TranslatorStudioClassLibraryTest.Utilities
 {
-    [TestClass]
-    [TestCategory("Extension Helper Test")]
+    /// <summary>
+    /// Contains tests to run against Extension Helper class.
+    /// </summary>
+    [Collection("Project Helper Test")]
+    [Trait("Category", "Unit")]
+    [Trait("Class", "Extension Helper")]
     public class ExtensionHelperTest
     {
+        /// <summary>
+        /// Mock of Project Data.
+        /// </summary>
         private readonly IProjectData mockProjectData;
+        /// <summary>
+        /// Mock of Project Name.
+        /// </summary>
         private readonly string mockProjectName;
+        /// <summary>
+        /// Mock of Raw Lines.
+        /// </summary>
         private readonly List<string> mockRawLines;
+        /// <summary>
+        /// Mock of Translated Lines.
+        /// </summary>
         private readonly List<string> mockTranslatedLines;
+        /// <summary>
+        /// Mock of Completed Lines.
+        /// </summary>
         private readonly List<bool> mockCompletedLines;
+        /// <summary>
+        /// Mock of Marked Lines.
+        /// </summary>
         private readonly List<bool> mockMarkedLines;
 
+        /// <summary>
+        /// Constructor to set up test code.
+        /// </summary>
         public ExtensionHelperTest()
         {
             mockProjectName = "Mock Project Name";
@@ -36,8 +60,11 @@ namespace TranslatorStudioClassLibraryTest.Utilities
             };
         }
 
-        [TestMethod]
-        public void ToJSONString_Test()
+        /// <summary>
+        /// Given that Object is valid, To JSON String returns serialised json string.
+        /// </summary>
+        [Fact]
+        public void ExtensionHelper_ToJSONString_Test()
         {
             //Arrange
             string expected = JsonConvert.SerializeObject(mockProjectData);
@@ -46,21 +73,31 @@ namespace TranslatorStudioClassLibraryTest.Utilities
             var actual = mockProjectData.ToJSONString();
 
             //Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
 
         }
 
-        [TestMethod]
-        public void GetNumberFormat_Test()
+        /// <summary>
+        /// Given that number is valid, Get Number Format returns string format to use.
+        /// </summary>
+        /// <param name="number">Number to get format of.</param>
+        /// <param name="expectedFormat">The expected format.</param>
+        [Theory]
+        [InlineData(1, "0")]
+        [InlineData(31, "00")]
+        [InlineData(123, "000")]
+        [InlineData(1000, "0000")]
+        [InlineData(10000, "00000")]
+        public void ExtensionHelper_GetNumberFormat_Test(int number, string expectedFormat)
         {
             //Arrange
-            var expected = "0000";
+            var expected = expectedFormat;
 
             //Act
-            var actual = 1000.GetNumberFormat();
+            var actual = number.GetNumberFormat();
 
             //Assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
     }
 }

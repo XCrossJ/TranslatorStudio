@@ -2,24 +2,27 @@
 using System.Linq;
 using Microsoft.Office.Interop.Word;
 using TranslatorStudioClassLibrary.Class;
+using TranslatorStudioClassLibrary.Exception;
 using TranslatorStudioClassLibrary.Interface;
+using TranslatorStudioClassLibrary.Utilities;
 
-namespace TranslatorStudioClassLibrary.Repository
+namespace TranslatorStudioClassLibrary.Factory
 {
     /// <summary>
-    /// Class that contains the properties and method relevant for Translation Data Repository.
-    /// Implements Translation Data Repository Interface.
+    /// Class responsible for constructing Translation Data.
+    /// Class that contains the properties and method relevant for Translation Data Factory.
+    /// Implements Translation Data Factory Interface.
     /// </summary>
-    public class TranslationDataRepository: ITranslationDataRepository
+    public class TranslationDataFactory: ITranslationDataFactory
     {
         /// <summary>
         /// Creates translation data from word document.
         /// </summary>
-        /// <param name="repo">Object that implements Project Data Repository Interface</param>
+        /// <param name="repo">Object that implements Project Data Factory Interface</param>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="document">The document that will be used in the conversion.</param>
         /// <returns>Object that implements Translation Data Interface.</returns>
-        public ITranslationData CreateTranslationDataFromDocument(IProjectDataRepository repo, string fileName, Document document)
+        public ITranslationData CreateTranslationDataFromDocument(IProjectDataFactory repo, string fileName, Document document)
         {
             try
             {
@@ -37,13 +40,14 @@ namespace TranslatorStudioClassLibrary.Repository
         /// Create translation data from project.
         /// </summary>
         /// <param name="project">Object that implements Project Data Interface</param>
+        /// <exception cref="EmptyRawException">Thrown when provided raw lines are empty.</exception>
         /// <returns>Object that implements Translation Data Interface.</returns>
         public ITranslationData CreateTranslationDataFromProject(IProjectData project)
         {
             try
             {
                 if (!project.RawLines.Any())
-                    throw new System.Exception("No Raw Lines were submitted into the project.");
+                    throw ExceptionHelper.NewEmptyRawException;
 
                 return new TranslationData(project);
             }
@@ -56,11 +60,11 @@ namespace TranslatorStudioClassLibrary.Repository
         /// <summary>
         /// Creates translation data from stream reader.
         /// </summary>
-        /// <param name="repo">Object that implements Project Data Repository Interface</param>
+        /// <param name="repo">Object that implements Project Data Factory Interface</param>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="sr">The stream reader used to read the file.</param>
         /// <returns>Object that implements Translation Data Interface.</returns>
-        public ITranslationData CreateTranslationDataFromStream(IProjectDataRepository repo, string fileName, StreamReader sr)
+        public ITranslationData CreateTranslationDataFromStream(IProjectDataFactory repo, string fileName, StreamReader sr)
         {
             try
             {

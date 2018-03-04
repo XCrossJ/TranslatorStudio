@@ -18,55 +18,67 @@ namespace TranslatorStudioClassLibrary.Class
         /// <summary>
         /// Private property that contains Project Data.
         /// </summary>
-        private IProjectData Data { get; set; }
+        private IProjectData _data { get; set; }
         /// <summary>
         /// Private property that contains Sub Translation Data.
         /// </summary>
-        private ISubTranslationData SubData { get; set; }
+        private ISubTranslationData _subData { get; set; }
+        /// <summary>
+        /// Private property that contains Auto Translation Data.
+        /// </summary>
+        private ISubTranslationData _autoData { get; set; }
+        /// <summary>
+        /// Private property that contains Auto Translation Mode flag.
+        /// </summary>
+        private bool _autoMode { get; set; } = false;
         /// <summary>
         /// Determines whether Default Translation Mode is turned on or not.
         /// </summary>
         public bool DefaultTranslationMode { get; set; } = true;
+        /// <summary>
+        /// Determines whether Auto Translation Mode is turned on or not.
+        /// </summary>
+        public bool AutoTranslationMode { get => _autoMode; }
 
         /// <summary>
         /// The name of the project.
         /// </summary>
         public string ProjectName
         {
-            get => Data.ProjectName;
-            set => Data.ProjectName = value;
+            get => _data.ProjectName;
+            set => _data.ProjectName = value;
         }
         /// <summary>
         /// Contains all of the raw lines in the translation.
         /// </summary>
         public List<string> RawLines
         {
-            get => Data.RawLines;
-            set => Data.RawLines = value;
+            get => _data.RawLines;
+            set => _data.RawLines = value;
         }
         /// <summary>
         /// Contains all of the translated lines in the translation.
         /// </summary>
         public List<string> TranslatedLines
         {
-            get => Data.TranslatedLines;
-            set => Data.TranslatedLines = value;
+            get => _data.TranslatedLines;
+            set => _data.TranslatedLines = value;
         }
         /// <summary>
         /// Contains the completion status of each line in the translation.
         /// </summary>
         public List<bool> CompletedLines
         {
-            get => Data.CompletedLines;
-            set => Data.CompletedLines = value;
+            get => _data.CompletedLines;
+            set => _data.CompletedLines = value;
         }
         /// <summary>
         /// Contains the marked status of each line in the translation.
         /// </summary>
         public List<bool> MarkedLines
         {
-            get => Data.MarkedLines;
-            set => Data.MarkedLines = value;
+            get => _data.MarkedLines;
+            set => _data.MarkedLines = value;
         }
         #endregion
 
@@ -76,13 +88,21 @@ namespace TranslatorStudioClassLibrary.Class
         /// </summary>
         public string CurrentRaw
         {
-            get => DefaultTranslationMode ? Data.RawLines[CurrentIndex] : Data.RawLines[SubData.CurrentReference];
+            get
+            {
+                var index = DefaultTranslationMode ?
+                    (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
+                    : _subData.CurrentReference;
+
+                return RawLines[index];
+            }
             set
             {
-                if (DefaultTranslationMode)
-                    RawLines[CurrentIndex] = value;
-                else
-                    RawLines[SubData.CurrentReference] = value;
+                var index = DefaultTranslationMode ?
+                    (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
+                    : _subData.CurrentReference;
+
+                RawLines[index] = value;
             }
         }
         /// <summary>
@@ -90,13 +110,21 @@ namespace TranslatorStudioClassLibrary.Class
         /// </summary>
         public string CurrentTranslation
         {
-            get => DefaultTranslationMode ? TranslatedLines[CurrentIndex] : TranslatedLines[SubData.CurrentReference];
+            get
+            {
+                var index = DefaultTranslationMode ?
+                    (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
+                    : _subData.CurrentReference;
+
+                return TranslatedLines[index];
+            }
             set
             {
-                if (DefaultTranslationMode)
-                    TranslatedLines[CurrentIndex] = value;
-                else
-                    TranslatedLines[SubData.CurrentReference] = value;
+                var index = DefaultTranslationMode ?
+                    (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
+                    : _subData.CurrentReference;
+
+                TranslatedLines[index] = value;
             }
         }
         /// <summary>
@@ -104,13 +132,21 @@ namespace TranslatorStudioClassLibrary.Class
         /// </summary>
         public bool CurrentCompletion
         {
-            get => DefaultTranslationMode ? CompletedLines[CurrentIndex] : CompletedLines[SubData.CurrentReference];
+            get
+            {
+                var index = DefaultTranslationMode ?
+                    (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
+                    : _subData.CurrentReference;
+
+                return CompletedLines[index];
+            }
             set
             {
-                if (DefaultTranslationMode)
-                    CompletedLines[CurrentIndex] = value;
-                else
-                    CompletedLines[SubData.CurrentReference] = value;
+                var index = DefaultTranslationMode ?
+                    (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
+                    : _subData.CurrentReference;
+
+                CompletedLines[index] = value;
             }
         }
         /// <summary>
@@ -118,13 +154,21 @@ namespace TranslatorStudioClassLibrary.Class
         /// </summary>
         public bool CurrentMarked
         {
-            get => DefaultTranslationMode ? MarkedLines[CurrentIndex] : MarkedLines[SubData.CurrentReference];
+            get
+            {
+                var index = DefaultTranslationMode ?
+                    (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
+                    : _subData.CurrentReference;
+
+                return MarkedLines[index];
+            }
             set
             {
-                if (DefaultTranslationMode)
-                    MarkedLines[CurrentIndex] = value;
-                else
-                    MarkedLines[SubData.CurrentReference] = value;
+                var index = DefaultTranslationMode ?
+                    (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
+                    : _subData.CurrentReference;
+
+                MarkedLines[index] = value;
             }
         }
 
@@ -137,29 +181,55 @@ namespace TranslatorStudioClassLibrary.Class
         /// </summary>
         public int CurrentIndex
         {
-            get => DefaultTranslationMode ? _index : SubData.CurrentIndex;
+            get
+            {
+                if (DefaultTranslationMode)
+                    return AutoTranslationMode ? _autoData.CurrentIndex: _index;
+                else
+                    return _subData.CurrentIndex;
+            }
             set
             {
                 if (DefaultTranslationMode)
-                    _index = value;
+                    if (AutoTranslationMode)
+                        _autoData.CurrentIndex = value;
+                    else
+                        _index = value;
                 else
-                    SubData.CurrentIndex = value;
+                    _subData.CurrentIndex = value;
 
             }
         }
         /// <summary>
         /// The max index in the translation.
         /// </summary>
-        public int MaxIndex => DefaultTranslationMode ? RawLines.Count - 1 : SubData.MaxIndex;
+        public int MaxIndex
+        {
+            get
+            {
+                if (DefaultTranslationMode)
+                    return AutoTranslationMode ? _autoData.MaxIndex : RawLines.Count - 1;
+                else
+                    return _subData.MaxIndex;
+            }
+        }
 
         /// <summary>
         /// The number of lines in the translation.
         /// </summary>
-        public int NumberOfLines => RawLines.Count;
+        public int NumberOfLines => AutoTranslationMode ? _autoData.NumberOfLines : RawLines.Count;
         /// <summary>
         ///The number of completed lines in the translation.
         /// </summary>
-        public int NumberOfCompletedLines => CompletedLines.Where(c => c).Count();
+        public int NumberOfCompletedLines
+        {
+            get
+            {
+                return CompletedLines.Select((v, i) => new { v, i })
+                        .Where(x => x.v == true && (AutoTranslationMode ? RawLines[x.i].Any() : true))
+                        .Select(x => x.i).ToList().Count();
+            }
+        }
         #endregion
 
         #endregion
@@ -180,7 +250,7 @@ namespace TranslatorStudioClassLibrary.Class
         /// <param name="data">Object that implements Project Data Interface.</param>
         public TranslationData(IProjectData data)
         {
-            Data = data;
+            _data = data;
             CurrentIndex = 0;
         }
         #endregion
@@ -193,7 +263,12 @@ namespace TranslatorStudioClassLibrary.Class
         public void IncrementCurrentLine()
         {
             if (CurrentIndex != MaxIndex)
+            {
                 CurrentIndex++;
+                var testIndex = _autoData != null ? _autoData.CurrentReference - 1 : 0;
+                if (_autoMode && !RawLines[testIndex].Any())
+                    CompletedLines[testIndex] = true;
+            }
         }
         /// <summary>
         /// Decrements the current index.
@@ -201,7 +276,12 @@ namespace TranslatorStudioClassLibrary.Class
         public void DecrementCurrentLine()
         {
             if (CurrentIndex != 0)
+            {
                 CurrentIndex--;
+                var testIndex = _autoData != null ? _autoData.CurrentReference - 1 : 0;
+                if (_autoMode && !RawLines[testIndex].Any())
+                    CompletedLines[testIndex] = true;
+            }
         }
 
         /// <summary>
@@ -227,7 +307,7 @@ namespace TranslatorStudioClassLibrary.Class
         public void RemoveLine(int? index)
         {
             if (MaxIndex == 0)
-                throw ExceptionHelper.NewRemovalOfLastLineException();
+                throw ExceptionHelper.NewRemovalOfLastLineException;
             int insertionIndex = index ?? MaxIndex;
 
             RawLines.RemoveAt(insertionIndex);
@@ -242,7 +322,7 @@ namespace TranslatorStudioClassLibrary.Class
         /// <returns>JSON string of project data.</returns>
         public string GetProjectSaveString()
         {
-            return Data.GetSaveString();
+            return _data.GetSaveString();
         }
 
         /// <summary>
@@ -254,57 +334,81 @@ namespace TranslatorStudioClassLibrary.Class
             CurrentIndex = 0;
         }
         /// <summary>
+        /// Initiates auto translation mode. (Removes empty lines.)
+        /// </summary>
+        /// <param name="subRepo">Object that implements Sub Translation Data Factory Interface.</param>
+        /// <returns>Number of lines that are not empty.</returns>
+        public int StartAutoMode(ISubTranslationDataFactory subRepo)
+        {
+            _autoMode = true;
+            var nonEmptyRaw = RawLines.Where(x => x.Any()).Select(x => true);
+
+            _autoData = subRepo.GetSubData(nonEmptyRaw.ToList());
+            CurrentIndex = 0;
+            return _autoData.NumberOfLines;
+        }
+        /// <summary>
         /// Initiates marked only translation mode. (Shows all marked lines only).
         /// </summary>
-        /// <param name="subRepo">Object that implements Sub Translation Data Repository Interface.</param>
+        /// <param name="subRepo">Object that implements Sub Translation Data Factory Interface.</param>
         /// <returns>Number of lines that are marked.</returns>
-        public int StartMarkedOnlyMode(ISubTranslationDataRepository subRepo)
+        public int StartMarkedOnlyMode(ISubTranslationDataFactory subRepo)
         {
-            SubData = subRepo.GetSubData(MarkedLines);
+            List<bool> conditionList;
+            if (_autoMode)
+                conditionList = _autoData.IndexReference.Where(x => MarkedLines[x]).Select(x => true).ToList();
+            else
+                conditionList = MarkedLines;
+
+            _subData = subRepo.GetSubData(conditionList);
             DefaultTranslationMode = false;
             CurrentIndex = 0;
-            return SubData.NumberOfLines;
+            return _subData.NumberOfLines;
         }
         /// <summary>
         /// Initates incomplete only translation mode. (Shows all incomplete lines only.)
         /// </summary>
-        /// <param name="subRepo">Object that implements Sub Translation Data Repository Interface.</param>
+        /// <param name="subRepo">Object that implements Sub Translation Data Factory Interface.</param>
         /// <returns>Number of lines that are incomplete.</returns>
-        public int StartIncompleteOnlyMode(ISubTranslationDataRepository subRepo)
+        public int StartIncompleteOnlyMode(ISubTranslationDataFactory subRepo)
         {
-            var incompleteLines = new List<bool>();
-            foreach (var line in CompletedLines)
-            {
-                incompleteLines.Add(!line);
-            }
+            List<bool> conditionList;
+            if (_autoMode)
+                conditionList = _autoData.IndexReference.Where(x => !CompletedLines[x]).Select(x => true).ToList();
+            else
+                conditionList = CompletedLines.Select(x => !x).ToList();
 
-            SubData = subRepo.GetSubData(incompleteLines);
+            _subData = subRepo.GetSubData(conditionList);
             DefaultTranslationMode = false;
             CurrentIndex = 0;
-            return SubData.NumberOfLines;
+            return _subData.NumberOfLines;
         }
-
         /// <summary>
         /// Initiates complete only translation mode. (Shows all complete lines only.)
         /// </summary>
-        /// <param name="subRepo">Object that implements Sub Translation Data Repository Interface.</param>
+        /// <param name="subRepo">Object that implements Sub Translation Data Factory Interface.</param>
         /// <returns>Number of lines that are complete.</returns>
-        public int StartCompleteOnlyMode(ISubTranslationDataRepository subRepo)
+        public int StartCompleteOnlyMode(ISubTranslationDataFactory subRepo)
         {
-            SubData = subRepo.GetSubData(CompletedLines);
+            List<bool> conditionList;
+            if (_autoMode)
+                conditionList = _autoData.IndexReference.Where(x => CompletedLines[x]).Select(x => true).ToList();
+            else
+                conditionList = CompletedLines;
+
+            _subData = subRepo.GetSubData(conditionList);
             DefaultTranslationMode = false;
             CurrentIndex = 0;
-            return SubData.NumberOfLines;
+            return _subData.NumberOfLines;
         }
 
         /// <summary>
         /// Returns the project data used in the translation project.
         /// </summary>
         /// <returns>Object that implements Project Data Interface.</returns>
-
         public IProjectData GetProjectData()
         {
-            return Data;
+            return _data;
         }
         #endregion
     }

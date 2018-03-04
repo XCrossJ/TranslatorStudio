@@ -54,20 +54,22 @@
     <Compile Include="Class\SubTranslationData.cs" />
     <Compile Include="Class\TranslationData.cs" />
     <Compile Include="Exception\EmptyRawException.cs" />
+    <Compile Include="Exception\InvalidConditionListException.cs" />
     <Compile Include="Exception\RemovalOfLastLineException.cs" />
+    <Compile Include="Interface\IFileRepository.cs" />
     <Compile Include="Interface\IProjectData.cs" />
     <Compile Include="Interface\ISubTranslationData.cs" />
     <Compile Include="Interface\ITranslationData.cs" />
-    <Compile Include="Repository\ProjectDataRepository.cs" />
-    <Compile Include="Repository\SubTranslationDataRepository.cs" />
-    <Compile Include="Repository\TranslationDataRepository.cs" />
-    <Compile Include="Interface\IProjectDataRepository.cs" />
-    <Compile Include="Interface\ISubTranslationDataRepository.cs" />
-    <Compile Include="Interface\ITranslationDataRepository.cs" />
+    <Compile Include="Repository\FileRepository.cs" />
+    <Compile Include="Factory\ProjectDataFactory.cs" />
+    <Compile Include="Factory\SubTranslationDataFactory.cs" />
+    <Compile Include="Factory\TranslationDataFactory.cs" />
+    <Compile Include="Interface\IProjectDataFactory.cs" />
+    <Compile Include="Interface\ISubTranslationDataFactory.cs" />
+    <Compile Include="Interface\ITranslationDataFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ExceptionHelper.cs" />
     <Compile Include="Utilities\ExtensionHelper.cs" />
-    <Compile Include="Utilities\FileHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

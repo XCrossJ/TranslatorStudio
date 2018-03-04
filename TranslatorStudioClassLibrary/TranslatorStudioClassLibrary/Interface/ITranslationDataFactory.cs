@@ -1,34 +1,36 @@
 ﻿using Microsoft.Office.Interop.Word;
 using System.IO;
+using TranslatorStudioClassLibrary.Exception;
 
 namespace TranslatorStudioClassLibrary.Interface
 {
     /// <summary>
-    /// Interface that defines the public properties and methods required to store Translation Data Repository.
+    /// Interface that defines the public properties and methods required to construct Translation Data.
     /// </summary>
-    public interface ITranslationDataRepository
+    public interface ITranslationDataFactory
     {
         /// <summary>
         /// Creates translation data from word document.
         /// </summary>
-        /// <param name="repo">Object that implements Project Data Repository Interface</param>
+        /// <param name="repo">Object that implements Project Data Factory Interface</param>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="document">The document that will be used in the conversion.</param>
         /// <returns>Object that implements Translation Data Interface.</returns>
-        ITranslationData CreateTranslationDataFromDocument(IProjectDataRepository repo, string fileName, Document document);
+        ITranslationData CreateTranslationDataFromDocument(IProjectDataFactory repo, string fileName, Document document);
         /// <summary>
         /// Create translation data from project.
         /// </summary>
         /// <param name="project">Object that implements Project Data Interface</param>
+        /// <exception cref="EmptyRawException">Thrown when provided raw lines are empty.</exception>
         /// <returns>Object that implements Translation Data Interface.</returns>
         ITranslationData CreateTranslationDataFromProject(IProjectData project);
         /// <summary>
         /// Creates translation data from stream reader.
         /// </summary>
-        /// <param name="repo">Object that implements Project Data Repository Interface</param>
+        /// <param name="repo">Object that implements Project Data Factory Interface</param>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="sr">The stream reader used to read the file.</param>
         /// <returns>Object that implements Translation Data Interface.</returns>
-        ITranslationData CreateTranslationDataFromStream(IProjectDataRepository repo, string fileName, StreamReader sr);
+        ITranslationData CreateTranslationDataFromStream(IProjectDataFactory repo, string fileName, StreamReader sr);
     }
 }

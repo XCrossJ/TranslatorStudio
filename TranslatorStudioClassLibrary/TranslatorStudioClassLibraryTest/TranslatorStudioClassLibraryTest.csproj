@@ -88,9 +88,9 @@
     <Compile Include="Class\TranslationDataTest.cs" />
     <Compile Include="Class\ProjectDataTest.cs" />
     <Compile Include="Class\SubTranslationDataTest.cs" />
-    <Compile Include="Repository\ProjectDataRepositoryTest.cs" />
-    <Compile Include="Repository\TranslationDataRepositoryTest.cs" />
-    <Compile Include="Repository\SubTranslationDataRepositoryTest.cs" />
+    <Compile Include="Factory\ProjectDataFactoryTest.cs" />
+    <Compile Include="Factory\TranslationDataFactoryTest.cs" />
+    <Compile Include="Factory\SubTranslationDataFactoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ExtensionHelperTest.cs" />
   </ItemGroup>
@@ -99,13 +99,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Analyzer Include="..\packages\xunit.analyzers.0.7.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\TranslatorStudioClassLibrary\TranslatorStudioClassLibrary.csproj">
       <Project>{2f45c55d-abef-4568-8b80-1676be86ed83}</Project>
       <Name>TranslatorStudioClassLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\packages\xunit.analyzers.0.7.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
+    <Folder Include="Repository\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

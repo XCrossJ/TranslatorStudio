@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using TranslatorStudioClassLibrary.Class;
 using TranslatorStudioClassLibrary.Interface;
+using TranslatorStudioClassLibrary.Utilities;
 
-namespace TranslatorStudioClassLibrary.Repository
+namespace TranslatorStudioClassLibrary.Factory
 {
     /// <summary>
-    /// Class that contains the properties and method relevant for Sub Translation Data Repository.
-    /// Implements Sub Translation Data Repository Interface.
+    /// Class responsible for constructing Sub Translation Data.
+    /// Class that contains the properties and method relevant for Sub Translation Data Factory.
+    /// Implements Sub Translation Data Factory Interface.
     /// </summary>
-    public class SubTranslationDataRepository : ISubTranslationDataRepository
+    public class SubTranslationDataFactory : ISubTranslationDataFactory
     {
         /// <summary>
         /// Creates sub translation data based on condition list.
@@ -18,7 +20,7 @@ namespace TranslatorStudioClassLibrary.Repository
         public ISubTranslationData GetSubData(List<bool> conditionList)
         {
             if (conditionList.Count == 0)
-                throw new System.Exception("Passed Condition List is Empty.");
+                throw ExceptionHelper.NewInvalidConditionListException_Empty;
 
             var newIndexReference = new List<int>();
             for (int i = 0; i < conditionList.Count; i++)
@@ -27,7 +29,7 @@ namespace TranslatorStudioClassLibrary.Repository
             }
 
             if (newIndexReference.Count == 0)
-                throw new System.Exception("Condition list retrieved no indices.");
+                throw ExceptionHelper.NewInvalidConditionListException_NoResults;
 
             return ConstructSubTranslationData(newIndexReference);
         }

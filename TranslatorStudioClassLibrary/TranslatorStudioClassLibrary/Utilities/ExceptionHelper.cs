@@ -11,21 +11,56 @@ namespace TranslatorStudioClassLibrary.Utilities
         /// Creates a new empty raw exception.
         /// </summary>
         /// <returns>EmptyRawException to be thrown.</returns>
-        public static EmptyRawException NewEmptyRawException()
+        public static EmptyRawException NewEmptyRawException
         {
-            string description = "No Raw Lines were submitted into the project.";
+            get
+            {
+                string description = "No Raw Lines were submitted into the project.";
 
-            return new EmptyRawException(description);
+                return new EmptyRawException(description);
+            }
         }
+
         /// <summary>
         /// Creates a new removal of last line exception.
         /// </summary>
         /// <returns>RemovalOfLastLineException to be thrown.</returns>
-        public static RemovalOfLastLineException NewRemovalOfLastLineException()
+        public static RemovalOfLastLineException NewRemovalOfLastLineException
         {
-            string description = "Cannot remove last line of the translation project.";
+            get
+            {
+                string description = "Cannot remove last line of the translation project.";
 
-            return new RemovalOfLastLineException(description);
+                return new RemovalOfLastLineException(description);
+            }
+        }
+
+        /// <summary>
+        /// Creates a new invalid condition list exception for empty condition list.
+        /// </summary>
+        /// <returns>RemovalOfLastLineException to be thrown.</returns>
+        public static InvalidConditionListException NewInvalidConditionListException_Empty
+        {
+            get
+            {
+                string description = "Passed Condition List is Empty.";
+
+                return new InvalidConditionListException(description);
+            }
+        }
+
+        /// <summary>
+        /// Creates a new invalid condition list exception for when condition list obtains no results.
+        /// </summary>
+        /// <returns>RemovalOfLastLineException to be thrown.</returns>
+        public static InvalidConditionListException NewInvalidConditionListException_NoResults
+        {
+            get
+            {
+                string description = "Condition list retrieved no indices.";
+
+                return new InvalidConditionListException(description);
+            }
         }
     }
 }

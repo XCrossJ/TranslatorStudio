@@ -9,11 +9,11 @@ namespace TranslatorStudioClassLibrary.Utilities
     public static class ExtensionHelper
     {
         /// <summary>
-        /// Converts project data to json string.
+        /// Converts object to json string.
         /// </summary>
-        /// <param name="data">Object that implements Project Data interface.</param>
+        /// <param name="data">Object to be serialised to json string.</param>
         /// <returns>JSON string.</returns>
-        public static string ToJSONString(this IProjectData data)
+        public static string ToJSONString(this object data)
         {
             return JsonConvert.SerializeObject(data);
         }
