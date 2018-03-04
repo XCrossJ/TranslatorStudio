@@ -12,6 +12,10 @@ namespace TranslatorStudioClassLibrary.Factory
     /// </summary>
     public class SubTranslationDataFactory : ISubTranslationDataFactory
     {
+        #region Methods
+
+        #region Public
+        
         /// <summary>
         /// Creates sub translation data based on condition list.
         /// </summary>
@@ -34,6 +38,10 @@ namespace TranslatorStudioClassLibrary.Factory
             return ConstructSubTranslationData(newIndexReference);
         }
 
+        #endregion
+
+        #region Private
+
         /// <summary>
         /// Private method that constructs sub translation data based on index reference.
         /// </summary>
@@ -46,5 +54,9 @@ namespace TranslatorStudioClassLibrary.Factory
                 IndexReference = newIndexReference
             };
         }
+
+        #endregion
+
+        #endregion
     }
 }

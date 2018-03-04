@@ -116,27 +116,23 @@ namespace TranslatorStudioClassLibrary.Interface
         /// <summary>
         /// Initiates auto translation mode. (Removes empty lines.)
         /// </summary>
-        /// <param name="subRepo">Object that implements Sub Translation Data Factory Interface.</param>
         /// <returns>Number of lines that are not empty.</returns>
-        int StartAutoMode(ISubTranslationDataFactory subRepo);
+        int StartAutoMode();
         /// <summary>
         /// Initiates marked only translation mode. (Shows all marked lines only).
         /// </summary>
-        /// <param name="subRepo">Object that implements Sub Translation Data Factory Interface.</param>
         /// <returns>Number of lines that are marked.</returns>
-        int StartMarkedOnlyMode(ISubTranslationDataFactory subRepo);
+        int StartMarkedOnlyMode();
         /// <summary>
         /// Initates incomplete only translation mode. (Shows all incomplete lines only.)
         /// </summary>
-        /// <param name="subRepo">Object that implements Sub Translation Data Factory Interface.</param>
         /// <returns>Number of lines that are incomplete.</returns>
-        int StartIncompleteOnlyMode(ISubTranslationDataFactory subRepo);
+        int StartIncompleteOnlyMode();
         /// <summary>
         /// Initiates complete only translation mode. (Shows all complete lines only.)
         /// </summary>
-        /// <param name="subRepo">Object that implements Sub Translation Data Factory Interface.</param>
         /// <returns>Number of lines that are complete.</returns>
-        int StartCompleteOnlyMode(ISubTranslationDataFactory subRepo);
+        int StartCompleteOnlyMode();
         /// <summary>
         /// Returns the project data used in the translation project.
         /// </summary>

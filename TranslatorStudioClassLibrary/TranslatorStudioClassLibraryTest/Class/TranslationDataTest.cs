@@ -5,6 +5,7 @@ using TranslatorStudioClassLibrary.Class;
 using TranslatorStudioClassLibrary.Interface;
 using TranslatorStudioClassLibrary.Exception;
 using Xunit;
+using System;
 
 namespace TranslatorStudioClassLibraryTest.Class
 {
@@ -47,6 +48,11 @@ namespace TranslatorStudioClassLibraryTest.Class
             private readonly List<bool> mockCompletedLines;
 
             /// <summary>
+            /// Mock of Sub Translation Data Factory.
+            /// </summary>
+            private readonly Mock<ISubTranslationDataFactory> mockSubTranslationDataFactory;
+
+            /// <summary>
             /// Constructor for test setup.
             /// </summary>
             public Properties()
@@ -54,18 +60,18 @@ namespace TranslatorStudioClassLibraryTest.Class
                 mockProjectName = "Mock Test Project Name";
 
                 mockRawLines = new List<string>
-            {
-                "Raw Line 1",
-                "Raw Line 2",
-                "Raw Line 3",
-                "Raw Line 4",
-                "Raw Line 5",
-                "Raw Line 6",
-                "Raw Line 7",
-                "Raw Line 8",
-                "Raw Line 9",
-                "Raw Line 10"
-            };
+                {
+                    "Raw Line 1",
+                    "Raw Line 2",
+                    "Raw Line 3",
+                    "Raw Line 4",
+                    "Raw Line 5",
+                    "Raw Line 6",
+                    "Raw Line 7",
+                    "Raw Line 8",
+                    "Raw Line 9",
+                    "Raw Line 10"
+                };
 
                 mockTranslatedLines = new List<string>
                 {
@@ -117,6 +123,8 @@ namespace TranslatorStudioClassLibraryTest.Class
                 mockProjectData.Object.TranslatedLines = mockTranslatedLines;
                 mockProjectData.Object.MarkedLines = mockMarkedLines;
                 mockProjectData.Object.CompletedLines = mockCompletedLines;
+
+                mockSubTranslationDataFactory = new Mock<ISubTranslationDataFactory>();
             }
 
             #region Properties Tests
@@ -130,7 +138,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_DefaultTranslationMode_Test()
             {
                 //Arrange
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 var expected = true;
 
@@ -151,7 +159,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                 //Arrange
                 var expected = mockProjectName;
 
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 //Act
                 var actual = translationData.ProjectName;
@@ -174,7 +182,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                 //Arrange
                 var expected = mockRawLines;
 
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 //Act
                 var actual = translationData.RawLines;
@@ -197,7 +205,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                 //Arrange
                 var expected = mockTranslatedLines;
 
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 //Act
                 var actual = translationData.TranslatedLines;
@@ -220,7 +228,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                 //Arrange
                 var expected = mockCompletedLines;
 
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 //Act
                 var actual = translationData.CompletedLines;
@@ -243,7 +251,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                 //Arrange
                 var expected = mockMarkedLines;
 
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 //Act
                 var actual = translationData.MarkedLines;
@@ -270,7 +278,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_CurrentRaw_Test(int currentIndex)
             {
                 //Arrange
-                var translationData = new TranslationData(mockProjectData.Object)
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object)
                 {
                     CurrentIndex = currentIndex
                 };
@@ -298,7 +306,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_CurrentTranslation_Test(int currentIndex)
             {
                 //Arrange
-                var translationData = new TranslationData(mockProjectData.Object)
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object)
                 {
                     CurrentIndex = currentIndex
                 };
@@ -326,7 +334,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_CurrentCompletion_Test(int currentIndex)
             {
                 //Arrange
-                var translationData = new TranslationData(mockProjectData.Object)
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object)
                 {
                     CurrentIndex = currentIndex
                 };
@@ -354,7 +362,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_CurrentMarked_Test(int currentIndex)
             {
                 //Arrange
-                var translationData = new TranslationData(mockProjectData.Object)
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object)
                 {
                     CurrentIndex = currentIndex
                 };
@@ -380,7 +388,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_MaxIndex_Test()
             {
                 //Arrange
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 var expected = mockRawLines.Count - 1;
 
@@ -403,7 +411,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_NumberOfLines_Test()
             {
                 //Arrange
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 var expected = mockRawLines.Count;
 
@@ -426,7 +434,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_NumberOfCompletedLines_Test()
             {
                 //Arrange
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 var expected = mockCompletedLines.Where(c => c).Count();
 
@@ -478,6 +486,11 @@ namespace TranslatorStudioClassLibraryTest.Class
             /// Mock of Completed lines.
             /// </summary>
             private readonly List<bool> mockCompletedLines;
+
+            /// <summary>
+            /// Mock of Sub Translation Data Factory.
+            /// </summary>
+            private readonly Mock<ISubTranslationDataFactory> mockSubTranslationDataFactory;
 
             /// <summary>
             /// Constructor for test setup.
@@ -550,6 +563,8 @@ namespace TranslatorStudioClassLibraryTest.Class
                 mockProjectData.Object.TranslatedLines = mockTranslatedLines;
                 mockProjectData.Object.MarkedLines = mockMarkedLines;
                 mockProjectData.Object.CompletedLines = mockCompletedLines;
+
+                mockSubTranslationDataFactory = new Mock<ISubTranslationDataFactory>();
             }
 
             #region Constructor Tests
@@ -561,15 +576,29 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_DefaultConstructor_Test()
             {
                 //Arrange
-                var expected = new TranslationData();
+                var expected = new TranslationData(mockSubTranslationDataFactory.Object);
 
                 //Act
-                var actual = new TranslationData();
+                var actual = new TranslationData(mockSubTranslationDataFactory.Object);
 
                 //Assert
                 Assert.IsType<TranslationData>(actual);
                 Assert.IsAssignableFrom<ITranslationData>(actual);
                 Assert.NotStrictEqual(expected, actual);
+            }
+
+            /// <summary>
+            /// Given that Sub Translation Data Factory is null, Default Constructor throws Argument Null Excpetion.
+            /// </summary>
+            [Fact]
+            [Trait("Category", "Exception")]
+            [Trait("Exception", "ArgumentNullException")]
+            public void TranslationData_DefaultConstructor_NullSubTranslationDataFactory_Test()
+            {
+                //Arrange
+
+                //Act, Assert
+                Assert.Throws<ArgumentNullException>("subTranslationDataFactory", () => new TranslationData(null));
             }
 
             /// <summary>
@@ -579,10 +608,13 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_ProjectDataConstructor_Test()
             {
                 //Arrange
-                var expected = new TranslationData(mockProjectData.Object);
+                var projectData = mockProjectData.Object;
+                var subFactory = mockSubTranslationDataFactory.Object;
+
+                var expected = new TranslationData(projectData, subFactory);
 
                 //Act
-                var actual = new TranslationData(mockProjectData.Object);
+                var actual = new TranslationData(projectData, subFactory);
 
                 //Assert
                 Assert.IsType<TranslationData>(actual);
@@ -590,6 +622,35 @@ namespace TranslatorStudioClassLibraryTest.Class
                 Assert.NotStrictEqual(expected, actual);
             }
 
+            /// <summary>
+            /// Given that Project Data is null, Project Data Constructor throws Argument Null Excpetion.
+            /// </summary>
+            [Fact]
+            [Trait("Category", "Exception")]
+            [Trait("Exception", "ArgumentNullException")]
+            public void TranslationData_ProjectDataConstructor_NullProjectData_Test()
+            {
+                //Arrange
+                var subFactory = mockSubTranslationDataFactory.Object;
+
+                //Act, Assert
+                Assert.Throws<ArgumentNullException>("projectData", () => new TranslationData(null, subFactory));
+            }
+
+            /// <summary>
+            /// Given that Sub Translation Data Factory is null, Project Data Constructor throws Argument Null Excpetion.
+            /// </summary>
+            [Fact]
+            [Trait("Category", "Exception")]
+            [Trait("Exception", "ArgumentNullException")]
+            public void TranslationData_ProjectDataConstructor_NullSubTranslationDataFactory_Test()
+            {
+                //Arrange
+                var projectData = mockProjectData.Object;
+
+                //Act, Assert
+                Assert.Throws<ArgumentNullException>("subTranslationDataFactory", () => new TranslationData(projectData, null));
+            }
             #endregion
         }
 
@@ -727,7 +788,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_IncrementCurrentLine_Test(int currentIndex)
             {
                 //Arrange
-                var translationData = new TranslationData(mockProjectData.Object)
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object)
                 {
                     CurrentIndex = currentIndex
                 };
@@ -756,7 +817,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_DecrementCurrentLine_Test(int currentIndex)
             {
                 //Arrange
-                var translationData = new TranslationData(mockProjectData.Object)
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object)
                 {
                     CurrentIndex = currentIndex
                 };
@@ -781,7 +842,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_InsertLine_Test(int? index)
             {
                 //Arrange
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 int insertIndex = index ?? translationData.NumberOfLines; 
                 string insertRawValue = "Inserted Raw Line";
@@ -833,7 +894,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_InsertLine_With_Null_Values_Test()
             {
                 //Arrange
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 int? index = null;
                 int insertIndex = index ?? translationData.NumberOfLines;
@@ -886,7 +947,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_RemoveLine_Test(int? index)
             {
                 //Arrange
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
             
                 int removeIndex = index ?? translationData.MaxIndex;
 
@@ -931,7 +992,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_RemoveLine_With_Null_Values_Test()
             {
                 //Arrange
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 int? index = null;
                 int removeIndex = index ?? translationData.MaxIndex;
@@ -979,7 +1040,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                 //Arrange
                 var expectedIndex = mockRawLines.Count() - 1;
 
-                var translationData = new TranslationData(mockProjectData.Object)
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object)
                 {
                     CurrentIndex = expectedIndex
                 };
@@ -1010,7 +1071,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                 //Arrange
                 var expectedIndex = 0;
 
-                var translationData = new TranslationData(mockProjectData.Object)
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object)
                 {
                     CurrentIndex = expectedIndex
                 };
@@ -1031,7 +1092,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_GetProjectSaveString_Test()
             {
                 //Arrange
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 var expectedSaveString = "Mock Save String";
 
@@ -1058,7 +1119,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_StartDefaultMode()
             {
                 //Arrange
-                var translationData = new TranslationData(mockProjectData.Object)
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object)
                 {
                     DefaultTranslationMode = false
                 };
@@ -1123,7 +1184,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                         x => x.NumberOfLines)
                     .Returns(mockSubData.Object.IndexReference.Count);
 
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 var expectedNumberOfLines = indices.Count;
                 var expectedMaxIndex = expectedNumberOfLines - 1;
@@ -1133,7 +1194,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                     .Returns(mockSubData.Object);
 
                 //Act
-                var actualNumberOfLines = translationData.StartMarkedOnlyMode(mockSubTranslationDataFactory.Object);
+                var actualNumberOfLines = translationData.StartMarkedOnlyMode();
                 var actualMaxIndex = translationData.MaxIndex;
                 var actualMode = translationData.DefaultTranslationMode;
 
@@ -1203,7 +1264,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                         x => x.NumberOfLines)
                     .Returns(mockSubData.Object.IndexReference.Count);
 
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 var expectedNumberOfLines = indices.Count();
                 var expectedMaxIndex = expectedNumberOfLines - 1;
@@ -1213,7 +1274,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                     .Returns(mockSubData.Object);
 
                 //Act
-                var actualNumberOfLines = translationData.StartIncompleteOnlyMode(mockSubTranslationDataFactory.Object);
+                var actualNumberOfLines = translationData.StartIncompleteOnlyMode();
                 var actualMaxIndex = translationData.MaxIndex;
                 var actualMode = translationData.DefaultTranslationMode;
 
@@ -1282,7 +1343,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                         x => x.NumberOfLines)
                     .Returns(mockSubData.Object.IndexReference.Count);
 
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 var expectedNumberOfLines = indices.Count;
                 var expectedMaxIndex = expectedNumberOfLines - 1;
@@ -1292,7 +1353,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                     .Returns(mockSubData.Object);
 
                 //Act
-                var actualNumberOfLines = translationData.StartCompleteOnlyMode(mockSubTranslationDataFactory.Object);
+                var actualNumberOfLines = translationData.StartCompleteOnlyMode();
                 var actualMaxIndex = translationData.MaxIndex;
                 var actualMode = translationData.DefaultTranslationMode;
 
@@ -1349,7 +1410,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_GetProjectData_Test()
             {
                 //Arrange
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 var expectedProjectData = mockProjectData.Object;
 
@@ -1508,7 +1569,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                         x => x.NumberOfLines)
                     .Returns(mockSubData.Object.IndexReference.Count);
 
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 var expectedNumberOfLines = indices.Count;
                 var expectedMaxIndex = expectedNumberOfLines - 1;
@@ -1519,7 +1580,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                     .Returns(mockSubData.Object);
 
                 //Act
-                var actualNumberOfLines = translationData.StartAutoMode(mockSubTranslationDataFactory.Object);
+                var actualNumberOfLines = translationData.StartAutoMode();
                 var actualComplete = translationData.NumberOfCompletedLines;
                 var actualMaxIndex = translationData.MaxIndex;
                 var actualMode = translationData.DefaultTranslationMode;
@@ -1594,7 +1655,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                         x => x.NumberOfLines)
                     .Returns(mockSubData.Object.IndexReference.Count);
 
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 var expectedNumberOfLines = indices.Count;
                 var expectedMaxIndex = expectedNumberOfLines - 1;
@@ -1605,8 +1666,8 @@ namespace TranslatorStudioClassLibraryTest.Class
                     .Returns(mockSubData.Object);
 
                 //Act
-                translationData.StartAutoMode(mockSubTranslationDataFactory.Object);
-                var actualNumberOfLines = translationData.StartMarkedOnlyMode(mockSubTranslationDataFactory.Object);
+                translationData.StartAutoMode();
+                var actualNumberOfLines = translationData.StartMarkedOnlyMode();
                 var actualComplete = translationData.NumberOfCompletedLines;
                 var actualMaxIndex = translationData.MaxIndex;
                 var actualMode = translationData.DefaultTranslationMode;
@@ -1682,7 +1743,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                         x => x.NumberOfLines)
                     .Returns(mockSubData.Object.IndexReference.Count);
 
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 var expectedNumberOfLines = indices.Count;
                 var expectedMaxIndex = expectedNumberOfLines - 1;
@@ -1693,8 +1754,8 @@ namespace TranslatorStudioClassLibraryTest.Class
                     .Returns(mockSubData.Object);
 
                 //Act
-                translationData.StartAutoMode(mockSubTranslationDataFactory.Object);
-                var actualNumberOfLines = translationData.StartIncompleteOnlyMode(mockSubTranslationDataFactory.Object);
+                translationData.StartAutoMode();
+                var actualNumberOfLines = translationData.StartIncompleteOnlyMode();
                 var actualComplete = translationData.NumberOfCompletedLines;
                 var actualMaxIndex = translationData.MaxIndex;
                 var actualMode = translationData.DefaultTranslationMode;
@@ -1769,7 +1830,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                         x => x.NumberOfLines)
                     .Returns(mockSubData.Object.IndexReference.Count);
 
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 var expectedNumberOfLines = indices.Count;
                 var expectedMaxIndex = expectedNumberOfLines - 1;
@@ -1780,8 +1841,8 @@ namespace TranslatorStudioClassLibraryTest.Class
                     .Returns(mockSubData.Object);
 
                 //Act
-                translationData.StartAutoMode(mockSubTranslationDataFactory.Object);
-                var actualNumberOfLines = translationData.StartCompleteOnlyMode(mockSubTranslationDataFactory.Object);
+                translationData.StartAutoMode();
+                var actualNumberOfLines = translationData.StartCompleteOnlyMode();
                 var actualComplete = translationData.NumberOfCompletedLines;
                 var actualMaxIndex = translationData.MaxIndex;
                 var actualMode = translationData.DefaultTranslationMode;
@@ -1874,6 +1935,11 @@ namespace TranslatorStudioClassLibraryTest.Class
             private readonly List<bool> mockCompletedLines;
 
             /// <summary>
+            /// Mock of Sub Translation Data Factory.
+            /// </summary>
+            private readonly Mock<ISubTranslationDataFactory> mockSubTranslationDataFactory;
+
+            /// <summary>
             /// Constructor for test setup.
             /// </summary>
             public Exceptions()
@@ -1944,6 +2010,8 @@ namespace TranslatorStudioClassLibraryTest.Class
                 mockProjectData.Object.TranslatedLines = mockTranslatedLines;
                 mockProjectData.Object.MarkedLines = mockMarkedLines;
                 mockProjectData.Object.CompletedLines = mockCompletedLines;
+
+                mockSubTranslationDataFactory = new Mock<ISubTranslationDataFactory>();
             }
 
             #region Exception Tests
@@ -1955,7 +2023,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_GivenRemoveLineAtLastLineRaiseException()
             {
                 //Arrange
-                var translationData = new TranslationData(mockProjectData.Object);
+                var translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 int? index = 0;
                 int removeIndex = index ?? translationData.MaxIndex;

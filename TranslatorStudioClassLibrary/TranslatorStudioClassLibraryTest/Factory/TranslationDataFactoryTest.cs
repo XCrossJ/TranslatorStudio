@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.Office.Interop.Word;
 using Moq;
@@ -24,11 +25,21 @@ namespace TranslatorStudioClassLibraryTest.Factory
         public class Constructors
         {
             /// <summary>
+            /// Mock of Project Data Factory.
+            /// </summary>
+            private readonly Mock<IProjectDataFactory> mockProjectDataFactory;
+            /// <summary>
+            /// Mock of Sub Translation Data Factory.
+            /// </summary>
+            private readonly Mock<ISubTranslationDataFactory> mockSubTranslationDataFactory;
+
+            /// <summary>
             /// Constructor to set up test code.
             /// </summary>
             public Constructors()
             {
-
+                mockProjectDataFactory = new Mock<IProjectDataFactory>();
+                mockSubTranslationDataFactory = new Mock<ISubTranslationDataFactory>();
             }
 
             #region Constructor Tests
@@ -40,15 +51,48 @@ namespace TranslatorStudioClassLibraryTest.Factory
             public void TranslationDataFactory_DefaultConstructor_Test()
             {
                 //Arrange
-                var expected = new TranslationDataFactory();
+                var projectFactory = mockProjectDataFactory.Object;
+                var subFactory = mockSubTranslationDataFactory.Object;
+
+                var expected = new TranslationDataFactory(projectFactory, subFactory);
 
                 //Act
-                var actual = new TranslationDataFactory();
+                var actual = new TranslationDataFactory(projectFactory, subFactory);
 
                 //Assert
                 Assert.IsType<TranslationDataFactory>(actual);
                 Assert.IsAssignableFrom<ITranslationDataFactory>(actual);
                 Assert.NotStrictEqual(expected, actual);
+            }
+
+            /// <summary>
+            /// Given that Project Data Factory is null, Default Constructor throws Argument Null Excpetion.
+            /// </summary>
+            [Fact]
+            [Trait("Category", "Exception")]
+            [Trait("Exception", "ArgumentNullException")]
+            public void TranslationDataFactory_DefaultConstructor_NullProjectDataFactory_Test()
+            {
+                //Arrange
+                var subFactory = mockSubTranslationDataFactory.Object;
+
+                //Act, Assert
+                Assert.Throws<ArgumentNullException>("projectDataFactory", () => new TranslationDataFactory(null, subFactory));
+            }
+
+            /// <summary>
+            /// Given that Sub Translation Data Factory is null, Default Constructor throws Argument Null Excpetion.
+            /// </summary>
+            [Fact]
+            [Trait("Category", "Exception")]
+            [Trait("Exception", "ArgumentNullException")]
+            public void TranslationDataFactory_DefaultConstructor_NullSubTranslationDataFactory_Test()
+            {
+                //Arrange
+                var projectFactory = mockProjectDataFactory.Object;
+                
+                //Act, Assert
+                Assert.Throws<ArgumentNullException>("subTranslationDataFactory", () => new TranslationDataFactory(projectFactory, null));
             }
 
             #endregion
@@ -90,6 +134,10 @@ namespace TranslatorStudioClassLibraryTest.Factory
             /// Mock of Project Data Factory.
             /// </summary>
             private readonly Mock<IProjectDataFactory> mockProjectDataFactory;
+            /// <summary>
+            /// Mock of Sub Translation Data Factory.
+            /// </summary>
+            private readonly Mock<ISubTranslationDataFactory> mockSubTranslationDataFactory;
             /// <summary>
             /// Translation Data Factory under test.
             /// </summary>
@@ -194,7 +242,9 @@ namespace TranslatorStudioClassLibraryTest.Factory
                         x => x.CreateProjectDataFromDocument(It.IsAny<string>(), It.IsAny<Document>()))
                     .Returns(mockProjectData.Object);
 
-                translationDataFactory = new TranslationDataFactory();
+                mockSubTranslationDataFactory = new Mock<ISubTranslationDataFactory>();
+
+                translationDataFactory = new TranslationDataFactory(mockProjectDataFactory.Object, mockSubTranslationDataFactory.Object);
             }
 
             #region Methods Tests
@@ -214,7 +264,7 @@ namespace TranslatorStudioClassLibraryTest.Factory
                     CompletedLines = mockCompletedLines,
                     MarkedLines = mockMarkedLines
                 };
-                var expected = new TranslationData(data);
+                var expected = new TranslationData(data, mockSubTranslationDataFactory.Object);
 
                 // Act
                 var actual = translationDataFactory.CreateTranslationDataFromProject(data);
@@ -232,10 +282,10 @@ namespace TranslatorStudioClassLibraryTest.Factory
             public void TranslationDataFactory_CreateTranslationDataFromStream_Test()
             {
                 // Arrange
-                var expected = new TranslationData(mockProjectData.Object);
+                var expected = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 // Act
-                var actual = translationDataFactory.CreateTranslationDataFromStream(mockProjectDataFactory.Object, mockProjectName, new StreamReader(new MemoryStream()));
+                var actual = translationDataFactory.CreateTranslationDataFromStream(mockProjectName, new StreamReader(new MemoryStream()));
 
                 // Assert
                 mockProjectDataFactory.Verify(
@@ -254,10 +304,10 @@ namespace TranslatorStudioClassLibraryTest.Factory
             public void TranslationDataFactory_CreateTranslationDataFromDocument_Test()
             {
                 // Arrange
-                var expected = new TranslationData(mockProjectData.Object);
+                var expected = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
 
                 // Act
-                var actual = translationDataFactory.CreateTranslationDataFromDocument(mockProjectDataFactory.Object, "", new Document());
+                var actual = translationDataFactory.CreateTranslationDataFromDocument("", new Document());
 
                 // Assert
                 mockProjectDataFactory.Verify(
@@ -281,6 +331,14 @@ namespace TranslatorStudioClassLibraryTest.Factory
         public class Exceptions
         {
             /// <summary>
+            /// Mock of Project Data Factory.
+            /// </summary>
+            private readonly Mock<IProjectDataFactory> mockProjectDataFactory;
+            /// <summary>
+            /// Mock of Sub Translation Data Factory.
+            /// </summary>
+            private readonly Mock<ISubTranslationDataFactory> mockSubTranslationDataFactory;
+            /// <summary>
             /// Translation Data Factory under test.
             /// </summary>
             private readonly ITranslationDataFactory translationDataFactory;
@@ -290,7 +348,9 @@ namespace TranslatorStudioClassLibraryTest.Factory
             /// </summary>
             public Exceptions()
             {
-                translationDataFactory = new TranslationDataFactory();
+                mockProjectDataFactory = new Mock<IProjectDataFactory>();
+                mockSubTranslationDataFactory = new Mock<ISubTranslationDataFactory>();
+                translationDataFactory = new TranslationDataFactory(mockProjectDataFactory.Object, mockSubTranslationDataFactory.Object);
             }
 
             #region Exception Tests

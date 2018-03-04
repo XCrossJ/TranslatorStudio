@@ -15,18 +15,39 @@ namespace TranslatorStudioClassLibrary.Factory
     /// </summary>
     public class TranslationDataFactory: ITranslationDataFactory
     {
+        #region Properties
+        private readonly IProjectDataFactory _projectDataFactory;
+        private readonly ISubTranslationDataFactory _subTranslationDataFactory;
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Creates Translation Data Factory with Project Data Factory.
+        /// </summary>
+        /// <param name="projectDataFactory">Project Data Factory used to construct Project Data.</param>
+        /// <param name="subTranslationDataFactory">Project Data Factory used to construct Sub Translation Data.</param>
+        public TranslationDataFactory(IProjectDataFactory projectDataFactory, ISubTranslationDataFactory subTranslationDataFactory)
+        {
+            _projectDataFactory = projectDataFactory ?? throw new System.ArgumentNullException(nameof(projectDataFactory));
+            _subTranslationDataFactory = subTranslationDataFactory ?? throw new System.ArgumentNullException(nameof(subTranslationDataFactory));
+        }
+
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Creates translation data from word document.
         /// </summary>
-        /// <param name="repo">Object that implements Project Data Factory Interface</param>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="document">The document that will be used in the conversion.</param>
         /// <returns>Object that implements Translation Data Interface.</returns>
-        public ITranslationData CreateTranslationDataFromDocument(IProjectDataFactory repo, string fileName, Document document)
+        public ITranslationData CreateTranslationDataFromDocument(string fileName, Document document)
         {
             try
             {
-                var project = repo.CreateProjectDataFromDocument(fileName, document);
+                var project = _projectDataFactory.CreateProjectDataFromDocument(fileName, document);
 
                 return CreateTranslationDataFromProject(project);
             }
@@ -49,7 +70,7 @@ namespace TranslatorStudioClassLibrary.Factory
                 if (!project.RawLines.Any())
                     throw ExceptionHelper.NewEmptyRawException;
 
-                return new TranslationData(project);
+                return new TranslationData(project, _subTranslationDataFactory);
             }
             catch (System.Exception e)
             {
@@ -60,15 +81,14 @@ namespace TranslatorStudioClassLibrary.Factory
         /// <summary>
         /// Creates translation data from stream reader.
         /// </summary>
-        /// <param name="repo">Object that implements Project Data Factory Interface</param>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="sr">The stream reader used to read the file.</param>
         /// <returns>Object that implements Translation Data Interface.</returns>
-        public ITranslationData CreateTranslationDataFromStream(IProjectDataFactory repo, string fileName, StreamReader sr)
+        public ITranslationData CreateTranslationDataFromStream(string fileName, StreamReader sr)
         {
             try
             {
-                var project = repo.CreateProjectDataFromStream(fileName, sr);
+                var project = _projectDataFactory.CreateProjectDataFromStream(fileName, sr);
 
                 return CreateTranslationDataFromProject(project);
             }
@@ -78,5 +98,7 @@ namespace TranslatorStudioClassLibrary.Factory
                 throw e;
             }
         }
+
+        #endregion
     }
 }

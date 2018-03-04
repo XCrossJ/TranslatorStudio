@@ -16,6 +16,11 @@ namespace TranslatorStudioClassLibrary.Class
 
         #region Project Data
         /// <summary>
+        /// Private property that constructs sub translation data;
+        /// </summary>
+        private ISubTranslationDataFactory _subTranslationDataFactory;
+
+        /// <summary>
         /// Private property that contains Project Data.
         /// </summary>
         private IProjectData _data { get; set; }
@@ -27,6 +32,7 @@ namespace TranslatorStudioClassLibrary.Class
         /// Private property that contains Auto Translation Data.
         /// </summary>
         private ISubTranslationData _autoData { get; set; }
+
         /// <summary>
         /// Private property that contains Auto Translation Mode flag.
         /// </summary>
@@ -236,23 +242,27 @@ namespace TranslatorStudioClassLibrary.Class
 
 
         #region Constructors
+
         /// <summary>
         /// Creates empty Translation Data.
         /// </summary>
-        public TranslationData()
+        /// <param name="subTranslationDataFactory">Sub Translation Data Factory used to construct Sub Translation Data.</param>
+        public TranslationData(ISubTranslationDataFactory subTranslationDataFactory)
         {
-
+            _subTranslationDataFactory = subTranslationDataFactory ?? throw new System.ArgumentNullException(nameof(subTranslationDataFactory));
         }
 
         /// <summary>
-        /// Creates Translation Data based on passed Project Data
+        /// Creates Translation Data based on passed Project Data.
         /// </summary>
-        /// <param name="data">Object that implements Project Data Interface.</param>
-        public TranslationData(IProjectData data)
+        /// <param name="projectData">Object that implements Project Data Interface.</param>
+        /// <param name="subTranslationDataFactory"></param>
+        public TranslationData(IProjectData projectData, ISubTranslationDataFactory subTranslationDataFactory) : this(subTranslationDataFactory)
         {
-            _data = data;
+            _data = projectData ?? throw new System.ArgumentNullException(nameof(projectData));
             CurrentIndex = 0;
         }
+
         #endregion
 
 
@@ -336,23 +346,21 @@ namespace TranslatorStudioClassLibrary.Class
         /// <summary>
         /// Initiates auto translation mode. (Removes empty lines.)
         /// </summary>
-        /// <param name="subRepo">Object that implements Sub Translation Data Factory Interface.</param>
         /// <returns>Number of lines that are not empty.</returns>
-        public int StartAutoMode(ISubTranslationDataFactory subRepo)
+        public int StartAutoMode()
         {
             _autoMode = true;
             var nonEmptyRaw = RawLines.Where(x => x.Any()).Select(x => true);
 
-            _autoData = subRepo.GetSubData(nonEmptyRaw.ToList());
+            _autoData = _subTranslationDataFactory.GetSubData(nonEmptyRaw.ToList());
             CurrentIndex = 0;
             return _autoData.NumberOfLines;
         }
         /// <summary>
         /// Initiates marked only translation mode. (Shows all marked lines only).
         /// </summary>
-        /// <param name="subRepo">Object that implements Sub Translation Data Factory Interface.</param>
         /// <returns>Number of lines that are marked.</returns>
-        public int StartMarkedOnlyMode(ISubTranslationDataFactory subRepo)
+        public int StartMarkedOnlyMode()
         {
             List<bool> conditionList;
             if (_autoMode)
@@ -360,7 +368,7 @@ namespace TranslatorStudioClassLibrary.Class
             else
                 conditionList = MarkedLines;
 
-            _subData = subRepo.GetSubData(conditionList);
+            _subData = _subTranslationDataFactory.GetSubData(conditionList);
             DefaultTranslationMode = false;
             CurrentIndex = 0;
             return _subData.NumberOfLines;
@@ -368,9 +376,8 @@ namespace TranslatorStudioClassLibrary.Class
         /// <summary>
         /// Initates incomplete only translation mode. (Shows all incomplete lines only.)
         /// </summary>
-        /// <param name="subRepo">Object that implements Sub Translation Data Factory Interface.</param>
         /// <returns>Number of lines that are incomplete.</returns>
-        public int StartIncompleteOnlyMode(ISubTranslationDataFactory subRepo)
+        public int StartIncompleteOnlyMode()
         {
             List<bool> conditionList;
             if (_autoMode)
@@ -378,7 +385,7 @@ namespace TranslatorStudioClassLibrary.Class
             else
                 conditionList = CompletedLines.Select(x => !x).ToList();
 
-            _subData = subRepo.GetSubData(conditionList);
+            _subData = _subTranslationDataFactory.GetSubData(conditionList);
             DefaultTranslationMode = false;
             CurrentIndex = 0;
             return _subData.NumberOfLines;
@@ -386,9 +393,8 @@ namespace TranslatorStudioClassLibrary.Class
         /// <summary>
         /// Initiates complete only translation mode. (Shows all complete lines only.)
         /// </summary>
-        /// <param name="subRepo">Object that implements Sub Translation Data Factory Interface.</param>
         /// <returns>Number of lines that are complete.</returns>
-        public int StartCompleteOnlyMode(ISubTranslationDataFactory subRepo)
+        public int StartCompleteOnlyMode()
         {
             List<bool> conditionList;
             if (_autoMode)
@@ -396,7 +402,7 @@ namespace TranslatorStudioClassLibrary.Class
             else
                 conditionList = CompletedLines;
 
-            _subData = subRepo.GetSubData(conditionList);
+            _subData = _subTranslationDataFactory.GetSubData(conditionList);
             DefaultTranslationMode = false;
             CurrentIndex = 0;
             return _subData.NumberOfLines;

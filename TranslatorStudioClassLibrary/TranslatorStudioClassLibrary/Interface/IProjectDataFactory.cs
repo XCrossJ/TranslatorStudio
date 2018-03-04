@@ -9,6 +9,8 @@ namespace TranslatorStudioClassLibrary.Interface
     /// </summary>
     public interface IProjectDataFactory
     {
+        #region Methods
+
         /// <summary>
         /// Creates project data from array.
         /// </summary>
@@ -35,5 +37,7 @@ namespace TranslatorStudioClassLibrary.Interface
         /// <exception cref="EmptyRawException">Thrown when provided raw lines are empty.</exception>
         /// <returns>Object that implements Project Data Interface.</returns>
         IProjectData CreateProjectDataFromDocument(string fileName, Document document);
+
+        #endregion
     }
 }

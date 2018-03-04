@@ -16,7 +16,9 @@ namespace TranslatorStudioClassLibrary.Factory
     /// </summary>
     public class ProjectDataFactory : IProjectDataFactory
     {
-        #region Public Methods
+        #region Methods
+
+        #region Public
         /// <summary>
         /// Creates project data from array.
         /// </summary>
@@ -74,7 +76,7 @@ namespace TranslatorStudioClassLibrary.Factory
         }
         #endregion
 
-        #region Private Methods
+        #region Private
         /// <summary>
         /// Private method that constructs project data. Used by other creation methods.
         /// </summary>
@@ -105,5 +107,6 @@ namespace TranslatorStudioClassLibrary.Factory
         }
         #endregion
 
+        #endregion
     }
 }

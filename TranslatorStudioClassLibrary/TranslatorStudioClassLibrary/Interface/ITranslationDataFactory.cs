@@ -9,14 +9,15 @@ namespace TranslatorStudioClassLibrary.Interface
     /// </summary>
     public interface ITranslationDataFactory
     {
+        #region Methods
+
         /// <summary>
         /// Creates translation data from word document.
         /// </summary>
-        /// <param name="repo">Object that implements Project Data Factory Interface</param>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="document">The document that will be used in the conversion.</param>
         /// <returns>Object that implements Translation Data Interface.</returns>
-        ITranslationData CreateTranslationDataFromDocument(IProjectDataFactory repo, string fileName, Document document);
+        ITranslationData CreateTranslationDataFromDocument(string fileName, Document document);
         /// <summary>
         /// Create translation data from project.
         /// </summary>
@@ -27,10 +28,11 @@ namespace TranslatorStudioClassLibrary.Interface
         /// <summary>
         /// Creates translation data from stream reader.
         /// </summary>
-        /// <param name="repo">Object that implements Project Data Factory Interface</param>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="sr">The stream reader used to read the file.</param>
         /// <returns>Object that implements Translation Data Interface.</returns>
-        ITranslationData CreateTranslationDataFromStream(IProjectDataFactory repo, string fileName, StreamReader sr);
+        ITranslationData CreateTranslationDataFromStream(string fileName, StreamReader sr);
+
+        #endregion
     }
 }
