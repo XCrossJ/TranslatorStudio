@@ -250,6 +250,27 @@ namespace TranslatorStudioClassLibraryTest.Factory
             #region Methods Tests
 
             /// <summary>
+            /// Given that Raw Lines passed is valid, Create Translation Data From Array returns valid Translation Data.
+            /// </summary>
+            [Fact]
+            public void TranslationDataFactory_CreateTranslationDataFromArray_Test()
+            {
+                // Arrange
+                var expected = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object)
+                {
+                    DataChanged = true
+                };
+
+                // Act
+                var actual = translationDataFactory.CreateTranslationDataFromArray(mockProjectName, mockRawLines.ToArray());
+
+                // Assert
+                Assert.IsType<TranslationData>(actual);
+                Assert.IsAssignableFrom<ITranslationData>(actual);
+                Assert.NotStrictEqual(expected, actual);
+            }
+
+            /// <summary>
             /// Given that Project Data passed is valid, Create Translation Data From Project returns valid Translation Data.
             /// </summary>
             [Fact]

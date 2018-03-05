@@ -12,12 +12,21 @@ namespace TranslatorStudioClassLibrary.Interface
         #region Methods
 
         /// <summary>
+        /// Creates translation data from array.
+        /// </summary>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="rawLines">Array of strings that holds the raw lines.</param>
+        /// <returns>Object that implements Translation Data Interface.</returns>
+        ITranslationData CreateTranslationDataFromArray(string fileName, string[] rawLines);
+        
+        /// <summary>
         /// Creates translation data from word document.
         /// </summary>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="document">The document that will be used in the conversion.</param>
         /// <returns>Object that implements Translation Data Interface.</returns>
         ITranslationData CreateTranslationDataFromDocument(string fileName, Document document);
+        
         /// <summary>
         /// Create translation data from project.
         /// </summary>
@@ -25,6 +34,7 @@ namespace TranslatorStudioClassLibrary.Interface
         /// <exception cref="EmptyRawException">Thrown when provided raw lines are empty.</exception>
         /// <returns>Object that implements Translation Data Interface.</returns>
         ITranslationData CreateTranslationDataFromProject(IProjectData project);
+        
         /// <summary>
         /// Creates translation data from stream reader.
         /// </summary>

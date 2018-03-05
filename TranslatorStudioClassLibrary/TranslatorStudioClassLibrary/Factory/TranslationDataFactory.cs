@@ -38,6 +38,28 @@ namespace TranslatorStudioClassLibrary.Factory
         #region Methods
 
         /// <summary>
+        /// Creates translation data from array.
+        /// </summary>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="rawLines">Array of strings that holds the raw lines.</param>
+        /// <returns>Object that implements Translation Data Interface.</returns>
+        public ITranslationData CreateTranslationDataFromArray(string fileName, string[] rawLines)
+        {
+            try
+            {
+                var project = _projectDataFactory.CreateProjectDataFromArray(fileName, rawLines);
+
+                var translationData = CreateTranslationDataFromProject(project);
+                translationData.DataChanged = true;
+                return translationData;
+            }
+            catch (System.Exception e)
+            {
+                throw e;
+            }
+        }
+        
+        /// <summary>
         /// Creates translation data from word document.
         /// </summary>
         /// <param name="fileName">The name of the file.</param>
@@ -58,6 +80,7 @@ namespace TranslatorStudioClassLibrary.Factory
                 throw e;
             }
         }
+        
         /// <summary>
         /// Create translation data from project.
         /// </summary>
@@ -82,6 +105,7 @@ namespace TranslatorStudioClassLibrary.Factory
                 throw e;
             }
         }
+        
         /// <summary>
         /// Creates translation data from stream reader.
         /// </summary>

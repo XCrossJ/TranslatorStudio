@@ -181,12 +181,15 @@ namespace TranslatorStudioClassLibraryTest.Class
                 Assert.False(translationData.DataChanged);
 
                 var expected = true;
+                var expectedValue = "New Value";
 
                 //Act
-                translationData.CurrentRaw = "New Value";
+                translationData.CurrentRaw = expectedValue;
                 var actual = translationData.DataChanged;
+                var actualValue = translationData.CurrentRaw;
 
                 //Assert
+                Assert.Equal("New Value", translationData.CurrentRaw);
                 Assert.IsType<bool>(actual);
                 Assert.Equal(expected, actual);
             }
