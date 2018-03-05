@@ -1,35 +1,46 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TranslatorStudio.Forms;
 using TranslatorStudio.Interfaces;
 using TranslatorStudio.Utilities;
+using TranslatorStudioClassLibrary.Exception;
+using TranslatorStudioClassLibrary.Factory;
 using TranslatorStudioClassLibrary.Interface;
 using TranslatorStudioClassLibrary.Repository;
-using TranslatorStudioClassLibrary.Utilities;
 
 namespace TranslatorStudio.Consumers
 {
     public class DeskConsumer : IDeskConsumer
     {
         #region Properties
+
+        private readonly IFileRepository fileRepository;
+
         public FrmDesk Desk { get; set; }
+
         public ITranslationData Data { get => Desk.Data; set => Desk.Data = value; }
-        private readonly ISubTranslationDataRepository subTranslationDataRepository = new SubTranslationDataRepository();
+
+
         #endregion
+
 
         #region Constructors
+
         public DeskConsumer(FrmDesk frmDesk)
         {
-            Desk = frmDesk;
+            Desk = frmDesk ?? throw new ArgumentNullException(nameof(frmDesk));
+            IProjectDataFactory projectFactory = new ProjectDataFactory();
+            ISubTranslationDataFactory subFactory = new SubTranslationDataFactory();
+            ITranslationDataFactory translationFactory = new TranslationDataFactory(projectFactory, subFactory);
+            fileRepository = new FileRepository(translationFactory);
         }
+
         #endregion
 
+
         #region Setup & Update Methods
+
         public bool DeskSetup()
         {
             Desk.NumberOfLines = Data.NumberOfLines;
@@ -38,6 +49,7 @@ namespace TranslatorStudio.Consumers
             Desk.CmbEditMode.SelectedIndex = 0;
             return UpdateDesk();
         }
+
         public bool UpdateDesk()
         {
             if (Data != null)
@@ -51,6 +63,7 @@ namespace TranslatorStudio.Consumers
             }
             return false;
         }
+
         public bool UpdateStatus()
         {
             Desk.TxtProjectName.Text = Data.ProjectName;
@@ -59,9 +72,12 @@ namespace TranslatorStudio.Consumers
             Desk.PrgProgress.UpdateProgressBar(Data.NumberOfCompletedLines, Data.NumberOfLines);
             return true;
         }
+
         #endregion
 
+
         #region Public Methods
+
         public bool NewProject()
         {
             Desk.New = new frmNew(Desk);
@@ -89,7 +105,7 @@ namespace TranslatorStudio.Consumers
             {
                 if (saveProjectFileDialog.FileName != "")
                 {
-                    Desk.UnsavedData = !FileHelper.SaveProject(Data, saveProjectFileDialog.FileName);
+                    Desk.UnsavedData = !fileRepository.SaveProject(Data, saveProjectFileDialog.FileName);
                     Desk.PreviousSavePath = saveProjectFileDialog.FileName;
                     return true;
                 }
@@ -101,7 +117,7 @@ namespace TranslatorStudio.Consumers
         public bool SaveProject()
         {
             if (!string.IsNullOrEmpty(Desk.PreviousSavePath))
-                Desk.UnsavedData = !FileHelper.SaveProject(Data, Desk.PreviousSavePath);
+                Desk.UnsavedData = !fileRepository.SaveProject(Data, Desk.PreviousSavePath);
             else
                 SaveProjectAs();
             return true;
@@ -112,7 +128,7 @@ namespace TranslatorStudio.Consumers
             exportProjectFileDialog.ShowDialog();
 
             if (exportProjectFileDialog.FileName != "")
-                FileHelper.ExportTranslation(Data, exportProjectFileDialog.FileName);
+                fileRepository.ExportTranslation(Data, exportProjectFileDialog.FileName);
             else
                 ApplicationData.MsgBox_ExportProject_NoFileName();
             return true;
@@ -260,10 +276,10 @@ namespace TranslatorStudio.Consumers
         {
             try
             {
-                Desk.NumberOfLines = Desk.NudLineNumber.ChangeNumericUpDownMaximum(Data.StartMarkedOnlyMode(subTranslationDataRepository));
+                Desk.NumberOfLines = Desk.NudLineNumber.ChangeNumericUpDownMaximum(Data.StartMarkedOnlyMode());
                 Desk.NudLineNumber.Value = 1;
             }
-            catch (Exception)
+            catch (InvalidConditionListException)
             {
                 ApplicationData.MsgBox_BeginMarkedOnlyMode_NoneMarked();
                 Desk.CmbEditMode.SelectedIndex = 0;
@@ -274,10 +290,10 @@ namespace TranslatorStudio.Consumers
         {
             try
             {
-                Desk.NumberOfLines = Desk.NudLineNumber.ChangeNumericUpDownMaximum(Data.StartIncompleteOnlyMode(subTranslationDataRepository));
+                Desk.NumberOfLines = Desk.NudLineNumber.ChangeNumericUpDownMaximum(Data.StartIncompleteOnlyMode());
                 Desk.NudLineNumber.Value = 1;
             }
-            catch (Exception)
+            catch (InvalidConditionListException)
             {
                 ApplicationData.MsgBox_BeginIncompleteOnlyMode_NoneIncomplete();
                 Desk.CmbEditMode.SelectedIndex = 0;
@@ -288,10 +304,10 @@ namespace TranslatorStudio.Consumers
         {
             try
             {
-                Desk.NumberOfLines = Desk.NudLineNumber.ChangeNumericUpDownMaximum(Data.StartCompleteOnlyMode(subTranslationDataRepository));
+                Desk.NumberOfLines = Desk.NudLineNumber.ChangeNumericUpDownMaximum(Data.StartCompleteOnlyMode());
                 Desk.NudLineNumber.Value = 1;
             }
-            catch (Exception)
+            catch (InvalidConditionListException)
             {
                 ApplicationData.MsgBox_BeginCompleteOnlyMode_NoneComplete();
                 Desk.CmbEditMode.SelectedIndex = 0;
@@ -311,7 +327,7 @@ namespace TranslatorStudio.Consumers
         }
         public bool ShowAbout()
         {
-            MessageBox.Show(ApplicationData.About, "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ApplicationData.MsgBox_About(Desk);
             return true;
         }
         public bool ShowShortcuts()
@@ -418,18 +434,21 @@ namespace TranslatorStudio.Consumers
             Desk.Close();
             return true;
         }
+
         #endregion
 
+
         #region Private Methods
+
         private bool OpenFile(string fileExt, string path, string fileName)
         {
-            var openData = FileHelper.OpenHandler(fileExt, path, fileName);
+            var openData = fileRepository.OpenFile(fileExt, path, fileName);
             ITranslationData data = openData.Item1;
             Desk.PreviousSavePath = openData.Item2;
             ResetTranslationDesk(data);
             return true;
         }
-        #endregion
 
+        #endregion
     }
 }

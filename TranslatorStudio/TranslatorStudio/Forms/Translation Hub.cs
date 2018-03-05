@@ -1,20 +1,24 @@
 ﻿using System;
-using System.IO;
 using System.Windows.Forms;
 using TranslatorStudio.Consumers;
 using TranslatorStudio.Interfaces;
-using TranslatorStudio.Utilities;
 using TranslatorStudioClassLibrary.Interface;
-using TranslatorStudioClassLibrary.Utilities;
 
 namespace TranslatorStudio.Forms
 {
     public partial class FrmHub : Form
     {
+        #region Properties
+
+        private readonly IHubConsumer consumer;
+
         public FrmDesk Desk { get; set; }
         public frmNew New { get; set; }
 
-        private readonly IHubConsumer consumer;
+        #endregion
+
+
+        #region Constructors
 
         public FrmHub()
         {
@@ -25,10 +29,14 @@ namespace TranslatorStudio.Forms
         public FrmHub(IHubConsumer hubConsumer)
         {
             InitializeComponent();
-            consumer = hubConsumer;
+            consumer = hubConsumer ?? throw new ArgumentNullException(nameof(hubConsumer));
         }
 
+        #endregion
+
+
         #region Control Events
+
         private void btnQuit_Click(object sender, EventArgs e)
         {
             consumer.Quit();
@@ -43,9 +51,12 @@ namespace TranslatorStudio.Forms
         {
             consumer.OpenNewFile();
         }
+
         #endregion
 
+
         #region Methods
+
         public void SetDesk(ITranslationData data)
         {
             consumer.SetDesk(data);
@@ -54,9 +65,12 @@ namespace TranslatorStudio.Forms
         {
             consumer.OpenDesk();
         }
+
         #endregion
 
+
         #region Overrides
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             var isShortcut = consumer.ProcessShortcuts(keyData);
@@ -65,7 +79,7 @@ namespace TranslatorStudio.Forms
             else
                 return base.ProcessCmdKey(ref msg, keyData);
         }
-        #endregion
 
+        #endregion
     }
 }

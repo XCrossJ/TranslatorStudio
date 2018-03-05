@@ -12,7 +12,8 @@ namespace TranslatorStudio.Forms
         //Possible Drag Drop Functionality
         //https://www.experts-exchange.com/questions/27604665/Swap-2-cells-on-datagridview-with-drag-and-drop-VB-NET.html
 
-        #region Global Variables
+        #region Properties
+
         private readonly IPreviewConsumer consumer;
 
         public FrmDesk Desk { get; set; }
@@ -21,13 +22,16 @@ namespace TranslatorStudio.Forms
 
         public int PreviewCurrentIndex { get => dgvPreview.CurrentRow.Index; }
         public DataGridViewRowCollection Rows { get => dgvPreview.Rows;}
+
         #endregion
 
+
         #region Constructors
+
         public FrmPreview(FrmDesk desk, ITranslationData data)
         {
-            Desk = desk;
-            Data = data;
+            Desk = desk ?? throw new ArgumentNullException(nameof(desk));
+            Data = data ?? throw new ArgumentNullException(nameof(data));
             consumer = new PreviewConsumer(this);
 
             InitializeComponent();
@@ -37,17 +41,20 @@ namespace TranslatorStudio.Forms
 
         public FrmPreview(FrmDesk desk, ITranslationData data, IPreviewConsumer newConsumer)
         {
-            Desk = desk;
-            Data = data;
-            consumer = newConsumer;
+            Desk = desk ?? throw new ArgumentNullException(nameof(desk));
+            Data = data ?? throw new ArgumentNullException(nameof(data));
+            consumer = newConsumer ?? throw new ArgumentNullException(nameof(newConsumer));
 
             InitializeComponent();
 
             consumer.LoadPreview(dgvPreview);
         }
+
         #endregion
 
+
         #region Control Events
+
         private void Translation_Preview_Load(object sender, EventArgs e)
         {
             Text = consumer.GetPreviewTitle(Data.ProjectName);
@@ -84,9 +91,12 @@ namespace TranslatorStudio.Forms
         {
             consumer.SaveChanges();
         }
+
         #endregion
 
+
         #region Methods
+
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
@@ -94,7 +104,7 @@ namespace TranslatorStudio.Forms
             if (performSave)
                 Desk.ResetTranslationDesk(Data);
         }
-        #endregion
 
+        #endregion
     }
 }

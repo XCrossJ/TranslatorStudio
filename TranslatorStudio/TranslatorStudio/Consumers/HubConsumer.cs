@@ -1,29 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TranslatorStudio.Forms;
 using TranslatorStudio.Interfaces;
 using TranslatorStudio.Utilities;
+using TranslatorStudioClassLibrary.Exception;
+using TranslatorStudioClassLibrary.Factory;
 using TranslatorStudioClassLibrary.Interface;
-using TranslatorStudioClassLibrary.Utilities;
+using TranslatorStudioClassLibrary.Repository;
 
 namespace TranslatorStudio.Consumers
 {
     public class HubConsumer : IHubConsumer
     {
-        public FrmHub Hub { get; set; }
-        public HubConsumer()
-        {
+        #region Properties
 
-        }
+        private readonly IFileRepository fileRepository;
+
+        public FrmHub Hub { get; set; }
+
+        #endregion
+
+        #region Constructors
+
         public HubConsumer(FrmHub frmHub)
         {
-            Hub = frmHub;
+            Hub = frmHub ?? throw new ArgumentNullException(nameof(frmHub));
+            IProjectDataFactory projectFactory = new ProjectDataFactory();
+            ISubTranslationDataFactory subFactory = new SubTranslationDataFactory();
+            ITranslationDataFactory translationFactory = new TranslationDataFactory(projectFactory, subFactory);
+            fileRepository = new FileRepository(translationFactory);
         }
+
+        #endregion
+
+        #region Methods
 
         public void Quit()
         {
@@ -35,11 +46,18 @@ namespace TranslatorStudio.Consumers
             try
             {
                 var openFileDialog = ApplicationData.OpenProjectDialog();
-                Hub.Desk = CreateDeskFromOpenFile(openFileDialog);
-                return OpenDesk();
+                var desk = CreateDeskFromOpenFile(openFileDialog);
+                if (desk != null)
+                {
+                    Hub.Desk = desk;
+                    return OpenDesk();
+                }
+                else
+                    return false;
             }
-            catch (Exception)
+            catch (EmptyRawException)
             {
+                ApplicationData.MsgBox_EmptyRawException(Hub);
                 return false;
             }
         }
@@ -52,14 +70,14 @@ namespace TranslatorStudio.Consumers
                 var filePath = dialog.FileName;
                 var fileName = Path.GetFileNameWithoutExtension(dialog.SafeFileName);
 
-                var openData = FileHelper.OpenHandler(fileExt, filePath, fileName);
+                var openData = fileRepository.OpenFile(fileExt, filePath, fileName);
                 ITranslationData data = openData.Item1;
                 string previousSavePath = openData.Item2;
 
                 return new FrmDesk(data, previousSavePath, Hub);
             }
             else
-                throw new Exception("Open File Operation Cancelled.");
+                return null;
         }
 
         public bool OpenDesk()
@@ -93,5 +111,7 @@ namespace TranslatorStudio.Consumers
                     return false;
             }
         }
+
+        #endregion
     }
 }

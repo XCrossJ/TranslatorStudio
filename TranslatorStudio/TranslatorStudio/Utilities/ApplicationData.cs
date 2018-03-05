@@ -6,11 +6,14 @@ namespace TranslatorStudio.Utilities
     public static class ApplicationData
     {
         #region Applications
+
         public static string GoogleTranslate => "https://translate.google.com/";
         public static string Weblio => "http://ejje.weblio.jp";
+
         #endregion
 
         #region Shortcuts
+
         public static List<string[]> Shortcuts => new List<string[]>
         {
             new string[] { "Translate", "(Ctrl + T)" },
@@ -27,19 +30,25 @@ namespace TranslatorStudio.Utilities
             new string[] { "Save", "(Ctrl + S)" },
             new string[] { "Export", "(Ctrl + E)" }
         };
+
         #endregion
 
         #region Cell Styles
+
         public static DataGridViewCellStyle CompletedCellStyle => new DataGridViewCellStyle { BackColor = System.Drawing.Color.PaleGreen };
         public static DataGridViewCellStyle MarkedCellStyle => new DataGridViewCellStyle { BackColor = System.Drawing.Color.PaleGoldenrod };
         public static DataGridViewCellStyle DefaultCellStyle => new DataGridViewCellStyle();
+
         #endregion
 
         #region Information
+
         public static string About => "An application created by XCrossJ with the intent of making translations easier for fan translators.";
+
         #endregion
 
         #region File Dialogs
+
         public static OpenFileDialog OpenProjectDialog()
         {
             var filter = $@"Source and Project files (*.txt;*.docx;*.tsp)|*.txt;*.docx;*.tsp|All files (*.*)|*.*";
@@ -80,6 +89,27 @@ namespace TranslatorStudio.Utilities
         #endregion
 
         #region Message Boxes
+
+        public static DialogResult MsgBox_About(IWin32Window owner)
+        {
+            var message = About;
+            var caption = "About";
+            var buttons = MessageBoxButtons.OK;
+            var icon = MessageBoxIcon.Information;
+
+            return MessageBox.Show(owner, message, caption, buttons, icon);
+        }
+
+        public static DialogResult MsgBox_EmptyRawException(IWin32Window owner)
+        {
+            var message = "Raw is Empty or Null. Please provide Raw Text To Translate.";
+            var caption = "Raw cannot be empty!";
+            var buttons = MessageBoxButtons.OK;
+            var icon = MessageBoxIcon.Exclamation;
+
+            return MessageBox.Show(owner, message, caption, buttons, icon);
+        }
+
         public static DialogResult MsgBox_NewProject_Confirmation(IWin32Window owner)
         {
             var message = "Load this raw text into the new project?";
@@ -169,6 +199,7 @@ namespace TranslatorStudio.Utilities
 
             return MessageBox.Show(owner, message, caption, buttons, icon);
         }
+
         #endregion
 
     }
