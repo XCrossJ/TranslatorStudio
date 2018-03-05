@@ -49,11 +49,12 @@ namespace TranslatorStudioClassLibrary.Factory
             {
                 var project = _projectDataFactory.CreateProjectDataFromDocument(fileName, document);
 
-                return CreateTranslationDataFromProject(project);
+                var translationData = CreateTranslationDataFromProject(project);
+                translationData.DataChanged = false;
+                return translationData;
             }
             catch (System.Exception e)
             {
-
                 throw e;
             }
         }
@@ -70,7 +71,10 @@ namespace TranslatorStudioClassLibrary.Factory
                 if (!project.RawLines.Any())
                     throw ExceptionHelper.NewEmptyRawException;
 
-                return new TranslationData(project, _subTranslationDataFactory);
+                return new TranslationData(project, _subTranslationDataFactory)
+                {
+                    DataChanged = false
+                };
             }
             catch (System.Exception e)
             {
@@ -90,7 +94,9 @@ namespace TranslatorStudioClassLibrary.Factory
             {
                 var project = _projectDataFactory.CreateProjectDataFromStream(fileName, sr);
 
-                return CreateTranslationDataFromProject(project);
+                var translationData = CreateTranslationDataFromProject(project);
+                translationData.DataChanged = false;
+                return translationData;
             }
             catch (System.Exception e)
             {

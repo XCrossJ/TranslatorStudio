@@ -18,6 +18,10 @@ namespace TranslatorStudioClassLibrary.Interface
         /// Determines whether Auto Translation Mode is turned on or not.
         /// </summary>
         bool AutoTranslationMode { get; }
+        /// <summary>
+        /// Determines whether changed have been made to Translation Data.
+        /// </summary>
+        bool DataChanged { get; set; }
 
         /// <summary>
         /// The name of the project.

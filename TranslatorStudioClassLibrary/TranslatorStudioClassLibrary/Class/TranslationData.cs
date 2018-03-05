@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using TranslatorStudioClassLibrary.Exception;
 using TranslatorStudioClassLibrary.Interface;
@@ -45,6 +46,10 @@ namespace TranslatorStudioClassLibrary.Class
         /// Determines whether Auto Translation Mode is turned on or not.
         /// </summary>
         public bool AutoTranslationMode { get => _autoMode; }
+        /// <summary>
+        /// Determines whether changed have been made to Translation Data.
+        /// </summary>
+        public bool DataChanged { get; set; }
 
         /// <summary>
         /// The name of the project.
@@ -52,7 +57,7 @@ namespace TranslatorStudioClassLibrary.Class
         public string ProjectName
         {
             get => _data.ProjectName;
-            set => _data.ProjectName = value;
+            set => SetPropertyValue(_data.ProjectName, value);
         }
         /// <summary>
         /// Contains all of the raw lines in the translation.
@@ -60,7 +65,7 @@ namespace TranslatorStudioClassLibrary.Class
         public List<string> RawLines
         {
             get => _data.RawLines;
-            set => _data.RawLines = value;
+            set => SetPropertyValue(_data.RawLines, value);
         }
         /// <summary>
         /// Contains all of the translated lines in the translation.
@@ -68,7 +73,7 @@ namespace TranslatorStudioClassLibrary.Class
         public List<string> TranslatedLines
         {
             get => _data.TranslatedLines;
-            set => _data.TranslatedLines = value;
+            set => SetPropertyValue(_data.TranslatedLines, value);
         }
         /// <summary>
         /// Contains the completion status of each line in the translation.
@@ -76,7 +81,7 @@ namespace TranslatorStudioClassLibrary.Class
         public List<bool> CompletedLines
         {
             get => _data.CompletedLines;
-            set => _data.CompletedLines = value;
+            set => SetPropertyValue(_data.CompletedLines, value);
         }
         /// <summary>
         /// Contains the marked status of each line in the translation.
@@ -84,11 +89,12 @@ namespace TranslatorStudioClassLibrary.Class
         public List<bool> MarkedLines
         {
             get => _data.MarkedLines;
-            set => _data.MarkedLines = value;
+            set => SetPropertyValue(_data.MarkedLines, value);
         }
         #endregion
 
         #region Project Controls
+
         /// <summary>
         /// The current raw line in the translation.
         /// </summary>
@@ -108,7 +114,7 @@ namespace TranslatorStudioClassLibrary.Class
                     (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
                     : _subData.CurrentReference;
 
-                RawLines[index] = value;
+                SetPropertyValue(RawLines[index], value);
             }
         }
         /// <summary>
@@ -130,7 +136,7 @@ namespace TranslatorStudioClassLibrary.Class
                     (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
                     : _subData.CurrentReference;
 
-                TranslatedLines[index] = value;
+                SetPropertyValue(TranslatedLines[index], value);
             }
         }
         /// <summary>
@@ -152,7 +158,7 @@ namespace TranslatorStudioClassLibrary.Class
                     (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
                     : _subData.CurrentReference;
 
-                CompletedLines[index] = value;
+                SetPropertyValue(CompletedLines[index], value);
             }
         }
         /// <summary>
@@ -174,7 +180,7 @@ namespace TranslatorStudioClassLibrary.Class
                     (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
                     : _subData.CurrentReference;
 
-                MarkedLines[index] = value;
+                SetPropertyValue(MarkedLines[index], value);
             }
         }
 
@@ -182,6 +188,7 @@ namespace TranslatorStudioClassLibrary.Class
         /// Private property that contains the current index.
         /// </summary>
         private int _index = 0;
+
         /// <summary>
         /// The current index in the translation.
         /// </summary>
@@ -240,6 +247,15 @@ namespace TranslatorStudioClassLibrary.Class
 
         #endregion
 
+        #region Property Changed
+        
+        private void SetPropertyValue<T>(T property, T value)
+        {
+            property = value;
+            DataChanged = true;
+        }
+
+        #endregion
 
         #region Constructors
 

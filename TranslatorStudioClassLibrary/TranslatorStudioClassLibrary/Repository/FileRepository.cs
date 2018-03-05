@@ -23,10 +23,6 @@ namespace TranslatorStudioClassLibrary.Repository
         /// Factory that constructs the translation data.
         /// </summary>
         private readonly ITranslationDataFactory _translationDataFactory;
-        /// <summary>
-        /// Factory that constructs the project data.
-        /// </summary>
-        private readonly IProjectDataFactory _projectDataFactory;
         #endregion
 
         #region Constructor
@@ -35,16 +31,15 @@ namespace TranslatorStudioClassLibrary.Repository
         /// Creates File Repository.
         /// </summary>
         /// <param name="translationDataFactory">Factory that constructs the translation data.</param>
-        /// <param name="projectDataFactory">Factory that constructs the project data.</param>
-        public FileRepository(ITranslationDataFactory translationDataFactory, IProjectDataFactory projectDataFactory)
+        public FileRepository(ITranslationDataFactory translationDataFactory)
         {
-            _translationDataFactory = translationDataFactory ?? throw new System.Exception("No Translation Data Factory");
-            _projectDataFactory = projectDataFactory ?? throw new System.Exception("No Project Data Factory");
+            _translationDataFactory = translationDataFactory ?? throw new ArgumentNullException(nameof(translationDataFactory));
         }
 
         #endregion
 
         #region Public Methods
+
         /// <summary>
         /// Opens translation data from text file.
         /// </summary>
@@ -54,7 +49,7 @@ namespace TranslatorStudioClassLibrary.Repository
         public ITranslationData OpenTextFile(string path, string fileName)
         {
             StreamReader sr = new StreamReader(path, Encoding.Default, true);
-            var data = _translationDataFactory.CreateTranslationDataFromStream(_projectDataFactory, fileName, sr);
+            var data = _translationDataFactory.CreateTranslationDataFromStream(fileName, sr);
             return data;
         }
         /// <summary>
@@ -70,7 +65,7 @@ namespace TranslatorStudioClassLibrary.Repository
 
             document = application.Documents.Open(path);
 
-            var data = _translationDataFactory.CreateTranslationDataFromDocument(_projectDataFactory, fileName, document);
+            var data = _translationDataFactory.CreateTranslationDataFromDocument(fileName, document);
 
             document.Close();
             application.Quit();
@@ -98,7 +93,7 @@ namespace TranslatorStudioClassLibrary.Repository
         /// <param name="path">Path of the file.</param>
         /// <param name="fileName">Name of the file.</param>
         /// <returns>An object that implements Translation Data Interface and the previous save path.</returns>
-        public Tuple<ITranslationData, string> OpenHandler(string fileExt, string path, string fileName)
+        public Tuple<ITranslationData, string> OpenFile(string fileExt, string path, string fileName)
         {
             string previousSavePath = "";
             ITranslationData data;

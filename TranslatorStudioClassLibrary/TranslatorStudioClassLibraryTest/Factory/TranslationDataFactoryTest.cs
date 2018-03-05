@@ -282,10 +282,16 @@ namespace TranslatorStudioClassLibraryTest.Factory
             public void TranslationDataFactory_CreateTranslationDataFromStream_Test()
             {
                 // Arrange
-                var expected = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
+                var expected = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object)
+                {
+                    DataChanged = false
+                };
+
+                var expectedDataChanged = expected.DataChanged;
 
                 // Act
                 var actual = translationDataFactory.CreateTranslationDataFromStream(mockProjectName, new StreamReader(new MemoryStream()));
+                var actualDataChanged = actual.DataChanged;
 
                 // Assert
                 mockProjectDataFactory.Verify(
@@ -295,6 +301,7 @@ namespace TranslatorStudioClassLibraryTest.Factory
                 Assert.IsType<TranslationData>(actual);
                 Assert.IsAssignableFrom<ITranslationData>(actual);
                 Assert.NotStrictEqual(expected, actual);
+                Assert.Equal(expectedDataChanged, actualDataChanged);
             }
 
             /// <summary>
@@ -304,10 +311,16 @@ namespace TranslatorStudioClassLibraryTest.Factory
             public void TranslationDataFactory_CreateTranslationDataFromDocument_Test()
             {
                 // Arrange
-                var expected = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
+                var expected = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object)
+                {
+                    DataChanged = false
+                };
+
+                var expectedDataChanged = expected.DataChanged;
 
                 // Act
                 var actual = translationDataFactory.CreateTranslationDataFromDocument("", new Document());
+                var actualDataChanged = actual.DataChanged;
 
                 // Assert
                 mockProjectDataFactory.Verify(
@@ -317,6 +330,7 @@ namespace TranslatorStudioClassLibraryTest.Factory
                 Assert.IsType<TranslationData>(actual);
                 Assert.IsAssignableFrom<ITranslationData>(actual);
                 Assert.NotStrictEqual(expected, actual);
+                Assert.Equal(expectedDataChanged, actualDataChanged);
             }
 
             #endregion

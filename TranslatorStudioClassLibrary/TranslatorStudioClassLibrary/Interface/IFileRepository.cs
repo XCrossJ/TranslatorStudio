@@ -35,7 +35,7 @@ namespace TranslatorStudioClassLibrary.Interface
         /// <param name="path">Path of the file.</param>
         /// <param name="fileName">Name of the file.</param>
         /// <returns>An object that implements Translation Data Interface and the previous save path.</returns>
-        Tuple<ITranslationData, string> OpenHandler(string fileExt, string path, string fileName);
+        Tuple<ITranslationData, string> OpenFile(string fileExt, string path, string fileName);
         /// <summary>
         /// Saves translation project data to file.
         /// </summary>
