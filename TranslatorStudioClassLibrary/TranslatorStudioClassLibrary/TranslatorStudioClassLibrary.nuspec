@@ -2,13 +2,13 @@
 <package >
   <metadata>
     <id>MayonakaSignal.XCrossJ.TranslatorStudioClassLibrary</id>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <title>TranslatorStudioClassLibrary</title>
     <authors>XCrossJ</authors>
     <owners>XCrossJ</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Class Library for XCrossJ's Translator Studio.</description>
-    <releaseNotes>Updated unit testing with mock. Overhauled repository functionality.</releaseNotes>
+    <releaseNotes>Migrated to xunit framework. Repositories are now factories. File helper moved to File Repository. Overall overhaul of functionality.</releaseNotes>
     <copyright>Copyright 2017 (c) Mayonaka Signal. All rights reserved.</copyright>
     <tags>XCrossJ Translator Studio Class Library</tags>
   </metadata>
