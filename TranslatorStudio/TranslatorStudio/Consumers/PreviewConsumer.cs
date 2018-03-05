@@ -10,17 +10,24 @@ namespace TranslatorStudio.Consumers
     public class PreviewConsumer : IPreviewConsumer
     {
         #region Properties
+
         public FrmPreview Preview { get; set; }
+
         #endregion
+
 
         #region Constructors
+
         public PreviewConsumer(FrmPreview newFrmPreview)
         {
-            Preview = newFrmPreview;
+            Preview = newFrmPreview ?? throw new ArgumentNullException(nameof(newFrmPreview));
         }
+
         #endregion
 
+
         #region Methods
+
         public string GetPreviewTitle(string projectName)
         {
             return $@"Translator Studio - Preview ({projectName})";
@@ -135,7 +142,7 @@ namespace TranslatorStudio.Consumers
             }
             return true;
         }
-        #endregion
 
+        #endregion
     }
 }

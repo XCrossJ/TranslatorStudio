@@ -61,12 +61,16 @@ namespace TranslatorStudio.Utilities
             return currentFont;
         }
 
-
         #endregion
+
+
+        #region Other Extension Methods
 
         public static void StartProcess(this string processName)
         {
             Process.Start(processName);
         }
+
+        #endregion
     }
 }

@@ -1,32 +1,32 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using TranslatorStudio.Consumers;
 using TranslatorStudio.Interfaces;
-using TranslatorStudio.Utilities;
 using TranslatorStudioClassLibrary.Interface;
-using TranslatorStudioClassLibrary.Repository;
-using TranslatorStudioClassLibrary.Utilities;
 
 namespace TranslatorStudio.Forms
 {
     public partial class FrmDesk : Form
     {
-        #region Global Variables
-        public FrmHub Hub { get; set; }
-        public FrmPreview Preview { get; set; }
-        public ITranslationData Data { get; set; }
-        public frmNew New { get; set; }
-        public string PreviousSavePath { get; set; }
-        public int NumberOfLines { get; set; }
-        public bool UnsavedData { get; set; } = true;
+        #region Properties
 
         private readonly IDeskConsumer consumer;
-        private readonly ISubTranslationDataRepository subTranslationDataRepository;
+
+        public FrmHub Hub { get; set; }
+        public FrmPreview Preview { get; set; }
+        public frmNew New { get; set; }
+
+        public ITranslationData Data { get; set; }
+
+        public string PreviousSavePath { get; set; }
+        public int NumberOfLines { get; set; }
+        public bool UnsavedData { get => Data.DataChanged; set => Data.DataChanged = value; }
+
         #endregion
 
+
         #region Public Controls
+
         public TextBox TxtProjectName => txtProjectName;
         public Label LblMaxLine => lblMaxLine;
         public Label LblProgress => lblProgress;
@@ -39,31 +39,41 @@ namespace TranslatorStudio.Forms
 
         public NumericUpDown NudLineNumber => nudLineNumber;
         public ComboBox CmbEditMode => cmbEditMode;
+        
         #endregion
 
-        #region Constructor
+
+        #region Constructors
+
         public FrmDesk()
         {
             consumer = new DeskConsumer(this);
-            subTranslationDataRepository = new SubTranslationDataRepository();
             InitializeComponent();
         }
+
         public FrmDesk(ITranslationData data, string prevSavePath, FrmHub hub) : this()
         {
-            Data = data;
-            PreviousSavePath = prevSavePath;
-            Hub = hub;
+            Data = data ?? throw new ArgumentNullException(nameof(data));
+            PreviousSavePath = prevSavePath ?? throw new ArgumentNullException(nameof(prevSavePath));
+            Hub = hub ?? throw new ArgumentNullException(nameof(hub));
             consumer.DeskSetup();
         }
+
         public FrmDesk(ITranslationData data, FrmHub hub) : this()
         {
-            Hub = hub;
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
+            Hub = hub ?? throw new ArgumentNullException(nameof(hub));
             ResetTranslationProject(data);
         }
+
         #endregion
 
 
         #region Control Events
+
+        #region Basic Events
+
         private void FrmDesk_Load(object sender, EventArgs e)
         {
 
@@ -119,7 +129,10 @@ namespace TranslatorStudio.Forms
             consumer.ChangeEditMode();
         }
 
+        #endregion
+
         #region Toolbar Events
+
         private void tsmiNew_Click(object sender, EventArgs e)
         {
             consumer.NewProject();
@@ -209,9 +222,11 @@ namespace TranslatorStudio.Forms
         {
             consumer.ShowAbout();
         }
+        
         #endregion
 
         #region Context Strip Events
+
         private void cmsDesk_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             tsmiContextComplete.Checked = Data.CurrentCompletion;
@@ -247,11 +262,14 @@ namespace TranslatorStudio.Forms
         {
             consumer.ShowShortcuts();
         }
+        
         #endregion
 
         #endregion
-        
+
+
         #region Other Events
+
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
@@ -266,9 +284,12 @@ namespace TranslatorStudio.Forms
             else
                 return base.ProcessCmdKey(ref msg, keyData);
         }
+
         #endregion
 
+
         #region Methods
+
         public void UpdateTranslationData(ITranslationData data)
         {
             consumer.UpdateTranslationData(data);
@@ -285,6 +306,5 @@ namespace TranslatorStudio.Forms
         }
 
         #endregion
-
     }
 }

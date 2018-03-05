@@ -1,180 +1,200 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TranslatorStudio.Utilities;
+using Xunit;
 
 namespace TranslatorStudioTest.Utilities
 {
-    [TestClass]
-    [TestCategory("Application Data Test")]
+    [Collection("Application Data Test")]
     public class ApplicationDataTest
     {
-        #region Applications Tests
-        [TestMethod]
-        public void GoogleTranslate_Test()
+        [Trait("Category", "Application Data Test")]
+        [Trait("Category", "Applications Test")]
+        public class ApplicationsTests
         {
-            //Arrange
-            var expectedType = typeof(string);
+            #region Applications Tests
 
-            //Act
-            var actual = ApplicationData.GoogleTranslate;
+            [Fact]
+            public void GoogleTranslate_Test()
+            {
+                var expectedType = typeof(string);
 
-            //Assert
-            Assert.IsInstanceOfType(actual, expectedType);
-            Assert.IsNotNull(actual);
+                //Act
+                var actual = ApplicationData.GoogleTranslate;
+
+                //Assert
+                Assert.IsType<string>(actual);
+                Assert.NotNull(actual);
+            }
+
+            [Fact]
+            public void Weblio_Test()
+            {
+                //Arrange
+
+                //Act
+                var actual = ApplicationData.Weblio;
+
+                //Assert
+                Assert.IsType<string>(actual);
+                Assert.NotNull(actual);
+            }
+
+            #endregion
+        }
+
+        [Trait("Category", "Application Data Test")]
+        [Trait("Category", "Shortcuts Test")]
+        public class ShortcutsTests
+        {
+
+            #region Shortcuts Tests
+
+            [Fact]
+            public void Shortcuts_Test()
+            {
+                //Arrange
+ 
+                //Act
+                var actual = ApplicationData.Shortcuts;
+
+                //Assert
+                Assert.IsType<List<string[]>>(actual);
+                Assert.NotNull(actual);
+            }
+
+            #endregion
+        }
+
+        [Trait("Category", "Application Data Test")]
+        [Trait("Category", "Cell Styles Test")]
+        public class CellStylesTests
+        {
+
+            #region Cell Styles Tests
+
+            [Fact]
+            public void CompletedCellStyle_Test()
+            {
+                //Arrange
+
+                //Act
+                var actual = ApplicationData.CompletedCellStyle;
+
+                //Assert
+                Assert.IsType<DataGridViewCellStyle>(actual);
+                Assert.NotNull(actual);
+            }
+
+            [Fact]
+            public void MarkedCellStyle_Test()
+            {
+                //Arrange
+
+                //Act
+                var actual = ApplicationData.MarkedCellStyle;
+
+                //Assert
+                Assert.IsType<DataGridViewCellStyle>(actual);
+                Assert.NotNull(actual);
+            }
+
+            [Fact]
+            public void DefaultCellStyle_Test()
+            {
+                //Arrange
+
+                //Act
+                var actual = ApplicationData.DefaultCellStyle;
+
+                //Assert
+                Assert.IsType<DataGridViewCellStyle>(actual);
+                Assert.NotNull(actual);
+            }
+
+            #endregion
 
         }
 
-        [TestMethod]
-        public void Weblio_Test()
+        [Trait("Category", "Application Data Test")]
+        [Trait("Category", "Information Test")]
+        public class InformationTests
         {
-            //Arrange
-            var expectedType = typeof(string);
 
-            //Act
-            var actual = ApplicationData.Weblio;
+            #region Information
 
-            //Assert
-            Assert.IsInstanceOfType(actual, expectedType);
-            Assert.IsNotNull(actual);
+            [Fact]
+            public void About_Test()
+            {
+                //Arrange
 
-        }
-        #endregion
+                //Act
+                var actual = ApplicationData.About;
 
-        #region Shortcuts Tests
-        [TestMethod]
-        public void Shortcuts_Test()
-        {
-            //Arrange
-            var expectedType = typeof(List<string[]>);
+                //Assert
+                Assert.IsType<string>(actual);
+                Assert.NotNull(actual);
+            }
 
-            //Act
-            var actual = ApplicationData.Shortcuts;
-
-            //Assert
-            Assert.IsInstanceOfType(actual, expectedType);
-            Assert.IsNotNull(actual);
-
-        }
-        #endregion
-
-        #region Cell Styles Tests
-        [TestMethod]
-        public void CompletedCellStyle_Test()
-        {
-            //Arrange
-            var expectedType = typeof(DataGridViewCellStyle);
-
-            //Act
-            var actual = ApplicationData.CompletedCellStyle;
-
-            //Assert
-            Assert.IsInstanceOfType(actual, expectedType);
-            Assert.IsNotNull(actual);
+            #endregion
 
         }
 
-        [TestMethod]
-        public void MarkedCellStyle_Test()
+        [Trait("Category", "Application Data Test")]
+        [Trait("Category", "File Dialog Test")]
+        public class FileDialogsTests
         {
-            //Arrange
-            var expectedType = typeof(DataGridViewCellStyle);
 
-            //Act
-            var actual = ApplicationData.MarkedCellStyle;
+            #region File Dialogs
 
-            //Assert
-            Assert.IsInstanceOfType(actual, expectedType);
-            Assert.IsNotNull(actual);
+            [Fact]
+            public void OpenProjectDialog_Test()
+            {
+                //Arrange
+
+                //Act
+                var actual = ApplicationData.OpenProjectDialog();
+
+                //Assert
+                Assert.IsType<OpenFileDialog>(actual);
+                Assert.NotNull(actual);
+            }
+
+            [Fact]
+            public void SaveProjectDialog_Test()
+            {
+                //Arrange
+                var expectedFileName = "";
+
+                //Act
+                var actual = ApplicationData.SaveProjectDialog(expectedFileName);
+                var actualFileName = actual.FileName;
+
+                //Assert
+                Assert.IsType<SaveFileDialog>(actual);
+                Assert.NotNull(actual);
+                Assert.Equal(expectedFileName, actualFileName);
+            }
+
+            [Fact]
+            public void ExportProjectDialog_Test()
+            {
+                //Arrange
+                var expectedFileName = "";
+
+                //Act
+                var actual = ApplicationData.ExportProjectDialog(expectedFileName);
+                var actualFileName = actual.FileName;
+
+                //Assert
+                Assert.IsType<SaveFileDialog>(actual);
+                Assert.NotNull(actual);
+                Assert.Equal(expectedFileName, actualFileName);
+            }
+
+            #endregion
 
         }
-
-        [TestMethod]
-        public void DefaultCellStyle_Test()
-        {
-            //Arrange
-            var expectedType = typeof(DataGridViewCellStyle);
-
-            //Act
-            var actual = ApplicationData.DefaultCellStyle;
-
-            //Assert
-            Assert.IsInstanceOfType(actual, expectedType);
-            Assert.IsNotNull(actual);
-
-        }
-        #endregion
-
-        #region Information
-        [TestMethod]
-        public void About_Test()
-        {
-            //Arrange
-            var expectedType = typeof(string);
-
-            //Act
-            var actual = ApplicationData.About;
-
-            //Assert
-            Assert.IsInstanceOfType(actual, expectedType);
-            Assert.IsNotNull(actual);
-
-        }
-        #endregion
-
-        #region File Dialogs
-        [TestMethod]
-        public void OpenProjectDialog_Test()
-        {
-            //Arrange
-            var expectedType = typeof(OpenFileDialog);
-
-            //Act
-            var actual = ApplicationData.OpenProjectDialog();
-
-            //Assert
-            Assert.IsInstanceOfType(actual, expectedType);
-            Assert.IsNotNull(actual);
-
-        }
-
-        [TestMethod]
-        public void SaveProjectDialog_Test()
-        {
-            //Arrange
-            var expectedType = typeof(SaveFileDialog);
-            var expectedFileName = "";
-
-            //Act
-            var actual = ApplicationData.SaveProjectDialog(expectedFileName);
-            var actualFileName = actual.FileName;
-
-            //Assert
-            Assert.IsInstanceOfType(actual, expectedType);
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(expectedFileName, actualFileName);
-
-        }
-
-        [TestMethod]
-        public void ExportProjectDialog_Test()
-        {
-            //Arrange
-            var expectedType = typeof(SaveFileDialog);
-            var expectedFileName = "";
-
-            //Act
-            var actual = ApplicationData.ExportProjectDialog(expectedFileName);
-            var actualFileName = actual.FileName;
-
-            //Assert
-            Assert.IsInstanceOfType(actual, expectedType);
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(expectedFileName, actualFileName);
-
-        }
-        #endregion
-
     }
 }

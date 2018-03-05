@@ -7,6 +7,8 @@ using System.Windows.Forms;
 using TranslatorStudio.Forms;
 using TranslatorStudio.Interfaces;
 using TranslatorStudio.Utilities;
+using TranslatorStudioClassLibrary.Exception;
+using TranslatorStudioClassLibrary.Factory;
 using TranslatorStudioClassLibrary.Interface;
 using TranslatorStudioClassLibrary.Repository;
 
@@ -15,60 +17,68 @@ namespace TranslatorStudio.Consumers
     public class NewConsumer : INewConsumer
     {
         #region Properties
-        private readonly IProjectDataRepository projectDataRepository;
-        private readonly ITranslationDataRepository translationDataRepository;
+
+        private readonly ITranslationDataFactory translationDataFactory;
+
         public frmNew New { get; set; }
+
         #endregion
+
 
         #region Constructors
+
         public NewConsumer(frmNew frmNew)
         {
-            New = frmNew;
-            projectDataRepository = new ProjectDataRepository();
-            translationDataRepository = new TranslationDataRepository();
+            New = frmNew ?? throw new ArgumentNullException(nameof(frmNew));
+            IProjectDataFactory projectFactory = new ProjectDataFactory();
+            ISubTranslationDataFactory subFactory = new SubTranslationDataFactory();
+            translationDataFactory = new TranslationDataFactory(projectFactory, subFactory);
         }
 
-        public NewConsumer(frmNew frmNew, IProjectDataRepository newProjectDataRepository, ITranslationDataRepository newTranslationDataRepository)
+        public NewConsumer(frmNew frmNew, ITranslationDataFactory newTranslationDataRepository)
         {
-            New = frmNew;
-            projectDataRepository = newProjectDataRepository;
-            translationDataRepository = newTranslationDataRepository;
+            New = frmNew ?? throw new ArgumentNullException(nameof(frmNew));
+            translationDataFactory = newTranslationDataRepository ?? throw new ArgumentNullException(nameof(newTranslationDataRepository));
         }
+
         #endregion
 
+
         #region Public Methods
+
         public bool CreateNewProject()
         {
-            string fileName = !string.IsNullOrEmpty(New.ProjectName) ? New.ProjectName : "";
-            string[] rawLines = New.RawLines.Any() ? New.RawLines : null;
-            DialogResult dialogResult = ApplicationData.MsgBox_NewProject_Confirmation(New);
+            try
+            {
+                string fileName = !string.IsNullOrEmpty(New.ProjectName) ? New.ProjectName : "";
+                string[] rawLines = New.RawLines.Any() ? New.RawLines : null;
+                DialogResult dialogResult = ApplicationData.MsgBox_NewProject_Confirmation(New);
 
-            var projectData = CreateNewProjectFromRaw(dialogResult, fileName, rawLines);
+                var translationData = CreateNewTranslationFromRaw(dialogResult, fileName, rawLines);
 
-            if (projectData != null)
-                return CreateProject(projectData);
-            else
-                MessageBox.Show("Raw is Empty or Null. Please provide Raw Text To Translate.");
-            return false;
+                if (translationData != null)
+                    return CreateTranslationProject(translationData);
+                else
+                    return false;
+            }
+            catch (EmptyRawException)
+            {
+                ApplicationData.MsgBox_EmptyRawException(New);
+                return false;
+            }
         }
 
-        public IProjectData CreateNewProjectFromRaw(DialogResult dialogResult, string fileName, string[] rawLines)
+        public ITranslationData CreateNewTranslationFromRaw(DialogResult dialogResult, string fileName, string[] rawLines)
         {
-            IProjectData result = null;
-            if (rawLines != null && rawLines.Length != 0)
+            switch (dialogResult)
             {
-                switch (dialogResult)
-                {
-                    case DialogResult.Yes:
-                        result = projectDataRepository.CreateProjectDataFromArray(fileName, rawLines);
-                        break;
-                    case DialogResult.No:
-                    case DialogResult.Cancel:
-                    default:
-                        break;
-                }
+                case DialogResult.Yes:
+                    return translationDataFactory.CreateTranslationDataFromArray(fileName, rawLines);
+                case DialogResult.No:
+                case DialogResult.Cancel:
+                default:
+                    return null;
             }
-            return result;
         }
         
         public bool QuitNew()
@@ -91,12 +101,14 @@ namespace TranslatorStudio.Consumers
                     return false;
             }
         }
+
         #endregion
 
+
         #region Private Methods
-        private bool CreateProject(IProjectData projectData)
+
+        private bool CreateTranslationProject(ITranslationData translationData)
         {
-            ITranslationData translationData = translationDataRepository.CreateTranslationDataFromProject(projectData);
             if (New.Hub != null)
             {
                 New.Hub.SetDesk(translationData);
@@ -112,6 +124,7 @@ namespace TranslatorStudio.Consumers
             }
             return false;
         }
+
         #endregion
     }
 }

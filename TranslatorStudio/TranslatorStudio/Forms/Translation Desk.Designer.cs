@@ -377,7 +377,7 @@ namespace TranslatorStudio.Forms
             this.tsmiMarkedOnly,
             this.tsmiCompleteOnly});
             this.tsmiEditMode.Name = "tsmiEditMode";
-            this.tsmiEditMode.Size = new System.Drawing.Size(176, 22);
+            this.tsmiEditMode.Size = new System.Drawing.Size(177, 22);
             this.tsmiEditMode.Text = "Edit &Mode";
             // 
             // tsmiDefault
@@ -411,7 +411,7 @@ namespace TranslatorStudio.Forms
             // tsmiPreview
             // 
             this.tsmiPreview.Name = "tsmiPreview";
-            this.tsmiPreview.Size = new System.Drawing.Size(176, 22);
+            this.tsmiPreview.Size = new System.Drawing.Size(177, 22);
             this.tsmiPreview.Text = "&Preview Translation";
             this.tsmiPreview.Click += new System.EventHandler(this.tsmiPreview_Click);
             // 
@@ -423,7 +423,7 @@ namespace TranslatorStudio.Forms
             this.tssTools,
             this.tsmiWebTools});
             this.tsmiTools.Name = "tsmiTools";
-            this.tsmiTools.Size = new System.Drawing.Size(47, 20);
+            this.tsmiTools.Size = new System.Drawing.Size(48, 20);
             this.tsmiTools.Text = "&Tools";
             // 
             // tsmiMarkComplete
@@ -457,14 +457,14 @@ namespace TranslatorStudio.Forms
             // tsmiGoogleTranslate
             // 
             this.tsmiGoogleTranslate.Name = "tsmiGoogleTranslate";
-            this.tsmiGoogleTranslate.Size = new System.Drawing.Size(162, 22);
+            this.tsmiGoogleTranslate.Size = new System.Drawing.Size(163, 22);
             this.tsmiGoogleTranslate.Text = "&Google Translate";
             this.tsmiGoogleTranslate.Click += new System.EventHandler(this.tsmiGoogleTranslate_Click);
             // 
             // tsmiWeblio
             // 
             this.tsmiWeblio.Name = "tsmiWeblio";
-            this.tsmiWeblio.Size = new System.Drawing.Size(162, 22);
+            this.tsmiWeblio.Size = new System.Drawing.Size(163, 22);
             this.tsmiWeblio.Text = "&Weblio";
             this.tsmiWeblio.Click += new System.EventHandler(this.tsmiWeblio_Click);
             // 

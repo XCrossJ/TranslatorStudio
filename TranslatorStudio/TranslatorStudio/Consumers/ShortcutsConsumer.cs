@@ -7,12 +7,24 @@ namespace TranslatorStudio.Consumers
 {
     public class ShortcutsConsumer : IShortcutsConsumer
     {
+        #region Properties
+
         public FrmShortcuts Shortcuts { get; set; }
+
+        #endregion
+
+
+        #region Constructors
 
         public ShortcutsConsumer(FrmShortcuts newFrmShortcuts)
         {
-            Shortcuts = newFrmShortcuts;
+            Shortcuts = newFrmShortcuts ?? throw new System.ArgumentNullException(nameof(newFrmShortcuts));
         }
+
+        #endregion
+
+
+        #region Methods
 
         public bool LoadShortcutList(ListView listView)
         {
@@ -27,5 +39,7 @@ namespace TranslatorStudio.Consumers
             listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
             return true;
         }
+
+        #endregion
     }
 }
