@@ -10,6 +10,7 @@ namespace TranslatorStudioClassLibrary.Interface
         #region Properties
 
         #region Project Data
+
         /// <summary>
         /// Determines whether Default Translation Mode is turned on or not.
         /// </summary>
@@ -43,9 +44,11 @@ namespace TranslatorStudioClassLibrary.Interface
         /// Contains the marked status of each line in the translation.
         /// </summary>
         List<bool> MarkedLines { get; set; }
+
         #endregion
 
         #region Project Controls
+
         /// <summary>
         /// The current raw line in the translation.
         /// </summary>
@@ -80,12 +83,14 @@ namespace TranslatorStudioClassLibrary.Interface
         ///The number of completed lines in the translation.
         /// </summary>
         int NumberOfCompletedLines { get; }
+
         #endregion
 
         #endregion
 
 
         #region Methods
+
         /// <summary>
         /// Increments the current index.
         /// </summary>
@@ -118,10 +123,11 @@ namespace TranslatorStudioClassLibrary.Interface
         /// </summary>
         void StartDefaultMode();
         /// <summary>
-        /// Initiates auto translation mode. (Removes empty lines.)
+        /// Toggles auto translation mode. (Removes empty lines.)
         /// </summary>
+        /// <param name="autoOn">Whether or not auto mode should be turned on or not.</param>
         /// <returns>Number of lines that are not empty.</returns>
-        int StartAutoMode();
+        int ToggleAutoMode(bool autoOn);
         /// <summary>
         /// Initiates marked only translation mode. (Shows all marked lines only).
         /// </summary>
@@ -142,6 +148,7 @@ namespace TranslatorStudioClassLibrary.Interface
         /// </summary>
         /// <returns>Object that implements Project Data Interface.</returns>
         IProjectData GetProjectData();
+
         #endregion
     }
 }

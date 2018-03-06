@@ -1546,10 +1546,10 @@ namespace TranslatorStudioClassLibraryTest.Class
             #region Auto Mode Tests
 
             /// <summary>
-            /// Given that Translation Data is successfully created, Start Auto Mode switches translation project to auto translation mode.
+            /// Given that Auto Mode is off, Toggle Auto Mode switches translation project to auto translation mode.
             /// </summary>
             [Fact]
-            public void TranslationData_StartAutoMode_Test()
+            public void TranslationData_ToggleAutoMode_On_Test()
             {
                 //Arrange
                 var indices = mockRawLines.Select((v, i) => new { v, i })
@@ -1573,7 +1573,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                     .Returns(mockSubData.Object);
 
                 //Act
-                var actualNumberOfLines = translationData.StartAutoMode();
+                var actualNumberOfLines = translationData.ToggleAutoMode(true);
                 var actualComplete = translationData.NumberOfCompletedLines;
                 var actualMaxIndex = translationData.MaxIndex;
                 var actualMode = translationData.DefaultTranslationMode;
@@ -1630,6 +1630,86 @@ namespace TranslatorStudioClassLibraryTest.Class
             }
 
             /// <summary>
+            /// Given that Auto Mode is on, Toggle Auto Mode switches translation project to auto translation mode.
+            /// </summary>
+            [Fact]
+            public void TranslationData_ToggleAutoMode_Off_Test()
+            {
+                //Arrange
+                var indices = mockRawLines.Select((v, i) => new { v, i })
+                    .Where(x => x.v.Any())
+                    .Select(x => x.i).ToList();
+
+                mockSubData.Object.IndexReference = indices;
+                mockSubData.Setup(
+                        x => x.MaxIndex)
+                    .Returns(mockSubData.Object.IndexReference.Count - 1);
+                mockSubData.Setup(
+                        x => x.NumberOfLines)
+                    .Returns(mockSubData.Object.IndexReference.Count);
+
+                var expectedNumberOfLines = mockRawLines.Count;
+                var expectedMaxIndex = expectedNumberOfLines - 1;
+                var expectedComplete = mockCompletedLines.Where(x => x).Count();
+
+                mockSubTranslationDataFactory.Setup(
+                        x => x.GetSubData(It.IsAny<List<bool>>()))
+                    .Returns(mockSubData.Object);
+
+                //Act
+                translationData.ToggleAutoMode(true);
+                var actualNumberOfLines = translationData.ToggleAutoMode(false);
+                var actualComplete = translationData.NumberOfCompletedLines;
+                var actualMaxIndex = translationData.MaxIndex;
+                var actualMode = translationData.DefaultTranslationMode;
+                var actualAutoMode = translationData.AutoTranslationMode;
+
+                //Assert
+                mockProjectData.Verify(
+                        x => x.RawLines,
+                    Times.AtLeastOnce);
+                mockSubData.Verify(
+                        x => x.NumberOfLines,
+                    Times.Once);
+
+                Assert.IsType<int>(actualNumberOfLines);
+                Assert.Equal(expectedNumberOfLines, actualNumberOfLines);
+                Assert.IsType<int>(actualComplete);
+                Assert.Equal(expectedComplete, actualComplete);
+                Assert.IsType<int>(actualMaxIndex);
+                Assert.Equal(expectedMaxIndex, actualMaxIndex);
+                Assert.IsType<bool>(actualMode);
+                Assert.True(actualMode);
+                Assert.IsType<bool>(actualAutoMode);
+                Assert.False(actualAutoMode);
+
+                for (int i = 0; i < expectedNumberOfLines; i++)
+                {
+                    Assert.Equal(mockRawLines[i],           translationData.RawLines[i]);
+                    Assert.Equal(mockTranslatedLines[i],    translationData.TranslatedLines[i]);
+                    Assert.Equal(mockMarkedLines[i],        translationData.MarkedLines[i]);
+                    Assert.Equal(mockCompletedLines[i],     translationData.CompletedLines[i]);
+                }
+
+                mockProjectData.Verify(
+                        x => x.RawLines,
+                    Times.Exactly(expectedNumberOfLines + 3));
+
+                mockProjectData.Verify(
+                        x => x.TranslatedLines,
+                    Times.Exactly(expectedNumberOfLines));
+
+                mockProjectData.Verify(
+                        x => x.MarkedLines,
+                    Times.Exactly(expectedNumberOfLines));
+
+                mockProjectData.Verify(
+                        x => x.CompletedLines,
+                    Times.Exactly(expectedNumberOfLines + 1));
+            }
+
+
+            /// <summary>
             /// Given that Translation Data is in Auto Mode, Start Marked Only Mode switches translation project to marked only mode.
             /// </summary>
             [Fact]
@@ -1657,7 +1737,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                     .Returns(mockSubData.Object);
 
                 //Act
-                translationData.StartAutoMode();
+                translationData.ToggleAutoMode(true);
                 var actualNumberOfLines = translationData.StartMarkedOnlyMode();
                 var actualComplete = translationData.NumberOfCompletedLines;
                 var actualMaxIndex = translationData.MaxIndex;
@@ -1743,7 +1823,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                     .Returns(mockSubData.Object);
 
                 //Act
-                translationData.StartAutoMode();
+                translationData.ToggleAutoMode(true);
                 var actualNumberOfLines = translationData.StartIncompleteOnlyMode();
                 var actualComplete = translationData.NumberOfCompletedLines;
                 var actualMaxIndex = translationData.MaxIndex;
@@ -1828,7 +1908,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                     .Returns(mockSubData.Object);
 
                 //Act
-                translationData.StartAutoMode();
+                translationData.ToggleAutoMode(true);
                 var actualNumberOfLines = translationData.StartCompleteOnlyMode();
                 var actualComplete = translationData.NumberOfCompletedLines;
                 var actualMaxIndex = translationData.MaxIndex;

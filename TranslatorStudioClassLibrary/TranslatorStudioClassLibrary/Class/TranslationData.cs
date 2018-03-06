@@ -16,6 +16,7 @@ namespace TranslatorStudioClassLibrary.Class
         #region Properties
 
         #region Project Data
+
         /// <summary>
         /// Private property that constructs sub translation data;
         /// </summary>
@@ -91,6 +92,7 @@ namespace TranslatorStudioClassLibrary.Class
             get => _data.MarkedLines;
             set => _data.MarkedLines = SetPropertyValue(value);
         }
+
         #endregion
 
         #region Project Controls
@@ -243,6 +245,7 @@ namespace TranslatorStudioClassLibrary.Class
                         .Select(x => x.i).ToList().Count();
             }
         }
+
         #endregion
 
         #endregion
@@ -283,6 +286,7 @@ namespace TranslatorStudioClassLibrary.Class
 
 
         #region Methods
+
         /// <summary>
         /// Increments the current index.
         /// </summary>
@@ -360,17 +364,24 @@ namespace TranslatorStudioClassLibrary.Class
             CurrentIndex = 0;
         }
         /// <summary>
-        /// Initiates auto translation mode. (Removes empty lines.)
+        /// Toggles auto translation mode. (Removes empty lines.)
         /// </summary>
+        /// <param name="autoOn">Whether or not auto mode should be turned on or not.</param>
         /// <returns>Number of lines that are not empty.</returns>
-        public int StartAutoMode()
+        public int ToggleAutoMode(bool autoOn)
         {
-            _autoMode = true;
-            var nonEmptyRaw = RawLines.Where(x => x.Any()).Select(x => true);
+            if (autoOn)
+            {
+                _autoMode = true;
+                var nonEmptyRaw = RawLines.Where(x => x.Any()).Select(x => true);
 
-            _autoData = _subTranslationDataFactory.GetSubData(nonEmptyRaw.ToList());
-            CurrentIndex = 0;
-            return _autoData.NumberOfLines;
+                _autoData = _subTranslationDataFactory.GetSubData(nonEmptyRaw.ToList());
+                CurrentIndex = 0;
+            }
+            else
+                _autoMode = false;
+
+            return NumberOfLines;
         }
         /// <summary>
         /// Initiates marked only translation mode. (Shows all marked lines only).
@@ -432,6 +443,7 @@ namespace TranslatorStudioClassLibrary.Class
         {
             return _data;
         }
+
         #endregion
     }
 }
