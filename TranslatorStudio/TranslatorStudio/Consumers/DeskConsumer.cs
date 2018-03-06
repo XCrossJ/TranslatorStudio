@@ -59,6 +59,8 @@ namespace TranslatorStudio.Consumers
                 Desk.ChkComplete.Checked = Data.CurrentCompletion;
                 Desk.ChkMark.Checked = Data.CurrentMarked;
 
+                Desk.ChkAuto.Checked = Data.AutoTranslationMode;
+
                 return UpdateStatus();
             }
             return false;
@@ -224,6 +226,14 @@ namespace TranslatorStudio.Consumers
             }
             return UpdateDesk();
         }
+        public bool ToggleAutoMode(bool autoOn)
+        {
+            Data.ToggleAutoMode(autoOn);
+            Desk.NumberOfLines = Desk.NudLineNumber.ChangeNumericUpDownMaximum(Data.NumberOfLines);
+            Desk.NudLineNumber.Value = 1;
+            UpdateDesk();
+            return true;
+        }
 
         public bool GoToNextLine()
         {
@@ -257,6 +267,11 @@ namespace TranslatorStudio.Consumers
         public bool FlipMarkedState()
         {
             Desk.ChkMark.FlipCheckboxState();
+            return true;
+        }
+        public bool FlipAutoState()
+        {
+            Desk.ChkAuto.FlipCheckboxState();
             return true;
         }
         public bool NumberOfLinesChanged()

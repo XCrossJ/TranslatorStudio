@@ -36,6 +36,7 @@ namespace TranslatorStudio.Interfaces
         bool InsertLine();
         bool RemoveLine();
         bool ChangeEditMode();
+        bool ToggleAutoMode(bool autoOn);
 
         bool GoToNextLine();
         bool GoToPrevLine();
@@ -43,8 +44,9 @@ namespace TranslatorStudio.Interfaces
         bool DecreaseTextSize();
         bool FlipCompleteState();
         bool FlipMarkedState();
+        bool FlipAutoState();
         bool NumberOfLinesChanged();
-
+        
         bool BeginDefaultMode();
         bool BeginMarkedOnlyMode();
         bool BeginIncompleteOnlyMode();

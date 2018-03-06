@@ -96,6 +96,8 @@ namespace TranslatorStudio.Forms
             this.btnInsert = new System.Windows.Forms.Button();
             this.lblTools = new System.Windows.Forms.Label();
             this.pnlDesk = new System.Windows.Forms.Panel();
+            this.chkAuto = new System.Windows.Forms.CheckBox();
+            this.tsmiAutoMode = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsDesk.SuspendLayout();
             this.mnuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spcDesk)).BeginInit();
@@ -245,7 +247,7 @@ namespace TranslatorStudio.Forms
             // chkComplete
             // 
             this.chkComplete.AutoSize = true;
-            this.chkComplete.Location = new System.Drawing.Point(120, 53);
+            this.chkComplete.Location = new System.Drawing.Point(117, 53);
             this.chkComplete.Name = "chkComplete";
             this.chkComplete.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.chkComplete.Size = new System.Drawing.Size(111, 17);
@@ -363,6 +365,7 @@ namespace TranslatorStudio.Forms
             // tsmiView
             // 
             this.tsmiView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiAutoMode,
             this.tsmiEditMode,
             this.tsmiPreview});
             this.tsmiView.Name = "tsmiView";
@@ -425,25 +428,26 @@ namespace TranslatorStudio.Forms
             this.tsmiTools.Name = "tsmiTools";
             this.tsmiTools.Size = new System.Drawing.Size(48, 20);
             this.tsmiTools.Text = "&Tools";
+            this.tsmiTools.Click += new System.EventHandler(this.tsmiTools_Click);
             // 
             // tsmiMarkComplete
             // 
             this.tsmiMarkComplete.Name = "tsmiMarkComplete";
-            this.tsmiMarkComplete.Size = new System.Drawing.Size(172, 22);
-            this.tsmiMarkComplete.Text = "Mark as &Complete";
+            this.tsmiMarkComplete.Size = new System.Drawing.Size(177, 22);
+            this.tsmiMarkComplete.Text = "Toggle &Completion";
             this.tsmiMarkComplete.Click += new System.EventHandler(this.tsmiMarkComplete_Click);
             // 
             // tsmiMarkAttention
             // 
             this.tsmiMarkAttention.Name = "tsmiMarkAttention";
-            this.tsmiMarkAttention.Size = new System.Drawing.Size(172, 22);
-            this.tsmiMarkAttention.Text = "Mark for &Attention";
+            this.tsmiMarkAttention.Size = new System.Drawing.Size(177, 22);
+            this.tsmiMarkAttention.Text = "Toggle &Marked";
             this.tsmiMarkAttention.Click += new System.EventHandler(this.tsmiMarkAttention_Click);
             // 
             // tssTools
             // 
             this.tssTools.Name = "tssTools";
-            this.tssTools.Size = new System.Drawing.Size(169, 6);
+            this.tssTools.Size = new System.Drawing.Size(174, 6);
             // 
             // tsmiWebTools
             // 
@@ -451,7 +455,7 @@ namespace TranslatorStudio.Forms
             this.tsmiGoogleTranslate,
             this.tsmiWeblio});
             this.tsmiWebTools.Name = "tsmiWebTools";
-            this.tsmiWebTools.Size = new System.Drawing.Size(172, 22);
+            this.tsmiWebTools.Size = new System.Drawing.Size(177, 22);
             this.tsmiWebTools.Text = "Web &Tools";
             // 
             // tsmiGoogleTranslate
@@ -494,7 +498,7 @@ namespace TranslatorStudio.Forms
             // chkMark
             // 
             this.chkMark.AutoSize = true;
-            this.chkMark.Location = new System.Drawing.Point(121, 76);
+            this.chkMark.Location = new System.Drawing.Point(118, 76);
             this.chkMark.Name = "chkMark";
             this.chkMark.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.chkMark.Size = new System.Drawing.Size(110, 17);
@@ -561,9 +565,9 @@ namespace TranslatorStudio.Forms
             // 
             // btnPreview
             // 
-            this.btnPreview.Location = new System.Drawing.Point(12, 144);
+            this.btnPreview.Location = new System.Drawing.Point(12, 123);
             this.btnPreview.Name = "btnPreview";
-            this.btnPreview.Size = new System.Drawing.Size(219, 23);
+            this.btnPreview.Size = new System.Drawing.Size(97, 42);
             this.btnPreview.TabIndex = 3;
             this.btnPreview.Text = "Preview Translation";
             this.btnPreview.UseVisualStyleBackColor = true;
@@ -572,9 +576,9 @@ namespace TranslatorStudio.Forms
             // lblEditModeHeading
             // 
             this.lblEditModeHeading.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEditModeHeading.Location = new System.Drawing.Point(12, 49);
+            this.lblEditModeHeading.Location = new System.Drawing.Point(117, 118);
             this.lblEditModeHeading.Name = "lblEditModeHeading";
-            this.lblEditModeHeading.Size = new System.Drawing.Size(97, 23);
+            this.lblEditModeHeading.Size = new System.Drawing.Size(111, 23);
             this.lblEditModeHeading.TabIndex = 0;
             this.lblEditModeHeading.Text = "Edit Mode";
             this.lblEditModeHeading.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -587,9 +591,9 @@ namespace TranslatorStudio.Forms
             "Incomplete Lines",
             "Marked Lines",
             "Complete Lines"});
-            this.cmbEditMode.Location = new System.Drawing.Point(12, 75);
+            this.cmbEditMode.Location = new System.Drawing.Point(118, 144);
             this.cmbEditMode.Name = "cmbEditMode";
-            this.cmbEditMode.Size = new System.Drawing.Size(97, 21);
+            this.cmbEditMode.Size = new System.Drawing.Size(110, 21);
             this.cmbEditMode.TabIndex = 4;
             this.cmbEditMode.SelectedIndexChanged += new System.EventHandler(this.cmbEditMode_SelectedIndexChanged);
             // 
@@ -653,7 +657,7 @@ namespace TranslatorStudio.Forms
             // 
             // nudLineNumber
             // 
-            this.nudLineNumber.Location = new System.Drawing.Point(106, 117);
+            this.nudLineNumber.Location = new System.Drawing.Point(110, 117);
             this.nudLineNumber.Maximum = new decimal(new int[] {
             1,
             0,
@@ -692,7 +696,7 @@ namespace TranslatorStudio.Forms
             this.spcTools.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.spcTools.IsSplitterFixed = true;
             this.spcTools.Location = new System.Drawing.Point(0, 24);
-            this.spcTools.MinimumSize = new System.Drawing.Size(237, 483);
+            this.spcTools.MinimumSize = new System.Drawing.Size(237, 400);
             this.spcTools.Name = "spcTools";
             this.spcTools.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -710,6 +714,7 @@ namespace TranslatorStudio.Forms
             // 
             // spcTools.Panel2
             // 
+            this.spcTools.Panel2.Controls.Add(this.chkAuto);
             this.spcTools.Panel2.Controls.Add(this.btnRemove);
             this.spcTools.Panel2.Controls.Add(this.btnInsert);
             this.spcTools.Panel2.Controls.Add(this.lblTools);
@@ -718,7 +723,7 @@ namespace TranslatorStudio.Forms
             this.spcTools.Panel2.Controls.Add(this.btnPreview);
             this.spcTools.Panel2.Controls.Add(this.lblEditModeHeading);
             this.spcTools.Panel2.Controls.Add(this.cmbEditMode);
-            this.spcTools.Size = new System.Drawing.Size(237, 483);
+            this.spcTools.Size = new System.Drawing.Size(237, 459);
             this.spcTools.SplitterDistance = 211;
             this.spcTools.TabIndex = 0;
             this.spcTools.TabStop = false;
@@ -734,9 +739,9 @@ namespace TranslatorStudio.Forms
             // 
             // btnRemove
             // 
-            this.btnRemove.Location = new System.Drawing.Point(135, 102);
+            this.btnRemove.Location = new System.Drawing.Point(12, 82);
             this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(96, 23);
+            this.btnRemove.Size = new System.Drawing.Size(97, 23);
             this.btnRemove.TabIndex = 25;
             this.btnRemove.Text = "Remove Line";
             this.btnRemove.UseVisualStyleBackColor = true;
@@ -744,7 +749,7 @@ namespace TranslatorStudio.Forms
             // 
             // btnInsert
             // 
-            this.btnInsert.Location = new System.Drawing.Point(12, 102);
+            this.btnInsert.Location = new System.Drawing.Point(12, 53);
             this.btnInsert.Name = "btnInsert";
             this.btnInsert.Size = new System.Drawing.Size(97, 23);
             this.btnInsert.TabIndex = 24;
@@ -772,6 +777,25 @@ namespace TranslatorStudio.Forms
             this.pnlDesk.Name = "pnlDesk";
             this.pnlDesk.Size = new System.Drawing.Size(771, 459);
             this.pnlDesk.TabIndex = 18;
+            // 
+            // chkAuto
+            // 
+            this.chkAuto.AutoSize = true;
+            this.chkAuto.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkAuto.Location = new System.Drawing.Point(114, 98);
+            this.chkAuto.Name = "chkAuto";
+            this.chkAuto.Size = new System.Drawing.Size(114, 17);
+            this.chkAuto.TabIndex = 26;
+            this.chkAuto.Text = "Toggle Auto Mode";
+            this.chkAuto.UseVisualStyleBackColor = true;
+            this.chkAuto.CheckedChanged += new System.EventHandler(this.chkAuto_CheckedChanged);
+            // 
+            // tsmiAutoMode
+            // 
+            this.tsmiAutoMode.Name = "tsmiAutoMode";
+            this.tsmiAutoMode.Size = new System.Drawing.Size(177, 22);
+            this.tsmiAutoMode.Text = "Toggle &Auto Mode";
+            this.tsmiAutoMode.Click += new System.EventHandler(this.tsmiAutoMode_Click);
             // 
             // FrmDesk
             // 
@@ -883,5 +907,7 @@ namespace TranslatorStudio.Forms
         private ToolStripSeparator tssFile;
         private Button btnRemove;
         private Button btnInsert;
+        private CheckBox chkAuto;
+        private ToolStripMenuItem tsmiAutoMode;
     }
 }

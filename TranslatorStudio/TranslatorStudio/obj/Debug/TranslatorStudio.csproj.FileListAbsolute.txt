@@ -51,3 +51,4 @@ C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio
 C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.exe
 C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.pdb
 C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\bin\Debug\TranslatorStudioClassLibrary.xml
+C:\Users\juandyj\Source\Repos\TranslatorStudio\TranslatorStudio\TranslatorStudio\obj\Debug\TranslatorStudio.csprojResolveAssemblyReference.cache

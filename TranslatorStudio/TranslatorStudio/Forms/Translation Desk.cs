@@ -39,6 +39,7 @@ namespace TranslatorStudio.Forms
 
         public NumericUpDown NudLineNumber => nudLineNumber;
         public ComboBox CmbEditMode => cmbEditMode;
+        public CheckBox ChkAuto => chkAuto;
         
         #endregion
 
@@ -129,9 +130,21 @@ namespace TranslatorStudio.Forms
             consumer.ChangeEditMode();
         }
 
+        private void chkAuto_CheckedChanged(object sender, EventArgs e)
+        {
+            consumer.ToggleAutoMode(chkAuto.Checked);
+        }
+
         #endregion
 
         #region Toolbar Events
+
+        private void tsmiTools_Click(object sender, EventArgs e)
+        {
+            tsmiMarkComplete.Checked = Data.CurrentCompletion;
+            tsmiMarkAttention.Checked = Data.CurrentMarked;
+            tsmiAutoMode.Checked = Data.AutoTranslationMode;
+        }
 
         private void tsmiNew_Click(object sender, EventArgs e)
         {
@@ -166,6 +179,11 @@ namespace TranslatorStudio.Forms
         private void tsmiCopyRaw_Click(object sender, EventArgs e)
         {
             consumer.CopyText(rtbRawContent.Text);
+        }
+
+        private void tsmiAutoMode_Click(object sender, EventArgs e)
+        {
+            consumer.FlipAutoState();
         }
 
         private void tsmiDefault_Click(object sender, EventArgs e)

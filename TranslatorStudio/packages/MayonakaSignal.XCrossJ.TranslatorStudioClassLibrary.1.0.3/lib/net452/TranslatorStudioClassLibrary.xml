@@ -246,10 +246,11 @@
             Initiates default translation mode.
             </summary>
         </member>
-        <member name="M:TranslatorStudioClassLibrary.Class.TranslationData.StartAutoMode">
+        <member name="M:TranslatorStudioClassLibrary.Class.TranslationData.ToggleAutoMode(System.Boolean)">
             <summary>
-            Initiates auto translation mode. (Removes empty lines.)
+            Toggles auto translation mode. (Removes empty lines.)
             </summary>
+            <param name="autoOn">Whether or not auto mode should be turned on or not.</param>
             <returns>Number of lines that are not empty.</returns>
         </member>
         <member name="M:TranslatorStudioClassLibrary.Class.TranslationData.StartMarkedOnlyMode">
@@ -623,10 +624,11 @@
             Initiates default translation mode.
             </summary>
         </member>
-        <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationData.StartAutoMode">
+        <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationData.ToggleAutoMode(System.Boolean)">
             <summary>
-            Initiates auto translation mode. (Removes empty lines.)
+            Toggles auto translation mode. (Removes empty lines.)
             </summary>
+            <param name="autoOn">Whether or not auto mode should be turned on or not.</param>
             <returns>Number of lines that are not empty.</returns>
         </member>
         <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationData.StartMarkedOnlyMode">
