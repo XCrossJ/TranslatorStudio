@@ -119,15 +119,15 @@ namespace TranslatorStudioClassLibrary.Interface
         string GetProjectSaveString();
 
         /// <summary>
-        /// Initiates default translation mode.
-        /// </summary>
-        void StartDefaultMode();
-        /// <summary>
         /// Toggles auto translation mode. (Removes empty lines.)
         /// </summary>
         /// <param name="autoOn">Whether or not auto mode should be turned on or not.</param>
         /// <returns>Number of lines that are not empty.</returns>
         int ToggleAutoMode(bool autoOn);
+        /// <summary>
+        /// Initiates default translation mode.
+        /// </summary>
+        void StartDefaultMode();
         /// <summary>
         /// Initiates marked only translation mode. (Shows all marked lines only).
         /// </summary>

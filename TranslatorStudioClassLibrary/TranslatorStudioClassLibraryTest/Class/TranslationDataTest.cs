@@ -1553,7 +1553,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             {
                 //Arrange
                 var indices = mockRawLines.Select((v, i) => new { v, i })
-                    .Where(x => x.v.Any())
+                    .Where(x => !string.IsNullOrWhiteSpace(x.v))
                     .Select(x => x.i).ToList();
 
                 mockSubData.Object.IndexReference = indices;
@@ -1603,8 +1603,8 @@ namespace TranslatorStudioClassLibraryTest.Class
 
                 foreach (var index in indices)
                 {
-                    Assert.True(mockRawLines[index].Any());
-                    Assert.True(translationData.RawLines[index].Any());
+                    Assert.True(!string.IsNullOrWhiteSpace(mockRawLines[index]));
+                    Assert.True(!string.IsNullOrWhiteSpace(translationData.RawLines[index]));
 
                     Assert.Equal(mockRawLines[index],           translationData.RawLines[index]);
                     Assert.Equal(mockTranslatedLines[index],    translationData.TranslatedLines[index]);
@@ -1707,7 +1707,6 @@ namespace TranslatorStudioClassLibraryTest.Class
                         x => x.CompletedLines,
                     Times.Exactly(expectedNumberOfLines + 1));
             }
-
 
             /// <summary>
             /// Given that Translation Data is in Auto Mode, Start Marked Only Mode switches translation project to marked only mode.

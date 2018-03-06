@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using TranslatorStudioClassLibrary.Exception;
 using TranslatorStudioClassLibrary.Interface;
@@ -250,6 +249,7 @@ namespace TranslatorStudioClassLibrary.Class
 
         #endregion
 
+
         #region Property Changed
         
         private T SetPropertyValue<T>(T value)
@@ -259,6 +259,7 @@ namespace TranslatorStudioClassLibrary.Class
         }
 
         #endregion
+
 
         #region Constructors
 
@@ -295,9 +296,12 @@ namespace TranslatorStudioClassLibrary.Class
             if (CurrentIndex != MaxIndex)
             {
                 CurrentIndex++;
-                var testIndex = _autoData != null ? _autoData.CurrentReference - 1 : 0;
-                if (_autoMode && !RawLines[testIndex].Any())
-                    CompletedLines[testIndex] = true;
+                if (_autoMode)
+                {
+                    var testIndex = _autoData.CurrentReference != 0 ? _autoData.CurrentReference - 1 : 0;
+                    if (string.IsNullOrWhiteSpace(RawLines[testIndex]))
+                        CompletedLines[testIndex] = true;
+                }
             }
         }
         /// <summary>
@@ -308,9 +312,12 @@ namespace TranslatorStudioClassLibrary.Class
             if (CurrentIndex != 0)
             {
                 CurrentIndex--;
-                var testIndex = _autoData != null ? _autoData.CurrentReference - 1 : 0;
-                if (_autoMode && !RawLines[testIndex].Any())
-                    CompletedLines[testIndex] = true;
+                if (_autoMode)
+                {
+                    var testIndex = _autoData.CurrentReference != 0 ? _autoData.CurrentReference - 1 : 0;
+                    if (string.IsNullOrWhiteSpace(RawLines[testIndex]))
+                        CompletedLines[testIndex] = true;
+                }
             }
         }
 
@@ -356,14 +363,6 @@ namespace TranslatorStudioClassLibrary.Class
         }
 
         /// <summary>
-        /// Initiates default translation mode.
-        /// </summary>
-        public void StartDefaultMode()
-        {
-            DefaultTranslationMode = true;
-            CurrentIndex = 0;
-        }
-        /// <summary>
         /// Toggles auto translation mode. (Removes empty lines.)
         /// </summary>
         /// <param name="autoOn">Whether or not auto mode should be turned on or not.</param>
@@ -372,16 +371,24 @@ namespace TranslatorStudioClassLibrary.Class
         {
             if (autoOn)
             {
-                _autoMode = true;
-                var nonEmptyRaw = RawLines.Where(x => x.Any()).Select(x => true);
-
+                var nonEmptyRaw = RawLines.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => true);
                 _autoData = _subTranslationDataFactory.GetSubData(nonEmptyRaw.ToList());
+
+                _autoMode = true;
                 CurrentIndex = 0;
             }
             else
                 _autoMode = false;
 
             return NumberOfLines;
+        }
+        /// <summary>
+        /// Initiates default translation mode.
+        /// </summary>
+        public void StartDefaultMode()
+        {
+            DefaultTranslationMode = true;
+            CurrentIndex = 0;
         }
         /// <summary>
         /// Initiates marked only translation mode. (Shows all marked lines only).
