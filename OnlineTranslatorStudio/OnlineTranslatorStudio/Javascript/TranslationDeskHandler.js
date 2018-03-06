@@ -45,7 +45,7 @@ $(document).keydown(function () {
             url: "/Studio/ExportProject",
             type: "POST",
             contentType: "application/json",
-            data: JSON.stringify({ data: translationData.projectData }),
+            data: translationData.GetSaveString(),
             dataType: "json",
             success: function (data) {
                 //$.unblockUI();

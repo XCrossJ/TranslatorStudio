@@ -1,135 +1,139 @@
-﻿//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
-
-class ProjectData {
-    constructor(name, raw, translated, marked, completed) {
-        this.projectName = name;
-        this.rawLines = raw;
-        this.translatedLines = translated;
-        this.markedLines = marked;
-        this.completedLines = completed;
-    }
-}
-
-class TranslationData {
-
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
+var TranslationData = /** @class */ (function () {
     // Constructor
-    constructor(data) {
-        this.projectData = data;
-        
+    function TranslationData(projectData) {
+        if (projectData == undefined)
+            throw 'Project Data is undefined';
+        this._projectData = projectData;
         this.currentIndex = 0;
-        this.maxIndex = data.rawLines.length - 1;
-
+        this.maxIndex = projectData.rawLines.length - 1;
         this.defaultTranslationMode = true;
     }
-
-    // Get Properties
-    get ProjectName() {
-        return this.projectData.projectName;
-    }
-
-    set ProjectName(value) {
-        this.projectData.projectName = value;
-    }
-
-    get RawLines() {
-        return this.projectData.rawLines;
-    }
-
-    set RawLines(value) {
-        this.projectData.rawLines = value;
-    }
-
-    get TranslatedLines() {
-        return this.projectData.translatedLines;
-    }
-
-    set TranslatedLines(value) {
-        this.projectData.translatedLines = value;
-    }
-
-    get MarkedLines() {
-        return this.projectData.markedLines;
-    }
-
-    set MarkedLines(value) {
-        this.projectData.markedLines = value;
-    }
-
-    get CompletedLines() {
-        return this.projectData.completedLines;
-    }
-
-    set CompletedLines(value) {
-        this.projectData.completedLines = value;
-    }
-
-    get CurrentRaw() {
-        return this.RawLines[this.currentIndex];
-    }
-
-    set CurrentRaw(value) {
-        this.RawLines[this.currentIndex] = value;
-    }
-
-    get CurrentTranslation() {
-        return this.TranslatedLines[this.currentIndex];
-    }
-
-    set CurrentTranslation(value) {
-        this.TranslatedLines[this.currentIndex] = value;
-    }
-
-    get CurrentMarked() {
-        return this.MarkedLines[this.currentIndex];
-    }
-
-    set CurrentMarked(value) {
-        this.MarkedLines[this.currentIndex] = value;
-    }
-
-    get CurrentCompletion() {
-        return this.CompletedLines[this.currentIndex];
-    }
-
-    set CurrentCompletion(value) {
-        this.CompletedLines[this.currentIndex] = value;
-    }
-
-    get NumberOfLines() {
-        return this.RawLines.length;
-    }
-
-    get NumberOfCompletedLines() {
-        //return this.DetermineCompletedLines(this.CompletedLines);
-        var result = 0;
-        for (var i = 0; i < completedLines.length; i++) {
-            if (completedLines[i] == true) {
-                result++;
+    Object.defineProperty(TranslationData.prototype, "ProjectName", {
+        // Properties
+        get: function () {
+            return this._projectData.projectName;
+        },
+        set: function (value) {
+            this._projectData.projectName = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TranslationData.prototype, "RawLines", {
+        get: function () {
+            return this._projectData.rawLines;
+        },
+        set: function (value) {
+            this._projectData.rawLines = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TranslationData.prototype, "TranslatedLines", {
+        get: function () {
+            return this._projectData.translatedLines;
+        },
+        set: function (value) {
+            this._projectData.translatedLines = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TranslationData.prototype, "MarkedLines", {
+        get: function () {
+            return this._projectData.markedLines;
+        },
+        set: function (value) {
+            this._projectData.markedLines = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TranslationData.prototype, "CompletedLines", {
+        get: function () {
+            return this._projectData.completedLines;
+        },
+        set: function (value) {
+            this._projectData.completedLines = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TranslationData.prototype, "CurrentRaw", {
+        get: function () {
+            return this.RawLines[this.currentIndex];
+        },
+        set: function (value) {
+            this.RawLines[this.currentIndex] = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TranslationData.prototype, "CurrentTranslation", {
+        get: function () {
+            return this.TranslatedLines[this.currentIndex];
+        },
+        set: function (value) {
+            this.TranslatedLines[this.currentIndex] = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TranslationData.prototype, "CurrentMarked", {
+        get: function () {
+            return this.MarkedLines[this.currentIndex];
+        },
+        set: function (value) {
+            this.MarkedLines[this.currentIndex] = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TranslationData.prototype, "CurrentCompletion", {
+        get: function () {
+            return this.CompletedLines[this.currentIndex];
+        },
+        set: function (value) {
+            this.CompletedLines[this.currentIndex] = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TranslationData.prototype, "NumberOfLines", {
+        get: function () {
+            return this.RawLines.length;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TranslationData.prototype, "NumberOfCompletedLines", {
+        get: function () {
+            var result = 0;
+            for (var i = 0; i < this.CompletedLines.length; i++) {
+                if (this.CompletedLines[i] == true) {
+                    result++;
+                }
             }
-        }
-        return result;
-    }
-
+            return result;
+        },
+        enumerable: true,
+        configurable: true
+    });
     // Methods
-    IncrementIndex() {
+    TranslationData.prototype.IncrementIndex = function () {
         if (this.currentIndex < this.maxIndex) {
             this.currentIndex++;
         }
-    }
-
-    DecrementIndex() {
+    };
+    TranslationData.prototype.DecrementIndex = function () {
         if (this.currentIndex > 0) {
             this.currentIndex--;
         }
-    }
-
-    //DetermineCompletedLines(completedLines) {
-    //    var result = 0;
-    //    for (var i = 0; i < completedLines.length; i++) {
-    //        if (completedLines[i] == true) {
-    //            result++;
-    //        }
-    //    }
-    //    return result;
-    //}
-}
+    };
+    TranslationData.prototype.GetSaveString = function () {
+        return JSON.stringify({ data: this._projectData });
+    };
+    return TranslationData;
+}());
+//# sourceMappingURL=TranslationData.js.map

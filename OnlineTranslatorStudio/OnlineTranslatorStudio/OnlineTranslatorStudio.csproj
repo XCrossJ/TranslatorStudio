@@ -179,7 +179,12 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Javascript\TranslationData.js" />
+    <Content Include="Javascript\ProjectData.js">
+      <DependentUpon>ProjectData.ts</DependentUpon>
+    </Content>
+    <Content Include="Javascript\TranslationData.js">
+      <DependentUpon>TranslationData.ts</DependentUpon>
+    </Content>
     <Content Include="Javascript\TranslationDeskHandler.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -260,7 +265,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Javascript\ProjectData.ts" />
+    <TypeScriptCompile Include="Javascript\TranslationData.ts" />
     <TypeScriptCompile Include="Scripts\index.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
