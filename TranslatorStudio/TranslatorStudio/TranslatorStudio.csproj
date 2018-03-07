@@ -193,6 +193,5 @@
   <ItemGroup>
     <Content Include="Resources\XCrossJ_Icon.ico" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
