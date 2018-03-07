@@ -228,11 +228,32 @@ namespace TranslatorStudio.Consumers
         }
         public bool ToggleAutoMode(bool autoOn)
         {
-            Data.ToggleAutoMode(autoOn);
-            Desk.NumberOfLines = Desk.NudLineNumber.ChangeNumericUpDownMaximum(Data.NumberOfLines);
-            Desk.NudLineNumber.Value = 1;
-            UpdateDesk();
-            return true;
+            if (Data.DefaultTranslationMode)
+            {
+                Data.ToggleAutoMode(autoOn);
+                Desk.NumberOfLines = Desk.NudLineNumber.ChangeNumericUpDownMaximum(Data.NumberOfLines);
+                Desk.NudLineNumber.Value = 1;
+            }
+            else
+            {
+                BeginDefaultMode();
+                Data.ToggleAutoMode(autoOn);
+                switch (Desk.CmbEditMode.SelectedItem)
+                {
+                    case "Incomplete Lines":
+                        BeginIncompleteOnlyMode();
+                        break;
+                    case "Complete Lines":
+                        BeginCompleteOnlyMode();
+                        break;
+                    case "Marked Lines":
+                        BeginMarkedOnlyMode();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return UpdateDesk();
         }
 
         public bool GoToNextLine()

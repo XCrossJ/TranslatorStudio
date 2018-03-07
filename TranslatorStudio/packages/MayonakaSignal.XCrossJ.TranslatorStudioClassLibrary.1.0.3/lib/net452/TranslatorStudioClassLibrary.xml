@@ -241,17 +241,17 @@
             </summary>
             <returns>JSON string of project data.</returns>
         </member>
-        <member name="M:TranslatorStudioClassLibrary.Class.TranslationData.StartDefaultMode">
-            <summary>
-            Initiates default translation mode.
-            </summary>
-        </member>
         <member name="M:TranslatorStudioClassLibrary.Class.TranslationData.ToggleAutoMode(System.Boolean)">
             <summary>
             Toggles auto translation mode. (Removes empty lines.)
             </summary>
             <param name="autoOn">Whether or not auto mode should be turned on or not.</param>
             <returns>Number of lines that are not empty.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Class.TranslationData.StartDefaultMode">
+            <summary>
+            Initiates default translation mode.
+            </summary>
         </member>
         <member name="M:TranslatorStudioClassLibrary.Class.TranslationData.StartMarkedOnlyMode">
             <summary>
@@ -619,17 +619,17 @@
             </summary>
             <returns>JSON string of project data.</returns>
         </member>
-        <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationData.StartDefaultMode">
-            <summary>
-            Initiates default translation mode.
-            </summary>
-        </member>
         <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationData.ToggleAutoMode(System.Boolean)">
             <summary>
             Toggles auto translation mode. (Removes empty lines.)
             </summary>
             <param name="autoOn">Whether or not auto mode should be turned on or not.</param>
             <returns>Number of lines that are not empty.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationData.StartDefaultMode">
+            <summary>
+            Initiates default translation mode.
+            </summary>
         </member>
         <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationData.StartMarkedOnlyMode">
             <summary>
@@ -960,6 +960,13 @@
             </summary>
             <param name="number">The number to get string format from.</param>
             <returns>A string that contains the string format of the number.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Utilities.ExtensionHelper.IsNotEmpty(System.String)">
+            <summary>
+            Checks whether text is not empty (null or whitespace).
+            </summary>
+            <param name="text">Text to check.</param>
+            <returns>Result of empty check.</returns>
         </member>
     </members>
 </doc>

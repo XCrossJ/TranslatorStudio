@@ -59,6 +59,7 @@ namespace TranslatorStudio.Forms
             this.tsmiEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCopyRaw = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiView = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiAutoMode = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiEditMode = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDefault = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiIncompleteOnly = new System.Windows.Forms.ToolStripMenuItem();
@@ -92,12 +93,13 @@ namespace TranslatorStudio.Forms
             this.lblMaxLine = new System.Windows.Forms.Label();
             this.spcTools = new System.Windows.Forms.SplitContainer();
             this.txtProjectName = new System.Windows.Forms.TextBox();
+            this.chkAuto = new System.Windows.Forms.CheckBox();
             this.btnRemove = new System.Windows.Forms.Button();
             this.btnInsert = new System.Windows.Forms.Button();
             this.lblTools = new System.Windows.Forms.Label();
             this.pnlDesk = new System.Windows.Forms.Panel();
-            this.chkAuto = new System.Windows.Forms.CheckBox();
-            this.tsmiAutoMode = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnPrev = new System.Windows.Forms.Button();
+            this.btnNext = new System.Windows.Forms.Button();
             this.cmsDesk.SuspendLayout();
             this.mnuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spcDesk)).BeginInit();
@@ -371,6 +373,13 @@ namespace TranslatorStudio.Forms
             this.tsmiView.Name = "tsmiView";
             this.tsmiView.Size = new System.Drawing.Size(44, 20);
             this.tsmiView.Text = "&View";
+            // 
+            // tsmiAutoMode
+            // 
+            this.tsmiAutoMode.Name = "tsmiAutoMode";
+            this.tsmiAutoMode.Size = new System.Drawing.Size(177, 22);
+            this.tsmiAutoMode.Text = "Toggle &Auto Mode";
+            this.tsmiAutoMode.Click += new System.EventHandler(this.tsmiAutoMode_Click);
             // 
             // tsmiEditMode
             // 
@@ -669,10 +678,10 @@ namespace TranslatorStudio.Forms
             0,
             0});
             this.nudLineNumber.Name = "nudLineNumber";
+            this.nudLineNumber.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.nudLineNumber.Size = new System.Drawing.Size(58, 20);
             this.nudLineNumber.TabIndex = 2;
             this.nudLineNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nudLineNumber.UpDownAlign = System.Windows.Forms.LeftRightAlignment.Left;
             this.nudLineNumber.Value = new decimal(new int[] {
             1,
             0,
@@ -714,6 +723,8 @@ namespace TranslatorStudio.Forms
             // 
             // spcTools.Panel2
             // 
+            this.spcTools.Panel2.Controls.Add(this.btnNext);
+            this.spcTools.Panel2.Controls.Add(this.btnPrev);
             this.spcTools.Panel2.Controls.Add(this.chkAuto);
             this.spcTools.Panel2.Controls.Add(this.btnRemove);
             this.spcTools.Panel2.Controls.Add(this.btnInsert);
@@ -736,6 +747,18 @@ namespace TranslatorStudio.Forms
             this.txtProjectName.Size = new System.Drawing.Size(215, 41);
             this.txtProjectName.TabIndex = 1;
             this.txtProjectName.TextChanged += new System.EventHandler(this.txtProjectName_TextChanged);
+            // 
+            // chkAuto
+            // 
+            this.chkAuto.AutoSize = true;
+            this.chkAuto.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkAuto.Location = new System.Drawing.Point(114, 98);
+            this.chkAuto.Name = "chkAuto";
+            this.chkAuto.Size = new System.Drawing.Size(114, 17);
+            this.chkAuto.TabIndex = 26;
+            this.chkAuto.Text = "Toggle Auto Mode";
+            this.chkAuto.UseVisualStyleBackColor = true;
+            this.chkAuto.CheckedChanged += new System.EventHandler(this.chkAuto_CheckedChanged);
             // 
             // btnRemove
             // 
@@ -778,24 +801,25 @@ namespace TranslatorStudio.Forms
             this.pnlDesk.Size = new System.Drawing.Size(771, 459);
             this.pnlDesk.TabIndex = 18;
             // 
-            // chkAuto
+            // btnPrev
             // 
-            this.chkAuto.AutoSize = true;
-            this.chkAuto.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.chkAuto.Location = new System.Drawing.Point(114, 98);
-            this.chkAuto.Name = "chkAuto";
-            this.chkAuto.Size = new System.Drawing.Size(114, 17);
-            this.chkAuto.TabIndex = 26;
-            this.chkAuto.Text = "Toggle Auto Mode";
-            this.chkAuto.UseVisualStyleBackColor = true;
-            this.chkAuto.CheckedChanged += new System.EventHandler(this.chkAuto_CheckedChanged);
+            this.btnPrev.Location = new System.Drawing.Point(12, 209);
+            this.btnPrev.Name = "btnPrev";
+            this.btnPrev.Size = new System.Drawing.Size(75, 23);
+            this.btnPrev.TabIndex = 27;
+            this.btnPrev.Text = "<<";
+            this.btnPrev.UseVisualStyleBackColor = true;
+            this.btnPrev.Click += new System.EventHandler(this.btnPrev_Click);
             // 
-            // tsmiAutoMode
+            // btnNext
             // 
-            this.tsmiAutoMode.Name = "tsmiAutoMode";
-            this.tsmiAutoMode.Size = new System.Drawing.Size(177, 22);
-            this.tsmiAutoMode.Text = "Toggle &Auto Mode";
-            this.tsmiAutoMode.Click += new System.EventHandler(this.tsmiAutoMode_Click);
+            this.btnNext.Location = new System.Drawing.Point(153, 209);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(75, 23);
+            this.btnNext.TabIndex = 28;
+            this.btnNext.Text = ">>";
+            this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
             // FrmDesk
             // 
@@ -909,5 +933,7 @@ namespace TranslatorStudio.Forms
         private Button btnInsert;
         private CheckBox chkAuto;
         private ToolStripMenuItem tsmiAutoMode;
+        private Button btnNext;
+        private Button btnPrev;
     }
 }

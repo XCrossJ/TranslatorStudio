@@ -135,6 +135,16 @@ namespace TranslatorStudio.Forms
             consumer.ToggleAutoMode(chkAuto.Checked);
         }
 
+        private void btnPrev_Click(object sender, EventArgs e)
+        {
+            consumer.GoToPrevLine();
+        }
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            consumer.GoToNextLine();
+        }
+
         #endregion
 
         #region Toolbar Events
@@ -324,5 +334,6 @@ namespace TranslatorStudio.Forms
         }
 
         #endregion
+
     }
 }
