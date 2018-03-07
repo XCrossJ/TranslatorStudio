@@ -2,11 +2,9 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using TranslatorStudioClassLibrary.Class;
 using TranslatorStudioClassLibrary.Interface;
 
 namespace TranslatorStudioClassLibrary.Repository
@@ -81,7 +79,7 @@ namespace TranslatorStudioClassLibrary.Repository
         public ITranslationData OpenTSPFile(string path, string fileName)
         {
             string output = File.ReadAllText(path);
-            var projectData = JsonConvert.DeserializeObject<IProjectData>(output);
+            IProjectData projectData = JsonConvert.DeserializeObject<ProjectData>(output);
             var data = _translationDataFactory.CreateTranslationDataFromProject(projectData);
             return data;
         }
