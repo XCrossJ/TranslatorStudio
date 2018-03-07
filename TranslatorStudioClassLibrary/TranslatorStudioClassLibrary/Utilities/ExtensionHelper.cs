@@ -36,5 +36,15 @@ namespace TranslatorStudioClassLibrary.Utilities
 
             return stringFormat;
         }
+
+        /// <summary>
+        /// Checks whether text is not empty (null or whitespace).
+        /// </summary>
+        /// <param name="text">Text to check.</param>
+        /// <returns>Result of empty check.</returns>
+        public static bool IsNotEmpty(this string text)
+        {
+            return !string.IsNullOrWhiteSpace(text);
+        }
     }
 }

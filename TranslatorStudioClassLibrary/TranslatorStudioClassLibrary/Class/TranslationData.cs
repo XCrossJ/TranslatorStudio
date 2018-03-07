@@ -371,8 +371,8 @@ namespace TranslatorStudioClassLibrary.Class
         {
             if (autoOn)
             {
-                var nonEmptyRaw = RawLines.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => true);
-                _autoData = _subTranslationDataFactory.GetSubData(nonEmptyRaw.ToList());
+                var nonEmptyRaw = RawLines.Select(x => x.IsNotEmpty()).ToList();
+                _autoData = _subTranslationDataFactory.GetSubData(nonEmptyRaw);
 
                 _autoMode = true;
                 CurrentIndex = 0;
@@ -398,7 +398,7 @@ namespace TranslatorStudioClassLibrary.Class
         {
             List<bool> conditionList;
             if (_autoMode)
-                conditionList = _autoData.IndexReference.Where(x => MarkedLines[x]).Select(x => true).ToList();
+                conditionList = RawLines.Select((v, i) => new { v, i }).Select(x => MarkedLines[x.i] && x.v.IsNotEmpty()).ToList();
             else
                 conditionList = MarkedLines;
 
@@ -415,7 +415,7 @@ namespace TranslatorStudioClassLibrary.Class
         {
             List<bool> conditionList;
             if (_autoMode)
-                conditionList = _autoData.IndexReference.Where(x => !CompletedLines[x]).Select(x => true).ToList();
+                conditionList = RawLines.Select((v, i) => new { v, i }).Select(x => !CompletedLines[x.i] && x.v.IsNotEmpty()).ToList();
             else
                 conditionList = CompletedLines.Select(x => !x).ToList();
 
@@ -432,7 +432,7 @@ namespace TranslatorStudioClassLibrary.Class
         {
             List<bool> conditionList;
             if (_autoMode)
-                conditionList = _autoData.IndexReference.Where(x => CompletedLines[x]).Select(x => true).ToList();
+                conditionList = RawLines.Select((v, i) => new { v, i }).Select(x => CompletedLines[x.i] && x.v.IsNotEmpty()).ToList();
             else
                 conditionList = CompletedLines;
 

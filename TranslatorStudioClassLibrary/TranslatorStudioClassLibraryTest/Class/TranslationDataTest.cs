@@ -6,6 +6,7 @@ using TranslatorStudioClassLibrary.Interface;
 using TranslatorStudioClassLibrary.Exception;
 using Xunit;
 using System;
+using TranslatorStudioClassLibrary.Utilities;
 
 namespace TranslatorStudioClassLibraryTest.Class
 {
@@ -1552,8 +1553,10 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_ToggleAutoMode_On_Test()
             {
                 //Arrange
-                var indices = mockRawLines.Select((v, i) => new { v, i })
-                    .Where(x => !string.IsNullOrWhiteSpace(x.v))
+                var indices = mockRawLines
+                    .Select(x => x.IsNotEmpty())
+                    .Select((v, i) => new { v, i })
+                    .Where(x => x.v)
                     .Select(x => x.i).ToList();
 
                 mockSubData.Object.IndexReference = indices;
@@ -1603,8 +1606,8 @@ namespace TranslatorStudioClassLibraryTest.Class
 
                 foreach (var index in indices)
                 {
-                    Assert.True(!string.IsNullOrWhiteSpace(mockRawLines[index]));
-                    Assert.True(!string.IsNullOrWhiteSpace(translationData.RawLines[index]));
+                    Assert.True(mockRawLines[index].IsNotEmpty());
+                    Assert.True(translationData.RawLines[index].IsNotEmpty());
 
                     Assert.Equal(mockRawLines[index],           translationData.RawLines[index]);
                     Assert.Equal(mockTranslatedLines[index],    translationData.TranslatedLines[index]);
@@ -1636,8 +1639,10 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_ToggleAutoMode_Off_Test()
             {
                 //Arrange
-                var indices = mockRawLines.Select((v, i) => new { v, i })
-                    .Where(x => x.v.Any())
+                var indices = mockRawLines
+                    .Select(x => x.IsNotEmpty())
+                    .Select((v, i) => new { v, i })
+                    .Where(x => x.v)
                     .Select(x => x.i).ToList();
 
                 mockSubData.Object.IndexReference = indices;
@@ -1715,8 +1720,10 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_StartMarkedOnlyMode_AutoModeTest()
             {
                 //Arrange
-                var indices = mockMarkedLines.Select((v, i) => new { v, i })
-                    .Where(x => x.v == true && mockRawLines[x.i].Any())
+                var indices = mockRawLines
+                    .Select(x => x.IsNotEmpty())
+                    .Select((v, i) => new { v, i })
+                    .Where(x => mockMarkedLines[x.i] && x.v)
                     .Select(x => x.i).ToList();
 
                 mockSubData.Object.IndexReference = indices;
@@ -1746,7 +1753,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                 //Assert
                 mockProjectData.Verify(
                         x => x.MarkedLines,
-                    Times.Exactly(3));
+                    Times.Exactly(mockRawLines.Count));
                 mockSubData.Verify(
                         x => x.NumberOfLines,
                     Times.Exactly(2));
@@ -1770,6 +1777,9 @@ namespace TranslatorStudioClassLibraryTest.Class
                     Assert.True(mockMarkedLines[index]);
                     Assert.True(translationData.MarkedLines[index]);
 
+                    Assert.True(mockRawLines[index].IsNotEmpty());
+                    Assert.True(translationData.RawLines[index].IsNotEmpty());
+
                     Assert.Equal(mockRawLines[index],           translationData.RawLines[index]);
                     Assert.Equal(mockTranslatedLines[index],    translationData.TranslatedLines[index]);
                     Assert.Equal(mockMarkedLines[index],        translationData.MarkedLines[index]);
@@ -1778,7 +1788,7 @@ namespace TranslatorStudioClassLibraryTest.Class
 
                 mockProjectData.Verify(
                         x => x.RawLines,
-                    Times.Exactly(expectedNumberOfLines + 1 + mockCompletedLines.Where(x => x).Count()));
+                    Times.Exactly(expectedNumberOfLines * 2 + 2 + mockCompletedLines.Where(x => x).Count()));
 
                 mockProjectData.Verify(
                         x => x.TranslatedLines,
@@ -1786,7 +1796,7 @@ namespace TranslatorStudioClassLibraryTest.Class
 
                 mockProjectData.Verify(
                         x => x.MarkedLines,
-                    Times.Exactly(expectedNumberOfLines * 2 + 3));
+                    Times.Exactly(expectedNumberOfLines * 2 + mockRawLines.Count));
 
                 mockProjectData.Verify(
                         x => x.CompletedLines,
@@ -1801,8 +1811,10 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_StartIncompleteOnlyMode_AutoModeTest()
             {
                 //Arrange
-                var indices = mockCompletedLines.Select((v, i) => new { v, i })
-                    .Where(x => x.v == false && mockRawLines[x.i].Any())
+                var indices = mockRawLines
+                    .Select(x => x.IsNotEmpty())
+                    .Select((v, i) => new { v, i })
+                    .Where(x => !mockCompletedLines[x.i] && x.v)
                     .Select(x => x.i).ToList();
 
                 mockSubData.Object.IndexReference = indices;
@@ -1832,7 +1844,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                 //Assert
                 mockProjectData.Verify(
                         x => x.CompletedLines,
-                    Times.Exactly(4));
+                    Times.Exactly(mockRawLines.Count + 1));
                 mockSubData.Verify(
                         x => x.NumberOfLines,
                     Times.Exactly(2));
@@ -1856,6 +1868,9 @@ namespace TranslatorStudioClassLibraryTest.Class
                     Assert.False(mockCompletedLines[index]);
                     Assert.False(translationData.CompletedLines[index]);
 
+                    Assert.True(mockRawLines[index].IsNotEmpty());
+                    Assert.True(translationData.RawLines[index].IsNotEmpty());
+
                     Assert.Equal(mockRawLines[index],           translationData.RawLines[index]);
                     Assert.Equal(mockTranslatedLines[index],    translationData.TranslatedLines[index]);
                     Assert.Equal(mockMarkedLines[index],        translationData.MarkedLines[index]);
@@ -1864,7 +1879,7 @@ namespace TranslatorStudioClassLibraryTest.Class
 
                 mockProjectData.Verify(
                         x => x.RawLines,
-                    Times.Exactly(expectedNumberOfLines + 1 + mockCompletedLines.Where(x => x).Count()));
+                    Times.Exactly(expectedNumberOfLines * 2 + 2 + mockCompletedLines.Where(x => x).Count()));
 
                 mockProjectData.Verify(
                         x => x.TranslatedLines,
@@ -1876,7 +1891,7 @@ namespace TranslatorStudioClassLibraryTest.Class
 
                 mockProjectData.Verify(
                         x => x.CompletedLines,
-                    Times.Exactly(expectedNumberOfLines * 2 + 4));
+                    Times.Exactly(expectedNumberOfLines * 2 + mockRawLines.Count + 1));
             }
 
             /// <summary>
@@ -1886,8 +1901,10 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_StartCompleteOnlyMode_AutoModeTest()
             {
                 //Arrange
-                var indices = mockCompletedLines.Select((v, i) => new { v, i })
-                    .Where(x => x.v == true && mockRawLines[x.i].Any())
+                var indices = mockRawLines
+                    .Select(x => x.IsNotEmpty())
+                    .Select((v, i) => new { v, i })
+                    .Where(x => mockCompletedLines[x.i] && x.v)
                     .Select(x => x.i).ToList();
 
                 mockSubData.Object.IndexReference = indices;
@@ -1917,7 +1934,7 @@ namespace TranslatorStudioClassLibraryTest.Class
                 //Assert
                 mockProjectData.Verify(
                         x => x.CompletedLines,
-                    Times.Exactly(4));
+                    Times.Exactly(mockRawLines.Count + 1));
                 mockSubData.Verify(
                         x => x.NumberOfLines,
                     Times.Exactly(2));
@@ -1941,6 +1958,9 @@ namespace TranslatorStudioClassLibraryTest.Class
                     Assert.True(mockCompletedLines[index]);
                     Assert.True(translationData.CompletedLines[index]);
 
+                    Assert.True(mockRawLines[index].IsNotEmpty());
+                    Assert.True(translationData.RawLines[index].IsNotEmpty());
+
                     Assert.Equal(mockRawLines[index],           translationData.RawLines[index]);
                     Assert.Equal(mockTranslatedLines[index],    translationData.TranslatedLines[index]);
                     Assert.Equal(mockMarkedLines[index],        translationData.MarkedLines[index]);
@@ -1949,7 +1969,7 @@ namespace TranslatorStudioClassLibraryTest.Class
 
                 mockProjectData.Verify(
                         x => x.RawLines,
-                    Times.Exactly(expectedNumberOfLines + 1 + mockCompletedLines.Where(x => x).Count()));
+                    Times.Exactly(expectedNumberOfLines * 2 + 2 + mockCompletedLines.Where(x => x).Count()));
 
                 mockProjectData.Verify(
                         x => x.TranslatedLines,
@@ -1961,7 +1981,7 @@ namespace TranslatorStudioClassLibraryTest.Class
 
                 mockProjectData.Verify(
                         x => x.CompletedLines,
-                    Times.Exactly(expectedNumberOfLines * 2 + 4));
+                    Times.Exactly(expectedNumberOfLines * 2 + mockRawLines.Count + 1));
             }
 
             #endregion

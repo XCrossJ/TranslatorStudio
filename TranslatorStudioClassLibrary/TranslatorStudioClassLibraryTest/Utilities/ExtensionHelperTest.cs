@@ -99,5 +99,25 @@ namespace TranslatorStudioClassLibraryTest.Utilities
             //Assert
             Assert.Equal(expected, actual);
         }
+
+        /// <summary>
+        /// Given that text is valid, Is Not Empty returns whether text is empty (whitespace) or not.
+        /// </summary>
+        /// <param name="text">Text to check.</param>
+        [Theory]
+        [InlineData("Test 1")]
+        [InlineData("")]
+        [InlineData("     ")]
+        public void ExtensionHelper_IsNotEmpty_Test(string text)
+        {
+            //Arrange
+            var expected = !string.IsNullOrWhiteSpace(text);
+
+            //Act
+            var actual = text.IsNotEmpty();
+
+            //Assert
+            Assert.Equal(expected, actual);
+        }
     }
 }
