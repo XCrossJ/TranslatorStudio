@@ -22,3 +22,4 @@ class ProjectData implements IProjectData {
         this.completedLines = completed;
     }
 }
+

@@ -1,0 +1,23 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "types": [],
+    "sourceMap": true,
+    "module": "amd",
+    "target": "es5",
+    "noEmitOnError": true
+  },
+  "files": [
+    "./Javascript/ProjectData.ts",
+    "./Javascript/TranslationData.ts",
+    "./Javascript/DeskHandler.ts"
+    //"./Javascript/main.ts"
+    //"./src/require-config.ts"
+    //"./src/hello.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "obj",
+    "bin"
+  ]
+}
