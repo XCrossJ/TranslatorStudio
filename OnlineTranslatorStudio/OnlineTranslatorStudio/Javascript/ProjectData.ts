@@ -1,4 +1,12 @@
-﻿interface IProjectData {
+﻿interface IProjectParameters {
+    ProjectName: string;
+    RawLines: string[];
+    TranslatedLines: string[];
+    CompletedLines: boolean[];
+    MarkedLines: boolean[];
+}
+
+interface IProjectData {
     projectName: string;
     rawLines: string[];
     translatedLines: string[];
@@ -14,12 +22,12 @@ class ProjectData implements IProjectData {
     markedLines: boolean[];
     completedLines: boolean[];
 
-    constructor(name: string, raw: string[], translated: string[], marked: boolean[], completed: boolean[]) {
-        this.projectName = name;
-        this.rawLines = raw;
-        this.translatedLines = translated;
-        this.markedLines = marked;
-        this.completedLines = completed;
+    constructor(data: IProjectParameters) {
+        this.projectName = data.ProjectName;
+        this.rawLines = data.RawLines;
+        this.translatedLines = data.TranslatedLines;
+        this.markedLines = data.CompletedLines;
+        this.completedLines = data.MarkedLines;
     }
 }
 

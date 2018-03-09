@@ -42,21 +42,29 @@
     var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
 }
 <script>
-    var projectName = @Html.Raw(serializer.Serialize(Model.ProjectName));
-    console.log(projectName);
+    var translationData;
+    var handler;
 
-    var rawLines = new Array;
-    rawLines = @Html.Raw(serializer.Serialize(Model.RawLines));
-    var translatedLines = new Array;
-    translatedLines = @Html.Raw(serializer.Serialize(Model.TranslatedLines));
-    var markedLines = new Array;
-    markedLines = @Html.Raw(serializer.Serialize(Model.MarkedLines));
-    var completedLines = new Array;
-    completedLines = @Html.Raw(serializer.Serialize(Model.CompletedLines));
+    $.ajax({
+        url: "/Studio/OpenProject",
+        type: "POST",
+        contentType: "application/json",
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            var testProject = new ProjectData(data);
+            translationData = new TranslationData(testProject);
 
-    var projectData = new ProjectData(projectName, rawLines, translatedLines, markedLines, completedLines);
-    console.log(projectData);
-    var translationData = new TranslationData(projectData);
-    console.log(translationData);
+            handler = new DeskHandler(translationData, {
+                nameSelector: "#ProjectName",
+                indexSelector: "#CurrentIndex",
+                linesSelector: ".NumberOfLines",
+                rawSelector: "#CurrentRaw",
+                translationSelector: "#CurrentTranslation",
+                markedSelector: "#CurrentMarked",
+                completionSelector: "#CurrentCompletion"
+            });
+        } // get your response here
+    });
 
 </script>

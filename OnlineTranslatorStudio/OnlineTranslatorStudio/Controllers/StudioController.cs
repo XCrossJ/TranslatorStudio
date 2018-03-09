@@ -80,6 +80,7 @@ namespace OnlineTranslatorStudio.Controllers
                 ViewBag.percentage = data.NumberOfCompletedLines * 100 / data.NumberOfLines;
             else
                 ViewBag.percentage = 0;
+            System.Web.HttpContext.Current.Session["ProjectData"] = data.GetProjectData();
             return View(data);
             
         }
@@ -103,7 +104,15 @@ namespace OnlineTranslatorStudio.Controllers
                 ViewBag.percentage = 0;
             return View(data);
         }
-        
+
+        [HttpPost]
+        public JsonResult OpenProject()
+        {
+            var data = System.Web.HttpContext.Current.Session["ProjectData"];
+            var response = Json(data);
+            return response;
+        }
+
         [HttpPost]
         public JsonResult ExportProject(ProjectData data)
         {

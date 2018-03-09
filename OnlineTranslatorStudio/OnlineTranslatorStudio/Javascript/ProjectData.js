@@ -1,10 +1,10 @@
 var ProjectData = /** @class */ (function () {
-    function ProjectData(name, raw, translated, marked, completed) {
-        this.projectName = name;
-        this.rawLines = raw;
-        this.translatedLines = translated;
-        this.markedLines = marked;
-        this.completedLines = completed;
+    function ProjectData(data) {
+        this.projectName = data.ProjectName;
+        this.rawLines = data.RawLines;
+        this.translatedLines = data.TranslatedLines;
+        this.markedLines = data.CompletedLines;
+        this.completedLines = data.MarkedLines;
     }
     return ProjectData;
 }());
