@@ -1,76 +1,87 @@
 /// <reference path="../scripts/typings/jquery/jquery.d.ts" />
 //https://jsfiddle.net/5o1wf1bn/1/
-$(document).keydown(function (event) {
-    // Key Code Right Arrow = 39
-    //if ((event.which === 39) && (event.altKey === true) && (event.ctrlKey === true)) {
-    if ((event.which === 39) && (event.ctrlKey === true)) {
-        handler.incrementIndex();
-    }
-    // Key Code Left Arrow = 37
-    //if ((event.which === 37) && (event.altKey === true) && (event.ctrlKey === true)) {
-    if ((event.which === 37) && (event.ctrlKey === true)) {
-        handler.decrementIndex();
-    }
-    // Key Code M = 77
-    if ((event.which === 77) && (event.altKey === true) && (event.ctrlKey === true)) {
-        var checkBox = $("#CurrentMarked");
-        checkBox.prop('checked', !checkBox.prop('checked'));
-    }
-    // Key Code Enter = 13
-    //if ((event.which === 13) && (event.altKey === true) && (event.ctrlKey === true)) {
-    if ((event.which === 13) && (event.ctrlKey === true)) {
-        var checkBox = $("#CurrentCompletion");
-        checkBox.prop('checked', !checkBox.prop('checked'));
-    }
-    // Key Code S = 83
-    if ((event.which === 83) && (event.altKey === true) && (event.ctrlKey === true)) {
-        //if ((event.which === 78) && (event.altKey === true) && (event.ctrlKey === true)) {
-        $.ajax({
-            url: "/Studio/ExportProject",
-            type: "POST",
-            contentType: "application/json",
-            data: translationData.GetSaveString(),
-            dataType: "json",
-            success: function (data) {
-                //$.unblockUI();
-                if (data.fileName != "") {
-                    window.location.href = "/Studio/DownloadProject/?file=" + data.fileName;
-                }
-            } // get your response here
-        });
-    }
-});
 var DeskHandler = /** @class */ (function () {
-    function DeskHandler(data, selectors) {
+    //constructor(data: ITranslationData, selectors: ISelectors) {
+    //    this.translationData = data;
+    //    //this.loadData();
+    //    console.log(this.translationData);
+    //    this.nameSelector = selectors.nameSelector;
+    //    this.indexSelector = selectors.indexSelector;
+    //    this.linesSelector = selectors.linesSelector;
+    //    this.rawSelector = selectors.rawSelector;
+    //    this.translationSelector = selectors.translationSelector;
+    //    this.markedSelector = selectors.markedSelector;
+    //    this.completionSelector = selectors.completionSelector;
+    //}
+    function DeskHandler(data) {
         this.translationData = data;
         //this.loadData();
         console.log(this.translationData);
-        this.nameSelector = selectors.nameSelector;
-        this.indexSelector = selectors.indexSelector;
-        this.linesSelector = selectors.linesSelector;
-        this.rawSelector = selectors.rawSelector;
-        this.translationSelector = selectors.translationSelector;
-        this.markedSelector = selectors.markedSelector;
-        this.completionSelector = selectors.completionSelector;
+        this.nameSelector = "#ProjectName";
+        this.indexSelector = "#CurrentIndex";
+        this.linesSelector = ".NumberOfLines";
+        this.rawSelector = "#CurrentRaw";
+        this.translationSelector = "#CurrentTranslation";
+        this.markedSelector = "#CurrentMarked";
+        this.completionSelector = "#CurrentCompletion";
     }
-    DeskHandler.prototype.loadData = function () {
-        var testTranslation;
-        $.ajax({
-            url: "/Studio/OpenProject",
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            success: function (data) {
-                console.log(data);
-                var testProject = new ProjectData(data);
-                console.log(testProject);
-                var tData = new TranslationData(testProject);
-                console.log(tData);
-                testTranslation = tData;
-            } // get your response here
-        });
-        debugger;
-        this.translationData = testTranslation;
+    //loadData() {
+    //    var testTranslation: ITranslationData;
+    //    $.ajax({
+    //        url: "/Studio/OpenProject",
+    //        type: "POST",
+    //        contentType: "application/json",
+    //        dataType: "json",
+    //        success: function (data: IProjectParameters) {
+    //            console.log(data);
+    //            var testProject: IProjectData = new ProjectData(data);
+    //            console.log(testProject);
+    //            var tData = new TranslationData(testProject);
+    //            console.log(tData);
+    //            testTranslation = tData;
+    //        } // get your response here
+    //    });
+    //    this.translationData = testTranslation;
+    //}
+    DeskHandler.prototype.processEvent = function (event) {
+        // Key Code Right Arrow = 39
+        //if ((event.which === 39) && (event.altKey === true) && (event.ctrlKey === true)) {
+        if ((event.which === 39) && (event.ctrlKey === true)) {
+            this.incrementIndex();
+        }
+        // Key Code Left Arrow = 37
+        //if ((event.which === 37) && (event.altKey === true) && (event.ctrlKey === true)) {
+        if ((event.which === 37) && (event.ctrlKey === true)) {
+            this.decrementIndex();
+        }
+        // Key Code M = 77
+        if ((event.which === 77) && (event.altKey === true) && (event.ctrlKey === true)) {
+            var checkBox = $("#CurrentMarked");
+            checkBox.prop('checked', !checkBox.prop('checked'));
+        }
+        // Key Code Enter = 13
+        //if ((event.which === 13) && (event.altKey === true) && (event.ctrlKey === true)) {
+        if ((event.which === 13) && (event.ctrlKey === true)) {
+            var checkBox = $("#CurrentCompletion");
+            checkBox.prop('checked', !checkBox.prop('checked'));
+        }
+        // Key Code S = 83
+        if ((event.which === 83) && (event.altKey === true) && (event.ctrlKey === true)) {
+            //if ((event.which === 78) && (event.altKey === true) && (event.ctrlKey === true)) {
+            $.ajax({
+                url: "/Studio/ExportProject",
+                type: "POST",
+                contentType: "application/json",
+                data: translationData.GetSaveString(),
+                dataType: "json",
+                success: function (data) {
+                    //$.unblockUI();
+                    if (data.fileName != "") {
+                        window.location.href = "/Studio/DownloadProject/?file=" + data.fileName;
+                    }
+                } // get your response here
+            });
+        }
     };
     DeskHandler.prototype.updateDesk = function () {
         this.translationData.ProjectName = $(this.nameSelector).val();

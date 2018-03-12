@@ -10,7 +10,8 @@
   "files": [
     "./Javascript/ProjectData.ts",
     "./Javascript/TranslationData.ts",
-    "./Javascript/DeskHandler.ts"
+    "./Javascript/DeskHandler.ts",
+    "./Javascript/DeskSetup.ts"
     //"./Javascript/main.ts"
     //"./src/require-config.ts"
     //"./src/hello.ts"
