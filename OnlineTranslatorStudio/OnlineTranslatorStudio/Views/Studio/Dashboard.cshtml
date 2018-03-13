@@ -30,16 +30,20 @@
                                 <table class="table table-condensed">
                                     <tr>
                                         <th><b>Project Name</b></th>
-                                        <td>@Html.TextBoxFor(Model => Model.ProjectName, new { @class = "form-control", @onkeypress = "updateProjectName(translationData, this.value)" }) </td>
+                                        @*<td>@Html.TextBoxFor(Model => Model.ProjectName, new { @class = "form-control", @onkeypress = "updateProjectName(translationData, this.value)" }) </td>*@
+                                        <td><input class="form-control" data-bind="value: ProjectName()"/></td>
                                     </tr>
                                     <tr>
-                                        <th><b>Current Line</b></th>
-                                        <td><span id="CurrentIndex">@(Model.CurrentIndex + 1)</span> / <span class="NumberOfLines">@Model.NumberOfLines</span></td>
-                                        @*<td><span id="CurrentIndex" data-bind="text: currentIndex"></span> / <span class="NumberOfLines">@Model.NumberOfLines</span></td>*@
+                                        <th>
+                                            <b>Current Line</b>
+                                        </th>
+                                        <td>
+                                            <span id="CurrentIndex" data-bind="text: (currentIndex() + 1)"></span> / <span id="NumberOfLines" class="NumberOfLines" data-bind="text: (maxIndex() + 1)"></span>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th><b>Progress</b></th>
-                                        <td>@Model.NumberOfCompletedLines / <span class="NumberOfLines">@Model.NumberOfLines</span></td>
+                                        <td><span data-bind="text: CompletedLines().length"></span> / <span class="NumberOfLines" data-bind="text: (maxIndex() + 1)"></span></td>
                                     </tr>
                                 </table>
                             </div>

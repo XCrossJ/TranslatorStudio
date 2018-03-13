@@ -1,4 +1,3 @@
-/// <reference path="../scripts/typings/jquery/jquery.d.ts" />
 var translationData;
 var handler;
 $.ajax({
@@ -8,7 +7,7 @@ $.ajax({
     dataType: "json",
     success: function (data) {
         console.log(data);
-        var projectData = new ProjectData(data);
+        var projectData = new ProjectViewModel(data);
         translationData = new TranslationData(projectData);
         handler = new DeskHandler(translationData);
     }

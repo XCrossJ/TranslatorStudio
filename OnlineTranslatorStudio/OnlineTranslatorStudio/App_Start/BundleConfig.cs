@@ -27,7 +27,8 @@ namespace OnlineTranslatorStudio
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
-            
+            bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
+                      "~/Scripts/knockout-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/require").Include(
                       "~/Scripts/require.js"));

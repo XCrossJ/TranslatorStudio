@@ -11,7 +11,9 @@
     "./Javascript/ProjectData.ts",
     "./Javascript/TranslationData.ts",
     "./Javascript/DeskHandler.ts",
-    "./Javascript/DeskSetup.ts"
+    "./Javascript/DeskSetup.ts",
+    "./Scripts/typings/knockout/index.d.ts",
+    "./Scripts/typings/jquery/jquery.d.ts"
     //"./Javascript/main.ts"
     //"./src/require-config.ts"
     //"./src/hello.ts"

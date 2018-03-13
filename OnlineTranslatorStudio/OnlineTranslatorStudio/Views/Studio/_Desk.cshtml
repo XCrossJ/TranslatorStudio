@@ -1,5 +1,11 @@
 ﻿@model TranslatorStudioClassLibrary.Class.TranslationData
 
+
+<script src="~/Javascript/ProjectData.js"></script>
+<script src="~/Javascript/TranslationData.js"></script>
+<script src="~/Javascript/DeskHandler.js"></script>
+<script src="~/Javascript/DeskSetup.js"></script>
+
 <div id="desk" class="row">
     <div id="mainDeskSection" class="row">
         <div id="rawSection" class="col-xs-6">
@@ -7,8 +13,9 @@
                 @Html.LabelFor(Model => Model.CurrentRaw, new { @class = "control-label" })
             </div>
             <div class="row">
-                @Html.TextAreaFor(Model => Model.CurrentRaw, new { @class = "form-control", style = "max-width: 100%; width: 80%;", @onkeypress = "updateCurrentRaw(translationData, this.value)" })
+                @*@Html.TextAreaFor(Model => Model.CurrentRaw, new { @class = "form-control", style = "max-width: 100%; width: 80%;", @onkeypress = "updateCurrentRaw(translationData, this.value)" })*@
                 @*<p>@Model.CurrentRaw</p>*@
+                <textarea class="form-control" style="max-width: 100%; width: 80%;" data-bind="textInput: RawLines()[currentIndex()]"></textarea>
             </div>
         </div>
         <div id="translationSection" class="col-xs-6">
@@ -16,7 +23,8 @@
                 @Html.LabelFor(Model => Model.CurrentTranslation, new { @class = "control-label" })
             </div>
             <div class="row">
-                @Html.TextAreaFor(Model => Model.CurrentTranslation, new { @class = "form-control", style = "max-width: 100%; width: 80%;", @onkeypress = "updateCurrentTranslation(translationData, this.value)" })
+                @*@Html.TextAreaFor(Model => Model.CurrentTranslation, new { @class = "form-control", style = "max-width: 100%; width: 80%;", @onkeypress = "updateCurrentTranslation(translationData, this.value)" })*@
+                <textarea class="form-control" style="max-width: 100%; width: 80%;" data-bind="textInput: TranslatedLines()[currentIndex()]"></textarea>
             </div>
             @*<input class="form-control" type="text" value="@Model.CurrentTranslation" />*@
         </div>
@@ -28,13 +36,10 @@
                 @Html.DisplayNameFor(Model => Model.CurrentMarked)
             </label>
             <label class="checkbox-inline">
-                @Html.CheckBoxFor(Model => Model.CurrentCompletion, new { @checked = Model.CurrentCompletion, @onchange = "updateCurrentCompletion(translationData, this.value)" })
+                @*@Html.CheckBoxFor(Model => Model.CurrentCompletion, new { @checked = Model.CurrentCompletion, @onchange = "updateCurrentCompletion(translationData, this.value)" })*@
+                <input type="checkbox" data-bind="checked: CompletedLines()[currentIndex()]"/>
                 @Html.DisplayNameFor(Model => Model.CurrentCompletion)
             </label>
         </div>
     </div>
 </div>
-<script src="~/Javascript/ProjectData.js"></script>
-<script src="~/Javascript/TranslationData.js"></script>
-<script src="~/Javascript/DeskHandler.js"></script>
-<script src="~/Javascript/DeskSetup.js"></script>
