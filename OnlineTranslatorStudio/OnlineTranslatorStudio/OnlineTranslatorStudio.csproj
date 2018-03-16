@@ -265,6 +265,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Javascript\DeskHandler.ts" />
     <TypeScriptCompile Include="Javascript\DeskSetup.ts" />
+    <TypeScriptCompile Include="Javascript\ProgressBarComponent.ts" />
     <TypeScriptCompile Include="Javascript\ProjectData.ts" />
     <TypeScriptCompile Include="Javascript\TranslationData.ts" />
     <TypeScriptCompile Include="Scripts\index.d.ts" />

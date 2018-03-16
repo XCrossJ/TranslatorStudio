@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace OnlineTranslatorStudio.Models
 {
@@ -12,6 +8,7 @@ namespace OnlineTranslatorStudio.Models
         public string ProjectName { get; set; }
 
         [DataType(DataType.MultilineText)]
+        [Required]
         public string RawData { get; set; }
     }
 }

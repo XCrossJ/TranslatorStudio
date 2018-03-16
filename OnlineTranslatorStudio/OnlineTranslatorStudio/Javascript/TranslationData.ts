@@ -12,16 +12,18 @@ interface ITranslationData {
     ProjectName: KnockoutObservable<string>;
     RawLines: KnockoutObservableArray<KnockoutObservable<string>>;
     TranslatedLines: KnockoutObservableArray<KnockoutObservable<string>>;
-    MarkedLines: boolean[];
+    MarkedLines: KnockoutObservableArray<KnockoutObservable<boolean>>;
     CompletedLines: KnockoutObservableArray<KnockoutObservable<boolean>>;
 
-    CurrentRaw: string;
-    CurrentTranslation: string;
-    CurrentMarked: boolean;
-    CurrentCompletion: boolean;
+    CurrentRaw: KnockoutObservable<string>;
+    CurrentTranslation: KnockoutObservable<string>;
+    CurrentMarked: KnockoutObservable<boolean>;
+    CurrentCompletion: KnockoutObservable<boolean>;
 
-    NumberOfLines: number;
-    NumberOfCompletedLines: KnockoutObservable<number>;
+    NumberOfLines: KnockoutComputed<number>;
+    NumberOfCompletedLines: KnockoutComputed<number>;
+
+    currentProgress: KnockoutComputed<number>;
 
     IncrementIndex: () => void;
     DecrementIndex: () => void;
@@ -35,6 +37,11 @@ class TranslationData implements ITranslationData {
 
     defaultTranslationMode: boolean;
 
+    NumberOfLines: KnockoutComputed<number>;
+    NumberOfCompletedLines: KnockoutComputed<number>;
+
+    currentProgress: KnockoutComputed<number>;
+
     // Constructor
     constructor(projectData: IProjectViewModel) {
         if (projectData == undefined) throw 'Project Data is undefined';
@@ -44,6 +51,32 @@ class TranslationData implements ITranslationData {
         this.maxIndex = ko.observable(projectData.rawLines().length - 1);
 
         this.defaultTranslationMode = true;
+
+        this.NumberOfLines = ko.computed({
+            owner: this,
+            read: () => {
+                return this.RawLines().length;
+            }
+        });
+        this.NumberOfCompletedLines = ko.computed({
+            owner: this,
+            read: () => {
+                var result = 0;
+                for (var i = 0; i < this.CompletedLines().length; i++) {
+                    if (this.CompletedLines()[i]() == true) {
+                        result++;
+                    }
+                }
+                return result;
+            }
+        });
+
+        this.currentProgress = ko.computed({
+            owner: this,
+            read: () => {
+                return +(((this.NumberOfCompletedLines() / this.NumberOfLines()) * 100).toFixed(2));
+            }
+        });
 
         ko.applyBindings(this);
     }
@@ -70,11 +103,11 @@ class TranslationData implements ITranslationData {
         this._projectData().translatedLines(value());
     }
 
-    get MarkedLines(): boolean[] {
+    get MarkedLines(): KnockoutObservableArray<KnockoutObservable<boolean>> {
         return this._projectData().markedLines;
     }
-    set MarkedLines(value: boolean[]) {
-        this._projectData().markedLines = value;
+    set MarkedLines(value: KnockoutObservableArray<KnockoutObservable<boolean>>) {
+        this._projectData().markedLines(value());
     }
 
     get CompletedLines(): KnockoutObservableArray<KnockoutObservable<boolean>> {
@@ -84,47 +117,34 @@ class TranslationData implements ITranslationData {
         this._projectData().completedLines(value());
     }
 
-    get CurrentRaw(): string {
-        return this.RawLines()[this.currentIndex()]();
+    get CurrentRaw(): KnockoutObservable<string> {
+        return this.RawLines()[this.currentIndex()];
     }
-    set CurrentRaw(value: string) {
-        this.RawLines()[this.currentIndex()](value);
-    }
-
-    get CurrentTranslation(): string {
-        return this.TranslatedLines[this.currentIndex()];
-    }
-    set CurrentTranslation(value: string) {
-        this.TranslatedLines[this.currentIndex()] = value;
+    set CurrentRaw(value: KnockoutObservable<string>) {
+        this.RawLines()[this.currentIndex()](value());
     }
 
-    get CurrentMarked(): boolean {
-        return this.MarkedLines[this.currentIndex()];
+    get CurrentTranslation(): KnockoutObservable<string> {
+        return this.TranslatedLines()[this.currentIndex()];
     }
-    set CurrentMarked(value: boolean) {
-        this.MarkedLines[this.currentIndex()] = value;
-    }
-
-    get CurrentCompletion(): boolean {
-        return this.CompletedLines[this.currentIndex()];
-    }
-    set CurrentCompletion(value: boolean) {
-        this.CompletedLines[this.currentIndex()] = value;
+    set CurrentTranslation(value: KnockoutObservable<string>) {
+        this.TranslatedLines()[this.currentIndex()](value());
     }
 
-    get NumberOfLines(): number {
-        return this.RawLines.length;
+    get CurrentMarked(): KnockoutObservable<boolean> {
+        return this.MarkedLines()[this.currentIndex()];
+    }
+    set CurrentMarked(value: KnockoutObservable<boolean>) {
+        this.MarkedLines()[this.currentIndex()](value());
     }
 
-    get NumberOfCompletedLines(): KnockoutObservable<number> {
-        var result = 0;
-        for (var i = 0; i < this.CompletedLines.length; i++) {
-            if (this.CompletedLines[i] == true) {
-                result++;
-            }
-        }
-        return ko.observable(result);
+    get CurrentCompletion(): KnockoutObservable<boolean> {
+        return this.CompletedLines()[this.currentIndex()];
     }
+    set CurrentCompletion(value: KnockoutObservable<boolean>) {
+        this.CompletedLines()[this.currentIndex()](value());
+    }
+    
 
 
     // Methods

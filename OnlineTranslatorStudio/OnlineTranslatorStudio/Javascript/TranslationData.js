@@ -2,12 +2,37 @@
 var TranslationData = /** @class */ (function () {
     // Constructor
     function TranslationData(projectData) {
+        var _this = this;
         if (projectData == undefined)
             throw 'Project Data is undefined';
         this._projectData = ko.observable(projectData);
         this.currentIndex = ko.observable(0);
         this.maxIndex = ko.observable(projectData.rawLines().length - 1);
         this.defaultTranslationMode = true;
+        this.NumberOfLines = ko.computed({
+            owner: this,
+            read: function () {
+                return _this.RawLines().length;
+            }
+        });
+        this.NumberOfCompletedLines = ko.computed({
+            owner: this,
+            read: function () {
+                var result = 0;
+                for (var i = 0; i < _this.CompletedLines().length; i++) {
+                    if (_this.CompletedLines()[i]() == true) {
+                        result++;
+                    }
+                }
+                return result;
+            }
+        });
+        this.currentProgress = ko.computed({
+            owner: this,
+            read: function () {
+                return +(((_this.NumberOfCompletedLines() / _this.NumberOfLines()) * 100).toFixed(2));
+            }
+        });
         ko.applyBindings(this);
     }
     Object.defineProperty(TranslationData.prototype, "ProjectName", {
@@ -46,7 +71,7 @@ var TranslationData = /** @class */ (function () {
             return this._projectData().markedLines;
         },
         set: function (value) {
-            this._projectData().markedLines = value;
+            this._projectData().markedLines(value());
         },
         enumerable: true,
         configurable: true
@@ -63,60 +88,40 @@ var TranslationData = /** @class */ (function () {
     });
     Object.defineProperty(TranslationData.prototype, "CurrentRaw", {
         get: function () {
-            return this.RawLines()[this.currentIndex()]();
+            return this.RawLines()[this.currentIndex()];
         },
         set: function (value) {
-            this.RawLines()[this.currentIndex()](value);
+            this.RawLines()[this.currentIndex()](value());
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(TranslationData.prototype, "CurrentTranslation", {
         get: function () {
-            return this.TranslatedLines[this.currentIndex()];
+            return this.TranslatedLines()[this.currentIndex()];
         },
         set: function (value) {
-            this.TranslatedLines[this.currentIndex()] = value;
+            this.TranslatedLines()[this.currentIndex()](value());
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(TranslationData.prototype, "CurrentMarked", {
         get: function () {
-            return this.MarkedLines[this.currentIndex()];
+            return this.MarkedLines()[this.currentIndex()];
         },
         set: function (value) {
-            this.MarkedLines[this.currentIndex()] = value;
+            this.MarkedLines()[this.currentIndex()](value());
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(TranslationData.prototype, "CurrentCompletion", {
         get: function () {
-            return this.CompletedLines[this.currentIndex()];
+            return this.CompletedLines()[this.currentIndex()];
         },
         set: function (value) {
-            this.CompletedLines[this.currentIndex()] = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(TranslationData.prototype, "NumberOfLines", {
-        get: function () {
-            return this.RawLines.length;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(TranslationData.prototype, "NumberOfCompletedLines", {
-        get: function () {
-            var result = 0;
-            for (var i = 0; i < this.CompletedLines.length; i++) {
-                if (this.CompletedLines[i] == true) {
-                    result++;
-                }
-            }
-            return ko.observable(result);
+            this.CompletedLines()[this.currentIndex()](value());
         },
         enumerable: true,
         configurable: true

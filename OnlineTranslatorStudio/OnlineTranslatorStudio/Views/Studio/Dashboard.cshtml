@@ -38,22 +38,18 @@
                                             <b>Current Line</b>
                                         </th>
                                         <td>
-                                            <span id="CurrentIndex" data-bind="text: (currentIndex() + 1)"></span> / <span id="NumberOfLines" class="NumberOfLines" data-bind="text: (maxIndex() + 1)"></span>
+                                            <span id="CurrentIndex" data-bind="text: (currentIndex() + 1)"></span> / <span id="NumberOfLines" class="NumberOfLines" data-bind="text: NumberOfLines"></span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th><b>Progress</b></th>
-                                        <td><span data-bind="text: CompletedLines().length"></span> / <span class="NumberOfLines" data-bind="text: (maxIndex() + 1)"></span></td>
+                                        <td><span data-bind="text: NumberOfCompletedLines()"></span> / <span class="NumberOfLines" data-bind="text: NumberOfLines"></span></td>
                                     </tr>
                                 </table>
                             </div>
-
+                            <script src="~/Javascript/ProgressBarComponent.js"></script>
                             <div class="row">
-                                <div class="progress">
-                                    <div id="progressBar" class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="@percentage" aria-valuemin="0" aria-valuemax="100" style="width: @percentage%;">
-                                        <span class="sr-only">@percentage% Complete</span>
-                                    </div>
-                                </div>
+                                <progress-bar params="progress: currentProgress"></progress-bar>
                             </div>
                         </div>
                     </div>
@@ -74,7 +70,7 @@
                         @Html.Partial("_Desk", Model)
                     </div>
                     <div id="previewTab" class="tab-pane fade">
-                        @Html.Partial("_Preview", Model)
+                        @Html.Partial("_Preview")
                     </div>
                 </div>
 
@@ -82,12 +78,3 @@
         </div>
     </div>
 </div>
-
-
-
-
-<script>
-    function updateProgress() {
-        $("#progressBar").width(@percentage);
-    }
-</script>
