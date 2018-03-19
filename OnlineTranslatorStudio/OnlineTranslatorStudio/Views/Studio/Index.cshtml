@@ -7,37 +7,41 @@
 
     <div class="row">
         <div class="col-md-10 col-md-push-1">
-            <div class="col-xs-12">
+            <div class="col-12">
                 <h2>Welcome to the Translator Studio</h2>
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#createTab">Create Project</a></li>
-                    <li><a data-toggle="tab" href="#openTab">Open Project</a></li>
+                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#createTab">Create Project</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#openTab">Open Project</a></li>
                 </ul>
 
                 <div class="tab-content">
-                    <div id="createTab" class="tab-pane fade in active">
-                        <div class="row col-xs-12">
-                            <h4>Create a New Translation Project</h4>
-                            @using (Html.BeginForm("Dashboard", "Studio", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    <div id="createTab" class="tab-pane fade show active">
+                        <div class="row col-12">
+                            <div class="form-group row col-12">
+                                <h4>Create a New Translation Project</h4>
+                            </div>
+                            @using (Html.BeginForm("Dashboard", "Studio", FormMethod.Post, new { @class = "form-horizontal col-12", role = "form" }))
                             {
                                 @Html.ValidationSummary(false);
 
-                                <div class="form-group">
-                                    @Html.LabelFor(Model => Model.ProjectName, new { @class = "col-md-2 control-label" })
-                                    <div class="col-md-10">
+                                <div class="form-group row">
+                                    @Html.LabelFor(Model => Model.ProjectName, new { @class = "col-md-3 col-form-label" })
+                                    <div class="col-md-9">
                                         @Html.TextBoxFor(Model => Model.ProjectName, new { @class = "form-control" })
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(Model => Model.RawData, new { @class = "col-md-2 control-label" })
-                                    <div class="col-md-10">
+
+                                <div class="form-group row">
+                                    @Html.LabelFor(Model => Model.RawData, new { @class = "col-md-3 col-form-label" })
+                                    <div class="col-md-9">
                                         @Html.TextAreaFor(Model => Model.RawData, 10, 100, new { @class = "form-control", style = "max-width: 100%; width: 80%;", rows = "10" })
                                         @Html.ValidationMessageFor(Model => Model.RawData)
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="col-md-2"></div>
-                                    <div class="col-md-10">
+                                
+                                <div class="form-group row">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-9">
                                         <input class="btn btn-primary" type="submit" name="submit" value="Create" />
                                     </div>
                                 </div>
@@ -45,20 +49,22 @@
                         </div>
                     </div>
                     <div id="openTab" class="tab-pane fade">
-                        <div class="row col-xs-12">
-                            <h4 >Open an Existing Translation Project</h4>
-                            @using (Html.BeginForm("Dashboard", "Studio", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+                        <div class="row col-12">
+                            <div class="form-group row col-12">
+                                <h4>Open an Existing Translation Project</h4>
+                            </div>
+                            @using (Html.BeginForm("Dashboard", "Studio", FormMethod.Post, new { @class = "form-horizontal col-12", role = "form", enctype = "multipart/form-data" }))
                             {
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label" for="project">Open Project</label>
-                                    <div class="col-md-10">
-                                        <input class="form-control" placeholder="Load TSP or Text File" type="file" name="project" id="projectFile" accept="text/txt, text/tsp, .txt, .tsp" />
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label" for="project">Open Project</label>
+                                    <div class="col-md-9">
+                                        <input class="form-control-file form-control" placeholder="Load TSP or Text File" type="file" name="project" id="projectFile" accept="text/txt, text/tsp, .txt, .tsp" />
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <div class="col-md-2"></div>
-                                    <div class="col-md-10">
+                                
+                                <div class="form-group row">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-9">
                                         <input class="btn btn-primary" type="submit" name="submit" value="Open" />
                                     </div>
                                 </div>
