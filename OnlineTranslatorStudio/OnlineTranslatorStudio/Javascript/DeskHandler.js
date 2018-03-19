@@ -33,9 +33,16 @@ var DeskHandler = /** @class */ (function () {
                 data: this.translationData.GetSaveString(),
                 dataType: "json",
                 success: function (data) {
-                    //$.unblockUI();
-                    if (data.fileName != "") {
-                        window.location.href = "/Studio/DownloadProject/?file=" + data.fileName;
+                    if (data.errorMessage != "") {
+                        alert("Download failed: " + data.errorMessage);
+                    }
+                    else {
+                        if (data.fileName != "") {
+                            window.location.href = "/Studio/DownloadProject/?file=" + data.fileName;
+                        }
+                        else {
+                            alert("Download failed: Unable to find file name.");
+                        }
                     }
                 } // get your response here
             });

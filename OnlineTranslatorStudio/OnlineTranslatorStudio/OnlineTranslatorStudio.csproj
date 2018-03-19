@@ -147,7 +147,7 @@
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="TranslatorStudioClassLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MayonakaSignal.XCrossJ.TranslatorStudioClassLibrary.1.0.2\lib\net452\TranslatorStudioClassLibrary.dll</HintPath>
+      <HintPath>..\packages\MayonakaSignal.XCrossJ.TranslatorStudioClassLibrary.1.0.3\lib\net452\TranslatorStudioClassLibrary.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -255,6 +255,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="tsconfig.json" />
+    <Content Include="Views\Studio\_Status.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

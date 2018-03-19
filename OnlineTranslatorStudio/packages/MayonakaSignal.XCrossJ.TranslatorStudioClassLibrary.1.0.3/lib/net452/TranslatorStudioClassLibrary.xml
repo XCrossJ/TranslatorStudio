@@ -1,0 +1,972 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TranslatorStudioClassLibrary</name>
+    </assembly>
+    <members>
+        <member name="T:TranslatorStudioClassLibrary.Class.ProjectData">
+            <summary>
+            Class that contains the properties and method relevant for Project Data.
+            Implements Project Data Interface.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.ProjectData.ProjectName">
+            <summary>
+            The name of the project.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.ProjectData.RawLines">
+            <summary>
+            Contains all of the raw lines in the project.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.ProjectData.TranslatedLines">
+            <summary>
+            Contains all of the translated lines in the project.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.ProjectData.CompletedLines">
+            <summary>
+            Contains the completion status of each line in the project.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.ProjectData.MarkedLines">
+            <summary>
+            Contains the marked status of each line in the project.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Class.ProjectData.#ctor">
+            <summary>
+            Creates empty Project Data.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Class.ProjectData.GetSaveString">
+            <summary>
+            Gets JSON string of the project data used for saving.
+            </summary>
+            <returns>JSON string of project data.</returns>
+        </member>
+        <member name="T:TranslatorStudioClassLibrary.Class.SubTranslationData">
+            <summary>
+            Class that contains the properties and method relevant for Sub Translation Data.
+            Implements Sub Translation Data Interface.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.SubTranslationData.IndexReference">
+            <summary>
+            Contains the index references of the lines that meet the criteria.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.SubTranslationData.CurrentReference">
+            <summary>
+            Contains the current line reference.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.SubTranslationData.CurrentIndex">
+            <summary>
+            Contains the current index reference used to access the line in the main translation project.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.SubTranslationData.MaxIndex">
+            <summary>
+            Contains the max index in the sub translation project.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.SubTranslationData.NumberOfLines">
+            <summary>
+            Contains the number of lines in the sub translation project.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Class.SubTranslationData.#ctor">
+            <summary>
+            Creates empty Sub Translation Data.
+            </summary>
+        </member>
+        <member name="T:TranslatorStudioClassLibrary.Class.TranslationData">
+            <summary>
+            Class that contains the properties and method relevant for Translation Data.
+            Implements Translation Data Interface.
+            </summary>
+        </member>
+        <member name="F:TranslatorStudioClassLibrary.Class.TranslationData._subTranslationDataFactory">
+            <summary>
+            Private property that constructs sub translation data;
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData._data">
+            <summary>
+            Private property that contains Project Data.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData._subData">
+            <summary>
+            Private property that contains Sub Translation Data.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData._autoData">
+            <summary>
+            Private property that contains Auto Translation Data.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData._autoMode">
+            <summary>
+            Private property that contains Auto Translation Mode flag.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.DefaultTranslationMode">
+            <summary>
+            Determines whether Default Translation Mode is turned on or not.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.AutoTranslationMode">
+            <summary>
+            Determines whether Auto Translation Mode is turned on or not.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.DataChanged">
+            <summary>
+            Determines whether changed have been made to Translation Data.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.ProjectName">
+            <summary>
+            The name of the project.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.RawLines">
+            <summary>
+            Contains all of the raw lines in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.TranslatedLines">
+            <summary>
+            Contains all of the translated lines in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.CompletedLines">
+            <summary>
+            Contains the completion status of each line in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.MarkedLines">
+            <summary>
+            Contains the marked status of each line in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.CurrentRaw">
+            <summary>
+            The current raw line in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.CurrentTranslation">
+            <summary>
+            The current translated line in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.CurrentCompletion">
+            <summary>
+            The completion status of the current line in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.CurrentMarked">
+            <summary>
+            The marked status of the current line in the translation.
+            </summary>
+        </member>
+        <member name="F:TranslatorStudioClassLibrary.Class.TranslationData._index">
+            <summary>
+            Private property that contains the current index.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.CurrentIndex">
+            <summary>
+            The current index in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.MaxIndex">
+            <summary>
+            The max index in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.NumberOfLines">
+            <summary>
+            The number of lines in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.NumberOfCompletedLines">
+             <summary>
+            The number of completed lines in the translation.
+             </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Class.TranslationData.#ctor(TranslatorStudioClassLibrary.Interface.ISubTranslationDataFactory)">
+            <summary>
+            Creates empty Translation Data.
+            </summary>
+            <param name="subTranslationDataFactory">Sub Translation Data Factory used to construct Sub Translation Data.</param>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Class.TranslationData.#ctor(TranslatorStudioClassLibrary.Interface.IProjectData,TranslatorStudioClassLibrary.Interface.ISubTranslationDataFactory)">
+            <summary>
+            Creates Translation Data based on passed Project Data.
+            </summary>
+            <param name="projectData">Object that implements Project Data Interface.</param>
+            <param name="subTranslationDataFactory"></param>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Class.TranslationData.IncrementCurrentLine">
+            <summary>
+            Increments the current index.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Class.TranslationData.DecrementCurrentLine">
+            <summary>
+            Decrements the current index.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Class.TranslationData.InsertLine(System.Nullable{System.Int32},System.String)">
+            <summary>
+            Inserts specified raw line to project data at index.
+            </summary>
+            <param name="index">Index at which to insert value (null will insert value at end).</param>
+            <param name="rawValue">Value of raw line to insert.</param>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Class.TranslationData.RemoveLine(System.Nullable{System.Int32})">
+            <summary>
+            Removes line from project data at index.
+            </summary>
+            <param name="index">Index at which to remove value (null will remove value at end).</param>
+            <exception cref="T:TranslatorStudioClassLibrary.Exception.RemovalOfLastLineException">Thrown when trying to remove last line of translation project.</exception>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Class.TranslationData.GetProjectSaveString">
+            <summary>
+            Gets JSON string of the project data used to save project.
+            </summary>
+            <returns>JSON string of project data.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Class.TranslationData.ToggleAutoMode(System.Boolean)">
+            <summary>
+            Toggles auto translation mode. (Removes empty lines.)
+            </summary>
+            <param name="autoOn">Whether or not auto mode should be turned on or not.</param>
+            <returns>Number of lines that are not empty.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Class.TranslationData.StartDefaultMode">
+            <summary>
+            Initiates default translation mode.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Class.TranslationData.StartMarkedOnlyMode">
+            <summary>
+            Initiates marked only translation mode. (Shows all marked lines only).
+            </summary>
+            <returns>Number of lines that are marked.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Class.TranslationData.StartIncompleteOnlyMode">
+            <summary>
+            Initates incomplete only translation mode. (Shows all incomplete lines only.)
+            </summary>
+            <returns>Number of lines that are incomplete.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Class.TranslationData.StartCompleteOnlyMode">
+            <summary>
+            Initiates complete only translation mode. (Shows all complete lines only.)
+            </summary>
+            <returns>Number of lines that are complete.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Class.TranslationData.GetProjectData">
+            <summary>
+            Returns the project data used in the translation project.
+            </summary>
+            <returns>Object that implements Project Data Interface.</returns>
+        </member>
+        <member name="T:TranslatorStudioClassLibrary.Exception.EmptyRawException">
+            <summary>
+            The exception that is thrown when the Raw provided to construct a translation project is empty or null.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Exception.EmptyRawException.#ctor">
+            <summary>
+            Initialises a new instance of the Exception.EmptyRawException class.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Exception.EmptyRawException.#ctor(System.String)">
+            <summary>
+            Initialises a new instance of the Exception.EmptyRawException class with a specified error message.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Exception.EmptyRawException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initialises a new instance of the Exception.EmptyRawException class with a specified error message
+            and a reference to the inner exception that is the cause of this exception.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="inner">The exception that is the cause of the current exception, or a null reference
+            (Nothing in Visual Basic) if no inner exception is specified.</param>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Exception.EmptyRawException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initialises a new instance of the Exception.EmptyRawException class with serialised data.
+            </summary>
+            <param name="info">The System.Runtime.Serialization.SerializationInfo that holds the serialized
+            object data about the exception being thrown.</param>
+            <param name="context">The System.Runtime.Serialization.StreamingContext that contains contextual information 
+            about the source or destination.</param>
+            <exception cref="T:System.ArgumentNullException">The info parameter is null.</exception>
+            <exception cref="T:System.Runtime.Serialization.SerializationException">The class name is null or System.Exception.HResult is zero (0).</exception>
+        </member>
+        <member name="T:TranslatorStudioClassLibrary.Exception.InvalidConditionListException">
+            <summary>
+            The exception that is thrown when the condition list provided to construct sub translation data is empty or invalid.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Exception.InvalidConditionListException.#ctor">
+            <summary>
+            Initialises a new instance of the Exception.InvalidConditionListException class.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Exception.InvalidConditionListException.#ctor(System.String)">
+            <summary>
+            Initialises a new instance of the Exception.InvalidConditionListException class with a specified error message.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Exception.InvalidConditionListException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initialises a new instance of the Exception.InvalidConditionListException class with a specified error message
+            and a reference to the inner exception that is the cause of this exception.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="inner">The exception that is the cause of the current exception, or a null reference
+            (Nothing in Visual Basic) if no inner exception is specified.</param>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Exception.InvalidConditionListException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initialises a new instance of the Exception.InvalidConditionListException class with serialised data.
+            </summary>
+            <param name="info">The System.Runtime.Serialization.SerializationInfo that holds the serialized
+            object data about the exception being thrown.</param>
+            <param name="context">The System.Runtime.Serialization.StreamingContext that contains contextual information 
+            about the source or destination.</param>
+            <exception cref="T:System.ArgumentNullException">The info parameter is null.</exception>
+            <exception cref="T:System.Runtime.Serialization.SerializationException">The class name is null or System.Exception.HResult is zero (0).</exception>
+        </member>
+        <member name="T:TranslatorStudioClassLibrary.Exception.RemovalOfLastLineException">
+            <summary>
+            The exception that is thrown when trying to remove last line of the translation project.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Exception.RemovalOfLastLineException.#ctor">
+            <summary>
+            Initialises a new instance of the Exception.EmptyRawException class.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Exception.RemovalOfLastLineException.#ctor(System.String)">
+            <summary>
+            Initialises a new instance of the Exception.EmptyRawException class with a specified error message.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Exception.RemovalOfLastLineException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initialises a new instance of the Exception.EmptyRawException class with a specified error message
+            and a reference to the inner exception that is the cause of this exception.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="inner">The exception that is the cause of the current exception, or a null reference
+            (Nothing in Visual Basic) if no inner exception is specified.</param>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Exception.RemovalOfLastLineException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initialises a new instance of the Exception.EmptyRawException class with serialised data.
+            </summary>
+            <param name="info">The System.Runtime.Serialization.SerializationInfo that holds the serialized
+            object data about the exception being thrown.</param>
+            <param name="context">The System.Runtime.Serialization.StreamingContext that contains contextual information 
+            about the source or destination.</param>
+            <exception cref="T:System.ArgumentNullException">The info parameter is null.</exception>
+            <exception cref="T:System.Runtime.Serialization.SerializationException">The class name is null or System.Exception.HResult is zero (0).</exception>
+        </member>
+        <member name="T:TranslatorStudioClassLibrary.Interface.IFileRepository">
+            <summary>
+            Interface that defines the public properties and methods required to interact with Files.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.IFileRepository.OpenTextFile(System.String,System.String)">
+            <summary>
+            Opens translation data from text file.
+            </summary>
+            <param name="path">Path of the file.</param>
+            <param name="fileName">Name of the file.</param>
+            <returns>Object that implements Translation Data Interface.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.IFileRepository.OpenDocFile(System.String,System.String)">
+            <summary>
+            Opens translation data from word document.
+            </summary>
+            <param name="path">Path of the file.</param>
+            <param name="fileName">Name of the file.</param>
+            <returns>Object that implements Translation Data Interface.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.IFileRepository.OpenTSPFile(System.String,System.String)">
+            <summary>
+            Opens translation data from translation studio project file.
+            </summary>
+            <param name="path">Path of the file.</param>
+            <param name="fileName">Name of the file.</param>
+            <returns>Object that implements Translation Data Interface.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.IFileRepository.OpenFile(System.String,System.String,System.String)">
+            <summary>
+            Handler that returns Translation Data and Previous Save Path from parameters.
+            </summary>
+            <param name="fileExt">Extension of the file.</param>
+            <param name="path">Path of the file.</param>
+            <param name="fileName">Name of the file.</param>
+            <returns>An object that implements Translation Data Interface and the previous save path.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.IFileRepository.SaveProject(TranslatorStudioClassLibrary.Interface.ITranslationData,System.String)">
+            <summary>
+            Saves translation project data to file.
+            </summary>
+            <param name="data">Translation data to save.</param>
+            <param name="path">Path of the file.</param>
+            <returns>The result of the save.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.IFileRepository.ExportTranslation(TranslatorStudioClassLibrary.Interface.ITranslationData,System.String)">
+            <summary>
+            Exports translated lines in translation project to file.
+            </summary>
+            <param name="data">Translation data to save.</param>
+            <param name="path">Path of the file.</param>
+            <returns>The result of the export.</returns>
+        </member>
+        <member name="T:TranslatorStudioClassLibrary.Interface.IProjectData">
+            <summary>
+            Interface that defines the public properties and methods required to store Project Data.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.IProjectData.ProjectName">
+            <summary>
+            The name of the project.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.IProjectData.RawLines">
+            <summary>
+            Contains all of the raw lines in the project.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.IProjectData.TranslatedLines">
+            <summary>
+            Contains all of the translated lines in the project.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.IProjectData.CompletedLines">
+            <summary>
+            Contains the completion status of each line in the project.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.IProjectData.MarkedLines">
+            <summary>
+            Contains the marked status of each line in the project.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.IProjectData.GetSaveString">
+            <summary>
+            Gets JSON string of the project data used for saving.
+            </summary>
+            <returns>JSON string of project data.</returns>
+        </member>
+        <member name="T:TranslatorStudioClassLibrary.Interface.ISubTranslationData">
+            <summary>
+            Interface that defines the public properties and methods required to store Sub Translation Data.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ISubTranslationData.IndexReference">
+            <summary>
+            Contains the index references of the lines that meet the criteria.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ISubTranslationData.CurrentReference">
+            <summary>
+            Contains the current line reference.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ISubTranslationData.CurrentIndex">
+            <summary>
+            Contains the current index reference used to access the line in the main translation project.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ISubTranslationData.MaxIndex">
+            <summary>
+            Contains the max index in the sub translation project.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ISubTranslationData.NumberOfLines">
+            <summary>
+            Contains the number of lines in the sub translation project.
+            </summary>
+        </member>
+        <member name="T:TranslatorStudioClassLibrary.Interface.ITranslationData">
+            <summary>
+            Interface that defines the public properties and methods required to store Translation Data.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.DefaultTranslationMode">
+            <summary>
+            Determines whether Default Translation Mode is turned on or not.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.AutoTranslationMode">
+            <summary>
+            Determines whether Auto Translation Mode is turned on or not.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.DataChanged">
+            <summary>
+            Determines whether changed have been made to Translation Data.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.ProjectName">
+            <summary>
+            The name of the project.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.RawLines">
+            <summary>
+            Contains all of the raw lines in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.TranslatedLines">
+            <summary>
+            Contains all of the translated lines in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.CompletedLines">
+            <summary>
+            Contains the completion status of each line in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.MarkedLines">
+            <summary>
+            Contains the marked status of each line in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.CurrentRaw">
+            <summary>
+            The current raw line in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.CurrentTranslation">
+            <summary>
+            The current translated line in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.CurrentCompletion">
+            <summary>
+            The completion status of the current line in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.CurrentMarked">
+            <summary>
+            The marked status of the current line in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.CurrentIndex">
+            <summary>
+            The current index in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.MaxIndex">
+            <summary>
+            The max index in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.NumberOfLines">
+            <summary>
+            The number of lines in the translation.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.NumberOfCompletedLines">
+             <summary>
+            The number of completed lines in the translation.
+             </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationData.IncrementCurrentLine">
+            <summary>
+            Increments the current index.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationData.DecrementCurrentLine">
+            <summary>
+            Decrements the current index.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationData.InsertLine(System.Nullable{System.Int32},System.String)">
+            <summary>
+            Inserts specified raw line to project data at index.
+            </summary>
+            <param name="index">Index at which to insert value (null will insert value at end).</param>
+            <param name="rawValue">Value of raw line to insert.</param>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationData.RemoveLine(System.Nullable{System.Int32})">
+            <summary>
+            Removes line from project data at index.
+            </summary>
+            <param name="index">Index at which to remove value (null will remove value at end).</param>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationData.GetProjectSaveString">
+            <summary>
+            Gets JSON string of the project data used to save project.
+            </summary>
+            <returns>JSON string of project data.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationData.ToggleAutoMode(System.Boolean)">
+            <summary>
+            Toggles auto translation mode. (Removes empty lines.)
+            </summary>
+            <param name="autoOn">Whether or not auto mode should be turned on or not.</param>
+            <returns>Number of lines that are not empty.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationData.StartDefaultMode">
+            <summary>
+            Initiates default translation mode.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationData.StartMarkedOnlyMode">
+            <summary>
+            Initiates marked only translation mode. (Shows all marked lines only).
+            </summary>
+            <returns>Number of lines that are marked.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationData.StartIncompleteOnlyMode">
+            <summary>
+            Initates incomplete only translation mode. (Shows all incomplete lines only.)
+            </summary>
+            <returns>Number of lines that are incomplete.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationData.StartCompleteOnlyMode">
+            <summary>
+            Initiates complete only translation mode. (Shows all complete lines only.)
+            </summary>
+            <returns>Number of lines that are complete.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationData.GetProjectData">
+            <summary>
+            Returns the project data used in the translation project.
+            </summary>
+            <returns>Object that implements Project Data Interface.</returns>
+        </member>
+        <member name="T:TranslatorStudioClassLibrary.Interface.IProjectDataFactory">
+            <summary>
+            Interface that defines the public properties and methods required to construct Project Data.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.IProjectDataFactory.CreateProjectDataFromArray(System.String,System.String[])">
+            <summary>
+            Creates project data from array.
+            </summary>
+            <param name="fileName">The name of the file.</param>
+            <param name="rawLines">Array of strings that holds the raw lines.</param>
+            <exception cref="T:TranslatorStudioClassLibrary.Exception.EmptyRawException">Thrown when provided raw lines are empty.</exception>
+            <returns>Object that implements Project Data Interface.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.IProjectDataFactory.CreateProjectDataFromStream(System.String,System.IO.StreamReader)">
+            <summary>
+            Creates project data from stream reader.
+            </summary>
+            <param name="fileName">The name of the file.</param>
+            <param name="sr">The stream reader used to read the file.</param>
+            <exception cref="T:TranslatorStudioClassLibrary.Exception.EmptyRawException">Thrown when provided raw lines are empty.</exception>
+            <returns>Object that implements Project Data Interface.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.IProjectDataFactory.CreateProjectDataFromDocument(System.String,Microsoft.Office.Interop.Word.Document)">
+            <summary>
+            Creates project data from word document.
+            </summary>
+            <param name="fileName">The name of the file.</param>
+            <param name="document">The document that will be used in the conversion.</param>
+            <exception cref="T:TranslatorStudioClassLibrary.Exception.EmptyRawException">Thrown when provided raw lines are empty.</exception>
+            <returns>Object that implements Project Data Interface.</returns>
+        </member>
+        <member name="T:TranslatorStudioClassLibrary.Interface.ISubTranslationDataFactory">
+            <summary>
+            Interface that defines the public properties and methods required to construct Sub Translation Data.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.ISubTranslationDataFactory.GetSubData(System.Collections.Generic.List{System.Boolean})">
+            <summary>
+            Creates sub translation data based on condition list.
+            </summary>
+            <param name="conditionList">The condition list used to construct the sub data.</param>
+            <returns>Object that implements Sub Translation Data Interface.</returns>
+        </member>
+        <member name="T:TranslatorStudioClassLibrary.Interface.ITranslationDataFactory">
+            <summary>
+            Interface that defines the public properties and methods required to construct Translation Data.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationDataFactory.CreateTranslationDataFromArray(System.String,System.String[])">
+            <summary>
+            Creates translation data from array.
+            </summary>
+            <param name="fileName">The name of the file.</param>
+            <param name="rawLines">Array of strings that holds the raw lines.</param>
+            <returns>Object that implements Translation Data Interface.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationDataFactory.CreateTranslationDataFromDocument(System.String,Microsoft.Office.Interop.Word.Document)">
+            <summary>
+            Creates translation data from word document.
+            </summary>
+            <param name="fileName">The name of the file.</param>
+            <param name="document">The document that will be used in the conversion.</param>
+            <returns>Object that implements Translation Data Interface.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationDataFactory.CreateTranslationDataFromProject(TranslatorStudioClassLibrary.Interface.IProjectData)">
+            <summary>
+            Create translation data from project.
+            </summary>
+            <param name="project">Object that implements Project Data Interface</param>
+            <exception cref="T:TranslatorStudioClassLibrary.Exception.EmptyRawException">Thrown when provided raw lines are empty.</exception>
+            <returns>Object that implements Translation Data Interface.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Interface.ITranslationDataFactory.CreateTranslationDataFromStream(System.String,System.IO.StreamReader)">
+            <summary>
+            Creates translation data from stream reader.
+            </summary>
+            <param name="fileName">The name of the file.</param>
+            <param name="sr">The stream reader used to read the file.</param>
+            <returns>Object that implements Translation Data Interface.</returns>
+        </member>
+        <member name="T:TranslatorStudioClassLibrary.Repository.FileRepository">
+            <summary>
+            Class responsible for writing and reading files.
+            Class that contains the properties and method relevant for File Repository.
+            Implements File Repository Interface.
+            </summary>
+        </member>
+        <member name="F:TranslatorStudioClassLibrary.Repository.FileRepository._translationDataFactory">
+            <summary>
+            Factory that constructs the translation data.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Repository.FileRepository.#ctor(TranslatorStudioClassLibrary.Interface.ITranslationDataFactory)">
+            <summary>
+            Creates File Repository.
+            </summary>
+            <param name="translationDataFactory">Factory that constructs the translation data.</param>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Repository.FileRepository.OpenTextFile(System.String,System.String)">
+            <summary>
+            Opens translation data from text file.
+            </summary>
+            <param name="path">Path of the file.</param>
+            <param name="fileName">Name of the file.</param>
+            <returns>Object that implements Translation Data Interface.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Repository.FileRepository.OpenDocFile(System.String,System.String)">
+            <summary>
+            Opens translation data from word document.
+            </summary>
+            <param name="path">Path of the file.</param>
+            <param name="fileName">Name of the file.</param>
+            <returns>Object that implements Translation Data Interface.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Repository.FileRepository.OpenTSPFile(System.String,System.String)">
+            <summary>
+            Opens translation data from translation studio project file.
+            </summary>
+            <param name="path">Path of the file.</param>
+            <param name="fileName">Name of the file.</param>
+            <returns>Object that implements Translation Data Interface.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Repository.FileRepository.OpenFile(System.String,System.String,System.String)">
+            <summary>
+            Handler that returns Translation Data and Previous Save Path from parameters.
+            </summary>
+            <param name="fileExt">Extension of the file.</param>
+            <param name="path">Path of the file.</param>
+            <param name="fileName">Name of the file.</param>
+            <returns>An object that implements Translation Data Interface and the previous save path.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Repository.FileRepository.SaveProject(TranslatorStudioClassLibrary.Interface.ITranslationData,System.String)">
+            <summary>
+            Saves translation project data to file.
+            </summary>
+            <param name="data">Translation data to save.</param>
+            <param name="path">Path of the file.</param>
+            <returns>The result of the save.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Repository.FileRepository.ExportTranslation(TranslatorStudioClassLibrary.Interface.ITranslationData,System.String)">
+            <summary>
+            Exports translated lines in translation project to file.
+            </summary>
+            <param name="data">Translation data to save.</param>
+            <param name="path">Path of the file.</param>
+            <returns>The result of the export.</returns>
+        </member>
+        <member name="T:TranslatorStudioClassLibrary.Factory.ProjectDataFactory">
+            <summary>
+            Class responsible for constructing Project Data.
+            Class that contains the properties and method relevant for Project Data Factory.
+            Implements Project Data Factory Interface.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Factory.ProjectDataFactory.CreateProjectDataFromArray(System.String,System.String[])">
+            <summary>
+            Creates project data from array.
+            </summary>
+            <param name="fileName">The name of the file.</param>
+            <param name="rawLines">Array of strings that holds the raw lines.</param>
+            <exception cref="T:TranslatorStudioClassLibrary.Exception.EmptyRawException">Thrown when provided raw lines are empty.</exception>
+            <returns>Object that implements Project Data Interface.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Factory.ProjectDataFactory.CreateProjectDataFromStream(System.String,System.IO.StreamReader)">
+            <summary>
+            Creates project data from stream reader.
+            </summary>
+            <param name="fileName">The name of the file.</param>
+            <param name="sr">The stream reader used to read the file.</param>
+            <exception cref="T:TranslatorStudioClassLibrary.Exception.EmptyRawException">Thrown when provided raw lines are empty.</exception>
+            <returns>Object that implements Project Data Interface.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Factory.ProjectDataFactory.CreateProjectDataFromDocument(System.String,Microsoft.Office.Interop.Word.Document)">
+            <summary>
+            Creates project data from word document.
+            </summary>
+            <param name="fileName">The name of the file.</param>
+            <param name="document">The document that will be used in the conversion.</param>
+            <exception cref="T:TranslatorStudioClassLibrary.Exception.EmptyRawException">Thrown when provided raw lines are empty.</exception>
+            <returns>Object that implements Project Data Interface.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Factory.ProjectDataFactory.ConstructProjectData(System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+            Private method that constructs project data. Used by other creation methods.
+            </summary>
+            <param name="fileName">The name of the file.</param>
+            <param name="newRawLines">The raw lines used to construct the project.</param>
+            <exception cref="T:TranslatorStudioClassLibrary.Exception.EmptyRawException">Thrown when provided raw lines are empty.</exception>
+            <returns>Object that implements Project Data Interface.</returns>
+        </member>
+        <member name="T:TranslatorStudioClassLibrary.Factory.SubTranslationDataFactory">
+            <summary>
+            Class responsible for constructing Sub Translation Data.
+            Class that contains the properties and method relevant for Sub Translation Data Factory.
+            Implements Sub Translation Data Factory Interface.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Factory.SubTranslationDataFactory.GetSubData(System.Collections.Generic.List{System.Boolean})">
+            <summary>
+            Creates sub translation data based on condition list.
+            </summary>
+            <param name="conditionList">The condition list used to construct the sub data.</param>
+            <returns>Object that implements Sub Translation Data Interface.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Factory.SubTranslationDataFactory.ConstructSubTranslationData(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Private method that constructs sub translation data based on index reference.
+            </summary>
+            <param name="newIndexReference">Index reference list used to construct the sub data.</param>
+            <returns>Object that implements Sub Translation Data Interface.</returns>
+        </member>
+        <member name="T:TranslatorStudioClassLibrary.Factory.TranslationDataFactory">
+            <summary>
+            Class responsible for constructing Translation Data.
+            Class that contains the properties and method relevant for Translation Data Factory.
+            Implements Translation Data Factory Interface.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Factory.TranslationDataFactory.#ctor(TranslatorStudioClassLibrary.Interface.IProjectDataFactory,TranslatorStudioClassLibrary.Interface.ISubTranslationDataFactory)">
+            <summary>
+            Creates Translation Data Factory with Project Data Factory.
+            </summary>
+            <param name="projectDataFactory">Project Data Factory used to construct Project Data.</param>
+            <param name="subTranslationDataFactory">Project Data Factory used to construct Sub Translation Data.</param>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Factory.TranslationDataFactory.CreateTranslationDataFromArray(System.String,System.String[])">
+            <summary>
+            Creates translation data from array.
+            </summary>
+            <param name="fileName">The name of the file.</param>
+            <param name="rawLines">Array of strings that holds the raw lines.</param>
+            <returns>Object that implements Translation Data Interface.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Factory.TranslationDataFactory.CreateTranslationDataFromDocument(System.String,Microsoft.Office.Interop.Word.Document)">
+            <summary>
+            Creates translation data from word document.
+            </summary>
+            <param name="fileName">The name of the file.</param>
+            <param name="document">The document that will be used in the conversion.</param>
+            <returns>Object that implements Translation Data Interface.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Factory.TranslationDataFactory.CreateTranslationDataFromProject(TranslatorStudioClassLibrary.Interface.IProjectData)">
+            <summary>
+            Create translation data from project.
+            </summary>
+            <param name="project">Object that implements Project Data Interface</param>
+            <exception cref="T:TranslatorStudioClassLibrary.Exception.EmptyRawException">Thrown when provided raw lines are empty.</exception>
+            <returns>Object that implements Translation Data Interface.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Factory.TranslationDataFactory.CreateTranslationDataFromStream(System.String,System.IO.StreamReader)">
+            <summary>
+            Creates translation data from stream reader.
+            </summary>
+            <param name="fileName">The name of the file.</param>
+            <param name="sr">The stream reader used to read the file.</param>
+            <returns>Object that implements Translation Data Interface.</returns>
+        </member>
+        <member name="T:TranslatorStudioClassLibrary.Utilities.ExceptionHelper">
+            <summary>
+            Helper that contains commonly used exception methods.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Utilities.ExceptionHelper.NewEmptyRawException">
+            <summary>
+            Creates a new empty raw exception.
+            </summary>
+            <returns>EmptyRawException to be thrown.</returns>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Utilities.ExceptionHelper.NewRemovalOfLastLineException">
+            <summary>
+            Creates a new removal of last line exception.
+            </summary>
+            <returns>RemovalOfLastLineException to be thrown.</returns>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Utilities.ExceptionHelper.NewInvalidConditionListException_Empty">
+            <summary>
+            Creates a new invalid condition list exception for empty condition list.
+            </summary>
+            <returns>RemovalOfLastLineException to be thrown.</returns>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Utilities.ExceptionHelper.NewInvalidConditionListException_NoResults">
+            <summary>
+            Creates a new invalid condition list exception for when condition list obtains no results.
+            </summary>
+            <returns>RemovalOfLastLineException to be thrown.</returns>
+        </member>
+        <member name="T:TranslatorStudioClassLibrary.Utilities.ExtensionHelper">
+            <summary>
+            Helper that houses commonly used extension methods
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Utilities.ExtensionHelper.ToJSONString(System.Object)">
+            <summary>
+            Converts object to json string.
+            </summary>
+            <param name="data">Object to be serialised to json string.</param>
+            <returns>JSON string.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Utilities.ExtensionHelper.GetNumberFormat(System.Int32)">
+            <summary>
+            Obtains string format (number of digits) for certain number.
+            </summary>
+            <param name="number">The number to get string format from.</param>
+            <returns>A string that contains the string format of the number.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Utilities.ExtensionHelper.IsNotEmpty(System.String)">
+            <summary>
+            Checks whether text is not empty (null or whitespace).
+            </summary>
+            <param name="text">Text to check.</param>
+            <returns>Result of empty check.</returns>
+        </member>
+    </members>
+</doc>

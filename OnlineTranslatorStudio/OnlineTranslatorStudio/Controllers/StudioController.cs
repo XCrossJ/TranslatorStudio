@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using TranslatorStudioClassLibrary.Class;
+using TranslatorStudioClassLibrary.Factory;
 using TranslatorStudioClassLibrary.Interface;
 using TranslatorStudioClassLibrary.Repository;
 using TranslatorStudioClassLibrary.Utilities;
@@ -31,7 +32,11 @@ namespace OnlineTranslatorStudio.Controllers
         [HttpPost]
         public ActionResult Dashboard(OnlineTranslationRequest translationRequest, string submit)
         {
-            ITranslationData data = new TranslationData();
+            ITranslationData data = null;
+            IProjectDataFactory projectDataFactory = new ProjectDataFactory();
+            ISubTranslationDataFactory subTranslationDataFactory = new SubTranslationDataFactory();
+            ITranslationDataFactory translationDataFactory = new TranslationDataFactory(projectDataFactory, subTranslationDataFactory);
+            IFileRepository fileRepository = new FileRepository(translationDataFactory);
 
             switch (submit)
             {
@@ -48,7 +53,7 @@ namespace OnlineTranslatorStudio.Controllers
                             var filePath = @"C:\Temp\" + fileName;
                             file.SaveAs(filePath);
 
-                            var openData = FileHelper.OpenHandler(fileType, filePath, fileName);
+                            var openData = fileRepository.OpenFile(fileType, filePath, fileName);
                             data = openData.Item1;
                         }
                     }
@@ -65,14 +70,14 @@ namespace OnlineTranslatorStudio.Controllers
                     {
                         string fileName = translationRequest.ProjectName;
                         string[] rawData = translationRequest.RawData.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                        IProjectData project = new ProjectDataRepository().CreateProjectDataFromArray(fileName, rawData);
+                        IProjectData project = projectDataFactory.CreateProjectDataFromArray(fileName, rawData);
 
                         for (int i = 0; i < project.TranslatedLines.Count; i++)
                         {
                             project.TranslatedLines[i] = string.Empty;
                         }
                         
-                        data = new TranslationDataRepository().CreateTranslationDataFromProject(project);
+                        data = translationDataFactory.CreateTranslationDataFromProject(project);
                     }
                     else
                     {
@@ -84,11 +89,7 @@ namespace OnlineTranslatorStudio.Controllers
                 default:
                     break;
             }
-
-            if (data.NumberOfLines != 0)
-                ViewBag.percentage = data.NumberOfCompletedLines * 100 / data.NumberOfLines;
-            else
-                ViewBag.percentage = 0;
+            
             System.Web.HttpContext.Current.Session["ProjectData"] = data.GetProjectData();
             return View();
             
@@ -112,23 +113,31 @@ namespace OnlineTranslatorStudio.Controllers
 
             var fileName = $@"{data.ProjectName}.tsp";
 
-            //save the file to server temp folder
-            string fullPath = Path.Combine(Server.MapPath("~/temp"), fileName);
+            var errorMessage = "";
 
-            FileStream file = new FileStream(fullPath, FileMode.Create, FileAccess.Write);
-            using (StreamWriter streamWriter = new StreamWriter(file))
+            try
             {
-                using (JsonTextWriter jsonWriter = new JsonTextWriter(streamWriter))
-                {
-                    json.WriteTo(jsonWriter);
-                }
-            }
-            file.Close();
+                //save the file to server temp folder
+                string fullPath = Path.Combine(Server.MapPath("~/temp"), fileName);
 
-            //var errorMessage = "you can return the errors in here!";
+                FileStream file = new FileStream(fullPath, FileMode.Create, FileAccess.Write);
+                using (StreamWriter streamWriter = new StreamWriter(file))
+                {
+                    using (JsonTextWriter jsonWriter = new JsonTextWriter(streamWriter))
+                    {
+                        jsonWriter.Formatting = Formatting.Indented;
+                        json.WriteTo(jsonWriter);
+                    }
+                }
+                file.Close();
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
 
             //return the Excel file name
-            var response = Json(new { fileName = fileName, errorMessage = "" });
+            var response = Json(new { fileName, errorMessage });
             return response;
         }
 

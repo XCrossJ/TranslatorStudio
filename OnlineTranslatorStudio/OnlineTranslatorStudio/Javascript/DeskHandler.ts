@@ -33,7 +33,7 @@ class DeskHandler {
 
         // Key Code S = 83
         if ((event.which === 83) && (event.altKey === true) && (event.ctrlKey === true)) {
-            //if ((event.which === 78) && (event.altKey === true) && (event.ctrlKey === true)) {
+        //if ((event.which === 78) && (event.altKey === true) && (event.ctrlKey === true)) {
             $.ajax({
                 url: "/Studio/ExportProject",
                 type: "POST",
@@ -41,11 +41,17 @@ class DeskHandler {
                 data: this.translationData.GetSaveString(),
                 dataType: "json",
                 success: function (data) {
-                    //$.unblockUI();
-                    if (data.fileName != "") {
-                        window.location.href = "/Studio/DownloadProject/?file=" + data.fileName;
+                    if (data.errorMessage != "") {
+                        alert("Download failed: " + data.errorMessage);
                     }
-
+                    else {
+                        if (data.fileName != "") {
+                            window.location.href = "/Studio/DownloadProject/?file=" + data.fileName;
+                        }
+                        else {
+                            alert("Download failed: Unable to find file name.");
+                        }
+                    }
                 } // get your response here
             });
         }
