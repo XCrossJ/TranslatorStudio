@@ -1,5 +1,4 @@
-﻿@model TranslatorStudioClassLibrary.Class.TranslationData
-@using Gem;
+﻿@using Gem;
 
 @{
     ViewBag.Title = "Translator Studio - Dashboard";
@@ -26,30 +25,47 @@
                             <h4>Project Details</h4>
                         </div>
                         <div class="panel-body">
-                            <div class="row">
-                                <table class="table table-condensed">
-                                    <tr>
-                                        <th><b>Project Name</b></th>
-                                        @*<td>@Html.TextBoxFor(Model => Model.ProjectName, new { @class = "form-control", @onkeypress = "updateProjectName(translationData, this.value)" }) </td>*@
-                                        <td><input class="form-control" data-bind="value: ProjectName()"/></td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <b>Current Line</b>
-                                        </th>
-                                        <td>
-                                            <span id="CurrentIndex" data-bind="text: (currentIndex() + 1)"></span> / <span id="NumberOfLines" class="NumberOfLines" data-bind="text: NumberOfLines"></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th><b>Progress</b></th>
-                                        <td><span data-bind="text: NumberOfCompletedLines()"></span> / <span class="NumberOfLines" data-bind="text: NumberOfLines"></span></td>
-                                    </tr>
+                            <div class="row table-responsive">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <th>
+                                                <label class="control-label" for="ProjectName">Project Name</label>
+                                            </th>
+                                            <td>
+                                                <input id="ProjectName" class="form-control" data-bind="value: ProjectName()" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                <label class="control-label" for="CurrentLine">Current Line</label>
+                                            </th>
+                                            <td>
+                                                <div id="CurrentLine" class="text-center">
+                                                    <span id="CurrentIndex" data-bind="text: (currentIndex() + 1)"></span> / <span id="NumberOfLines" class="NumberOfLines" data-bind="text: NumberOfLines"></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                <label class="control-label" for="Progress">Progress</label>
+                                            </th>
+                                            <td>
+                                                <div id="Progress" class="text-center">
+                                                    <span data-bind="text: NumberOfCompletedLines()"></span> / <span class="NumberOfLines" data-bind="text: NumberOfLines"></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <script src="~/Javascript/ProgressBarComponent.js"></script>
+                                                <div class="row col-xs-12 col-xs-offset-0">
+                                                    <progress-bar params="progress: currentProgress"></progress-bar>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
                                 </table>
-                            </div>
-                            <script src="~/Javascript/ProgressBarComponent.js"></script>
-                            <div class="row">
-                                <progress-bar params="progress: currentProgress"></progress-bar>
                             </div>
                         </div>
                     </div>
@@ -67,7 +83,7 @@
 
                 <div class="tab-content">
                     <div id="deskTab" class="tab-pane fade in active">
-                        @Html.Partial("_Desk", Model)
+                        @Html.Partial("_Desk")
                     </div>
                     <div id="previewTab" class="tab-pane fade">
                         @Html.Partial("_Preview")

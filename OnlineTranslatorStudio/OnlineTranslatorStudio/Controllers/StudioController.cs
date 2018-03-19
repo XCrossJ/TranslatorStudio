@@ -4,6 +4,7 @@ using OnlineTranslatorStudio.Attributes;
 using OnlineTranslatorStudio.Models;
 using System;
 using System.IO;
+using System.Linq;
 using System.Web.Mvc;
 using TranslatorStudioClassLibrary.Class;
 using TranslatorStudioClassLibrary.Interface;
@@ -22,6 +23,10 @@ namespace OnlineTranslatorStudio.Controllers
         }
 
         //http://www.binaryintellect.net/articles/c69d78a3-21d7-416b-9d10-6b812a862778.aspx
+        //
+        // Consult below for new file implementation
+        //https://www.aurigma.com/upload-suite/developers/aspnet-mvc/how-to-upload-files-in-aspnet-mvc
+        //https://docs.microsoft.com/en-us/aspnet/web-pages/overview/data/working-with-files
         // POST: Studio/Dashboard
         [HttpPost]
         public ActionResult Dashboard(OnlineTranslationRequest translationRequest, string submit)
@@ -31,7 +36,8 @@ namespace OnlineTranslatorStudio.Controllers
             switch (submit)
             {
                 case "Open":
-                    if (Request.Files.Count > 0)
+
+                    if (Request.Files.Count > 0 && Request.Files[0].FileName.Any())
                     {
                         var file = Request.Files[0];
                         if (file != null & file.ContentLength > 0)
@@ -52,7 +58,9 @@ namespace OnlineTranslatorStudio.Controllers
                     }
 
                     break;
+
                 case "Create":
+
                     if (translationRequest != null)
                     {
                         string fileName = translationRequest.ProjectName;
@@ -72,6 +80,7 @@ namespace OnlineTranslatorStudio.Controllers
                     }
 
                     break;
+
                 default:
                     break;
             }
@@ -81,28 +90,8 @@ namespace OnlineTranslatorStudio.Controllers
             else
                 ViewBag.percentage = 0;
             System.Web.HttpContext.Current.Session["ProjectData"] = data.GetProjectData();
-            return View(data);
+            return View();
             
-        }
-
-        public ActionResult Desk()
-        {
-            var file = Request.Files[0];
-            ITranslationData data = new TranslationData();
-            if (file != null & file.ContentLength > 0)
-            {
-                var filePath = file.FileName;
-                var fileName = Path.GetFileName(filePath);
-                var fileType = Path.GetExtension(filePath);
-
-                var openData = FileHelper.OpenHandler(fileType, filePath, fileName);
-                data = openData.Item1;
-            }
-            if (data.NumberOfLines != 0)
-                ViewBag.percentage = data.NumberOfCompletedLines * 100 / data.NumberOfLines;
-            else
-                ViewBag.percentage = 0;
-            return View(data);
         }
 
         [HttpPost]
