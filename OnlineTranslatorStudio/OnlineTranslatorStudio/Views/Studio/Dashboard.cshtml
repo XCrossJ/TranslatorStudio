@@ -7,8 +7,6 @@
 
 @{
     ViewBag.Title = "Translator Studio - Dashboard";
-    var percentage = ViewBag.percentage;
-    //int percentage = Model.NumberOfLines != 0 ? percentage = ((Model.NumberOfCompletedLines / Model.NumberOfLines) * 100) : 0;
 
     //List<Furigana> furigana = new List<Furigana>();
 
@@ -18,34 +16,35 @@
     //}
 
 }
-
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-3">
-            <div class="row col-xs-12">
-                <h2>Dashboard</h2>
-                <div id="status" class="row">
-                    @Html.Partial("_Status")
-                </div>
+        <div class="col-lg-4">
+            <div id="status">
+                @Html.Partial("_Status")
             </div>
         </div>
-        <div class="col-sm-9">
-            <div class="col-xs-12">
-                <h2>Desk</h2>
-                <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#deskTab">Desk</a></li>
-                    <li><a data-toggle="tab" href="#previewTab">Preview</a></li>
-                </ul>
-
-                <div class="tab-content">
-                    <div id="deskTab" class="tab-pane fade in active">
-                        @Html.Partial("_Desk")
-                    </div>
-                    <div id="previewTab" class="tab-pane fade">
-                        @Html.Partial("_Preview")
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#deskTab">Desk</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#previewTab">Preview</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div id="deskTab" class="tab-pane fade show active">
+                            @Html.Partial("_Desk")
+                        </div>
+                        <div id="previewTab" class="tab-pane fade">
+                            @Html.Partial("_Preview")
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

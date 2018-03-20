@@ -14,5 +14,5 @@ ko.components.register('progress-bar', {
         })
     },
     template:
-    '<div class="progress"> <div data-bind="attr:{\'aria-valuenow\':progress}, style:{width:progressPercentual}, text:progressPercentual" class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;"></div> </div>'
+    '<div class="progress"> <div data-bind="attr:{\'aria-valuenow\':progress}, style:{width:progressPercentual}, text:progressPercentual" class="progress-bar bg-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;"></div> </div>'
 });

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Online Translator Studio</title>
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
@@ -13,8 +13,7 @@
     @Styles.Render("~/Content/css")
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
-
+    <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
         <div class="container">
             @Html.ActionLink("Translation Studio", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
 
@@ -31,15 +30,16 @@
             </div>
         </div>
     </nav>
-    <div class="container-fluid body-content">
+
+    <main role="main" class="container-fluid">
         @RenderBody()
-        <hr />
-        <div class="container">
-            <footer>
-                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-            </footer>
-        </div>
-    </div>
+
+        <footer class="footer fixed-bottom">
+            <div class="container">
+                <span class="text-muted">&copy; @DateTime.Now.Year - XCrossJ Online Translator Studio</span>
+            </div>
+        </footer>
+    </main>
 
     @RenderSection("scripts", required: false)
 </body>

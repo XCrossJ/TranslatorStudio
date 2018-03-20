@@ -1,51 +1,50 @@
 ﻿<script src="~/Javascript/ProgressBarComponent.js"></script>
-<div class="col-xs-12">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4>Project Details</h4>
-        </div>
-        <div class="panel-body">
-            <div class="row col-xs-12 col-xs-offset-0 table-responsive">
-                <table class="table table-hover">
-                    <tbody>
-                        <tr>
-                            <th>
-                                <label class="control-label" for="ProjectName">Project Name</label>
-                            </th>
-                            <td>
-                                <input id="ProjectName" class="form-control" data-bind="value: ProjectName" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                <label class="control-label" for="CurrentLine">Current Line</label>
-                            </th>
-                            <td>
-                                <div id="CurrentLine" class="text-center">
-                                    <span id="CurrentIndex" data-bind="text: (currentIndex() + 1)"></span> / <span id="NumberOfLines" class="NumberOfLines" data-bind="text: NumberOfLines"></span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                <label class="control-label" for="Progress">Progress</label>
-                            </th>
-                            <td>
-                                <div id="Progress" class="text-center">
-                                    <span data-bind="text: NumberOfCompletedLines()"></span> / <span class="NumberOfLines" data-bind="text: NumberOfLines"></span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="border-style: none">
-                                <div class="row col-xs-12 col-xs-offset-0">
-                                    <progress-bar params="progress: currentProgress"></progress-bar>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<div class="card">
+    <div class="card-header">
+        Dashboard
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Project Details</h5>
+        <table class="table table-hover">
+            <tbody>
+                <tr>
+                    <th>
+                        <label class="control-label" for="ProjectName">Project Name</label>
+                    </th>
+                    <td>
+                        <input id="ProjectName" class="form-control" data-bind="value: ProjectName" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label class="control-label" for="CurrentLine">Current Line</label>
+                    </th>
+                    <td>
+                        <div id="CurrentLine" class="text-center">
+                            <span id="CurrentIndex" data-bind="text: (currentIndex() + 1)"></span> / <span id="NumberOfLines" class="NumberOfLines" data-bind="text: NumberOfLines"></span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label class="control-label" for="Progress">Progress</label>
+                    </th>
+                    <td>
+                        <div id="Progress" class="text-center">
+                            <span data-bind="text: NumberOfCompletedLines()"></span> / <span class="NumberOfLines" data-bind="text: NumberOfLines"></span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="border-style: none">
+                        <div class="row">
+                            <div class="col-12">
+                                <progress-bar params="progress: currentProgress"></progress-bar>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
