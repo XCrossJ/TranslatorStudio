@@ -1,0 +1,51 @@
+﻿<div class="card">
+    <div class="card-header mb-0" data-toggle="collapse" data-target="#collapseTools" aria-expanded="true" aria-controls="collapseTools">
+        <h5>
+            Other Tools
+        </h5>
+    </div>
+    <div class="collapse show" id="collapseTools">
+        <div class="card-body">
+
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-row">
+
+                        <div id="editModeSection" class="form-group row col-12 col-lg-5">
+                            <label for="editMode" class="col-4 col-md-6 col-form-label">Translation Mode</label>
+                            <div class="col-8 col-md-6">
+                                <select id="editMode" class="custom-select">
+                                    <option selected value="Default">Default</option>
+                                    <option value="Marked">Marked Only</option>
+                                    <option value="Incomplete">Incomplete Only</option>
+                                    <option value="Complete">Complete Only</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+                        <div id="checkSection" class="form-group row col-12 col-lg-5">
+                            <label class="col-4 col-md-6 col-form-label">Line Status</label>
+                            <div class="col-8 col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="CurrentMarked" type="checkbox" data-bind="checked: CurrentMarked" />
+                                    <label class="form-check-label" for="CurrentMarked">Marked For Attention</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" id="CurrentCompletion" type="checkbox" data-bind="checked: CurrentCompletion" />
+                                    <label class="form-check-label" for="CurrentCompletion">Marked As Completed</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

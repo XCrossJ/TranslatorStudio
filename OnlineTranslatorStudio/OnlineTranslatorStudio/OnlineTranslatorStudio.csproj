@@ -261,6 +261,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="tsconfig.json" />
     <Content Include="Views\Studio\_Status.cshtml" />
+    <Content Include="Views\Studio\_Tools.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -273,6 +274,7 @@
     <TypeScriptCompile Include="Javascript\DeskSetup.ts" />
     <TypeScriptCompile Include="Javascript\ProgressBarComponent.ts" />
     <TypeScriptCompile Include="Javascript\ProjectData.ts" />
+    <TypeScriptCompile Include="Javascript\SubTranslationData.ts" />
     <TypeScriptCompile Include="Javascript\TranslationData.ts" />
     <TypeScriptCompile Include="Scripts\index.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />

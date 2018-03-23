@@ -9,6 +9,7 @@
   },
   "files": [
     "./Javascript/ProjectData.ts",
+    "./Javascript/SubTranslationData.ts",
     "./Javascript/TranslationData.ts",
     "./Javascript/DeskHandler.ts",
     "./Javascript/DeskSetup.ts",

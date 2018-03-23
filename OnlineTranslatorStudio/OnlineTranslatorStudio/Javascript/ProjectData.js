@@ -1,3 +1,4 @@
+//https://blog.johnnyreilly.com/2014/02/typescript-and-requirejs-keep-it-simple.html
 var ProjectViewModel = /** @class */ (function () {
     function ProjectViewModel(data) {
         this.projectName = ko.observable(data.ProjectName);

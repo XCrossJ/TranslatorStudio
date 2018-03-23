@@ -48,6 +48,28 @@ var DeskHandler = /** @class */ (function () {
             });
         }
     };
+    DeskHandler.prototype.processEditMode = function (element) {
+        try {
+            switch (element.value) {
+                case "Marked":
+                    this.translationData.StartMarkedOnlyMode();
+                    break;
+                case "Incomplete":
+                    this.translationData.StartIncompleteOnlyMode();
+                    break;
+                case "Complete":
+                    this.translationData.StartCompleteOnlyMode();
+                    break;
+                case "Default":
+                default:
+                    this.translationData.StartDefaultMode();
+                    break;
+            }
+        }
+        catch (e) {
+            element.value = "Default";
+        }
+    };
     return DeskHandler;
 }());
 //# sourceMappingURL=DeskHandler.js.map

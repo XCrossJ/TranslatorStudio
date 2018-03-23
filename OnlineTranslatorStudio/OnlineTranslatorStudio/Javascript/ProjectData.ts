@@ -1,4 +1,6 @@
-﻿interface IProjectViewModel {
+﻿//https://blog.johnnyreilly.com/2014/02/typescript-and-requirejs-keep-it-simple.html
+
+interface IProjectViewModel {
     projectName: KnockoutObservable<string>;
     rawLines: KnockoutObservableArray<KnockoutObservable<string>>;
     translatedLines: KnockoutObservableArray<KnockoutObservable<string>>;

@@ -4,66 +4,26 @@
         <div class="card-group">
             <div id="rawSection" class="card">
                 <div class="card-header">
-                    <h5 class="card-title">Raw</h5>
+                    <h6 class="card-title">Raw</h6>
                 </div>
                 <div class="card-body">
-                    <textarea id="CurrentRaw" class="form-control" rows="5" data-bind="textInput: CurrentRaw"></textarea>
+                    <textarea id="CurrentRaw" class="form-control" rows="7" data-bind="textInput: CurrentRaw"></textarea>
                 </div>
                 <div class="card-footer">
-                    <button type="button" class="btn btn-outline-primary btn-block" onclick="translationData.DecrementIndex()"><<</button>
+                    <button id="decrementIndex" type="button" class="btn btn-outline-primary btn-block" data-toggle="tooltip" data-placement="bottom" title="Go to previous line"><<</button>
                 </div>
             </div>
             <div id="translationSection" class="card">
                 <div class="card-header">
-                    <h5 class="card-title">Translation</h5>
+                    <h6 class="card-title">Translation</h6>
                 </div>
                 <div class="card-body">
-                    <textarea id="CurrentTranslation" class="form-control" rows="5" data-bind="textInput: CurrentTranslation"></textarea>
+                    <textarea id="CurrentTranslation" class="form-control" rows="7" data-bind="textInput: CurrentTranslation"></textarea>
                 </div>
                 <div class="card-footer">
-                    <button type="button" class="btn btn-outline-primary btn-block" onclick="translationData.IncrementIndex()">>></button>
+                    <button id="incrementIndex" type="button" class="btn btn-outline-primary btn-block" data-toggle="tooltip" data-placement="bottom" title="Go to next line">>></button>
                 </div>
             </div>
         </div>
     </div>
-
-    <div id="miscSection">
-
-        <div id="checkSection">
-            <div class="col-12">
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" id="CurrentMarked" type="checkbox" data-bind="checked: CurrentMarked" />
-                    <label class="form-check-label" for="CurrentMarked">Marked</label>
-                </div>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" id="CurrentCompletion" type="checkbox" data-bind="checked: CurrentCompletion" />
-                    <label class="form-check-label" for="CurrentCompletion">Completed</label>
-                </div>
-            </div>
-        </div>
-
-        @*<div class="row justify-content-end">
-            <div class="col-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div id="checkSection">
-                            <div class="col-12">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" id="CurrentMarked" type="checkbox" data-bind="checked: CurrentMarked" />
-                                    <label class="form-check-label" for="CurrentMarked">Marked</label>
-                                </div>
-
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" id="CurrentCompletion" type="checkbox" data-bind="checked: CurrentCompletion" />
-                                    <label class="form-check-label" for="CurrentCompletion">Completed</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>*@
-    </div>
-
 </div>
