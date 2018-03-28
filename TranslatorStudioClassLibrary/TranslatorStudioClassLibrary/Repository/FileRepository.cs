@@ -46,9 +46,11 @@ namespace TranslatorStudioClassLibrary.Repository
         /// <returns>Object that implements Translation Data Interface.</returns>
         public ITranslationData OpenTextFile(string path, string fileName)
         {
-            StreamReader sr = new StreamReader(path, Encoding.Default, true);
-            var data = _translationDataFactory.CreateTranslationDataFromStream(fileName, sr);
-            return data;
+            using (StreamReader sr = new StreamReader(path, Encoding.Default, true))
+            {
+                var data = _translationDataFactory.CreateTranslationDataFromStream(fileName, sr);
+                return data;
+            }
         }
         /// <summary>
         /// Opens translation data from word document.
