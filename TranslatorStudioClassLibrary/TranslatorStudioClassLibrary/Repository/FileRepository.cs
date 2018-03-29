@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using TranslatorStudioClassLibrary.Class;
@@ -46,9 +47,11 @@ namespace TranslatorStudioClassLibrary.Repository
         /// <returns>Object that implements Translation Data Interface.</returns>
         public ITranslationData OpenTextFile(string path, string fileName)
         {
-            StreamReader sr = new StreamReader(path, Encoding.Default, true);
-            var data = _translationDataFactory.CreateTranslationDataFromStream(fileName, sr);
-            return data;
+            using (StreamReader sr = new StreamReader(path, Encoding.Default, true))
+            {
+                var data = _translationDataFactory.CreateTranslationDataFromStream(fileName, sr);
+                return data;
+            }
         }
         /// <summary>
         /// Opens translation data from word document.
@@ -79,7 +82,7 @@ namespace TranslatorStudioClassLibrary.Repository
         public ITranslationData OpenTSPFile(string path, string fileName)
         {
             string output = File.ReadAllText(path);
-            IProjectData projectData = JsonConvert.DeserializeObject<ProjectData>(output);
+            var projectData = OpenProject(output);
             var data = _translationDataFactory.CreateTranslationDataFromProject(projectData);
             return data;
         }
@@ -159,7 +162,89 @@ namespace TranslatorStudioClassLibrary.Repository
                 return false;
             }
         }
-        
+
+        #endregion
+
+        #region Private Methods
+        /// <summary>
+        /// Opens Project Data from JSON.
+        /// </summary>
+        /// <param name="jsonString">String used in conversion.</param>
+        /// <returns>Object that implements IProjectData interface.</returns>
+        private IProjectData OpenProject(string jsonString)
+        {
+            IProjectData projectData;
+
+            var success = TryConvertProjectV2(jsonString, out projectData);
+
+            if (success)
+                return projectData;
+            else
+                success = TryConvertProjectLegacy(jsonString, out projectData);
+
+            if (success)
+                return projectData;
+            else
+                throw new System.Exception("Unable to open file");
+        }
+
+        /// <summary>
+        /// Tries to convert Project Data from JSON using Project Data Version 2.
+        /// </summary>
+        /// <param name="jsonString">String used in conversion.</param>
+        /// <param name="projectData">Object that implements IProjectData interface.</param>
+        /// <returns>Result of attempt to convert project.</returns>
+        private bool TryConvertProjectV2(string jsonString, out IProjectData projectData)
+        {
+            try
+            {
+                projectData = JsonConvert.DeserializeObject<ProjectData>(jsonString);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                projectData = null;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Tries to convert Project Data from JSON using Legacy Project Data.
+        /// </summary>
+        /// <param name="jsonString">String used in conversion.</param>
+        /// <param name="projectData">Object that implements IProjectData interface.</param>
+        /// <returns>Result of attempt to convert project.</returns>
+        private bool TryConvertProjectLegacy(string jsonString, out IProjectData projectData)
+        {
+            try
+            {
+                var definition = new
+                {
+                    ProjectName = "",
+                    RawLines = new List<string>(),
+                    TranslatedLines = new List<string>(),
+                    CompletedLines = new List<bool>(),
+                    MarkedLines = new List<bool>(),
+                };
+                var oldProject = JsonConvert.DeserializeAnonymousType(jsonString, definition);
+
+                projectData = new ProjectData
+                {
+                    ProjectName = oldProject.ProjectName,
+                    RawLines = oldProject.RawLines,
+                    TranslatedLines = oldProject.TranslatedLines,
+                    CompletedLines = oldProject.CompletedLines,
+                    MarkedLines = oldProject.MarkedLines
+                };
+                
+                return true;
+            }
+            catch (System.Exception)
+            {
+                projectData = null;
+                return false;
+            }
+        }
         #endregion
     }
 }
