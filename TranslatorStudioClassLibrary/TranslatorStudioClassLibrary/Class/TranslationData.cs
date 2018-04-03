@@ -60,54 +60,26 @@ namespace TranslatorStudioClassLibrary.Class
             set => _data.ProjectName = SetPropertyValue(value);
         }
         /// <summary>
-        /// Contains all of the raw lines in the translation.
+        /// Contains all lines in the translation.
         /// </summary>
-        public List<string> RawLines
-        {
-            get => _data.RawLines;
-            set => _data.RawLines = SetPropertyValue(value);
-        }
-        /// <summary>
-        /// Contains all of the translated lines in the translation.
-        /// </summary>
-        public List<string> TranslatedLines
-        {
-            get => _data.TranslatedLines;
-            set => _data.TranslatedLines = SetPropertyValue(value);
-        }
-        /// <summary>
-        /// Contains the completion status of each line in the translation.
-        /// </summary>
-        public List<bool> CompletedLines
-        {
-            get => _data.CompletedLines;
-            set => _data.CompletedLines = SetPropertyValue(value);
-        }
-        /// <summary>
-        /// Contains the marked status of each line in the translation.
-        /// </summary>
-        public List<bool> MarkedLines
-        {
-            get => _data.MarkedLines;
-            set => _data.MarkedLines = SetPropertyValue(value);
-        }
+        public List<IProjectLine> ProjectLines { get => _data.ProjectLines; set => _data.ProjectLines = value; }
 
         #endregion
 
         #region Project Controls
 
         /// <summary>
-        /// The current raw line in the translation.
+        /// The current project line in the translation.
         /// </summary>
-        public string CurrentRaw
+        public IProjectLine CurrentLine
         {
             get
             {
                 var index = DefaultTranslationMode ?
-                    (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
-                    : _subData.CurrentReference;
+                   (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
+                   : _subData.CurrentReference;
 
-                return RawLines[index];
+                return ProjectLines[index];
             }
             set
             {
@@ -115,75 +87,26 @@ namespace TranslatorStudioClassLibrary.Class
                     (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
                     : _subData.CurrentReference;
 
-                RawLines[index] = SetPropertyValue(value);
+                ProjectLines[index] = SetPropertyValue(value);
             }
         }
+
+        /// <summary>
+        /// The current raw line in the translation.
+        /// </summary>
+        public string CurrentRaw { get => CurrentLine.Raw; set => CurrentLine.Raw = SetPropertyValue(value); }
         /// <summary>
         /// The current translated line in the translation.
         /// </summary>
-        public string CurrentTranslation
-        {
-            get
-            {
-                var index = DefaultTranslationMode ?
-                    (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
-                    : _subData.CurrentReference;
-
-                return TranslatedLines[index];
-            }
-            set
-            {
-                var index = DefaultTranslationMode ?
-                    (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
-                    : _subData.CurrentReference;
-
-                TranslatedLines[index] = SetPropertyValue(value);
-            }
-        }
+        public string CurrentTranslation { get => CurrentLine.Translation; set => CurrentLine.Translation = SetPropertyValue(value); }
         /// <summary>
         /// The completion status of the current line in the translation.
         /// </summary>
-        public bool CurrentCompletion
-        {
-            get
-            {
-                var index = DefaultTranslationMode ?
-                    (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
-                    : _subData.CurrentReference;
-
-                return CompletedLines[index];
-            }
-            set
-            {
-                var index = DefaultTranslationMode ?
-                    (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
-                    : _subData.CurrentReference;
-
-                CompletedLines[index] = SetPropertyValue(value);
-            }
-        }
+        public bool CurrentCompletion { get => CurrentLine.Completed; set => CurrentLine.Completed = SetPropertyValue(value); }
         /// <summary>
         /// The marked status of the current line in the translation.
         /// </summary>
-        public bool CurrentMarked
-        {
-            get
-            {
-                var index = DefaultTranslationMode ?
-                    (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
-                    : _subData.CurrentReference;
-
-                return MarkedLines[index];
-            }
-            set
-            {
-                var index = DefaultTranslationMode ?
-                    (AutoTranslationMode ? _autoData.CurrentReference : CurrentIndex)
-                    : _subData.CurrentReference;
-
-                MarkedLines[index] = SetPropertyValue(value);
-            }
-        }
+        public bool CurrentMarked { get => CurrentLine.Marked; set => CurrentLine.Marked = SetPropertyValue(value); }
 
         /// <summary>
         /// Private property that contains the current index.
@@ -222,7 +145,7 @@ namespace TranslatorStudioClassLibrary.Class
             get
             {
                 if (DefaultTranslationMode)
-                    return AutoTranslationMode ? _autoData.MaxIndex : RawLines.Count - 1;
+                    return AutoTranslationMode ? _autoData.MaxIndex : ProjectLines.Count - 1;
                 else
                     return _subData.MaxIndex;
             }
@@ -231,7 +154,7 @@ namespace TranslatorStudioClassLibrary.Class
         /// <summary>
         /// The number of lines in the translation.
         /// </summary>
-        public int NumberOfLines => AutoTranslationMode ? _autoData.NumberOfLines : RawLines.Count;
+        public int NumberOfLines => AutoTranslationMode ? _autoData.NumberOfLines : ProjectLines.Count;
         /// <summary>
         ///The number of completed lines in the translation.
         /// </summary>
@@ -239,9 +162,9 @@ namespace TranslatorStudioClassLibrary.Class
         {
             get
             {
-                return CompletedLines.Select((v, i) => new { v, i })
-                        .Where(x => x.v == true && (AutoTranslationMode ? RawLines[x.i].Any() : true))
-                        .Select(x => x.i).ToList().Count();
+                return ProjectLines
+                    .Where(x => x.Completed == true && (AutoTranslationMode ? x.Raw.Any() : true))
+                    .Select(x => x).ToList().Count();
             }
         }
 
@@ -299,8 +222,8 @@ namespace TranslatorStudioClassLibrary.Class
                 if (_autoMode)
                 {
                     var testIndex = _autoData.CurrentReference != 0 ? _autoData.CurrentReference - 1 : 0;
-                    if (string.IsNullOrWhiteSpace(RawLines[testIndex]))
-                        CompletedLines[testIndex] = true;
+                    if (string.IsNullOrWhiteSpace(ProjectLines[testIndex].Raw))
+                        ProjectLines[testIndex].Completed = true;
                 }
             }
         }
@@ -315,8 +238,8 @@ namespace TranslatorStudioClassLibrary.Class
                 if (_autoMode)
                 {
                     var testIndex = _autoData.CurrentReference != 0 ? _autoData.CurrentReference - 1 : 0;
-                    if (string.IsNullOrWhiteSpace(RawLines[testIndex]))
-                        CompletedLines[testIndex] = true;
+                    if (string.IsNullOrWhiteSpace(ProjectLines[testIndex].Raw))
+                        ProjectLines[testIndex].Completed = true;
                 }
             }
         }
@@ -331,10 +254,16 @@ namespace TranslatorStudioClassLibrary.Class
             int insertionIndex = index ?? NumberOfLines;
 
             rawValue = rawValue ?? "";
-            RawLines.Insert(insertionIndex, rawValue);
-            TranslatedLines.Insert(insertionIndex, "");
-            CompletedLines.Insert(insertionIndex, false);
-            MarkedLines.Insert(insertionIndex, false);
+
+            var newLine = new ProjectLine
+            {
+                Raw = rawValue,
+                Translation = "",
+                Completed = false,
+                Marked = false
+            };
+
+            ProjectLines.Insert(insertionIndex, newLine);
         }
         /// <summary>
         /// Removes line from project data at index.
@@ -347,10 +276,7 @@ namespace TranslatorStudioClassLibrary.Class
                 throw ExceptionHelper.NewRemovalOfLastLineException;
             int insertionIndex = index ?? MaxIndex;
 
-            RawLines.RemoveAt(insertionIndex);
-            TranslatedLines.RemoveAt(insertionIndex);
-            CompletedLines.RemoveAt(insertionIndex);
-            MarkedLines.RemoveAt(insertionIndex);
+            ProjectLines.RemoveAt(insertionIndex);
         }
 
         /// <summary>
@@ -371,7 +297,8 @@ namespace TranslatorStudioClassLibrary.Class
         {
             if (autoOn)
             {
-                var nonEmptyRaw = RawLines.Select(x => x.IsNotEmpty()).ToList();
+                var rawLines = ProjectLines.Select(x => x.Raw).ToList();
+                var nonEmptyRaw = rawLines.Select(x => x.IsNotEmpty()).ToList();
                 _autoData = _subTranslationDataFactory.GetSubData(nonEmptyRaw);
 
                 _autoMode = true;
@@ -397,10 +324,12 @@ namespace TranslatorStudioClassLibrary.Class
         public int StartMarkedOnlyMode()
         {
             List<bool> conditionList;
+            var rawLines = ProjectLines.Select(x => x.Raw).ToList();
+            var markedLines = ProjectLines.Select(x => x.Marked).ToList();
             if (_autoMode)
-                conditionList = RawLines.Select((v, i) => new { v, i }).Select(x => MarkedLines[x.i] && x.v.IsNotEmpty()).ToList();
+                conditionList = rawLines.Select((v, i) => new { v, i }).Select(x => markedLines[x.i] && x.v.IsNotEmpty()).ToList();
             else
-                conditionList = MarkedLines;
+                conditionList = markedLines;
 
             _subData = _subTranslationDataFactory.GetSubData(conditionList);
             DefaultTranslationMode = false;
@@ -414,10 +343,12 @@ namespace TranslatorStudioClassLibrary.Class
         public int StartIncompleteOnlyMode()
         {
             List<bool> conditionList;
+            var rawLines = ProjectLines.Select(x => x.Raw).ToList();
+            var completedLines = ProjectLines.Select(x => x.Completed).ToList();
             if (_autoMode)
-                conditionList = RawLines.Select((v, i) => new { v, i }).Select(x => !CompletedLines[x.i] && x.v.IsNotEmpty()).ToList();
+                conditionList = rawLines.Select((v, i) => new { v, i }).Select(x => !completedLines[x.i] && x.v.IsNotEmpty()).ToList();
             else
-                conditionList = CompletedLines.Select(x => !x).ToList();
+                conditionList = completedLines.Select(x => !x).ToList();
 
             _subData = _subTranslationDataFactory.GetSubData(conditionList);
             DefaultTranslationMode = false;
@@ -431,10 +362,12 @@ namespace TranslatorStudioClassLibrary.Class
         public int StartCompleteOnlyMode()
         {
             List<bool> conditionList;
+            var rawLines = ProjectLines.Select(x => x.Raw).ToList();
+            var completedLines = ProjectLines.Select(x => x.Completed).ToList();
             if (_autoMode)
-                conditionList = RawLines.Select((v, i) => new { v, i }).Select(x => CompletedLines[x.i] && x.v.IsNotEmpty()).ToList();
+                conditionList = rawLines.Select((v, i) => new { v, i }).Select(x => completedLines[x.i] && x.v.IsNotEmpty()).ToList();
             else
-                conditionList = CompletedLines;
+                conditionList = completedLines;
 
             _subData = _subTranslationDataFactory.GetSubData(conditionList);
             DefaultTranslationMode = false;

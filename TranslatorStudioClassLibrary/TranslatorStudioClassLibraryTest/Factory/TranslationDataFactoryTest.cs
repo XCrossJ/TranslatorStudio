@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.Office.Interop.Word;
 using Moq;
 using TranslatorStudioClassLibrary.Class;
@@ -43,7 +44,6 @@ namespace TranslatorStudioClassLibraryTest.Factory
             }
 
             #region Constructor Tests
-
             /// <summary>
             /// Given that Translation Data Factory is invoked, Default Constructor returns valid Translation Data Factory.
             /// </summary>
@@ -94,7 +94,6 @@ namespace TranslatorStudioClassLibraryTest.Factory
                 //Act, Assert
                 Assert.Throws<ArgumentNullException>("subTranslationDataFactory", () => new TranslationDataFactory(projectFactory, null));
             }
-
             #endregion
         }
 
@@ -114,21 +113,9 @@ namespace TranslatorStudioClassLibraryTest.Factory
             /// </summary>
             private readonly string mockProjectName;
             /// <summary>
-            /// Mock of Raw Lines.
+            /// Mock of Project Lines.
             /// </summary>
-            private readonly List<string> mockRawLines;
-            /// <summary>
-            /// Mock of Translated Lines.
-            /// </summary>
-            private readonly List<string> mockTranslatedLines;
-            /// <summary>
-            /// Mock of Marked Lines.
-            /// </summary>
-            private readonly List<bool> mockMarkedLines;
-            /// <summary>
-            /// Mock of Completed Lines.
-            /// </summary>
-            private readonly List<bool> mockCompletedLines;
+            private readonly List<IProjectLine> mockProjectLines;
 
             /// <summary>
             /// Mock of Project Data Factory.
@@ -150,83 +137,24 @@ namespace TranslatorStudioClassLibraryTest.Factory
             {
                 mockProjectName = "Mock Test Project Name";
 
-                mockRawLines = new List<string>
+                mockProjectLines = new List<IProjectLine>
                 {
-                    "Raw Line 1",
-                    "Raw Line 2",
-                    "Raw Line 3",
-                    "Raw Line 4",
-                    "Raw Line 5",
-                    "Raw Line 6",
-                    "Raw Line 7",
-                    "Raw Line 8",
-                    "Raw Line 9",
-                    "Raw Line 10"
-                };
-
-                mockTranslatedLines = new List<string>
-                {
-                    "Translated Line 1",
-                    "Translated Line 2",
-                    "Translated Line 3",
-                    "Translated Line 4",
-                    "Translated Line 5",
-                    "Translated Line 6",
-                    "Translated Line 7",
-                    "Translated Line 8",
-                    "Translated Line 9",
-                    "Translated Line 10"
-                };
-
-                mockMarkedLines = new List<bool>
-                {
-                    true,
-                    false,
-                    true,
-                    false,
-                    false,
-                    true,
-                    false,
-                    true,
-                    true,
-                    false
-                };
-
-                mockCompletedLines = new List<bool>
-                {
-                    false,
-                    false,
-                    true,
-                    false,
-                    true,
-                    true,
-                    true,
-                    false,
-                    true,
-                    false
+                    new ProjectLine { Raw = "Raw Line 1",   Translation = "Translated Line 1",      Completed = false,  Marked = true },
+                    new ProjectLine { Raw = "Raw Line 2",   Translation = "Translated Line 2",      Completed = false,  Marked = false },
+                    new ProjectLine { Raw = "Raw Line 3",   Translation = "Translated Line 3",      Completed = true,   Marked = true },
+                    new ProjectLine { Raw = "Raw Line 4",   Translation = "Translated Line 4",      Completed = false,  Marked = false },
+                    new ProjectLine { Raw = "Raw Line 5",   Translation = "Translated Line 5",      Completed = true,   Marked = false },
+                    new ProjectLine { Raw = "Raw Line 6",   Translation = "Translated Line 6",      Completed = true,   Marked = true },
+                    new ProjectLine { Raw = "Raw Line 7",   Translation = "Translated Line 7",      Completed = true,   Marked = false },
+                    new ProjectLine { Raw = "Raw Line 8",   Translation = "Translated Line 8",      Completed = false,  Marked = true },
+                    new ProjectLine { Raw = "Raw Line 9",   Translation = "Translated Line 9",      Completed = true,   Marked = true },
+                    new ProjectLine { Raw = "Raw Line 10",  Translation = "Translated Line 10",     Completed = false,  Marked = false }
                 };
 
                 mockProjectData = new Mock<IProjectData>();
-
-                mockProjectData.Setup(
-                        x => x.ProjectName)
-                    .Returns(mockProjectName);
-
-                mockProjectData.Setup(
-                        x => x.RawLines)
-                    .Returns(mockRawLines);
-
-                mockProjectData.Setup(
-                        x => x.TranslatedLines)
-                    .Returns(mockTranslatedLines);
-
-                mockProjectData.Setup(
-                        x => x.MarkedLines)
-                    .Returns(mockMarkedLines);
-
-                mockProjectData.Setup(
-                        x => x.CompletedLines)
-                    .Returns(mockCompletedLines);
+                mockProjectData.SetupAllProperties();
+                mockProjectData.Object.ProjectName = mockProjectName;
+                mockProjectData.Object.ProjectLines = mockProjectLines;
 
                 mockProjectDataFactory = new Mock<IProjectDataFactory>();
 
@@ -248,7 +176,6 @@ namespace TranslatorStudioClassLibraryTest.Factory
             }
 
             #region Methods Tests
-
             /// <summary>
             /// Given that Raw Lines passed is valid, Create Translation Data From Array returns valid Translation Data.
             /// </summary>
@@ -262,7 +189,7 @@ namespace TranslatorStudioClassLibraryTest.Factory
                 };
 
                 // Act
-                var actual = translationDataFactory.CreateTranslationDataFromArray(mockProjectName, mockRawLines.ToArray());
+                var actual = translationDataFactory.CreateTranslationDataFromArray(mockProjectName, mockProjectLines.Select(x => x.Raw).ToArray());
 
                 // Assert
                 Assert.IsType<TranslationData>(actual);
@@ -280,10 +207,7 @@ namespace TranslatorStudioClassLibraryTest.Factory
                 var data = new ProjectData()
                 {
                     ProjectName = mockProjectName,
-                    RawLines = mockRawLines,
-                    TranslatedLines = mockTranslatedLines,
-                    CompletedLines = mockCompletedLines,
-                    MarkedLines = mockMarkedLines
+                    ProjectLines = mockProjectLines
                 };
                 var expected = new TranslationData(data, mockSubTranslationDataFactory.Object);
 
@@ -353,7 +277,6 @@ namespace TranslatorStudioClassLibraryTest.Factory
                 Assert.NotStrictEqual(expected, actual);
                 Assert.Equal(expectedDataChanged, actualDataChanged);
             }
-
             #endregion
         }
 
@@ -389,7 +312,6 @@ namespace TranslatorStudioClassLibraryTest.Factory
             }
 
             #region Exception Tests
-
             /// <summary>
             /// Given that Project Data has empty raw, Create Translation Data From Project will throw EmptyRaw Exception.
             /// </summary>
@@ -400,7 +322,7 @@ namespace TranslatorStudioClassLibraryTest.Factory
                 // Arrange
                 IProjectData data = new ProjectData()
                 {
-                    RawLines = new List<string>()
+                    ProjectLines = new List<IProjectLine>()
                 };
 
                 var expectedMessage = "No Raw Lines were submitted into the project.";
@@ -415,7 +337,6 @@ namespace TranslatorStudioClassLibraryTest.Factory
                 Assert.NotStrictEqual(expected, actual);
                 Assert.Equal(expectedMessage, actualMessage);
             }
-
             #endregion
         }
     }

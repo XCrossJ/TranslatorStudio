@@ -53,10 +53,7 @@ namespace TranslatorStudioClassLibraryTest.Utilities
             mockProjectData = new ProjectData()
             {
                 ProjectName = mockProjectName,
-                RawLines = mockRawLines,
-                TranslatedLines = mockTranslatedLines,
-                CompletedLines = mockCompletedLines,
-                MarkedLines = mockMarkedLines
+                ProjectLines = new List<IProjectLine>()
             };
         }
 

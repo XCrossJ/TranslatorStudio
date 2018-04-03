@@ -150,9 +150,9 @@ namespace TranslatorStudioClassLibrary.Repository
             {
                 using (StreamWriter sw = new StreamWriter(path))
                 {
-                    foreach (var item in data.TranslatedLines)
+                    foreach (var item in data.ProjectLines)
                     {
-                        sw.WriteLine(item);
+                        sw.WriteLine(item.Translation);
                     }
                 }
                 return true;
@@ -228,13 +228,23 @@ namespace TranslatorStudioClassLibrary.Repository
                 };
                 var oldProject = JsonConvert.DeserializeAnonymousType(jsonString, definition);
 
+                var projectLines = new List<IProjectLine>();
+
+                for (int i = 0; i < oldProject.RawLines.Count - 1; i++)
+                {
+                    projectLines.Add(new ProjectLine
+                    {
+                        Raw = oldProject.RawLines[i],
+                        Translation = oldProject.TranslatedLines[i],
+                        Completed = oldProject.CompletedLines[i],
+                        Marked = oldProject.MarkedLines[i]
+                    });
+                }
+
                 projectData = new ProjectData
                 {
                     ProjectName = oldProject.ProjectName,
-                    RawLines = oldProject.RawLines,
-                    TranslatedLines = oldProject.TranslatedLines,
-                    CompletedLines = oldProject.CompletedLines,
-                    MarkedLines = oldProject.MarkedLines
+                    ProjectLines = projectLines
                 };
                 
                 return true;
