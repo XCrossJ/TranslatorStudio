@@ -562,7 +562,6 @@ namespace TranslatorStudioClassLibraryTest.Class
             }
 
             #region Methods Tests
-
             /// <summary>
             /// Given that Current Index is assigned a valid integer below Max Index, Increment Current Line increments the current index.
             /// </summary>
@@ -1006,680 +1005,530 @@ namespace TranslatorStudioClassLibraryTest.Class
             #endregion
         }
 
-        ///// <summary>
-        ///// Contains tests to run against Translation Data methods that exhibit different behaviour during auto mode.
-        ///// </summary>
-        //[Trait("Category", "Unit")]
-        //[Trait("Class", "Translation Data")]
-        //public class AutoMode
-        //{
-        //    /// <summary>
-        //    /// Mock of Project Data.
-        //    /// </summary>
-        //    private readonly Mock<IProjectData> mockProjectData;
-        //    /// <summary>
-        //    /// Mock of Project Name.
-        //    /// </summary>
-        //    private readonly string mockProjectName;
-        //    /// <summary>
-        //    /// Mock of Project Lines.
-        //    /// </summary>
-        //    private readonly List<IProjectLine> mockProjectLines;
-
-        //    /// <summary>
-        //    /// Mock of Sub Translation Data Factory.
-        //    /// </summary>
-        //    private readonly Mock<ISubTranslationDataFactory> mockSubTranslationDataFactory;
-        //    /// <summary>
-        //    /// Mock of Sub Translation Data.
-        //    /// </summary>
-        //    private readonly Mock<ISubTranslationData> mockSubData;
-        //    /// <summary>
-        //    /// Translation Data under test.
-        //    /// </summary>
-        //    private ITranslationData translationData;
-
-        //    /// <summary>
-        //    /// Constructor for test setup.
-        //    /// </summary>
-        //    public AutoMode()
-        //    {
-        //        mockProjectName = "Mock Test Project Name";
-
-        //        mockProjectLines = new List<IProjectLine>
-        //        {
-        //            new ProjectLine { Raw = "Raw Line 1",   Translation = "Translated Line 1",      Completed = false,  Marked = true },
-        //            new ProjectLine { Raw = "",             Translation = "Translated Line 2",      Completed = false,  Marked = false },
-        //            new ProjectLine { Raw = "Raw Line 3",   Translation = "Translated Line 3",      Completed = true,   Marked = true },
-        //            new ProjectLine { Raw = "Raw Line 4",   Translation = "Translated Line 4",      Completed = false,  Marked = false },
-        //            new ProjectLine { Raw = "",             Translation = "Translated Line 5",      Completed = true,   Marked = false },
-        //            new ProjectLine { Raw = "",             Translation = "Translated Line 6",      Completed = true,   Marked = true },
-        //            new ProjectLine { Raw = "Raw Line 7",   Translation = "Translated Line 7",      Completed = true,   Marked = false },
-        //            new ProjectLine { Raw = "",             Translation = "Translated Line 8",      Completed = false,  Marked = true },
-        //            new ProjectLine { Raw = "Raw Line 9",   Translation = "Translated Line 9",      Completed = true,   Marked = true },
-        //            new ProjectLine { Raw = "Raw Line 10",  Translation = "Translated Line 10",     Completed = false,  Marked = false }
-        //        };
-
-
-        //        mockProjectData = new Mock<IProjectData>();
-
-        //        mockProjectData.SetupAllProperties();
-        //        mockProjectData.Object.ProjectName = mockProjectName;
-        //        mockProjectData.Object.ProjectLines = mockProjectLines;
-
-        //        mockSubTranslationDataFactory = new Mock<ISubTranslationDataFactory>();
-
-        //        mockSubTranslationDataFactory.Setup(
-        //                x => x.GetSubData(It.IsAny<List<bool>>()))
-        //            .Returns((ISubTranslationData)null);
-
-        //        mockSubData = new Mock<ISubTranslationData>();
-        //        mockSubData.SetupAllProperties();
-
-        //        translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
-        //    }
-
-        //    #region Auto Mode Tests
-
-        //    /// <summary>
-        //    /// Given that Auto Mode is off, Toggle Auto Mode switches translation project to auto translation mode.
-        //    /// </summary>
-        //    [Fact]
-        //    public void TranslationData_ToggleAutoMode_On_Test()
-        //    {
-        //        //Arrange
-        //        var indices = mockProjectLines
-        //            .Select(x => x.Raw.IsNotEmpty())
-        //            .Select((v, i) => new { v, i })
-        //            .Where(x => x.v)
-        //            .Select(x => x.i).ToList();
-
-        //        mockSubData.Object.IndexReference = indices;
-        //        mockSubData.Setup(
-        //                x => x.MaxIndex)
-        //            .Returns(mockSubData.Object.IndexReference.Count - 1);
-        //        mockSubData.Setup(
-        //                x => x.NumberOfLines)
-        //            .Returns(mockSubData.Object.IndexReference.Count);
-
-        //        var expectedNumberOfLines = indices.Count;
-        //        var expectedMaxIndex = expectedNumberOfLines - 1;
-        //        var expectedComplete = indices.Where(x => mockProjectLines[x].Completed == true).Count();
-
-        //        mockSubTranslationDataFactory.Setup(
-        //                x => x.GetSubData(It.IsAny<List<bool>>()))
-        //            .Returns(mockSubData.Object);
-
-        //        //Act
-        //        var actualNumberOfLines = translationData.ToggleAutoMode(true);
-        //        var actualComplete = translationData.NumberOfCompletedLines;
-        //        var actualMaxIndex = translationData.MaxIndex;
-        //        var actualMode = translationData.DefaultTranslationMode;
-        //        var actualAutoMode = translationData.AutoTranslationMode;
-
-        //        //Assert
-        //        mockProjectData.Verify(
-        //                x => x.ProjectLines,
-        //            Times.AtLeastOnce);
-        //        mockSubData.Verify(
-        //                x => x.NumberOfLines,
-        //            Times.Once);
-        //        mockSubData.Verify(
-        //                x => x.MaxIndex,
-        //            Times.Once);
-
-        //        Assert.IsType<int>(actualNumberOfLines);
-        //        Assert.Equal(expectedNumberOfLines, actualNumberOfLines);
-        //        Assert.IsType<int>(actualComplete);
-        //        Assert.Equal(expectedComplete, actualComplete);
-        //        Assert.IsType<int>(actualMaxIndex);
-        //        Assert.Equal(expectedMaxIndex, actualMaxIndex);
-        //        Assert.IsType<bool>(actualMode);
-        //        Assert.True(actualMode);
-        //        Assert.IsType<bool>(actualAutoMode);
-        //        Assert.True(actualAutoMode);
-
-        //        foreach (var index in indices)
-        //        {
-        //            Assert.True(mockProjectLines[index].Raw.IsNotEmpty());
-        //            Assert.True(translationData.ProjectLines[index].Raw.IsNotEmpty());
-
-        //            Assert.Equal(mockRawLines[index], translationData.RawLines[index]);
-        //            Assert.Equal(mockTranslatedLines[index], translationData.TranslatedLines[index]);
-        //            Assert.Equal(mockMarkedLines[index], translationData.MarkedLines[index]);
-        //            Assert.Equal(mockCompletedLines[index], translationData.CompletedLines[index]);
-        //        }
-
-        //        mockProjectData.Verify(
-        //                x => x.RawLines,
-        //            Times.Exactly(expectedNumberOfLines * 2 + 1 + mockCompletedLines.Where(x => x).Count()));
-
-        //        mockProjectData.Verify(
-        //                x => x.TranslatedLines,
-        //            Times.Exactly(expectedNumberOfLines));
-
-        //        mockProjectData.Verify(
-        //                x => x.MarkedLines,
-        //            Times.Exactly(expectedNumberOfLines));
-
-        //        mockProjectData.Verify(
-        //                x => x.CompletedLines,
-        //            Times.Exactly(expectedNumberOfLines + 1));
-        //    }
-
-        //    /// <summary>
-        //    /// Given that Auto Mode is on, Toggle Auto Mode switches translation project to auto translation mode.
-        //    /// </summary>
-        //    [Fact]
-        //    public void TranslationData_ToggleAutoMode_Off_Test()
-        //    {
-        //        //Arrange
-        //        var indices = mockRawLines
-        //            .Select(x => x.IsNotEmpty())
-        //            .Select((v, i) => new { v, i })
-        //            .Where(x => x.v)
-        //            .Select(x => x.i).ToList();
-
-        //        mockSubData.Object.IndexReference = indices;
-        //        mockSubData.Setup(
-        //                x => x.MaxIndex)
-        //            .Returns(mockSubData.Object.IndexReference.Count - 1);
-        //        mockSubData.Setup(
-        //                x => x.NumberOfLines)
-        //            .Returns(mockSubData.Object.IndexReference.Count);
-
-        //        var expectedNumberOfLines = mockRawLines.Count;
-        //        var expectedMaxIndex = expectedNumberOfLines - 1;
-        //        var expectedComplete = mockCompletedLines.Where(x => x).Count();
-
-        //        mockSubTranslationDataFactory.Setup(
-        //                x => x.GetSubData(It.IsAny<List<bool>>()))
-        //            .Returns(mockSubData.Object);
-
-        //        //Act
-        //        translationData.ToggleAutoMode(true);
-        //        var actualNumberOfLines = translationData.ToggleAutoMode(false);
-        //        var actualComplete = translationData.NumberOfCompletedLines;
-        //        var actualMaxIndex = translationData.MaxIndex;
-        //        var actualMode = translationData.DefaultTranslationMode;
-        //        var actualAutoMode = translationData.AutoTranslationMode;
-
-        //        //Assert
-        //        mockProjectData.Verify(
-        //                x => x.RawLines,
-        //            Times.AtLeastOnce);
-        //        mockSubData.Verify(
-        //                x => x.NumberOfLines,
-        //            Times.Once);
-
-        //        Assert.IsType<int>(actualNumberOfLines);
-        //        Assert.Equal(expectedNumberOfLines, actualNumberOfLines);
-        //        Assert.IsType<int>(actualComplete);
-        //        Assert.Equal(expectedComplete, actualComplete);
-        //        Assert.IsType<int>(actualMaxIndex);
-        //        Assert.Equal(expectedMaxIndex, actualMaxIndex);
-        //        Assert.IsType<bool>(actualMode);
-        //        Assert.True(actualMode);
-        //        Assert.IsType<bool>(actualAutoMode);
-        //        Assert.False(actualAutoMode);
-
-        //        for (int i = 0; i < expectedNumberOfLines; i++)
-        //        {
-        //            Assert.Equal(mockRawLines[i], translationData.RawLines[i]);
-        //            Assert.Equal(mockTranslatedLines[i], translationData.TranslatedLines[i]);
-        //            Assert.Equal(mockMarkedLines[i], translationData.MarkedLines[i]);
-        //            Assert.Equal(mockCompletedLines[i], translationData.CompletedLines[i]);
-        //        }
-
-        //        mockProjectData.Verify(
-        //                x => x.RawLines,
-        //            Times.Exactly(expectedNumberOfLines + 3));
-
-        //        mockProjectData.Verify(
-        //                x => x.TranslatedLines,
-        //            Times.Exactly(expectedNumberOfLines));
-
-        //        mockProjectData.Verify(
-        //                x => x.MarkedLines,
-        //            Times.Exactly(expectedNumberOfLines));
-
-        //        mockProjectData.Verify(
-        //                x => x.CompletedLines,
-        //            Times.Exactly(expectedNumberOfLines + 1));
-        //    }
-
-        //    /// <summary>
-        //    /// Given that Translation Data is in Auto Mode, Start Marked Only Mode switches translation project to marked only mode.
-        //    /// </summary>
-        //    [Fact]
-        //    public void TranslationData_StartMarkedOnlyMode_AutoModeTest()
-        //    {
-        //        //Arrange
-        //        var indices = mockRawLines
-        //            .Select(x => x.IsNotEmpty())
-        //            .Select((v, i) => new { v, i })
-        //            .Where(x => mockMarkedLines[x.i] && x.v)
-        //            .Select(x => x.i).ToList();
-
-        //        mockSubData.Object.IndexReference = indices;
-        //        mockSubData.Setup(
-        //                x => x.MaxIndex)
-        //            .Returns(mockSubData.Object.IndexReference.Count - 1);
-        //        mockSubData.Setup(
-        //                x => x.NumberOfLines)
-        //            .Returns(mockSubData.Object.IndexReference.Count);
-
-        //        var expectedNumberOfLines = indices.Count;
-        //        var expectedMaxIndex = expectedNumberOfLines - 1;
-        //        var expectedComplete = indices.Where(x => mockMarkedLines[x] == true).Count();
-
-        //        mockSubTranslationDataFactory.Setup(
-        //                x => x.GetSubData(It.IsAny<List<bool>>()))
-        //            .Returns(mockSubData.Object);
-
-        //        //Act
-        //        translationData.ToggleAutoMode(true);
-        //        var actualNumberOfLines = translationData.StartMarkedOnlyMode();
-        //        var actualComplete = translationData.NumberOfCompletedLines;
-        //        var actualMaxIndex = translationData.MaxIndex;
-        //        var actualMode = translationData.DefaultTranslationMode;
-        //        var actualAutoMode = translationData.AutoTranslationMode;
-
-        //        //Assert
-        //        mockProjectData.Verify(
-        //                x => x.MarkedLines,
-        //            Times.Exactly(mockRawLines.Count));
-        //        mockSubData.Verify(
-        //                x => x.NumberOfLines,
-        //            Times.Exactly(2));
-        //        mockSubData.Verify(
-        //                x => x.MaxIndex,
-        //            Times.Once);
-
-        //        Assert.IsType<int>(actualNumberOfLines);
-        //        Assert.Equal(expectedNumberOfLines, actualNumberOfLines);
-        //        Assert.IsType<int>(actualComplete);
-        //        Assert.Equal(expectedComplete, actualComplete);
-        //        Assert.IsType<int>(actualMaxIndex);
-        //        Assert.Equal(expectedMaxIndex, actualMaxIndex);
-        //        Assert.IsType<bool>(actualMode);
-        //        Assert.False(actualMode);
-        //        Assert.IsType<bool>(actualAutoMode);
-        //        Assert.True(actualAutoMode);
-
-        //        foreach (var index in indices)
-        //        {
-        //            Assert.True(mockMarkedLines[index]);
-        //            Assert.True(translationData.MarkedLines[index]);
-
-        //            Assert.True(mockRawLines[index].IsNotEmpty());
-        //            Assert.True(translationData.RawLines[index].IsNotEmpty());
-
-        //            Assert.Equal(mockRawLines[index], translationData.RawLines[index]);
-        //            Assert.Equal(mockTranslatedLines[index], translationData.TranslatedLines[index]);
-        //            Assert.Equal(mockMarkedLines[index], translationData.MarkedLines[index]);
-        //            Assert.Equal(mockCompletedLines[index], translationData.CompletedLines[index]);
-        //        }
-
-        //        mockProjectData.Verify(
-        //                x => x.RawLines,
-        //            Times.Exactly(expectedNumberOfLines * 2 + 2 + mockCompletedLines.Where(x => x).Count()));
-
-        //        mockProjectData.Verify(
-        //                x => x.TranslatedLines,
-        //            Times.Exactly(expectedNumberOfLines));
-
-        //        mockProjectData.Verify(
-        //                x => x.MarkedLines,
-        //            Times.Exactly(expectedNumberOfLines * 2 + mockRawLines.Count));
-
-        //        mockProjectData.Verify(
-        //                x => x.CompletedLines,
-        //            Times.Exactly(expectedNumberOfLines + 1));
-
-        //    }
-
-        //    /// <summary>
-        //    /// Given that Translation Data is in Auto Mode, Start Incomplete Only Mode switches translation project to incomplete only mode.
-        //    /// </summary>
-        //    [Fact]
-        //    public void TranslationData_StartIncompleteOnlyMode_AutoModeTest()
-        //    {
-        //        //Arrange
-        //        var indices = mockRawLines
-        //            .Select(x => x.IsNotEmpty())
-        //            .Select((v, i) => new { v, i })
-        //            .Where(x => !mockCompletedLines[x.i] && x.v)
-        //            .Select(x => x.i).ToList();
-
-        //        mockSubData.Object.IndexReference = indices;
-        //        mockSubData.Setup(
-        //                x => x.MaxIndex)
-        //            .Returns(mockSubData.Object.IndexReference.Count - 1);
-        //        mockSubData.Setup(
-        //                x => x.NumberOfLines)
-        //            .Returns(mockSubData.Object.IndexReference.Count);
-
-        //        var expectedNumberOfLines = indices.Count;
-        //        var expectedMaxIndex = expectedNumberOfLines - 1;
-        //        var expectedComplete = indices.Where(x => mockCompletedLines[x] == false).Count();
-
-        //        mockSubTranslationDataFactory.Setup(
-        //                x => x.GetSubData(It.IsAny<List<bool>>()))
-        //            .Returns(mockSubData.Object);
-
-        //        //Act
-        //        translationData.ToggleAutoMode(true);
-        //        var actualNumberOfLines = translationData.StartIncompleteOnlyMode();
-        //        var actualComplete = translationData.NumberOfCompletedLines;
-        //        var actualMaxIndex = translationData.MaxIndex;
-        //        var actualMode = translationData.DefaultTranslationMode;
-        //        var actualAutoMode = translationData.AutoTranslationMode;
-
-        //        //Assert
-        //        mockProjectData.Verify(
-        //                x => x.CompletedLines,
-        //            Times.Exactly(mockRawLines.Count + 1));
-        //        mockSubData.Verify(
-        //                x => x.NumberOfLines,
-        //            Times.Exactly(2));
-        //        mockSubData.Verify(
-        //                x => x.MaxIndex,
-        //            Times.Once);
-
-        //        Assert.IsType<int>(actualNumberOfLines);
-        //        Assert.Equal(expectedNumberOfLines, actualNumberOfLines);
-        //        Assert.IsType<int>(actualComplete);
-        //        Assert.Equal(expectedComplete, actualComplete);
-        //        Assert.IsType<int>(actualMaxIndex);
-        //        Assert.Equal(expectedMaxIndex, actualMaxIndex);
-        //        Assert.IsType<bool>(actualMode);
-        //        Assert.False(actualMode);
-        //        Assert.IsType<bool>(actualAutoMode);
-        //        Assert.True(actualAutoMode);
-
-        //        foreach (var index in indices)
-        //        {
-        //            Assert.False(mockCompletedLines[index]);
-        //            Assert.False(translationData.CompletedLines[index]);
-
-        //            Assert.True(mockRawLines[index].IsNotEmpty());
-        //            Assert.True(translationData.RawLines[index].IsNotEmpty());
-
-        //            Assert.Equal(mockRawLines[index], translationData.RawLines[index]);
-        //            Assert.Equal(mockTranslatedLines[index], translationData.TranslatedLines[index]);
-        //            Assert.Equal(mockMarkedLines[index], translationData.MarkedLines[index]);
-        //            Assert.Equal(mockCompletedLines[index], translationData.CompletedLines[index]);
-        //        }
-
-        //        mockProjectData.Verify(
-        //                x => x.RawLines,
-        //            Times.Exactly(expectedNumberOfLines * 2 + 2 + mockCompletedLines.Where(x => x).Count()));
-
-        //        mockProjectData.Verify(
-        //                x => x.TranslatedLines,
-        //            Times.Exactly(expectedNumberOfLines));
-
-        //        mockProjectData.Verify(
-        //                x => x.MarkedLines,
-        //            Times.Exactly(expectedNumberOfLines));
-
-        //        mockProjectData.Verify(
-        //                x => x.CompletedLines,
-        //            Times.Exactly(expectedNumberOfLines * 2 + mockRawLines.Count + 1));
-        //    }
-
-        //    /// <summary>
-        //    /// Given that Translation Data is in Auto Mode, Start Complete Only Mode switches translation project to complete only mode.
-        //    /// </summary>
-        //    [Fact]
-        //    public void TranslationData_StartCompleteOnlyMode_AutoModeTest()
-        //    {
-        //        //Arrange
-        //        var indices = mockRawLines
-        //            .Select(x => x.IsNotEmpty())
-        //            .Select((v, i) => new { v, i })
-        //            .Where(x => mockCompletedLines[x.i] && x.v)
-        //            .Select(x => x.i).ToList();
-
-        //        mockSubData.Object.IndexReference = indices;
-        //        mockSubData.Setup(
-        //                x => x.MaxIndex)
-        //            .Returns(mockSubData.Object.IndexReference.Count - 1);
-        //        mockSubData.Setup(
-        //                x => x.NumberOfLines)
-        //            .Returns(mockSubData.Object.IndexReference.Count);
-
-        //        var expectedNumberOfLines = indices.Count;
-        //        var expectedMaxIndex = expectedNumberOfLines - 1;
-        //        var expectedComplete = indices.Where(x => mockCompletedLines[x] == true).Count();
-
-        //        mockSubTranslationDataFactory.Setup(
-        //                x => x.GetSubData(It.IsAny<List<bool>>()))
-        //            .Returns(mockSubData.Object);
-
-        //        //Act
-        //        translationData.ToggleAutoMode(true);
-        //        var actualNumberOfLines = translationData.StartCompleteOnlyMode();
-        //        var actualComplete = translationData.NumberOfCompletedLines;
-        //        var actualMaxIndex = translationData.MaxIndex;
-        //        var actualMode = translationData.DefaultTranslationMode;
-        //        var actualAutoMode = translationData.AutoTranslationMode;
-
-        //        //Assert
-        //        mockProjectData.Verify(
-        //                x => x.CompletedLines,
-        //            Times.Exactly(mockRawLines.Count + 1));
-        //        mockSubData.Verify(
-        //                x => x.NumberOfLines,
-        //            Times.Exactly(2));
-        //        mockSubData.Verify(
-        //                x => x.MaxIndex,
-        //            Times.Once);
-
-        //        Assert.IsType<int>(actualNumberOfLines);
-        //        Assert.Equal(expectedNumberOfLines, actualNumberOfLines);
-        //        Assert.IsType<int>(actualComplete);
-        //        Assert.Equal(expectedComplete, actualComplete);
-        //        Assert.IsType<int>(actualMaxIndex);
-        //        Assert.Equal(expectedMaxIndex, actualMaxIndex);
-        //        Assert.IsType<bool>(actualMode);
-        //        Assert.False(actualMode);
-        //        Assert.IsType<bool>(actualAutoMode);
-        //        Assert.True(actualAutoMode);
-
-        //        foreach (var index in indices)
-        //        {
-        //            Assert.True(mockCompletedLines[index]);
-        //            Assert.True(translationData.CompletedLines[index]);
-
-        //            Assert.True(mockRawLines[index].IsNotEmpty());
-        //            Assert.True(translationData.RawLines[index].IsNotEmpty());
-
-        //            Assert.Equal(mockRawLines[index], translationData.RawLines[index]);
-        //            Assert.Equal(mockTranslatedLines[index], translationData.TranslatedLines[index]);
-        //            Assert.Equal(mockMarkedLines[index], translationData.MarkedLines[index]);
-        //            Assert.Equal(mockCompletedLines[index], translationData.CompletedLines[index]);
-        //        }
-
-        //        mockProjectData.Verify(
-        //                x => x.RawLines,
-        //            Times.Exactly(expectedNumberOfLines * 2 + 2 + mockCompletedLines.Where(x => x).Count()));
-
-        //        mockProjectData.Verify(
-        //                x => x.TranslatedLines,
-        //            Times.Exactly(expectedNumberOfLines));
-
-        //        mockProjectData.Verify(
-        //                x => x.MarkedLines,
-        //            Times.Exactly(expectedNumberOfLines));
-
-        //        mockProjectData.Verify(
-        //                x => x.CompletedLines,
-        //            Times.Exactly(expectedNumberOfLines * 2 + mockRawLines.Count + 1));
-        //    }
-
-        //    #endregion
-        //}
-
-        ///// <summary>
-        ///// Contains tests to run against Translation Data methods that can throw expected exceptions.
-        ///// </summary>
-        //[Trait("Category", "Unit")]
-        //[Trait("Class", "Translation Data")]
-        //[Trait("Category", "Exception")]
-        //public class Exceptions
-        //{
-        //    /// <summary>
-        //    /// Mock of Project Data.
-        //    /// </summary>
-        //    private readonly Mock<IProjectData> mockProjectData;
-        //    /// <summary>
-        //    /// Mock of Project Name.
-        //    /// </summary>
-        //    private readonly string mockProjectName;
-        //    /// <summary>
-        //    /// Mock of Raw Lines.
-        //    /// </summary>
-        //    private readonly List<string> mockRawLines;
-        //    /// <summary>
-        //    /// Mock of Translated Lines.
-        //    /// </summary>
-        //    private readonly List<string> mockTranslatedLines;
-        //    /// <summary>
-        //    /// Mock of Marked Lines.
-        //    /// </summary>
-        //    private readonly List<bool> mockMarkedLines;
-        //    /// <summary>
-        //    /// Mock of Completed lines.
-        //    /// </summary>
-        //    private readonly List<bool> mockCompletedLines;
-
-        //    /// <summary>
-        //    /// Mock of Sub Translation Data Factory.
-        //    /// </summary>
-        //    private readonly Mock<ISubTranslationDataFactory> mockSubTranslationDataFactory;
-        //    /// <summary>
-        //    /// Translation Data under test.
-        //    /// </summary>
-        //    private ITranslationData translationData;
-
-        //    /// <summary>
-        //    /// Constructor for test setup.
-        //    /// </summary>
-        //    public Exceptions()
-        //    {
-        //        mockProjectName = "Mock Test Project Name";
-
-        //        mockRawLines = new List<string>
-        //        {
-        //            "Raw Line 1",
-        //            "Raw Line 2",
-        //            "Raw Line 3",
-        //            "Raw Line 4",
-        //            "Raw Line 5",
-        //            "Raw Line 6",
-        //            "Raw Line 7",
-        //            "Raw Line 8",
-        //            "Raw Line 9",
-        //            "Raw Line 10"
-        //        };
-
-        //        mockTranslatedLines = new List<string>
-        //        {
-        //            "Translated Line 1",
-        //            "Translated Line 2",
-        //            "Translated Line 3",
-        //            "Translated Line 4",
-        //            "Translated Line 5",
-        //            "Translated Line 6",
-        //            "Translated Line 7",
-        //            "Translated Line 8",
-        //            "Translated Line 9",
-        //            "Translated Line 10"
-        //        };
-
-        //        mockMarkedLines = new List<bool>
-        //        {
-        //            true,
-        //            false,
-        //            true,
-        //            false,
-        //            false,
-        //            true,
-        //            false,
-        //            true,
-        //            true,
-        //            false
-        //        };
-
-        //        mockCompletedLines = new List<bool>
-        //        {
-        //            false,
-        //            false,
-        //            true,
-        //            false,
-        //            true,
-        //            true,
-        //            true,
-        //            false,
-        //            true,
-        //            false
-        //        };
-
-        //        mockProjectData = new Mock<IProjectData>();
-
-        //        mockProjectData.SetupAllProperties();
-        //        mockProjectData.Object.ProjectName = mockProjectName;
-        //        mockProjectData.Object.RawLines = mockRawLines;
-        //        mockProjectData.Object.TranslatedLines = mockTranslatedLines;
-        //        mockProjectData.Object.MarkedLines = mockMarkedLines;
-        //        mockProjectData.Object.CompletedLines = mockCompletedLines;
-
-        //        mockSubTranslationDataFactory = new Mock<ISubTranslationDataFactory>();
-
-        //        translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
-        //    }
-
-        //    #region Exception Tests
-
-        //    /// <summary>
-        //    /// Given that Translation Data only has one line, Remove Line will throw RemovalOfLastLine Exception.
-        //    /// </summary>
-        //    [Fact]
-        //    [Trait("Exception", "RemovalOfLastLineException")]
-        //    public void TranslationData_GivenRemoveLineAtLastLineRaiseException()
-        //    {
-        //        //Arrange
-        //        int? index = 0;
-        //        int removeIndex = index ?? translationData.MaxIndex;
-
-        //        mockRawLines.RemoveRange(1, mockRawLines.Count - 1);
-        //        mockTranslatedLines.RemoveRange(1, mockRawLines.Count - 1);
-        //        mockCompletedLines.RemoveRange(1, mockRawLines.Count - 1);
-        //        mockMarkedLines.RemoveRange(1, mockRawLines.Count - 1);
-
-        //        var expectedMessage = "Cannot remove last line of the translation project.";
-        //        var expected = new RemovalOfLastLineException(expectedMessage);
-
-        //        //Act
-        //        var actual = Record.Exception(() => translationData.RemoveLine(removeIndex));
-        //        var actualMessage = actual.Message;
-
-        //        //Assert
-        //        Assert.IsType<RemovalOfLastLineException>(actual);
-        //        Assert.NotStrictEqual(expected, actual);
-        //        Assert.IsType<string>(actualMessage);
-        //        Assert.Equal(expectedMessage, actual.Message);
-
-
-        //        mockProjectData.Verify(
-        //                x => x.RawLines,
-        //            Times.Once());
-        //    }
-
-        //    #endregion
-
-        //}
+        /// <summary>
+        /// Contains tests to run against Translation Data methods that exhibit different behaviour during auto mode.
+        /// </summary>
+        [Trait("Category", "Unit")]
+        [Trait("Class", "Translation Data")]
+        public class AutoMode
+        {
+            /// <summary>
+            /// Mock of Project Data.
+            /// </summary>
+            private readonly Mock<IProjectData> mockProjectData;
+            /// <summary>
+            /// Mock of Project Name.
+            /// </summary>
+            private readonly string mockProjectName;
+            /// <summary>
+            /// Mock of Project Lines.
+            /// </summary>
+            private readonly List<IProjectLine> mockProjectLines;
+
+            /// <summary>
+            /// Mock of Sub Translation Data Factory.
+            /// </summary>
+            private readonly Mock<ISubTranslationDataFactory> mockSubTranslationDataFactory;
+            /// <summary>
+            /// Mock of Sub Translation Data.
+            /// </summary>
+            private readonly Mock<ISubTranslationData> mockSubData;
+            /// <summary>
+            /// Translation Data under test.
+            /// </summary>
+            private ITranslationData translationData;
+
+            /// <summary>
+            /// Constructor for test setup.
+            /// </summary>
+            public AutoMode()
+            {
+                mockProjectName = "Mock Test Project Name";
+
+                mockProjectLines = new List<IProjectLine>
+                {
+                    new ProjectLine { Raw = "Raw Line 1",   Translation = "Translated Line 1",      Completed = false,  Marked = true },
+                    new ProjectLine { Raw = "",             Translation = "Translated Line 2",      Completed = false,  Marked = false },
+                    new ProjectLine { Raw = "Raw Line 3",   Translation = "Translated Line 3",      Completed = true,   Marked = true },
+                    new ProjectLine { Raw = "Raw Line 4",   Translation = "Translated Line 4",      Completed = false,  Marked = false },
+                    new ProjectLine { Raw = "",             Translation = "Translated Line 5",      Completed = true,   Marked = false },
+                    new ProjectLine { Raw = "",             Translation = "Translated Line 6",      Completed = true,   Marked = true },
+                    new ProjectLine { Raw = "Raw Line 7",   Translation = "Translated Line 7",      Completed = true,   Marked = false },
+                    new ProjectLine { Raw = "",             Translation = "Translated Line 8",      Completed = false,  Marked = true },
+                    new ProjectLine { Raw = "Raw Line 9",   Translation = "Translated Line 9",      Completed = true,   Marked = true },
+                    new ProjectLine { Raw = "Raw Line 10",  Translation = "Translated Line 10",     Completed = false,  Marked = false }
+                };
+
+
+                mockProjectData = new Mock<IProjectData>();
+
+                mockProjectData.SetupAllProperties();
+                mockProjectData.Object.ProjectName = mockProjectName;
+                mockProjectData.Object.ProjectLines = mockProjectLines;
+
+                mockSubTranslationDataFactory = new Mock<ISubTranslationDataFactory>();
+
+                mockSubTranslationDataFactory.Setup(
+                        x => x.GetSubData(It.IsAny<List<bool>>()))
+                    .Returns((ISubTranslationData)null);
+
+                mockSubData = new Mock<ISubTranslationData>();
+                mockSubData.SetupAllProperties();
+
+                translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
+            }
+
+            #region Auto Mode Tests
+            /// <summary>
+            /// Given that Auto Mode is off, Toggle Auto Mode switches translation project to auto translation mode.
+            /// </summary>
+            [Fact]
+            public void TranslationData_ToggleAutoMode_On_Test()
+            {
+                //Arrange
+                var indices = mockProjectLines
+                    .Select(x => x.Raw.IsNotEmpty())
+                    .Select((v, i) => new { v, i })
+                    .Where(x => x.v)
+                    .Select(x => x.i).ToList();
+
+                mockSubData.Object.IndexReference = indices;
+                mockSubData.Setup(
+                        x => x.MaxIndex)
+                    .Returns(mockSubData.Object.IndexReference.Count - 1);
+                mockSubData.Setup(
+                        x => x.NumberOfLines)
+                    .Returns(mockSubData.Object.IndexReference.Count);
+
+                var expectedNumberOfLines = indices.Count;
+                var expectedMaxIndex = expectedNumberOfLines - 1;
+                var expectedComplete = indices.Where(x => mockProjectLines[x].Completed == true).Count();
+
+                mockSubTranslationDataFactory.Setup(
+                        x => x.GetSubData(It.IsAny<List<bool>>()))
+                    .Returns(mockSubData.Object);
+
+                //Act
+                var actualNumberOfLines = translationData.ToggleAutoMode(true);
+                var actualComplete = translationData.NumberOfCompletedLines;
+                var actualMaxIndex = translationData.MaxIndex;
+                var actualMode = translationData.DefaultTranslationMode;
+                var actualAutoMode = translationData.AutoTranslationMode;
+
+                //Assert
+                mockProjectData.Verify(
+                        x => x.ProjectLines,
+                    Times.AtLeastOnce);
+                mockSubData.Verify(
+                        x => x.NumberOfLines,
+                    Times.Once);
+                mockSubData.Verify(
+                        x => x.MaxIndex,
+                    Times.Once);
+
+                Assert.IsType<int>(actualNumberOfLines);
+                Assert.Equal(expectedNumberOfLines, actualNumberOfLines);
+                Assert.IsType<int>(actualComplete);
+                Assert.Equal(expectedComplete, actualComplete);
+                Assert.IsType<int>(actualMaxIndex);
+                Assert.Equal(expectedMaxIndex, actualMaxIndex);
+                Assert.IsType<bool>(actualMode);
+                Assert.True(actualMode);
+                Assert.IsType<bool>(actualAutoMode);
+                Assert.True(actualAutoMode);
+
+                foreach (var index in indices)
+                {
+                    Assert.True(mockProjectLines[index].Raw.IsNotEmpty());
+                    Assert.True(translationData.ProjectLines[index].Raw.IsNotEmpty());
+
+                    Assert.Equal(mockProjectLines[index].Raw,           translationData.ProjectLines[index].Raw);
+                    Assert.Equal(mockProjectLines[index].Translation,   translationData.ProjectLines[index].Translation);
+                    Assert.Equal(mockProjectLines[index].Completed,     translationData.ProjectLines[index].Completed);
+                    Assert.Equal(mockProjectLines[index].Marked,        translationData.ProjectLines[index].Marked);
+                }
+            }
+
+            /// <summary>
+            /// Given that Auto Mode is on, Toggle Auto Mode switches translation project to auto translation mode.
+            /// </summary>
+            [Fact]
+            public void TranslationData_ToggleAutoMode_Off_Test()
+            {
+                //Arrange
+                var indices = mockProjectLines
+                    .Select(x => x.Raw.IsNotEmpty())
+                    .Select((v, i) => new { v, i })
+                    .Where(x => x.v)
+                    .Select(x => x.i).ToList();
+
+                mockSubData.Object.IndexReference = indices;
+                mockSubData.Setup(
+                        x => x.MaxIndex)
+                    .Returns(mockSubData.Object.IndexReference.Count - 1);
+                mockSubData.Setup(
+                        x => x.NumberOfLines)
+                    .Returns(mockSubData.Object.IndexReference.Count);
+
+                var expectedNumberOfLines = mockProjectLines.Count;
+                var expectedMaxIndex = expectedNumberOfLines - 1;
+                var expectedComplete = mockProjectLines.Where(x => x.Completed).Count();
+
+                mockSubTranslationDataFactory.Setup(
+                        x => x.GetSubData(It.IsAny<List<bool>>()))
+                    .Returns(mockSubData.Object);
+
+                //Act
+                translationData.ToggleAutoMode(true);
+                var actualNumberOfLines = translationData.ToggleAutoMode(false);
+                var actualComplete = translationData.NumberOfCompletedLines;
+                var actualMaxIndex = translationData.MaxIndex;
+                var actualMode = translationData.DefaultTranslationMode;
+                var actualAutoMode = translationData.AutoTranslationMode;
+
+                //Assert
+                mockProjectData.Verify(
+                        x => x.ProjectLines,
+                    Times.AtLeastOnce);
+                mockSubData.Verify(
+                        x => x.NumberOfLines,
+                    Times.Once);
+
+                Assert.IsType<int>(actualNumberOfLines);
+                Assert.Equal(expectedNumberOfLines, actualNumberOfLines);
+                Assert.IsType<int>(actualComplete);
+                Assert.Equal(expectedComplete, actualComplete);
+                Assert.IsType<int>(actualMaxIndex);
+                Assert.Equal(expectedMaxIndex, actualMaxIndex);
+                Assert.IsType<bool>(actualMode);
+                Assert.True(actualMode);
+                Assert.IsType<bool>(actualAutoMode);
+                Assert.False(actualAutoMode);
+
+                for (int index = 0; index < expectedNumberOfLines; index++)
+                {
+                    Assert.Equal(mockProjectLines[index].Raw,           translationData.ProjectLines[index].Raw);
+                    Assert.Equal(mockProjectLines[index].Translation,   translationData.ProjectLines[index].Translation);
+                    Assert.Equal(mockProjectLines[index].Completed,     translationData.ProjectLines[index].Completed);
+                    Assert.Equal(mockProjectLines[index].Marked,        translationData.ProjectLines[index].Marked);
+                }
+            }
+
+            /// <summary>
+            /// Given that Translation Data is in Auto Mode, Start Marked Only Mode switches translation project to marked only mode.
+            /// </summary>
+            [Fact]
+            public void TranslationData_StartMarkedOnlyMode_AutoModeTest()
+            {
+                //Arrange
+                var indices = mockProjectLines
+                    .Select((v, i) => new { v, i })
+                    .Where(x => x.v.Marked && x.v.Raw.IsNotEmpty())
+                    .Select(x => x.i).ToList();
+
+                mockSubData.Object.IndexReference = indices;
+                mockSubData.Setup(
+                        x => x.MaxIndex)
+                    .Returns(mockSubData.Object.IndexReference.Count - 1);
+                mockSubData.Setup(
+                        x => x.NumberOfLines)
+                    .Returns(mockSubData.Object.IndexReference.Count);
+
+                var expectedNumberOfLines = indices.Count;
+                var expectedMaxIndex = expectedNumberOfLines - 1;
+                var expectedComplete = indices.Where(x => mockProjectLines[x].Marked == true).Count();
+
+                mockSubTranslationDataFactory.Setup(
+                        x => x.GetSubData(It.IsAny<List<bool>>()))
+                    .Returns(mockSubData.Object);
+
+                //Act
+                translationData.ToggleAutoMode(true);
+                var actualNumberOfLines = translationData.StartMarkedOnlyMode();
+                var actualComplete = translationData.NumberOfCompletedLines;
+                var actualMaxIndex = translationData.MaxIndex;
+                var actualMode = translationData.DefaultTranslationMode;
+                var actualAutoMode = translationData.AutoTranslationMode;
+
+                //Assert
+                mockProjectData.Verify(
+                        x => x.ProjectLines,
+                    Times.Exactly(expectedNumberOfLines + 1));
+                mockSubData.Verify(
+                        x => x.NumberOfLines,
+                    Times.Exactly(2));
+                mockSubData.Verify(
+                        x => x.MaxIndex,
+                    Times.Once);
+
+                Assert.IsType<int>(actualNumberOfLines);
+                Assert.Equal(expectedNumberOfLines, actualNumberOfLines);
+                Assert.IsType<int>(actualComplete);
+                Assert.Equal(expectedComplete, actualComplete);
+                Assert.IsType<int>(actualMaxIndex);
+                Assert.Equal(expectedMaxIndex, actualMaxIndex);
+                Assert.IsType<bool>(actualMode);
+                Assert.False(actualMode);
+                Assert.IsType<bool>(actualAutoMode);
+                Assert.True(actualAutoMode);
+
+                foreach (var index in indices)
+                {
+                    Assert.True(mockProjectLines[index].Marked);
+                    Assert.True(translationData.ProjectLines[index].Marked);
+
+                    Assert.True(mockProjectLines[index].Raw.IsNotEmpty());
+                    Assert.True(translationData.ProjectLines[index].Raw.IsNotEmpty());
+
+                    Assert.Equal(mockProjectLines[index].Raw,           translationData.ProjectLines[index].Raw);
+                    Assert.Equal(mockProjectLines[index].Translation,   translationData.ProjectLines[index].Translation);
+                    Assert.Equal(mockProjectLines[index].Completed,     translationData.ProjectLines[index].Completed);
+                    Assert.Equal(mockProjectLines[index].Marked,        translationData.ProjectLines[index].Marked);
+                }
+            }
+
+            /// <summary>
+            /// Given that Translation Data is in Auto Mode, Start Incomplete Only Mode switches translation project to incomplete only mode.
+            /// </summary>
+            [Fact]
+            public void TranslationData_StartIncompleteOnlyMode_AutoModeTest()
+            {
+                //Arrange
+                var indices = mockProjectLines
+                    .Select((v, i) => new { v, i })
+                    .Where(x => !x.v.Completed && x.v.Raw.IsNotEmpty())
+                    .Select(x => x.i).ToList();
+
+                mockSubData.Object.IndexReference = indices;
+                mockSubData.Setup(
+                        x => x.MaxIndex)
+                    .Returns(mockSubData.Object.IndexReference.Count - 1);
+                mockSubData.Setup(
+                        x => x.NumberOfLines)
+                    .Returns(mockSubData.Object.IndexReference.Count);
+
+                var expectedNumberOfLines = indices.Count;
+                var expectedMaxIndex = expectedNumberOfLines - 1;
+                var expectedComplete = indices.Where(x => mockProjectLines[x].Completed == false).Count();
+
+                mockSubTranslationDataFactory.Setup(
+                        x => x.GetSubData(It.IsAny<List<bool>>()))
+                    .Returns(mockSubData.Object);
+
+                //Act
+                translationData.ToggleAutoMode(true);
+                var actualNumberOfLines = translationData.StartIncompleteOnlyMode();
+                var actualComplete = translationData.NumberOfCompletedLines;
+                var actualMaxIndex = translationData.MaxIndex;
+                var actualMode = translationData.DefaultTranslationMode;
+                var actualAutoMode = translationData.AutoTranslationMode;
+
+                //Assert
+                mockProjectData.Verify(
+                        x => x.ProjectLines,
+                    Times.Exactly(expectedNumberOfLines + 1));
+                mockSubData.Verify(
+                        x => x.NumberOfLines,
+                    Times.Exactly(2));
+                mockSubData.Verify(
+                        x => x.MaxIndex,
+                    Times.Once);
+
+                Assert.IsType<int>(actualNumberOfLines);
+                Assert.Equal(expectedNumberOfLines, actualNumberOfLines);
+                Assert.IsType<int>(actualComplete);
+                Assert.Equal(expectedComplete, actualComplete);
+                Assert.IsType<int>(actualMaxIndex);
+                Assert.Equal(expectedMaxIndex, actualMaxIndex);
+                Assert.IsType<bool>(actualMode);
+                Assert.False(actualMode);
+                Assert.IsType<bool>(actualAutoMode);
+                Assert.True(actualAutoMode);
+
+                foreach (var index in indices)
+                {
+                    Assert.False(mockProjectLines[index].Completed);
+                    Assert.False(translationData.ProjectLines[index].Completed);
+                    
+                    Assert.True(mockProjectLines[index].Raw.IsNotEmpty());
+                    Assert.True(translationData.ProjectLines[index].Raw.IsNotEmpty());
+
+                    Assert.Equal(mockProjectLines[index].Raw,           translationData.ProjectLines[index].Raw);
+                    Assert.Equal(mockProjectLines[index].Translation,   translationData.ProjectLines[index].Translation);
+                    Assert.Equal(mockProjectLines[index].Completed,     translationData.ProjectLines[index].Completed);
+                    Assert.Equal(mockProjectLines[index].Marked,        translationData.ProjectLines[index].Marked);
+                }
+            }
+
+            /// <summary>
+            /// Given that Translation Data is in Auto Mode, Start Complete Only Mode switches translation project to complete only mode.
+            /// </summary>
+            [Fact]
+            public void TranslationData_StartCompleteOnlyMode_AutoModeTest()
+            {
+                //Arrange
+                var indices = mockProjectLines
+                    .Select((v, i) => new { v, i })
+                    .Where(x => x.v.Completed && x.v.Raw.IsNotEmpty())
+                    .Select(x => x.i).ToList();
+
+                mockSubData.Object.IndexReference = indices;
+                mockSubData.Setup(
+                        x => x.MaxIndex)
+                    .Returns(mockSubData.Object.IndexReference.Count - 1);
+                mockSubData.Setup(
+                        x => x.NumberOfLines)
+                    .Returns(mockSubData.Object.IndexReference.Count);
+
+                var expectedNumberOfLines = indices.Count;
+                var expectedMaxIndex = expectedNumberOfLines - 1;
+                var expectedComplete = indices.Where(x => mockProjectLines[x].Completed == true).Count();
+
+                mockSubTranslationDataFactory.Setup(
+                        x => x.GetSubData(It.IsAny<List<bool>>()))
+                    .Returns(mockSubData.Object);
+
+                //Act
+                translationData.ToggleAutoMode(true);
+                var actualNumberOfLines = translationData.StartCompleteOnlyMode();
+                var actualComplete = translationData.NumberOfCompletedLines;
+                var actualMaxIndex = translationData.MaxIndex;
+                var actualMode = translationData.DefaultTranslationMode;
+                var actualAutoMode = translationData.AutoTranslationMode;
+
+                //Assert
+                mockProjectData.Verify(
+                        x => x.ProjectLines,
+                    Times.Exactly(expectedNumberOfLines + 1));
+                mockSubData.Verify(
+                        x => x.NumberOfLines,
+                    Times.Exactly(2));
+                mockSubData.Verify(
+                        x => x.MaxIndex,
+                    Times.Once);
+
+                Assert.IsType<int>(actualNumberOfLines);
+                Assert.Equal(expectedNumberOfLines, actualNumberOfLines);
+                Assert.IsType<int>(actualComplete);
+                Assert.Equal(expectedComplete, actualComplete);
+                Assert.IsType<int>(actualMaxIndex);
+                Assert.Equal(expectedMaxIndex, actualMaxIndex);
+                Assert.IsType<bool>(actualMode);
+                Assert.False(actualMode);
+                Assert.IsType<bool>(actualAutoMode);
+                Assert.True(actualAutoMode);
+
+                foreach (var index in indices)
+                {
+                    Assert.True(mockProjectLines[index].Completed);
+                    Assert.True(translationData.ProjectLines[index].Completed);
+                    
+                    Assert.True(mockProjectLines[index].Raw.IsNotEmpty());
+                    Assert.True(translationData.ProjectLines[index].Raw.IsNotEmpty());
+
+                    Assert.Equal(mockProjectLines[index].Raw,           translationData.ProjectLines[index].Raw);
+                    Assert.Equal(mockProjectLines[index].Translation,   translationData.ProjectLines[index].Translation);
+                    Assert.Equal(mockProjectLines[index].Completed,     translationData.ProjectLines[index].Completed);
+                    Assert.Equal(mockProjectLines[index].Marked,        translationData.ProjectLines[index].Marked);
+                }
+            }
+            #endregion
+        }
+
+        /// <summary>
+        /// Contains tests to run against Translation Data methods that can throw expected exceptions.
+        /// </summary>
+        [Trait("Category", "Unit")]
+        [Trait("Class", "Translation Data")]
+        [Trait("Category", "Exception")]
+        public class Exceptions
+        {
+            /// <summary>
+            /// Mock of Project Data.
+            /// </summary>
+            private readonly Mock<IProjectData> mockProjectData;
+            /// <summary>
+            /// Mock of Project Name.
+            /// </summary>
+            private readonly string mockProjectName;
+            /// <summary>
+            /// Mock of Project Lines.
+            /// </summary>
+            private readonly List<IProjectLine> mockProjectLines;
+
+            /// <summary>
+            /// Mock of Sub Translation Data Factory.
+            /// </summary>
+            private readonly Mock<ISubTranslationDataFactory> mockSubTranslationDataFactory;
+            /// <summary>
+            /// Translation Data under test.
+            /// </summary>
+            private ITranslationData translationData;
+
+            /// <summary>
+            /// Constructor for test setup.
+            /// </summary>
+            public Exceptions()
+            {
+                mockProjectName = "Mock Test Project Name";
+
+                mockProjectLines = new List<IProjectLine>
+                {
+                    new ProjectLine { Raw = "Raw Line 1",   Translation = "Translated Line 1",      Completed = false,  Marked = true },
+                    new ProjectLine { Raw = "Raw Line 2",   Translation = "Translated Line 2",      Completed = false,  Marked = false },
+                    new ProjectLine { Raw = "Raw Line 3",   Translation = "Translated Line 3",      Completed = true,   Marked = true },
+                    new ProjectLine { Raw = "Raw Line 4",   Translation = "Translated Line 4",      Completed = false,  Marked = false },
+                    new ProjectLine { Raw = "Raw Line 5",   Translation = "Translated Line 5",      Completed = true,   Marked = false },
+                    new ProjectLine { Raw = "Raw Line 6",   Translation = "Translated Line 6",      Completed = true,   Marked = true },
+                    new ProjectLine { Raw = "Raw Line 7",   Translation = "Translated Line 7",      Completed = true,   Marked = false },
+                    new ProjectLine { Raw = "Raw Line 8",   Translation = "Translated Line 8",      Completed = false,  Marked = true },
+                    new ProjectLine { Raw = "Raw Line 9",   Translation = "Translated Line 9",      Completed = true,   Marked = true },
+                    new ProjectLine { Raw = "Raw Line 10",  Translation = "Translated Line 10",     Completed = false,  Marked = false }
+                };
+
+                mockProjectData = new Mock<IProjectData>();
+
+                mockProjectData.SetupAllProperties();
+                mockProjectData.Object.ProjectName = mockProjectName;
+                mockProjectData.Object.ProjectLines = mockProjectLines;
+
+                mockSubTranslationDataFactory = new Mock<ISubTranslationDataFactory>();
+
+                translationData = new TranslationData(mockProjectData.Object, mockSubTranslationDataFactory.Object);
+            }
+
+            #region Exception Tests
+            /// <summary>
+            /// Given that Translation Data only has one line, Remove Line will throw RemovalOfLastLine Exception.
+            /// </summary>
+            [Fact]
+            [Trait("Exception", "RemovalOfLastLineException")]
+            public void TranslationData_GivenRemoveLineAtLastLineRaiseException()
+            {
+                //Arrange
+                int? index = 0;
+                int removeIndex = index ?? translationData.MaxIndex;
+
+                mockProjectLines.RemoveRange(1, mockProjectLines.Count - 1);
+
+                var expectedMessage = "Cannot remove last line of the translation project.";
+                var expected = new RemovalOfLastLineException(expectedMessage);
+
+                //Act
+                var actual = Record.Exception(() => translationData.RemoveLine(removeIndex));
+                var actualMessage = actual.Message;
+
+                //Assert
+                Assert.IsType<RemovalOfLastLineException>(actual);
+                Assert.NotStrictEqual(expected, actual);
+                Assert.IsType<string>(actualMessage);
+                Assert.Equal(expectedMessage, actual.Message);
+
+                mockProjectData.Verify(
+                        x => x.ProjectLines,
+                    Times.Once());
+            }
+            #endregion
+        }
     }
 }
