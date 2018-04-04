@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TranslatorStudioClassLibrary.Exception;
 using TranslatorStudioClassLibrary.Interface;
@@ -10,7 +11,7 @@ namespace TranslatorStudioClassLibrary.Class
     /// Class that contains the properties and method relevant for Translation Data.
     /// Implements Translation Data Interface.
     /// </summary>
-    public class TranslationData : ITranslationData
+    public class TranslationData : ITranslationData //, IEquatable<TranslationData>
     {
         #region Properties
 
@@ -385,5 +386,56 @@ namespace TranslatorStudioClassLibrary.Class
         }
 
         #endregion
+
+        //public bool Equals(TranslationData other)
+        //{
+        //    return other != null &&
+        //           EqualityComparer<ISubTranslationDataFactory>.Default.Equals(_subTranslationDataFactory, other._subTranslationDataFactory) &&
+        //           EqualityComparer<IProjectData>.Default.Equals(_data, other._data) &&
+        //           EqualityComparer<ISubTranslationData>.Default.Equals(_subData, other._subData) &&
+        //           EqualityComparer<ISubTranslationData>.Default.Equals(_autoData, other._autoData) &&
+        //           _autoMode == other._autoMode &&
+        //           DefaultTranslationMode == other.DefaultTranslationMode &&
+        //           AutoTranslationMode == other.AutoTranslationMode &&
+        //           DataChanged == other.DataChanged &&
+        //           ProjectName == other.ProjectName &&
+        //           EqualityComparer<List<IProjectLine>>.Default.Equals(ProjectLines, other.ProjectLines) &&
+        //           EqualityComparer<IProjectLine>.Default.Equals(CurrentLine, other.CurrentLine) &&
+        //           CurrentRaw == other.CurrentRaw &&
+        //           CurrentTranslation == other.CurrentTranslation &&
+        //           CurrentCompletion == other.CurrentCompletion &&
+        //           CurrentMarked == other.CurrentMarked &&
+        //           _index == other._index &&
+        //           CurrentIndex == other.CurrentIndex &&
+        //           MaxIndex == other.MaxIndex &&
+        //           NumberOfLines == other.NumberOfLines &&
+        //           NumberOfCompletedLines == other.NumberOfCompletedLines;
+        //}
+
+        //public override int GetHashCode()
+        //{
+        //    var hashCode = 471267684;
+        //    hashCode = hashCode * -1521134295 + EqualityComparer<ISubTranslationDataFactory>.Default.GetHashCode(_subTranslationDataFactory);
+        //    hashCode = hashCode * -1521134295 + EqualityComparer<IProjectData>.Default.GetHashCode(_data);
+        //    hashCode = hashCode * -1521134295 + EqualityComparer<ISubTranslationData>.Default.GetHashCode(_subData);
+        //    hashCode = hashCode * -1521134295 + EqualityComparer<ISubTranslationData>.Default.GetHashCode(_autoData);
+        //    hashCode = hashCode * -1521134295 + _autoMode.GetHashCode();
+        //    hashCode = hashCode * -1521134295 + DefaultTranslationMode.GetHashCode();
+        //    hashCode = hashCode * -1521134295 + AutoTranslationMode.GetHashCode();
+        //    hashCode = hashCode * -1521134295 + DataChanged.GetHashCode();
+        //    hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ProjectName);
+        //    hashCode = hashCode * -1521134295 + EqualityComparer<List<IProjectLine>>.Default.GetHashCode(ProjectLines);
+        //    hashCode = hashCode * -1521134295 + EqualityComparer<IProjectLine>.Default.GetHashCode(CurrentLine);
+        //    hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(CurrentRaw);
+        //    hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(CurrentTranslation);
+        //    hashCode = hashCode * -1521134295 + CurrentCompletion.GetHashCode();
+        //    hashCode = hashCode * -1521134295 + CurrentMarked.GetHashCode();
+        //    hashCode = hashCode * -1521134295 + _index.GetHashCode();
+        //    hashCode = hashCode * -1521134295 + CurrentIndex.GetHashCode();
+        //    hashCode = hashCode * -1521134295 + MaxIndex.GetHashCode();
+        //    hashCode = hashCode * -1521134295 + NumberOfLines.GetHashCode();
+        //    hashCode = hashCode * -1521134295 + NumberOfCompletedLines.GetHashCode();
+        //    return hashCode;
+        //}
     }
 }

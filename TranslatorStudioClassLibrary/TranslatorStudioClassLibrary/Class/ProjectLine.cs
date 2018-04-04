@@ -14,19 +14,19 @@ namespace TranslatorStudioClassLibrary.Class
         /// <summary>
         /// The Raw String of the Project Line.
         /// </summary>
-        public string Raw { get; set; }
+        public string Raw { get; set; } = "";
         /// <summary>
         /// The Translation String of the Project Line.
         /// </summary>
-        public string Translation { get; set; }
+        public string Translation { get; set; } = "";
         /// <summary>
         /// The Completion Status of the Project Line.
         /// </summary>
-        public bool Completed { get; set; }
+        public bool Completed { get; set; } = false;
         /// <summary>
         /// The Marked Status of the Project Line.
         /// </summary>
-        public bool Marked { get; set; }
+        public bool Marked { get; set; } = false;
         #endregion
 
         #region Constructor

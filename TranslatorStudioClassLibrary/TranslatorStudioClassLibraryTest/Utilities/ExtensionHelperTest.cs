@@ -71,7 +71,6 @@ namespace TranslatorStudioClassLibraryTest.Utilities
 
             //Assert
             Assert.Equal(expected, actual);
-
         }
 
         /// <summary>

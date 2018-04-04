@@ -192,6 +192,8 @@ namespace TranslatorStudioClassLibraryTest.Factory
                 var actual = translationDataFactory.CreateTranslationDataFromArray(mockProjectName, mockProjectLines.Select(x => x.Raw).ToArray());
 
                 // Assert
+                mockProjectDataFactory.Verify(x => x.CreateProjectDataFromArray(It.IsAny<string>(), It.IsAny<string[]>()), Times.Once);
+
                 Assert.IsType<TranslationData>(actual);
                 Assert.IsAssignableFrom<ITranslationData>(actual);
                 Assert.NotStrictEqual(expected, actual);
@@ -239,9 +241,7 @@ namespace TranslatorStudioClassLibraryTest.Factory
                 var actualDataChanged = actual.DataChanged;
 
                 // Assert
-                mockProjectDataFactory.Verify(
-                        x => x.CreateProjectDataFromStream(It.IsAny<string>(), It.IsAny<StreamReader>()),
-                    Times.Once);
+                mockProjectDataFactory.Verify(x => x.CreateProjectDataFromStream(It.IsAny<string>(), It.IsAny<StreamReader>()), Times.Once);
 
                 Assert.IsType<TranslationData>(actual);
                 Assert.IsAssignableFrom<ITranslationData>(actual);
@@ -268,9 +268,7 @@ namespace TranslatorStudioClassLibraryTest.Factory
                 var actualDataChanged = actual.DataChanged;
 
                 // Assert
-                mockProjectDataFactory.Verify(
-                        x => x.CreateProjectDataFromDocument(It.IsAny<string>(), It.IsAny<Document>()),
-                    Times.Once);
+                mockProjectDataFactory.Verify(x => x.CreateProjectDataFromDocument(It.IsAny<string>(), It.IsAny<Document>()), Times.Once);
 
                 Assert.IsType<TranslationData>(actual);
                 Assert.IsAssignableFrom<ITranslationData>(actual);

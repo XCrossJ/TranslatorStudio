@@ -159,6 +159,8 @@ namespace TranslatorStudioClassLibraryTest.Repository
                 var actual = fileRepository.OpenTextFile(fullPath, fileName);
 
                 //Assert
+                mockTranslationDataFactory.Verify(x => x.CreateTranslationDataFromStream(It.IsAny<string>(), It.IsAny<StreamReader>()), Times.Once);
+
                 Assert.NotNull(actual);
                 Assert.IsAssignableFrom<ITranslationData>(actual);
                 Assert.Equal(expected, actual);
@@ -194,6 +196,8 @@ namespace TranslatorStudioClassLibraryTest.Repository
                 var actual = fileRepository.OpenTSPFile(fullPath, fileName);
 
                 //Assert
+                mockTranslationDataFactory.Verify(x => x.CreateTranslationDataFromProject(It.IsAny<IProjectData>()), Times.Once);
+
                 Assert.NotNull(actual);
                 Assert.IsAssignableFrom<ITranslationData>(actual);
                 Assert.Equal(expected, actual);
@@ -233,6 +237,8 @@ namespace TranslatorStudioClassLibraryTest.Repository
                 var actual = fileRepository.OpenDocFile(fullPath, fileName);
 
                 //Assert
+                mockTranslationDataFactory.Verify(x => x.CreateTranslationDataFromDocument(It.IsAny<string>(), It.IsAny<Document>()), Times.Once);
+
                 Assert.NotNull(actual);
                 Assert.IsAssignableFrom<ITranslationData>(actual);
                 Assert.Equal(expected, actual);
@@ -279,6 +285,10 @@ namespace TranslatorStudioClassLibraryTest.Repository
                 var prevSavePath = result.Item2;
 
                 //Assert
+                mockTranslationDataFactory.Verify(x => x.CreateTranslationDataFromStream(It.IsAny<string>(), It.IsAny<StreamReader>()), Times.AtMostOnce);
+                mockTranslationDataFactory.Verify(x => x.CreateTranslationDataFromProject(It.IsAny<IProjectData>()), Times.AtMostOnce);
+                mockTranslationDataFactory.Verify(x => x.CreateTranslationDataFromDocument(It.IsAny<string>(), It.IsAny<Document>()), Times.AtMostOnce);
+
                 Assert.NotNull(actual);
                 Assert.IsAssignableFrom<ITranslationData>(actual);
                 Assert.Equal(expected, actual);

@@ -25,7 +25,6 @@ namespace TranslatorStudioClassLibrary.Repository
         #endregion
 
         #region Constructor
-
         /// <summary>
         /// Creates File Repository.
         /// </summary>
@@ -34,11 +33,11 @@ namespace TranslatorStudioClassLibrary.Repository
         {
             _translationDataFactory = translationDataFactory ?? throw new ArgumentNullException(nameof(translationDataFactory));
         }
-
         #endregion
 
         #region Public Methods
 
+        #region Read Methods
         /// <summary>
         /// Opens translation data from text file.
         /// </summary>
@@ -117,7 +116,9 @@ namespace TranslatorStudioClassLibrary.Repository
             var openData = new Tuple<ITranslationData, string>(data, previousSavePath);
             return openData;
         }
+        #endregion
 
+        #region Write Methods
         /// <summary>
         /// Saves translation project data to file.
         /// </summary>
@@ -137,7 +138,6 @@ namespace TranslatorStudioClassLibrary.Repository
                 return false;
             }
         }
-
         /// <summary>
         /// Exports translated lines in translation project to file.
         /// </summary>
@@ -162,6 +162,7 @@ namespace TranslatorStudioClassLibrary.Repository
                 return false;
             }
         }
+        #endregion
 
         #endregion
 
@@ -173,9 +174,7 @@ namespace TranslatorStudioClassLibrary.Repository
         /// <returns>Object that implements IProjectData interface.</returns>
         private IProjectData OpenProject(string jsonString)
         {
-            IProjectData projectData;
-
-            var success = TryConvertProjectV2(jsonString, out projectData);
+            var success = TryConvertProjectV2(jsonString, out IProjectData projectData);
 
             if (success)
                 return projectData;
@@ -189,7 +188,7 @@ namespace TranslatorStudioClassLibrary.Repository
         }
 
         /// <summary>
-        /// Tries to convert Project Data from JSON using Project Data Version 2.
+        /// Tries to convert Project Data from JSON using Project Data Structure Version 2.
         /// </summary>
         /// <param name="jsonString">String used in conversion.</param>
         /// <param name="projectData">Object that implements IProjectData interface.</param>
@@ -209,7 +208,7 @@ namespace TranslatorStudioClassLibrary.Repository
         }
 
         /// <summary>
-        /// Tries to convert Project Data from JSON using Legacy Project Data.
+        /// Tries to convert Project Data from JSON using Legacy Project Data Structure.
         /// </summary>
         /// <param name="jsonString">String used in conversion.</param>
         /// <param name="projectData">Object that implements IProjectData interface.</param>
