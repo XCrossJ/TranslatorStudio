@@ -67,8 +67,8 @@ namespace TranslatorStudio.Forms
 
         private void cmsPreview_Opening(object sender, CancelEventArgs e)
         {
-            tsmiMarkComplete.Checked = Data.CompletedLines[PreviewCurrentIndex];
-            tsmiMarkAttention.Checked = Data.MarkedLines[PreviewCurrentIndex];
+            tsmiMarkComplete.Checked = Data.ProjectLines[PreviewCurrentIndex].Completed;
+            tsmiMarkAttention.Checked = Data.ProjectLines[PreviewCurrentIndex].Marked;
         }
 
         private void tsmiMarkComplete_Click(object sender, EventArgs e)
@@ -83,7 +83,7 @@ namespace TranslatorStudio.Forms
 
         private void tsmiCopyRaw_Click(object sender, EventArgs e)
         {
-            var copyText = Data.RawLines[PreviewCurrentIndex];
+            var copyText = Data.ProjectLines[PreviewCurrentIndex].Raw;
             consumer.CopyRaw(copyText);
         }
 
