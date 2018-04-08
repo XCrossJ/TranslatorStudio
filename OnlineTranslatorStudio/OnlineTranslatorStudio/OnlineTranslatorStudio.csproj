@@ -147,7 +147,7 @@
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="TranslatorStudioClassLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MayonakaSignal.XCrossJ.TranslatorStudioClassLibrary.1.0.3\lib\net452\TranslatorStudioClassLibrary.dll</HintPath>
+      <HintPath>..\packages\MayonakaSignal.XCrossJ.TranslatorStudioClassLibrary.1.0.4\lib\net452\TranslatorStudioClassLibrary.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -274,6 +274,7 @@
     <TypeScriptCompile Include="Javascript\DeskSetup.ts" />
     <TypeScriptCompile Include="Javascript\ProgressBarComponent.ts" />
     <TypeScriptCompile Include="Javascript\ProjectData.ts" />
+    <TypeScriptCompile Include="Javascript\ProjectLine.ts" />
     <TypeScriptCompile Include="Javascript\SubTranslationData.ts" />
     <TypeScriptCompile Include="Javascript\TranslationData.ts" />
     <TypeScriptCompile Include="Scripts\index.d.ts" />
@@ -298,7 +299,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>56711</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

@@ -8,14 +8,12 @@ interface ITranslationData {
 
     // Properties
     ProjectName: KnockoutObservable<string>;
-    RawLines: KnockoutObservableArray<KnockoutObservable<string>>;
-    TranslatedLines: KnockoutObservableArray<KnockoutObservable<string>>;
-    MarkedLines: KnockoutObservableArray<KnockoutObservable<boolean>>;
-    CompletedLines: KnockoutObservableArray<KnockoutObservable<boolean>>;
+    ProjectLines: KnockoutObservableArray<KnockoutObservable<IProjectLineViewModel>>;
 
     // Controls
     CurrentIndex: KnockoutObservable<number>;
     MaxIndex: KnockoutComputed<number>;
+    CurrentLine: KnockoutObservable<IProjectLineViewModel>;
     CurrentRaw: KnockoutObservable<string>;
     CurrentTranslation: KnockoutObservable<string>;
     CurrentMarked: KnockoutObservable<boolean>;
@@ -64,21 +62,21 @@ class TranslationData implements ITranslationData {
         this._maxIndex = ko.computed({
             owner: this,
             read: () => {
-                return this.RawLines().length - 1;
+                return this.ProjectLines().length - 1;
             }
         });
         this.NumberOfLines = ko.computed({
             owner: this,
             read: () => {
-                return this.RawLines().length;
+                return this.ProjectLines().length;
             }
         });
         this.NumberOfCompletedLines = ko.computed({
             owner: this,
             read: () => {
                 var result = 0;
-                for (var i = 0; i < this.CompletedLines().length; i++) {
-                    if (this.CompletedLines()[i]() == true) {
+                for (var i = 0; i < this.ProjectLines().length; i++) {
+                    if (this.ProjectLines()[i]().Completed() == true) {
                         result++;
                     }
                 }
@@ -104,32 +102,12 @@ class TranslationData implements ITranslationData {
         this._projectData().projectName(value());
     }
 
-    get RawLines(): KnockoutObservableArray<KnockoutObservable<string>> {
-        return this._projectData().rawLines;
-    }
-    set RawLines(value: KnockoutObservableArray<KnockoutObservable<string>>) {
-        this._projectData().rawLines(value());
+    get ProjectLines(): KnockoutObservableArray<KnockoutObservable<IProjectLineViewModel>> {
+        return this._projectData().projectLines;
     }
 
-    get TranslatedLines(): KnockoutObservableArray<KnockoutObservable<string>> {
-        return this._projectData().translatedLines;
-    }
-    set TranslatedLines(value: KnockoutObservableArray<KnockoutObservable<string>>) {
-        this._projectData().translatedLines(value());
-    }
-
-    get MarkedLines(): KnockoutObservableArray<KnockoutObservable<boolean>> {
-        return this._projectData().markedLines;
-    }
-    set MarkedLines(value: KnockoutObservableArray<KnockoutObservable<boolean>>) {
-        this._projectData().markedLines(value());
-    }
-
-    get CompletedLines(): KnockoutObservableArray<KnockoutObservable<boolean>> {
-        return this._projectData().completedLines;
-    }
-    set CompletedLines(value: KnockoutObservableArray<KnockoutObservable<boolean>>) {
-        this._projectData().completedLines(value());
+    set ProjectLines(value: KnockoutObservableArray<KnockoutObservable<IProjectLineViewModel>>) {
+        this._projectData().projectLines(value());
     }
 
     //Controls
@@ -159,7 +137,7 @@ class TranslationData implements ITranslationData {
         }
     }
 
-    get CurrentRaw(): KnockoutObservable<string> {
+    get CurrentLine(): KnockoutObservable<IProjectLineViewModel> {
         var index: number;
         if (this.DefaultTranslationMode()) {
             index = this.CurrentIndex();
@@ -167,83 +145,46 @@ class TranslationData implements ITranslationData {
         else {
             index = this._subData.CurrentReference();
         }
-        return this.RawLines()[index];
+        return this.ProjectLines()[index];
+    }
+    set CurrentLine(value: KnockoutObservable<IProjectLineViewModel>) {
+        var index: number;
+        if (this.DefaultTranslationMode()) {
+            index = this.CurrentIndex();
+        }
+        else {
+            index = this._subData.CurrentReference();
+        }
+        this.ProjectLines()[index](value());
+    }
+
+    get CurrentRaw(): KnockoutObservable<string> {
+        return this.CurrentLine().Raw;
     }
     set CurrentRaw(value: KnockoutObservable<string>) {
-        var index: number;
-        if (this.DefaultTranslationMode()) {
-            index = this.CurrentIndex();
-        }
-        else {
-            index = this._subData.CurrentReference();
-        }
-        this.RawLines()[index](value());
+        this.CurrentLine().Raw(value());
     }
 
     get CurrentTranslation(): KnockoutObservable<string> {
-        var index: number;
-        if (this.DefaultTranslationMode()) {
-            index = this.CurrentIndex();
-        }
-        else {
-            index = this._subData.CurrentReference();
-        }
-        return this.TranslatedLines()[index];
+        return this.CurrentLine().Translation;
     }
     set CurrentTranslation(value: KnockoutObservable<string>) {
-        var index: number;
-        if (this.DefaultTranslationMode()) {
-            index = this.CurrentIndex();
-        }
-        else {
-            index = this._subData.CurrentReference();
-        }
-        this.TranslatedLines()[index](value());
-    }
-
-    get CurrentMarked(): KnockoutObservable<boolean> {
-        var index: number;
-        if (this.DefaultTranslationMode()) {
-            index = this.CurrentIndex();
-        }
-        else {
-            index = this._subData.CurrentReference();
-        }
-        return this.MarkedLines()[index];
-    }
-    set CurrentMarked(value: KnockoutObservable<boolean>) {
-        var index: number;
-        if (this.DefaultTranslationMode()) {
-            index = this.CurrentIndex();
-        }
-        else {
-            index = this._subData.CurrentReference();
-        }
-        this.MarkedLines()[index](value());
+        this.CurrentLine().Translation(value());
     }
 
     get CurrentCompletion(): KnockoutObservable<boolean> {
-        var index: number;
-        if (this.DefaultTranslationMode()) {
-            index = this.CurrentIndex();
-        }
-        else {
-            index = this._subData.CurrentReference();
-        }
-        return this.CompletedLines()[index];
+        return this.CurrentLine().Completed;
     }
     set CurrentCompletion(value: KnockoutObservable<boolean>) {
-        var index: number;
-        if (this.DefaultTranslationMode()) {
-            index = this.CurrentIndex();
-        }
-        else {
-            index = this._subData.CurrentReference();
-        }
-        this.CompletedLines()[index](value());
+        this.CurrentLine().Completed(value());
     }
-    
 
+    get CurrentMarked(): KnockoutObservable<boolean> {
+        return this.CurrentLine().Marked;
+    }
+    set CurrentMarked(value: KnockoutObservable<boolean>) {
+        this.CurrentLine().Marked(value());
+    }
 
     // Methods
     IncrementIndex(): void {
@@ -271,8 +212,8 @@ class TranslationData implements ITranslationData {
 
         var conditionList: boolean[] = [];
 
-        for (var i = 0; i < this.MarkedLines().length; i++) {
-            conditionList.push(this.MarkedLines()[i]());
+        for (var i = 0; i < this.ProjectLines().length; i++) {
+            conditionList.push(this.ProjectLines()[i]().Marked());
         }
 
         try {
@@ -300,8 +241,8 @@ class TranslationData implements ITranslationData {
 
         var conditionList: boolean[] = [];
 
-        for (var i = 0; i < this.CompletedLines().length; i++) {
-            conditionList.push(!this.CompletedLines()[i]());
+        for (var i = 0; i < this.ProjectLines().length; i++) {
+            conditionList.push(!this.ProjectLines()[i]().Completed());
         }
 
         try {
@@ -329,8 +270,8 @@ class TranslationData implements ITranslationData {
 
         var conditionList: boolean[] = [];
 
-        for (var i = 0; i < this.CompletedLines().length; i++) {
-            conditionList.push(this.CompletedLines()[i]());
+        for (var i = 0; i < this.ProjectLines().length; i++) {
+            conditionList.push(this.ProjectLines()[i]().Completed());
         }
 
         try {

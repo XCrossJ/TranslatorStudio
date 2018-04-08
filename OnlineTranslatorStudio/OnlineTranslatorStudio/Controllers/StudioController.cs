@@ -71,12 +71,6 @@ namespace OnlineTranslatorStudio.Controllers
                         string fileName = translationRequest.ProjectName;
                         string[] rawData = translationRequest.RawData.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
                         IProjectData project = projectDataFactory.CreateProjectDataFromArray(fileName, rawData);
-
-                        for (int i = 0; i < project.TranslatedLines.Count; i++)
-                        {
-                            project.TranslatedLines[i] = string.Empty;
-                        }
-                        
                         data = translationDataFactory.CreateTranslationDataFromProject(project);
                     }
                     else

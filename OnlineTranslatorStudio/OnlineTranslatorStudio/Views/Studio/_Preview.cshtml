@@ -14,11 +14,11 @@
                     </thead>
 
                     <tbody>
-                        <!-- ko foreach: RawLines -->
-                        <tr data-bind="css: { 'table-success': $parent.CompletedLines()[$index()], 'table-warning': $parent.MarkedLines()[$index()]}">
-                            <td><span data-bind="text: $parent.RawLines()[$index()]"></span></td>
-                            <td><span data-bind="text: $parent.TranslatedLines()[$index()]"></span></td>
-@*                            <td><a class="btn btn-block btn-default text-center"><span class="glyphicon glyphicon-option-vertical"></span></a></td>*@
+                        <!-- ko foreach: ProjectLines -->
+                        <tr data-bind="css: { 'table-success': Completed, 'table-warning': Marked}">
+                            <td><span data-bind="text: Raw"></span></td>
+                            <td><span data-bind="text: Translation"></span></td>
+                            @*<td><a class="btn btn-block btn-default text-center"><span class="glyphicon glyphicon-option-vertical"></span></a></td>*@
                         </tr>
                         <!-- /ko -->
                     </tbody>

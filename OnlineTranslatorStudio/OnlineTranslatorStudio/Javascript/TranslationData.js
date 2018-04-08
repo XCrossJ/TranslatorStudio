@@ -12,21 +12,21 @@ var TranslationData = /** @class */ (function () {
         this._maxIndex = ko.computed({
             owner: this,
             read: function () {
-                return _this.RawLines().length - 1;
+                return _this.ProjectLines().length - 1;
             }
         });
         this.NumberOfLines = ko.computed({
             owner: this,
             read: function () {
-                return _this.RawLines().length;
+                return _this.ProjectLines().length;
             }
         });
         this.NumberOfCompletedLines = ko.computed({
             owner: this,
             read: function () {
                 var result = 0;
-                for (var i = 0; i < _this.CompletedLines().length; i++) {
-                    if (_this.CompletedLines()[i]() == true) {
+                for (var i = 0; i < _this.ProjectLines().length; i++) {
+                    if (_this.ProjectLines()[i]().Completed() == true) {
                         result++;
                     }
                 }
@@ -52,42 +52,12 @@ var TranslationData = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(TranslationData.prototype, "RawLines", {
+    Object.defineProperty(TranslationData.prototype, "ProjectLines", {
         get: function () {
-            return this._projectData().rawLines;
+            return this._projectData().projectLines;
         },
         set: function (value) {
-            this._projectData().rawLines(value());
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(TranslationData.prototype, "TranslatedLines", {
-        get: function () {
-            return this._projectData().translatedLines;
-        },
-        set: function (value) {
-            this._projectData().translatedLines(value());
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(TranslationData.prototype, "MarkedLines", {
-        get: function () {
-            return this._projectData().markedLines;
-        },
-        set: function (value) {
-            this._projectData().markedLines(value());
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(TranslationData.prototype, "CompletedLines", {
-        get: function () {
-            return this._projectData().completedLines;
-        },
-        set: function (value) {
-            this._projectData().completedLines(value());
+            this._projectData().projectLines(value());
         },
         enumerable: true,
         configurable: true
@@ -125,7 +95,7 @@ var TranslationData = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(TranslationData.prototype, "CurrentRaw", {
+    Object.defineProperty(TranslationData.prototype, "CurrentLine", {
         get: function () {
             var index;
             if (this.DefaultTranslationMode()) {
@@ -134,7 +104,7 @@ var TranslationData = /** @class */ (function () {
             else {
                 index = this._subData.CurrentReference();
             }
-            return this.RawLines()[index];
+            return this.ProjectLines()[index];
         },
         set: function (value) {
             var index;
@@ -144,79 +114,47 @@ var TranslationData = /** @class */ (function () {
             else {
                 index = this._subData.CurrentReference();
             }
-            this.RawLines()[index](value());
+            this.ProjectLines()[index](value());
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TranslationData.prototype, "CurrentRaw", {
+        get: function () {
+            return this.CurrentLine().Raw;
+        },
+        set: function (value) {
+            this.CurrentLine().Raw(value());
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(TranslationData.prototype, "CurrentTranslation", {
         get: function () {
-            var index;
-            if (this.DefaultTranslationMode()) {
-                index = this.CurrentIndex();
-            }
-            else {
-                index = this._subData.CurrentReference();
-            }
-            return this.TranslatedLines()[index];
+            return this.CurrentLine().Translation;
         },
         set: function (value) {
-            var index;
-            if (this.DefaultTranslationMode()) {
-                index = this.CurrentIndex();
-            }
-            else {
-                index = this._subData.CurrentReference();
-            }
-            this.TranslatedLines()[index](value());
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(TranslationData.prototype, "CurrentMarked", {
-        get: function () {
-            var index;
-            if (this.DefaultTranslationMode()) {
-                index = this.CurrentIndex();
-            }
-            else {
-                index = this._subData.CurrentReference();
-            }
-            return this.MarkedLines()[index];
-        },
-        set: function (value) {
-            var index;
-            if (this.DefaultTranslationMode()) {
-                index = this.CurrentIndex();
-            }
-            else {
-                index = this._subData.CurrentReference();
-            }
-            this.MarkedLines()[index](value());
+            this.CurrentLine().Translation(value());
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(TranslationData.prototype, "CurrentCompletion", {
         get: function () {
-            var index;
-            if (this.DefaultTranslationMode()) {
-                index = this.CurrentIndex();
-            }
-            else {
-                index = this._subData.CurrentReference();
-            }
-            return this.CompletedLines()[index];
+            return this.CurrentLine().Completed;
         },
         set: function (value) {
-            var index;
-            if (this.DefaultTranslationMode()) {
-                index = this.CurrentIndex();
-            }
-            else {
-                index = this._subData.CurrentReference();
-            }
-            this.CompletedLines()[index](value());
+            this.CurrentLine().Completed(value());
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TranslationData.prototype, "CurrentMarked", {
+        get: function () {
+            return this.CurrentLine().Marked;
+        },
+        set: function (value) {
+            this.CurrentLine().Marked(value());
         },
         enumerable: true,
         configurable: true
@@ -241,8 +179,8 @@ var TranslationData = /** @class */ (function () {
             this.StartDefaultMode();
         }
         var conditionList = [];
-        for (var i = 0; i < this.MarkedLines().length; i++) {
-            conditionList.push(this.MarkedLines()[i]());
+        for (var i = 0; i < this.ProjectLines().length; i++) {
+            conditionList.push(this.ProjectLines()[i]().Marked());
         }
         try {
             this._subData = new SubTranslationData(conditionList);
@@ -265,8 +203,8 @@ var TranslationData = /** @class */ (function () {
             this.StartDefaultMode();
         }
         var conditionList = [];
-        for (var i = 0; i < this.CompletedLines().length; i++) {
-            conditionList.push(!this.CompletedLines()[i]());
+        for (var i = 0; i < this.ProjectLines().length; i++) {
+            conditionList.push(!this.ProjectLines()[i]().Completed());
         }
         try {
             this._subData = new SubTranslationData(conditionList);
@@ -289,8 +227,8 @@ var TranslationData = /** @class */ (function () {
             this.StartDefaultMode();
         }
         var conditionList = [];
-        for (var i = 0; i < this.CompletedLines().length; i++) {
-            conditionList.push(this.CompletedLines()[i]());
+        for (var i = 0; i < this.ProjectLines().length; i++) {
+            conditionList.push(this.ProjectLines()[i]().Completed());
         }
         try {
             this._subData = new SubTranslationData(conditionList);
