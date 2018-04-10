@@ -25,6 +25,15 @@ $(document).ready(function () {
     $("#editMode").change(function () {
         handler.processEditMode(this);
     });
+    $("#saveProject").click(function () {
+        handler.saveProject();
+    });
+    $("#downloadProject").click(function () {
+        handler.downloadProject();
+    });
+    $("#exportProject").click(function () {
+        handler.exportProject();
+    });
 });
 //Context menu
 //https://swisnl.github.io/jQuery-contextMenu/demo.html
