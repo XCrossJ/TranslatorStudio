@@ -9,6 +9,7 @@ var TranslationData = /** @class */ (function () {
         this._projectData = ko.observable(projectData);
         this._index = ko.observable(0);
         this.DefaultTranslationMode = ko.observable(true);
+        this.RawReadOnly = ko.observable(true);
         this._maxIndex = ko.computed({
             owner: this,
             read: function () {
@@ -95,6 +96,35 @@ var TranslationData = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(TranslationData.prototype, "CurrentLineNumber", {
+        get: function () {
+            var _this = this;
+            return ko.pureComputed({
+                owner: this,
+                read: function () {
+                    return _this.CurrentIndex() + 1;
+                },
+                write: function (value) {
+                    _this.CurrentIndex(value - 1);
+                }
+            });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TranslationData.prototype, "MaxLineNumber", {
+        get: function () {
+            var _this = this;
+            return ko.computed({
+                owner: this,
+                read: function () {
+                    return _this.MaxIndex() + 1;
+                }
+            });
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(TranslationData.prototype, "CurrentLine", {
         get: function () {
             var index;
@@ -170,6 +200,18 @@ var TranslationData = /** @class */ (function () {
             this.CurrentIndex(this.CurrentIndex() - 1);
         }
     };
+    TranslationData.prototype.InsertLine = function (index) {
+        if (index == undefined)
+            index = this.NumberOfLines();
+        var newData = { Raw: "", Translation: "", Completed: false, Marked: false };
+        var newLine = ko.observable(new ProjectLineViewModel(newData));
+        this.ProjectLines.splice(index, 0, newLine);
+    };
+    TranslationData.prototype.RemoveLine = function (index) {
+        if (index == undefined)
+            index = this.NumberOfLines();
+        this.ProjectLines.splice(index, 1);
+    };
     TranslationData.prototype.StartDefaultMode = function () {
         this.DefaultTranslationMode(true);
         this.CurrentIndex(0);
@@ -244,6 +286,14 @@ var TranslationData = /** @class */ (function () {
             }
             this.StartDefaultMode();
             throw Error(e);
+        }
+    };
+    TranslationData.prototype.ToggleRawReadOnly = function (value) {
+        if (value == undefined) {
+            this.RawReadOnly(!this.RawReadOnly());
+        }
+        else {
+            this.RawReadOnly(value);
         }
     };
     TranslationData.prototype.GetSaveString = function () {

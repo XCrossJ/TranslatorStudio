@@ -9,10 +9,14 @@ interface ITranslationData {
     // Properties
     ProjectName: KnockoutObservable<string>;
     ProjectLines: KnockoutObservableArray<KnockoutObservable<IProjectLineViewModel>>;
+    RawReadOnly: KnockoutObservable<boolean>;
 
     // Controls
     CurrentIndex: KnockoutObservable<number>;
     MaxIndex: KnockoutComputed<number>;
+    CurrentLineNumber: KnockoutComputed<number>;
+    MaxLineNumber: KnockoutComputed<number>;
+
     CurrentLine: KnockoutObservable<IProjectLineViewModel>;
     CurrentRaw: KnockoutObservable<string>;
     CurrentTranslation: KnockoutObservable<string>;
@@ -29,10 +33,16 @@ interface ITranslationData {
     IncrementIndex: () => void;
     DecrementIndex: () => void;
 
+    InsertLine: (index: number) => void;
+    RemoveLine: (index: number) => void;
+
     StartDefaultMode: () => void;
     StartMarkedOnlyMode: () => void;
     StartIncompleteOnlyMode: () => void;
     StartCompleteOnlyMode: () => void;
+
+
+    ToggleRawReadOnly: (value: boolean) => void;
 
     GetSaveString: () => string;
 }
@@ -44,6 +54,7 @@ class TranslationData implements ITranslationData {
     private _maxIndex: KnockoutComputed<number>;
 
     DefaultTranslationMode: KnockoutObservable<boolean>;
+    RawReadOnly: KnockoutObservable<boolean>;
 
     NumberOfLines: KnockoutComputed<number>;
     NumberOfCompletedLines: KnockoutComputed<number>;
@@ -54,10 +65,11 @@ class TranslationData implements ITranslationData {
     constructor(projectData: IProjectViewModel) {
         if (projectData == undefined) throw Error('Project Data is undefined');
         this._projectData = ko.observable(projectData);
-
+        
         this._index = ko.observable(0);
 
         this.DefaultTranslationMode = ko.observable(true);
+        this.RawReadOnly = ko.observable(true);
 
         this._maxIndex = ko.computed({
             owner: this,
@@ -137,6 +149,27 @@ class TranslationData implements ITranslationData {
         }
     }
 
+    get CurrentLineNumber(): KnockoutComputed<number> {
+        return ko.pureComputed({
+            owner: this,
+            read: () => {
+                return this.CurrentIndex() + 1;
+            },
+            write: (value) => {
+                this.CurrentIndex(value - 1);
+            }
+        });
+    }
+
+    get MaxLineNumber(): KnockoutComputed<number> {
+        return ko.computed({
+            owner: this,
+            read: () => {
+                return this.MaxIndex() + 1;
+            }
+        });
+    }
+
     get CurrentLine(): KnockoutObservable<IProjectLineViewModel> {
         var index: number;
         if (this.DefaultTranslationMode()) {
@@ -197,6 +230,19 @@ class TranslationData implements ITranslationData {
         if (this.CurrentIndex() > 0) {
             this.CurrentIndex(this.CurrentIndex() - 1);
         }
+    }
+
+
+    InsertLine(index: number): void {
+        if (index == undefined) index = this.NumberOfLines();
+        var newData: IProjectLine = { Raw: "", Translation: "", Completed: false, Marked: false };
+        var newLine: KnockoutObservable<IProjectLineViewModel> = ko.observable(new ProjectLineViewModel(newData));
+        this.ProjectLines.splice(index, 0, newLine);
+    }
+
+    RemoveLine(index: number): void {
+        if (index == undefined) index = this.NumberOfLines();
+        this.ProjectLines.splice(index, 1);
     }
 
 
@@ -292,6 +338,15 @@ class TranslationData implements ITranslationData {
         }
     }
 
+
+    ToggleRawReadOnly(value?: boolean): void {
+        if (value == undefined) {
+            this.RawReadOnly(!this.RawReadOnly());
+        }
+        else {
+            this.RawReadOnly(value);
+        }
+    }
 
     GetSaveString(): string {
         var projectData: IProjectData = new ProjectData(this._projectData());

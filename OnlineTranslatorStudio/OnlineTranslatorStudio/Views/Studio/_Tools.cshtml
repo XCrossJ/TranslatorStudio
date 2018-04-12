@@ -7,14 +7,35 @@
     <div class="collapse show" id="collapseTools">
         <div class="card-body">
 
-
             <div class="row">
                 <div class="col-12">
+                   
                     <div class="form-row">
 
-                        <div id="editModeSection" class="form-group row col-12 col-lg-5">
-                            <label for="editMode" class="col-4 col-md-6 col-form-label">Translation Mode</label>
-                            <div class="col-8 col-md-6">
+                        @*<div id="checkSection" class="form-group row col-12 col-lg-6">
+                            <label class="col-5 col-form-label">Line Status</label>
+                            <div class="col-7">
+
+                                <div class="form-check">
+                                    <label class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" id="CurrentMarked" type="checkbox" data-bind="checked: CurrentMarked" />
+                                        <label class="custom-control-label" for="CurrentMarked">Marked For Attention</label>
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <label class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" id="CurrentCompletion" type="checkbox" data-bind="checked: CurrentCompletion" />
+                                        <label class="custom-control-label" for="CurrentCompletion">Marked As Completed</label>
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>*@
+
+                        <div id="editModeSection" class="form-group row col-12 col-lg-6">
+                            <label for="editMode" class="col-5 col-form-label">Translation Mode</label>
+                            <div class="col-7">
                                 <select id="editMode" class="custom-select">
                                     <option selected value="Default">Default</option>
                                     <option value="Marked">Marked Only</option>
@@ -26,36 +47,23 @@
 
                     </div>
 
-                    <div class="form-row">
+                    <div id="utilsSection" class="btn-toolbar row col-12 justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
 
-                        <div id="checkSection" class="form-group row col-12 col-lg-5">
-                            <label class="col-4 col-md-6 col-form-label">Line Status</label>
-                            <div class="col-8 col-md-6">
-                                <div class="form-check">
-                                    <input class="form-check-input" id="CurrentMarked" type="checkbox" data-bind="checked: CurrentMarked" />
-                                    <label class="form-check-label" for="CurrentMarked">Marked For Attention</label>
-                                </div>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Line Utilities">
+                            <button id="insertLine" type="button" class="btn btn-outline-success" data-bind="click: InsertLine(CurrentIndex())" data-toggle="tooltip" data-placement="top" title="Inserts new line at current line">Insert Line</button>
+                            <button id="removeLine" type="button" class="btn btn-outline-danger" data-bind="click: RemoveLine(CurrentIndex())" data-toggle="tooltip" data-placement="top" title="Removes current line">Remove Line</button>
+                        </div>
 
-                                <div class="form-check">
-                                    <input class="form-check-input" id="CurrentCompletion" type="checkbox" data-bind="checked: CurrentCompletion" />
-                                    <label class="form-check-label" for="CurrentCompletion">Marked As Completed</label>
-                                </div>
-                            </div>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Save Utilities">
+                            <button id="saveProject" type="button" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Temporarily Saves Project in Session">Save</button>
+                            <button id="downloadProject" type="button" class="btn btn-outline-success" data-toggle="tooltip" data-placement="top" title="Saves and Downloads Current Project to Disk">Download</button>
+                            <button id="exportProject" type="button" class="btn btn-outline-info" data-toggle="tooltip" data-placement="top" title="Exports Translation to Disk">Export</button>
                         </div>
 
                     </div>
 
-                    <div id="toolbarSection" class="btn-toolbar row float-right" role="toolbar" aria-label="Toolbar with button groups">
-                        
-                        <div class="btn-group btn-group-sm col-6" role="group" aria-label="Save Utilities">
-                            <button id="saveProject" type="button" class="btn btn-outline-primary">Save Project</button>
-                            <button id="downloadProject" type="button" class="btn btn-outline-success">Download Project</button>
-                            <button id="exportProject" type="button" class="btn btn-outline-info">Export Project</button>
-                        </div>
-                    </div>
                 </div>
             </div>
-
 
         </div>
     </div>

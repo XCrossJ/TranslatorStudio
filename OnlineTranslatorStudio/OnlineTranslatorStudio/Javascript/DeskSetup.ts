@@ -11,6 +11,7 @@ $.ajax({
         var projectData = new ProjectViewModel(data);
         translationData = new TranslationData(projectData);
         handler = new DeskHandler(translationData);
+        translationData.CurrentIndex(0);
     }
 });
 
@@ -19,13 +20,6 @@ $(document).keydown(function (event: KeyboardEvent) {
 });
 
 $(document).ready(function () {
-    $("#decrementIndex").click(function () {
-        translationData.DecrementIndex();
-    });
-
-    $("#incrementIndex").click(function () {
-        translationData.IncrementIndex();
-    });
 
     $("#editMode").change(function () {
         handler.processEditMode(this);
