@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using TranslatorStudioClassLibrary.Class;
 using TranslatorStudioClassLibrary.Interface;
@@ -25,7 +26,6 @@ namespace TranslatorStudioClassLibrary.Repository
         #endregion
 
         #region Constructor
-
         /// <summary>
         /// Creates File Repository.
         /// </summary>
@@ -34,11 +34,11 @@ namespace TranslatorStudioClassLibrary.Repository
         {
             _translationDataFactory = translationDataFactory ?? throw new ArgumentNullException(nameof(translationDataFactory));
         }
-
         #endregion
 
         #region Public Methods
 
+        #region Read Methods
         /// <summary>
         /// Opens translation data from text file.
         /// </summary>
@@ -117,7 +117,9 @@ namespace TranslatorStudioClassLibrary.Repository
             var openData = new Tuple<ITranslationData, string>(data, previousSavePath);
             return openData;
         }
+        #endregion
 
+        #region Write Methods
         /// <summary>
         /// Saves translation project data to file.
         /// </summary>
@@ -137,7 +139,6 @@ namespace TranslatorStudioClassLibrary.Repository
                 return false;
             }
         }
-
         /// <summary>
         /// Exports translated lines in translation project to file.
         /// </summary>
@@ -150,9 +151,9 @@ namespace TranslatorStudioClassLibrary.Repository
             {
                 using (StreamWriter sw = new StreamWriter(path))
                 {
-                    foreach (var item in data.TranslatedLines)
+                    foreach (var item in data.ProjectLines)
                     {
-                        sw.WriteLine(item);
+                        sw.WriteLine(item.Translation);
                     }
                 }
                 return true;
@@ -162,6 +163,7 @@ namespace TranslatorStudioClassLibrary.Repository
                 return false;
             }
         }
+        #endregion
 
         #endregion
 
@@ -173,14 +175,12 @@ namespace TranslatorStudioClassLibrary.Repository
         /// <returns>Object that implements IProjectData interface.</returns>
         private IProjectData OpenProject(string jsonString)
         {
-            IProjectData projectData;
-
-            var success = TryConvertProjectV2(jsonString, out projectData);
+            var success = TryConvertProjectLegacy(jsonString, out IProjectData projectData);
 
             if (success)
                 return projectData;
             else
-                success = TryConvertProjectLegacy(jsonString, out projectData);
+                success = TryConvertProjectV2(jsonString, out projectData);
 
             if (success)
                 return projectData;
@@ -189,7 +189,7 @@ namespace TranslatorStudioClassLibrary.Repository
         }
 
         /// <summary>
-        /// Tries to convert Project Data from JSON using Project Data Version 2.
+        /// Tries to convert Project Data from JSON using Project Data Structure Version 2.
         /// </summary>
         /// <param name="jsonString">String used in conversion.</param>
         /// <param name="projectData">Object that implements IProjectData interface.</param>
@@ -203,13 +203,33 @@ namespace TranslatorStudioClassLibrary.Repository
             }
             catch (System.Exception)
             {
-                projectData = null;
-                return false;
+                try // Will need to fix later
+                {
+                    var definition = new
+                    {
+                        ProjectName = "",
+                        ProjectLines = new List<ProjectLine>()
+                    };
+
+                    var newProject = JsonConvert.DeserializeAnonymousType(jsonString, definition);
+
+                    projectData = new ProjectData
+                    {
+                        ProjectName = newProject.ProjectName,
+                        ProjectLines = newProject.ProjectLines.ToList<IProjectLine>()
+                    };
+                    return true;
+                }
+                catch (System.Exception)
+                {
+                    projectData = null;
+                    return false;
+                }
             }
         }
 
         /// <summary>
-        /// Tries to convert Project Data from JSON using Legacy Project Data.
+        /// Tries to convert Project Data from JSON using Legacy Project Data Structure.
         /// </summary>
         /// <param name="jsonString">String used in conversion.</param>
         /// <param name="projectData">Object that implements IProjectData interface.</param>
@@ -228,13 +248,23 @@ namespace TranslatorStudioClassLibrary.Repository
                 };
                 var oldProject = JsonConvert.DeserializeAnonymousType(jsonString, definition);
 
+                var projectLines = new List<IProjectLine>();
+
+                for (int i = 0; i < oldProject.RawLines.Count - 1; i++)
+                {
+                    projectLines.Add(new ProjectLine
+                    {
+                        Raw = oldProject.RawLines[i],
+                        Translation = oldProject.TranslatedLines[i],
+                        Completed = oldProject.CompletedLines[i],
+                        Marked = oldProject.MarkedLines[i]
+                    });
+                }
+
                 projectData = new ProjectData
                 {
                     ProjectName = oldProject.ProjectName,
-                    RawLines = oldProject.RawLines,
-                    TranslatedLines = oldProject.TranslatedLines,
-                    CompletedLines = oldProject.CompletedLines,
-                    MarkedLines = oldProject.MarkedLines
+                    ProjectLines = projectLines
                 };
                 
                 return true;

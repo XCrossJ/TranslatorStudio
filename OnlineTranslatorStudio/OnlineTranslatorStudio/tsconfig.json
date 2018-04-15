@@ -8,6 +8,7 @@
     "noEmitOnError": true
   },
   "files": [
+    "./Javascript/ProjectLine.ts",
     "./Javascript/ProjectData.ts",
     "./Javascript/SubTranslationData.ts",
     "./Javascript/TranslationData.ts",

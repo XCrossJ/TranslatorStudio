@@ -2,40 +2,26 @@
 var ProjectViewModel = /** @class */ (function () {
     function ProjectViewModel(data) {
         this.projectName = ko.observable(data.ProjectName);
-        var newRaw = [];
-        var newTranslation = [];
-        var newCompletion = [];
-        var newMarked = [];
-        for (var i = 0; i < data.RawLines.length; i++) {
-            newRaw.push(ko.observable(data.RawLines[i]));
-            newTranslation.push(ko.observable(data.TranslatedLines[i]));
-            newCompletion.push(ko.observable(data.CompletedLines[i]));
-            newMarked.push(ko.observable(data.MarkedLines[i]));
+        var newLines = [];
+        for (var i = 0; i < data.ProjectLines.length; i++) {
+            var newLine;
+            newLine = ko.observable(new ProjectLineViewModel(data.ProjectLines[i]));
+            newLines.push(newLine);
         }
-        this.rawLines = ko.observableArray(newRaw);
-        this.translatedLines = ko.observableArray(newTranslation);
-        this.completedLines = ko.observableArray(newCompletion);
-        this.markedLines = ko.observableArray(newMarked);
+        this.projectLines = ko.observableArray(newLines);
     }
     return ProjectViewModel;
 }());
 var ProjectData = /** @class */ (function () {
     function ProjectData(data) {
         this.ProjectName = data.projectName();
-        var newRaw = [];
-        var newTranslation = [];
-        var newCompletion = [];
-        var newMarked = [];
-        for (var i = 0; i < data.rawLines().length; i++) {
-            newRaw.push(data.rawLines()[i]());
-            newTranslation.push(data.translatedLines()[i]());
-            newCompletion.push(data.completedLines()[i]());
-            newMarked.push(data.markedLines()[i]());
+        var newLines = [];
+        for (var i = 0; i < data.projectLines().length; i++) {
+            var newLine;
+            newLine = new ProjectLine(data.projectLines()[i]());
+            newLines.push(newLine);
         }
-        this.RawLines = newRaw;
-        this.TranslatedLines = newTranslation;
-        this.CompletedLines = newCompletion;
-        this.MarkedLines = newMarked;
+        this.ProjectLines = newLines;
     }
     return ProjectData;
 }());

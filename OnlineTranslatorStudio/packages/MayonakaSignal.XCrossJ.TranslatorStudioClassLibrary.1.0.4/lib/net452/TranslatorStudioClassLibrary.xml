@@ -15,24 +15,9 @@
             The name of the project.
             </summary>
         </member>
-        <member name="P:TranslatorStudioClassLibrary.Class.ProjectData.RawLines">
+        <member name="P:TranslatorStudioClassLibrary.Class.ProjectData.ProjectLines">
             <summary>
-            Contains all of the raw lines in the project.
-            </summary>
-        </member>
-        <member name="P:TranslatorStudioClassLibrary.Class.ProjectData.TranslatedLines">
-            <summary>
-            Contains all of the translated lines in the project.
-            </summary>
-        </member>
-        <member name="P:TranslatorStudioClassLibrary.Class.ProjectData.CompletedLines">
-            <summary>
-            Contains the completion status of each line in the project.
-            </summary>
-        </member>
-        <member name="P:TranslatorStudioClassLibrary.Class.ProjectData.MarkedLines">
-            <summary>
-            Contains the marked status of each line in the project.
+            Contains all lines in the project.
             </summary>
         </member>
         <member name="M:TranslatorStudioClassLibrary.Class.ProjectData.#ctor">
@@ -45,6 +30,37 @@
             Gets JSON string of the project data used for saving.
             </summary>
             <returns>JSON string of project data.</returns>
+        </member>
+        <member name="T:TranslatorStudioClassLibrary.Class.ProjectLine">
+            <summary>
+            Class that contains the properties and method relevant for Project Line.
+            Implements Project Line Interface.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.ProjectLine.Raw">
+            <summary>
+            The Raw String of the Project Line.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.ProjectLine.Translation">
+            <summary>
+            The Translation String of the Project Line.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.ProjectLine.Completed">
+            <summary>
+            The Completion Status of the Project Line.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Class.ProjectLine.Marked">
+            <summary>
+            The Marked Status of the Project Line.
+            </summary>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Class.ProjectLine.#ctor">
+            <summary>
+            Creates empty Project Line.
+            </summary>
         </member>
         <member name="T:TranslatorStudioClassLibrary.Class.SubTranslationData">
             <summary>
@@ -133,24 +149,14 @@
             The name of the project.
             </summary>
         </member>
-        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.RawLines">
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.ProjectLines">
             <summary>
-            Contains all of the raw lines in the translation.
+            Contains all lines in the translation.
             </summary>
         </member>
-        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.TranslatedLines">
+        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.CurrentLine">
             <summary>
-            Contains all of the translated lines in the translation.
-            </summary>
-        </member>
-        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.CompletedLines">
-            <summary>
-            Contains the completion status of each line in the translation.
-            </summary>
-        </member>
-        <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.MarkedLines">
-            <summary>
-            Contains the marked status of each line in the translation.
+            The current project line in the translation.
             </summary>
         </member>
         <member name="P:TranslatorStudioClassLibrary.Class.TranslationData.CurrentRaw">
@@ -449,24 +455,9 @@
             The name of the project.
             </summary>
         </member>
-        <member name="P:TranslatorStudioClassLibrary.Interface.IProjectData.RawLines">
+        <member name="P:TranslatorStudioClassLibrary.Interface.IProjectData.ProjectLines">
             <summary>
-            Contains all of the raw lines in the project.
-            </summary>
-        </member>
-        <member name="P:TranslatorStudioClassLibrary.Interface.IProjectData.TranslatedLines">
-            <summary>
-            Contains all of the translated lines in the project.
-            </summary>
-        </member>
-        <member name="P:TranslatorStudioClassLibrary.Interface.IProjectData.CompletedLines">
-            <summary>
-            Contains the completion status of each line in the project.
-            </summary>
-        </member>
-        <member name="P:TranslatorStudioClassLibrary.Interface.IProjectData.MarkedLines">
-            <summary>
-            Contains the marked status of each line in the project.
+            Contains all lines in the project.
             </summary>
         </member>
         <member name="M:TranslatorStudioClassLibrary.Interface.IProjectData.GetSaveString">
@@ -474,6 +465,31 @@
             Gets JSON string of the project data used for saving.
             </summary>
             <returns>JSON string of project data.</returns>
+        </member>
+        <member name="T:TranslatorStudioClassLibrary.Interface.IProjectLine">
+            <summary>
+            Interface that defines the public properties and methods required to store Project Line.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.IProjectLine.Raw">
+            <summary>
+            The Raw String of the Project Line.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.IProjectLine.Translation">
+            <summary>
+            The Translation String of the Project Line.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.IProjectLine.Completed">
+            <summary>
+            The Completion Status of the Project Line.
+            </summary>
+        </member>
+        <member name="P:TranslatorStudioClassLibrary.Interface.IProjectLine.Marked">
+            <summary>
+            The Marked Status of the Project Line.
+            </summary>
         </member>
         <member name="T:TranslatorStudioClassLibrary.Interface.ISubTranslationData">
             <summary>
@@ -530,24 +546,14 @@
             The name of the project.
             </summary>
         </member>
-        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.RawLines">
+        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.ProjectLines">
             <summary>
-            Contains all of the raw lines in the translation.
+            Contains all the lines in the translation.
             </summary>
         </member>
-        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.TranslatedLines">
+        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.CurrentLine">
             <summary>
-            Contains all of the translated lines in the translation.
-            </summary>
-        </member>
-        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.CompletedLines">
-            <summary>
-            Contains the completion status of each line in the translation.
-            </summary>
-        </member>
-        <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.MarkedLines">
-            <summary>
-            Contains the marked status of each line in the translation.
+            The current project line in the translation.
             </summary>
         </member>
         <member name="P:TranslatorStudioClassLibrary.Interface.ITranslationData.CurrentRaw">
@@ -802,6 +808,29 @@
             <param name="data">Translation data to save.</param>
             <param name="path">Path of the file.</param>
             <returns>The result of the export.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Repository.FileRepository.OpenProject(System.String)">
+            <summary>
+            Opens Project Data from JSON.
+            </summary>
+            <param name="jsonString">String used in conversion.</param>
+            <returns>Object that implements IProjectData interface.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Repository.FileRepository.TryConvertProjectV2(System.String,TranslatorStudioClassLibrary.Interface.IProjectData@)">
+            <summary>
+            Tries to convert Project Data from JSON using Project Data Structure Version 2.
+            </summary>
+            <param name="jsonString">String used in conversion.</param>
+            <param name="projectData">Object that implements IProjectData interface.</param>
+            <returns>Result of attempt to convert project.</returns>
+        </member>
+        <member name="M:TranslatorStudioClassLibrary.Repository.FileRepository.TryConvertProjectLegacy(System.String,TranslatorStudioClassLibrary.Interface.IProjectData@)">
+            <summary>
+            Tries to convert Project Data from JSON using Legacy Project Data Structure.
+            </summary>
+            <param name="jsonString">String used in conversion.</param>
+            <param name="projectData">Object that implements IProjectData interface.</param>
+            <returns>Result of attempt to convert project.</returns>
         </member>
         <member name="T:TranslatorStudioClassLibrary.Factory.ProjectDataFactory">
             <summary>

@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using TranslatorStudio.Forms;
 using TranslatorStudio.Interfaces;
 using TranslatorStudio.Utilities;
+using TranslatorStudioClassLibrary.Interface;
 using TranslatorStudioClassLibrary.Utilities;
 
 namespace TranslatorStudio.Consumers
@@ -36,7 +37,8 @@ namespace TranslatorStudio.Consumers
         public bool toggleCurrentComplete()
         {
             var index = Preview.PreviewCurrentIndex;
-            Preview.Data.CompletedLines[index] = !Preview.Data.CompletedLines[index];
+            var currentLine = GetProjectLine(index);
+            currentLine.Completed = !currentLine.Completed;
             UpdateCellStyle(index);
             Preview.DataChanged = true;
             return true;
@@ -45,7 +47,8 @@ namespace TranslatorStudio.Consumers
         public bool toggleCurrentMarked()
         {
             var index = Preview.PreviewCurrentIndex;
-            Preview.Data.MarkedLines[index] = !Preview.Data.MarkedLines[index];
+            var currentLine = GetProjectLine(index);
+            currentLine.Marked = !currentLine.Marked;
             UpdateCellStyle(index);
             Preview.DataChanged = true;
             return true;
@@ -71,21 +74,23 @@ namespace TranslatorStudio.Consumers
         {
             if (currentCell != null)
             {
-                Preview.Data.TranslatedLines[currentCell.RowIndex] = Convert.ToString(currentCell.Value);
+                Preview.Data.ProjectLines[currentCell.RowIndex].Translation = Convert.ToString(currentCell.Value);
                 Preview.DataChanged = true;
                 return true;
             }
             return false;
         }
 
-        public bool UpdateCellStyle(int currentRow)
+        public bool UpdateCellStyle(int currentIndex)
         {
-            if (Preview.Data.MarkedLines[currentRow])
-                Preview.Rows[currentRow].DefaultCellStyle = ApplicationData.MarkedCellStyle;
-            else if (Preview.Data.CompletedLines[currentRow])
-                Preview.Rows[currentRow].DefaultCellStyle = ApplicationData.CompletedCellStyle;
+            var currentLine = GetProjectLine(currentIndex);
+            var currentRow = Preview.Rows[currentIndex];
+            if (currentLine.Marked)
+                currentRow.DefaultCellStyle = ApplicationData.MarkedCellStyle;
+            else if (currentLine.Completed)
+                currentRow.DefaultCellStyle = ApplicationData.CompletedCellStyle;
             else
-                Preview.Rows[currentRow].DefaultCellStyle = ApplicationData.DefaultCellStyle;
+                currentRow.DefaultCellStyle = ApplicationData.DefaultCellStyle;
             return true;
         }
 
@@ -100,7 +105,7 @@ namespace TranslatorStudio.Consumers
 
         public bool LoadPreview(DataGridView dataGridView)
         {
-            int numberOfLines = Preview.Data.RawLines.Count;
+            int numberOfLines = Preview.Data.ProjectLines.Count;
             string numberFormat = numberOfLines.GetNumberFormat();
             dataGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
@@ -108,11 +113,12 @@ namespace TranslatorStudio.Consumers
             for (int i = 0; i < numberOfLines; i++)
             {
                 var lineNumber = (i + 1).ToString(numberFormat);
-                var rawLine = Preview.Data.RawLines[i];
-                var translatedLine = Preview.Data.TranslatedLines[i];
+                var currentLine = GetProjectLine(i);
+                var rawLine = currentLine.Raw;
+                var translatedLine = currentLine.Translation;
 
-                rawLine = !string.IsNullOrEmpty(rawLine) ? rawLine : "";
-                translatedLine = !string.IsNullOrEmpty(translatedLine) ? translatedLine : "";
+                rawLine = rawLine.IsNotEmpty() ? rawLine : "";
+                translatedLine = translatedLine.IsNotEmpty() ? translatedLine : "";
 
                 dataGridView.Rows.Add(new string[] { lineNumber, rawLine, translatedLine });
 
@@ -141,6 +147,11 @@ namespace TranslatorStudio.Consumers
                 }
             }
             return true;
+        }
+
+        private IProjectLine GetProjectLine(int index)
+        {
+            return Preview.Data.ProjectLines[index];
         }
 
         #endregion

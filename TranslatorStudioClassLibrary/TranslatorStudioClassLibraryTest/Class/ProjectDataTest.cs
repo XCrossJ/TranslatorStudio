@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Moq;
 using System.Collections.Generic;
 using TranslatorStudioClassLibrary.Class;
 using TranslatorStudioClassLibrary.Interface;
@@ -21,40 +21,21 @@ namespace TranslatorStudioClassLibraryTest.Class
         public class Properties
         {
             /// <summary>
+            /// Mock of Project Lines.
+            /// </summary>
+            private readonly List<IProjectLine> mockProjectLines;
+
+            /// <summary>
             /// Mock of Project Data.
             /// </summary>
             private readonly IProjectData mockProjectData;
-            /// <summary>
-            /// Mock of Project Name.
-            /// </summary>
-            private readonly string mockProjectName;
-            /// <summary>
-            /// Mock of Raw Lines.
-            /// </summary>
-            private readonly List<string> mockRawLines;
-            /// <summary>
-            /// Mock of Translated Lines.
-            /// </summary>
-            private readonly List<string> mockTranslatedLines;
-            /// <summary>
-            /// Mock of Completed Lines.
-            /// </summary>
-            private readonly List<bool> mockCompletedLines;
-            /// <summary>
-            /// Mock of Marked Lines.
-            /// </summary>
-            private readonly List<bool> mockMarkedLines;
 
             /// <summary>
             /// Constructor to set up test code.
             /// </summary>
             public Properties()
             {
-                mockProjectName = "Mock Project Name";
-                mockRawLines = new List<string> { "", "" };
-                mockTranslatedLines = new List<string> { "", "" };
-                mockCompletedLines = new List<bool> { true, false };
-                mockMarkedLines = new List<bool> { false, true };
+                mockProjectLines = new List<IProjectLine>();
                 mockProjectData = new ProjectData();
             }
 
@@ -62,91 +43,38 @@ namespace TranslatorStudioClassLibraryTest.Class
             /// <summary>
             /// Given that Project Name is assigned a valid string, value of Project Name is changed.
             /// </summary>
-            [Fact]
-            public void ProjectData_ProjectName_Test()
+            [Theory]
+            [InlineData("Mock Project Name")]
+            public void ProjectData_ProjectName_Test(string projectName)
             {
                 //Arrange
-                var expected = mockProjectName;
+                var expected = projectName;
 
                 //Act
-                var actual = mockProjectData.ProjectName = expected;
+                mockProjectData.ProjectName = projectName;
+                var actual = mockProjectData.ProjectName;
 
                 //Assert
                 Assert.IsType<string>(actual);
                 Assert.Equal(expected, actual);
-
             }
 
             /// <summary>
-            /// Given that Raw Lines is assigned a valid list of strings, value of Raw Lines is changed.
+            /// Given that Project Lines is assigned a valid list of ProjectLines, value of Project Lines is changed.
             /// </summary>
             [Fact]
-            public void ProjectData_RawLines_Test()
+            public void ProjectData_ProjectLines_Test()
             {
                 //Arrange
-                var expected = mockRawLines;
+                var expected = mockProjectLines;
+                mockProjectData.ProjectLines = mockProjectLines;
 
                 //Act
-                var actual = mockProjectData.RawLines = expected;
+                var actual = mockProjectData.ProjectLines;
 
                 //Assert
-                Assert.IsType<List<string>>(actual);
+                Assert.IsType<List<IProjectLine>>(actual);
                 Assert.Equal(expected, actual);
-
-            }
-
-            /// <summary>
-            /// Given that Translated Lines is assigned a valid list of strings, value of Translated Lines is changed.
-            /// </summary>
-            [Fact]
-            public void ProjectData_TranslatedLines_Test()
-            {
-                //Arrange
-                var expected = mockTranslatedLines;
-
-                //Act
-                var actual = mockProjectData.TranslatedLines = expected;
-
-                //Assert
-                Assert.IsType<List<string>>(actual);
-                Assert.Equal(expected, actual);
-
-            }
-
-            /// <summary>
-            /// Given that Completed Lines is assigned a valid list of booleans, value of Completed Lines is changed.
-            /// </summary>
-            [Fact]
-            public void ProjectData_CompletedLines_Test()
-            {
-                //Arrange
-                var expected = mockCompletedLines;
-
-                //Act
-                var actual = mockProjectData.CompletedLines = expected;
-
-                //Assert
-                Assert.IsType<List<bool>>(actual);
-                Assert.Equal(expected, actual);
-
-            }
-
-            /// <summary>
-            /// Given that Marked Lines is assigned a valid list of booleans, value of Marked Lines is changed.
-            /// </summary>
-            [Fact]
-            public void ProjectData_MarkedLines_Test()
-            {
-                //Arrange
-                var expected = mockMarkedLines;
-
-                //Act
-                var actual = mockProjectData.MarkedLines = expected;
-
-                //Assert
-                Assert.IsType<List<bool>>(actual);
-                Assert.Equal(expected, actual);
-
             }
             #endregion
         }
@@ -167,7 +95,6 @@ namespace TranslatorStudioClassLibraryTest.Class
             }
 
             #region Constructor Tests
-
             /// <summary>
             /// Given that Project Data is invokved, Default Constructor returns valid Project Data.
             /// </summary>
@@ -185,7 +112,6 @@ namespace TranslatorStudioClassLibraryTest.Class
                 Assert.IsAssignableFrom<IProjectData>(actual);
                 Assert.NotStrictEqual(expected, actual);
             }
-
             #endregion
         }
 
@@ -210,7 +136,6 @@ namespace TranslatorStudioClassLibraryTest.Class
             }
 
             #region Methods Tests
-
             /// <summary>
             /// When calling GetProjectSaveString method, expect ProjectData serialised as JSON string.
             /// </summary>
@@ -227,7 +152,6 @@ namespace TranslatorStudioClassLibraryTest.Class
                 Assert.IsType<string>(actualSaveString);
                 Assert.Equal(expectedSaveString, actualSaveString);
             }
-
             #endregion
         }
     }

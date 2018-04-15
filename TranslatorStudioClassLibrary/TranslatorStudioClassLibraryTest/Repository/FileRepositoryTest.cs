@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using TranslatorStudioClassLibrary.Class;
 using TranslatorStudioClassLibrary.Interface;
 using TranslatorStudioClassLibrary.Repository;
 using TranslatorStudioClassLibrary.Utilities;
@@ -158,6 +159,8 @@ namespace TranslatorStudioClassLibraryTest.Repository
                 var actual = fileRepository.OpenTextFile(fullPath, fileName);
 
                 //Assert
+                mockTranslationDataFactory.Verify(x => x.CreateTranslationDataFromStream(It.IsAny<string>(), It.IsAny<StreamReader>()), Times.Once);
+
                 Assert.NotNull(actual);
                 Assert.IsAssignableFrom<ITranslationData>(actual);
                 Assert.Equal(expected, actual);
@@ -193,6 +196,8 @@ namespace TranslatorStudioClassLibraryTest.Repository
                 var actual = fileRepository.OpenTSPFile(fullPath, fileName);
 
                 //Assert
+                mockTranslationDataFactory.Verify(x => x.CreateTranslationDataFromProject(It.IsAny<IProjectData>()), Times.Once);
+
                 Assert.NotNull(actual);
                 Assert.IsAssignableFrom<ITranslationData>(actual);
                 Assert.Equal(expected, actual);
@@ -232,6 +237,8 @@ namespace TranslatorStudioClassLibraryTest.Repository
                 var actual = fileRepository.OpenDocFile(fullPath, fileName);
 
                 //Assert
+                mockTranslationDataFactory.Verify(x => x.CreateTranslationDataFromDocument(It.IsAny<string>(), It.IsAny<Document>()), Times.Once);
+
                 Assert.NotNull(actual);
                 Assert.IsAssignableFrom<ITranslationData>(actual);
                 Assert.Equal(expected, actual);
@@ -278,6 +285,10 @@ namespace TranslatorStudioClassLibraryTest.Repository
                 var prevSavePath = result.Item2;
 
                 //Assert
+                mockTranslationDataFactory.Verify(x => x.CreateTranslationDataFromStream(It.IsAny<string>(), It.IsAny<StreamReader>()), Times.AtMostOnce);
+                mockTranslationDataFactory.Verify(x => x.CreateTranslationDataFromProject(It.IsAny<IProjectData>()), Times.AtMostOnce);
+                mockTranslationDataFactory.Verify(x => x.CreateTranslationDataFromDocument(It.IsAny<string>(), It.IsAny<Document>()), Times.AtMostOnce);
+
                 Assert.NotNull(actual);
                 Assert.IsAssignableFrom<ITranslationData>(actual);
                 Assert.Equal(expected, actual);
@@ -301,6 +312,10 @@ namespace TranslatorStudioClassLibraryTest.Repository
             /// Mock of Translation Data.
             /// </summary>
             private readonly Mock<ITranslationData> mockTranslationData;
+            /// <summary>
+            /// Mock of Project lines.
+            /// </summary>
+            private readonly List<IProjectLine> mockProjectLines;
 
             /// <summary>
             /// Mock of Translation Data Factory.
@@ -331,9 +346,23 @@ namespace TranslatorStudioClassLibraryTest.Repository
                     x => x.GetProjectSaveString())
                     .Returns(mockProjectData.Object.ToJSONString());
 
+                mockProjectLines = new List<IProjectLine>
+                {
+                    new ProjectLine { Raw = "Raw Line 1",   Translation = "Translated Line 1",      Completed = false,  Marked = true },
+                    new ProjectLine { Raw = "Raw Line 2",   Translation = "Translated Line 2",      Completed = false,  Marked = false },
+                    new ProjectLine { Raw = "Raw Line 3",   Translation = "Translated Line 3",      Completed = true,   Marked = true },
+                    new ProjectLine { Raw = "Raw Line 4",   Translation = "Translated Line 4",      Completed = false,  Marked = false },
+                    new ProjectLine { Raw = "Raw Line 5",   Translation = "Translated Line 5",      Completed = true,   Marked = false },
+                    new ProjectLine { Raw = "Raw Line 6",   Translation = "Translated Line 6",      Completed = true,   Marked = true },
+                    new ProjectLine { Raw = "Raw Line 7",   Translation = "Translated Line 7",      Completed = true,   Marked = false },
+                    new ProjectLine { Raw = "Raw Line 8",   Translation = "Translated Line 8",      Completed = false,  Marked = true },
+                    new ProjectLine { Raw = "Raw Line 9",   Translation = "Translated Line 9",      Completed = true,   Marked = true },
+                    new ProjectLine { Raw = "Raw Line 10",  Translation = "Translated Line 10",     Completed = false,  Marked = false }
+                };
+
                 mockTranslationData.Setup(
-                    x => x.TranslatedLines)
-                    .Returns(new List<string> { "Line 1", "Line 2", "Line 3" });
+                    x => x.ProjectLines)
+                    .Returns(mockProjectLines);
 
 
                 mockTranslationDataFactory = new Mock<ITranslationDataFactory>();
@@ -387,10 +416,10 @@ namespace TranslatorStudioClassLibraryTest.Repository
 
                 fullPath = Path.Combine(filePath, fileName);
                 var expected = "";
-                for (int i = 0; i < saveData.TranslatedLines.Count; i++)
+                for (int i = 0; i < saveData.ProjectLines.Count; i++)
                 {
-                    expected += saveData.TranslatedLines[i];
-                    expected += (i < saveData.TranslatedLines.Count) ? Environment.NewLine : string.Empty;
+                    expected += saveData.ProjectLines[i].Translation;
+                    expected += (i < saveData.ProjectLines.Count) ? Environment.NewLine : string.Empty;
                 }
 
                 //Act
