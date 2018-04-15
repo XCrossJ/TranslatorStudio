@@ -4,9 +4,6 @@
 # Ignore the packages folder
 **/packages/*
 
-# Include XJ Translator Studio Core Library
-!**/packages/MayonakaSignal.XCrossJ.TranslatorStudioClassLibrary*/
-
 # Include packages/build/, which is used as an MSBuild target
 !**/packages/build/
 

@@ -29,25 +29,18 @@ namespace TranslatorStudioClassLibrary.Interface
         /// </summary>
         string ProjectName { get; set; }
         /// <summary>
-        /// Contains all of the raw lines in the translation.
+        /// Contains all the lines in the translation.
         /// </summary>
-        List<string> RawLines { get; set; }
-        /// <summary>
-        /// Contains all of the translated lines in the translation.
-        /// </summary>
-        List<string> TranslatedLines { get; set; }
-        /// <summary>
-        /// Contains the completion status of each line in the translation.
-        /// </summary>
-        List<bool> CompletedLines { get; set; }
-        /// <summary>
-        /// Contains the marked status of each line in the translation.
-        /// </summary>
-        List<bool> MarkedLines { get; set; }
+        List<IProjectLine> ProjectLines { get; set; }
 
         #endregion
 
         #region Project Controls
+
+        /// <summary>
+        /// The current project line in the translation.
+        /// </summary>
+        IProjectLine CurrentLine { get; set; }
 
         /// <summary>
         /// The current raw line in the translation.

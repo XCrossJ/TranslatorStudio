@@ -2,76 +2,50 @@
 
 interface IProjectViewModel {
     projectName: KnockoutObservable<string>;
-    rawLines: KnockoutObservableArray<KnockoutObservable<string>>;
-    translatedLines: KnockoutObservableArray<KnockoutObservable<string>>;
-    completedLines: KnockoutObservableArray<KnockoutObservable<boolean>>;
-    markedLines: KnockoutObservableArray<KnockoutObservable<boolean>>;
+    projectLines: KnockoutObservableArray<KnockoutObservable<IProjectLineViewModel>>;
 }
 
 class ProjectViewModel implements IProjectViewModel {
 
     projectName: KnockoutObservable<string>;
-    rawLines: KnockoutObservableArray<KnockoutObservable<string>>;
-    translatedLines: KnockoutObservableArray<KnockoutObservable<string>>;
-    completedLines: KnockoutObservableArray<KnockoutObservable<boolean>>;
-    markedLines: KnockoutObservableArray<KnockoutObservable<boolean>>;
+    projectLines: KnockoutObservableArray<KnockoutObservable<IProjectLineViewModel>>;
 
     constructor(data: IProjectData) {
         this.projectName = ko.observable(data.ProjectName);
 
-        var newRaw: KnockoutObservable<string>[] = [];
-        var newTranslation: KnockoutObservable<string>[] = [];
-        var newCompletion: KnockoutObservable<boolean>[] = [];
-        var newMarked: KnockoutObservable<boolean>[] = [];
+        var newLines: KnockoutObservable<IProjectLineViewModel>[] = [];
 
-        for (var i = 0; i < data.RawLines.length; i++) {
-            newRaw.push(ko.observable(data.RawLines[i]));
-            newTranslation.push(ko.observable(data.TranslatedLines[i]));
-            newCompletion.push(ko.observable(data.CompletedLines[i]));
-            newMarked.push(ko.observable(data.MarkedLines[i]));
+        for (var i = 0; i < data.ProjectLines.length; i++) {
+            var newLine: KnockoutObservable<IProjectLineViewModel>;
+            newLine = ko.observable(new ProjectLineViewModel(data.ProjectLines[i]));
+            newLines.push(newLine);
         }
 
-        this.rawLines = ko.observableArray(newRaw);
-        this.translatedLines = ko.observableArray(newTranslation);
-        this.completedLines = ko.observableArray(newCompletion);
-        this.markedLines = ko.observableArray(newMarked);
+        this.projectLines = ko.observableArray(newLines);
     }
 }
 
 interface IProjectData {
     ProjectName: string;
-    RawLines: string[];
-    TranslatedLines: string[];
-    CompletedLines: boolean[];
-    MarkedLines: boolean[];
+    ProjectLines: IProjectLine[];
 }
 
 class ProjectData implements IProjectData {
 
     ProjectName: string;
-    RawLines: string[];
-    TranslatedLines: string[];
-    CompletedLines: boolean[];
-    MarkedLines: boolean[];
+    ProjectLines: IProjectLine[];
 
     constructor(data: IProjectViewModel) {
         this.ProjectName = data.projectName();
 
-        var newRaw: string[] = [];
-        var newTranslation: string[] = [];
-        var newCompletion: boolean[] = [];
-        var newMarked: boolean[] = [];
+        var newLines: IProjectLine[] = [];
 
-        for (var i = 0; i < data.rawLines().length; i++) {
-            newRaw.push(data.rawLines()[i]());
-            newTranslation.push(data.translatedLines()[i]());
-            newCompletion.push(data.completedLines()[i]());
-            newMarked.push(data.markedLines()[i]());
+        for (var i = 0; i < data.projectLines().length; i++) {
+            var newLine: IProjectLine;
+            newLine = new ProjectLine(data.projectLines()[i]());
+            newLines.push(newLine);
         }
 
-        this.RawLines = newRaw;
-        this.TranslatedLines = newTranslation;
-        this.CompletedLines = newCompletion;
-        this.MarkedLines = newMarked;
+        this.ProjectLines = newLines;
     }
 }

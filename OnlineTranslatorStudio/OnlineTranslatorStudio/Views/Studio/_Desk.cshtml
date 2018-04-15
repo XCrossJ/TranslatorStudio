@@ -4,13 +4,17 @@
         <div class="card-group">
             <div id="rawSection" class="card">
                 <div class="card-header">
-                    <h6 class="card-title">Raw</h6>
+                    <h6 class="card-title float-left">Raw</h6>
+                    <div class="float-right">
+                        <label class="custom-control custom-checkbox mb-0">
+                            <input class="custom-control-input" id="ReadOnly" type="checkbox" data-bind="checked: RawReadOnly" />
+                            <label class="custom-control-label" for="ReadOnly">Readonly</label>
+                        </label>
+                    </div>
                 </div>
                 <div class="card-body">
-                    <textarea id="CurrentRaw" class="form-control" rows="7" data-bind="textInput: CurrentRaw"></textarea>
-                </div>
-                <div class="card-footer">
-                    <button id="decrementIndex" type="button" class="btn btn-outline-primary btn-block" data-toggle="tooltip" data-placement="bottom" title="Go to previous line"><<</button>
+                    <textarea id="CurrentRaw" class="form-control" rows="7" data-bind="textInput: CurrentRaw, visible: !RawReadOnly()"></textarea>
+                    <p id="CurrentRaw" data-bind="text: CurrentRaw, visible: RawReadOnly"></p>
                 </div>
             </div>
             <div id="translationSection" class="card">
@@ -20,10 +24,43 @@
                 <div class="card-body">
                     <textarea id="CurrentTranslation" class="form-control" rows="7" data-bind="textInput: CurrentTranslation"></textarea>
                 </div>
-                <div class="card-footer">
-                    <button id="incrementIndex" type="button" class="btn btn-outline-primary btn-block" data-toggle="tooltip" data-placement="bottom" title="Go to next line">>></button>
+            </div>
+        </div>
+
+        <div id="toolsDeck" class="card">
+            <div class="card-body">
+
+                <div class="col-12 col-md-6 float-md-right">
+
+                    <div class="form-check form-check-inline">
+                        <label class="custom-control custom-checkbox">
+                            <input class="custom-control-input" id="CurrentMarked" type="checkbox" data-bind="checked: CurrentMarked" />
+                            <label class="custom-control-label" for="CurrentMarked">Marked For Attention</label>
+                        </label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <label class="custom-control custom-checkbox">
+                            <input class="custom-control-input" id="CurrentCompletion" type="checkbox" data-bind="checked: CurrentCompletion" />
+                            <label class="custom-control-label" for="CurrentCompletion">Marked As Completed</label>
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-6">
+                        <button id="decrementIndex" type="button" class="btn btn-outline-primary btn-block" data-bind="click: DecrementIndex()" data-toggle="tooltip" data-placement="bottom" title="Go to previous line"><<</button>
+                    </div>
+                    <div class="col-6">
+                        <button id="incrementIndex" type="button" class="btn btn-outline-primary btn-block" data-bind="click: IncrementIndex()" data-toggle="tooltip" data-placement="bottom" title="Go to next line">>></button>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
+
 </div>

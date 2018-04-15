@@ -12,7 +12,7 @@
                             <label class="control-label" for="ProjectName">Project Name</label>
                         </th>
                         <td>
-                            <input id="ProjectName" class="form-control" data-bind="value: ProjectName" />
+                            <input id="ProjectName" class="form-control form-control-sm" data-bind="value: ProjectName" />
                         </td>
                     </tr>
                     <tr>
@@ -20,8 +20,13 @@
                             <label class="control-label" for="CurrentLine">Current Line</label>
                         </th>
                         <td>
-                            <div id="CurrentLine" class="text-center">
-                                <span id="CurrentIndex" data-bind="text: (CurrentIndex() + 1)"></span> / <span id="MaxIndex" class="MaxIndex" data-bind="text: (MaxIndex() + 1)"></span>
+                            <div id="CurrentLine" class="row">
+                                <div class="col-6">
+                                    <input id="CurrentIndex" type="number" min="1" class="form-control form-control-sm" data-bind="value: CurrentLineNumber, attr: { max: MaxLineNumber }" />
+                                </div>
+                                <div class="col-6">
+                                    /<span id="MaxIndex" class="MaxIndex" data-bind="text: MaxIndex() + 1"></span>
+                                </div>
                             </div>
                         </td>
                     </tr>

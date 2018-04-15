@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TranslatorStudioClassLibrary.Class;
 using TranslatorStudioClassLibrary.Interface;
@@ -61,7 +60,6 @@ namespace TranslatorStudioClassLibraryTest.Class
             }
 
             #region Properties Tests
-
             /// <summary>
             /// Given that Index Reference is assigned a valid list of integers, value of Index Reference is changed.
             /// </summary>
@@ -152,7 +150,6 @@ namespace TranslatorStudioClassLibraryTest.Class
                 Assert.IsType<int>(actual);
                 Assert.Equal(expected, actual);
             }
-
             #endregion
         }
 
@@ -172,7 +169,6 @@ namespace TranslatorStudioClassLibraryTest.Class
             }
 
             #region Constructor Tests
-
             /// <summary>
             /// Given that Sub Translation Data is invoked, Default Constructor returns valid Sub Translation Data.
             /// </summary>
@@ -190,7 +186,6 @@ namespace TranslatorStudioClassLibraryTest.Class
                 Assert.IsAssignableFrom<ISubTranslationData>(actual);
                 Assert.NotStrictEqual(expected, actual);
             }
-
             #endregion
         }
     }

@@ -16,21 +16,9 @@ namespace TranslatorStudioClassLibrary.Class
         /// </summary>
         public string ProjectName { get; set; }
         /// <summary>
-        /// Contains all of the raw lines in the project.
+        /// Contains all lines in the project.
         /// </summary>
-        public List<string> RawLines { get; set; }
-        /// <summary>
-        /// Contains all of the translated lines in the project.
-        /// </summary>
-        public List<string> TranslatedLines { get; set; }
-        /// <summary>
-        /// Contains the completion status of each line in the project.
-        /// </summary>
-        public List<bool> CompletedLines { get; set; }
-        /// <summary>
-        /// Contains the marked status of each line in the project.
-        /// </summary>
-        public List<bool> MarkedLines { get; set; }
+        public List<IProjectLine> ProjectLines { get; set; }
         #endregion
 
         #region Constructor

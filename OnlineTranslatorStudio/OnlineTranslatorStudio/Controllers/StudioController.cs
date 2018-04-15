@@ -71,12 +71,6 @@ namespace OnlineTranslatorStudio.Controllers
                         string fileName = translationRequest.ProjectName;
                         string[] rawData = translationRequest.RawData.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
                         IProjectData project = projectDataFactory.CreateProjectDataFromArray(fileName, rawData);
-
-                        for (int i = 0; i < project.TranslatedLines.Count; i++)
-                        {
-                            project.TranslatedLines[i] = string.Empty;
-                        }
-                        
                         data = translationDataFactory.CreateTranslationDataFromProject(project);
                     }
                     else
@@ -104,11 +98,31 @@ namespace OnlineTranslatorStudio.Controllers
         }
 
         [HttpPost]
-        public JsonResult ExportProject(ProjectData data)
+        public JsonResult SaveProject(OnlineProjectData data)
+        {
+            var project = data.MapToProjectData();
+            var success = true;
+            var errorMessage = "";
+            try
+            {
+                System.Web.HttpContext.Current.Session["ProjectData"] = project;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                success = false;
+            }
+            var response = Json(new { success, errorMessage });
+            return response;
+        }
+
+        [HttpPost]
+        public JsonResult CreateProjectFile(OnlineProjectData data)
         {
             //https://www.codeproject.com/Tips/1156485/How-to-Create-and-Download-File-with-Ajax-in-ASP-N
 
-            var saveString = data.GetSaveString();
+            var project = data.MapToProjectData();
+            var saveString = project.GetSaveString();
             var json = JObject.Parse(saveString);
 
             var fileName = $@"{data.ProjectName}.tsp";
@@ -141,9 +155,43 @@ namespace OnlineTranslatorStudio.Controllers
             return response;
         }
 
+        [HttpPost]
+        public JsonResult CreateExportFile(OnlineProjectData data)
+        {
+            //https://www.codeproject.com/Tips/1156485/How-to-Create-and-Download-File-with-Ajax-in-ASP-N
+
+            var fileName = $@"{data.ProjectName}.txt";
+
+            var errorMessage = "";
+
+            try
+            {
+                //save the file to server temp folder
+                string fullPath = Path.Combine(Server.MapPath("~/temp"), fileName);
+
+                FileStream file = new FileStream(fullPath, FileMode.Create, FileAccess.Write);
+                using (StreamWriter streamWriter = new StreamWriter(file))
+                {
+                    foreach (var line in data.ProjectLines)
+                    {
+                        streamWriter.WriteLine(line.Translation);
+                    }
+                }
+                file.Close();
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+
+            //return the Excel file name
+            var response = Json(new { fileName, errorMessage });
+            return response;
+        }
+
         [HttpGet]
         [DeleteFile] //Action Filter, it will auto delete the file after download, 
-        public ActionResult DownloadProject(string file)
+        public ActionResult DownloadFile(string file)
         {
             //get the temp folder and file path in server
             string fullPath = Path.Combine(Server.MapPath("~/temp"), file);

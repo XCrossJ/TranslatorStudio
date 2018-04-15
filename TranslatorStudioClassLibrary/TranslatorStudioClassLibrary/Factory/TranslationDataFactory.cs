@@ -91,7 +91,7 @@ namespace TranslatorStudioClassLibrary.Factory
         {
             try
             {
-                if (!project.RawLines.Any())
+                if (!project.ProjectLines.Any())
                     throw ExceptionHelper.NewEmptyRawException;
 
                 return new TranslationData(project, _subTranslationDataFactory)

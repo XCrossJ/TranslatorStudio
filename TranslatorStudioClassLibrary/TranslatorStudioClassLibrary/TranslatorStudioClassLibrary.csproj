@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\ProjectData.cs" />
+    <Compile Include="Class\ProjectLine.cs" />
     <Compile Include="Class\SubTranslationData.cs" />
     <Compile Include="Class\TranslationData.cs" />
     <Compile Include="Exception\EmptyRawException.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Exception\RemovalOfLastLineException.cs" />
     <Compile Include="Interface\IFileRepository.cs" />
     <Compile Include="Interface\IProjectData.cs" />
+    <Compile Include="Interface\IProjectLine.cs" />
     <Compile Include="Interface\ISubTranslationData.cs" />
     <Compile Include="Interface\ITranslationData.cs" />
     <Compile Include="Repository\FileRepository.cs" />

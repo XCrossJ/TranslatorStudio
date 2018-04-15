@@ -30,7 +30,6 @@ namespace TranslatorStudioClassLibraryTest.Factory
             }
 
             #region Constructor Tests
-
             /// <summary>
             /// Given that Sub Translation Data Factory is invoked, Default Constructor returns valid Sub Translation Data Factory.
             /// </summary>
@@ -48,7 +47,6 @@ namespace TranslatorStudioClassLibraryTest.Factory
                 Assert.IsAssignableFrom<ISubTranslationDataFactory>(actual);
                 Assert.NotStrictEqual(expected, actual);
             }
-
             #endregion
         }
 
@@ -92,7 +90,6 @@ namespace TranslatorStudioClassLibraryTest.Factory
             }
 
             #region Methods Tests
-
             /// <summary>
             /// Given that Condition List passed is valid, Get Sub Data returns valid Sub Translation Data.
             /// </summary>
@@ -126,7 +123,6 @@ namespace TranslatorStudioClassLibraryTest.Factory
                 Assert.IsType<List<int>>(actualReferenceList);
                 Assert.Equal(expectedReferenceList, actualReferenceList);
             }
-
             #endregion
         }
 
@@ -171,7 +167,6 @@ namespace TranslatorStudioClassLibraryTest.Factory
             }
 
             #region Exception Tests
-
             /// <summary>
             /// Given that Condition List passed is empty, Get Sub Data will throw Exception.
             /// </summary>
@@ -217,9 +212,7 @@ namespace TranslatorStudioClassLibraryTest.Factory
                 Assert.NotStrictEqual(expected, actual);
                 Assert.Equal(expectedMessage, actualMessage);
             }
-
             #endregion
         }
-
     }
 }

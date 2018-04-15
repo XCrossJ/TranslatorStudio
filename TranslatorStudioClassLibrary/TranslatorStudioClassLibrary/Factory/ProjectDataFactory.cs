@@ -89,18 +89,23 @@ namespace TranslatorStudioClassLibrary.Factory
             if (!newRawLines.Any())
                 throw ExceptionHelper.NewEmptyRawException;
 
-            var numberOfItems = newRawLines.Count;
-            var newTranslatedLines = new string[numberOfItems].ToList();
-            var newCompletedLines = new bool[numberOfItems].ToList();
-            var newMarkedLines = new bool[numberOfItems].ToList();
+            var projectLines = new List<IProjectLine>();
+
+            foreach (var line in newRawLines)
+            {
+                projectLines.Add(new ProjectLine
+                {
+                    Raw = line,
+                    Translation = "",
+                    Completed = false,
+                    Marked = false
+                });
+            }
 
             IProjectData project = new ProjectData
             {
                 ProjectName = fileName,
-                RawLines = newRawLines,
-                TranslatedLines = newTranslatedLines,
-                CompletedLines = newCompletedLines,
-                MarkedLines = newMarkedLines
+                ProjectLines = projectLines
             };
 
             return project;
