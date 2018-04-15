@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using TranslatorStudioClassLibrary.Class;
 using TranslatorStudioClassLibrary.Interface;
@@ -174,12 +175,12 @@ namespace TranslatorStudioClassLibrary.Repository
         /// <returns>Object that implements IProjectData interface.</returns>
         private IProjectData OpenProject(string jsonString)
         {
-            var success = TryConvertProjectV2(jsonString, out IProjectData projectData);
+            var success = TryConvertProjectLegacy(jsonString, out IProjectData projectData);
 
             if (success)
                 return projectData;
             else
-                success = TryConvertProjectLegacy(jsonString, out projectData);
+                success = TryConvertProjectV2(jsonString, out projectData);
 
             if (success)
                 return projectData;
@@ -202,8 +203,28 @@ namespace TranslatorStudioClassLibrary.Repository
             }
             catch (System.Exception)
             {
-                projectData = null;
-                return false;
+                try // Will need to fix later
+                {
+                    var definition = new
+                    {
+                        ProjectName = "",
+                        ProjectLines = new List<ProjectLine>()
+                    };
+
+                    var newProject = JsonConvert.DeserializeAnonymousType(jsonString, definition);
+
+                    projectData = new ProjectData
+                    {
+                        ProjectName = newProject.ProjectName,
+                        ProjectLines = newProject.ProjectLines.ToList<IProjectLine>()
+                    };
+                    return true;
+                }
+                catch (System.Exception)
+                {
+                    projectData = null;
+                    return false;
+                }
             }
         }
 
