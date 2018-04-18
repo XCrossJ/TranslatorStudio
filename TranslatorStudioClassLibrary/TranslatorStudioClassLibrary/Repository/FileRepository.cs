@@ -250,7 +250,7 @@ namespace TranslatorStudioClassLibrary.Repository
 
                 var projectLines = new List<IProjectLine>();
 
-                for (int i = 0; i < oldProject.RawLines.Count - 1; i++)
+                for (int i = 0; i < oldProject.RawLines.Count; i++)
                 {
                     projectLines.Add(new ProjectLine
                     {
