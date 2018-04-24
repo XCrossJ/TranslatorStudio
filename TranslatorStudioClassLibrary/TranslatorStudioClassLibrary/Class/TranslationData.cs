@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using TranslatorStudioClassLibrary.Exception;
-using TranslatorStudioClassLibrary.Interface;
-using TranslatorStudioClassLibrary.Utilities;
-
-namespace TranslatorStudioClassLibrary.Class
+﻿namespace TranslatorStudioClassLibrary.Class
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Exception;
+    using Interface;
+    using Utilities;
+
     /// <summary>
     /// Class that contains the properties and method relevant for Translation Data.
     /// Implements Translation Data Interface.
@@ -61,9 +60,17 @@ namespace TranslatorStudioClassLibrary.Class
             set => _data.ProjectName = SetPropertyValue(value);
         }
         /// <summary>
+        /// The url to the project source.
+        /// </summary>
+        public string SourceLink
+        {
+            get => _data.ProjectName;
+            set => _data.ProjectName = SetPropertyValue(value);
+        }
+        /// <summary>
         /// Contains all lines in the translation.
         /// </summary>
-        public List<IProjectLine> ProjectLines { get => _data.ProjectLines; set => _data.ProjectLines = value; }
+        public IList<IProjectLine> ProjectLines { get => _data.ProjectLines; set => _data.ProjectLines = value; }
 
         #endregion
 
@@ -100,6 +107,10 @@ namespace TranslatorStudioClassLibrary.Class
         /// The current translated line in the translation.
         /// </summary>
         public string CurrentTranslation { get => CurrentLine.Translation; set => CurrentLine.Translation = SetPropertyValue(value); }
+        /// <summary>
+        /// The comment of the current line in the translation.
+        /// </summary>
+        public string CurrentComment { get => CurrentLine.Comment; set => CurrentLine.Comment = SetPropertyValue(value); }
         /// <summary>
         /// The completion status of the current line in the translation.
         /// </summary>

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace TranslatorStudioClassLibrary.Interface
+﻿namespace TranslatorStudioClassLibrary.Interface
 {
+    using System;
+
     /// <summary>
     /// Interface that defines the public properties and methods required to interact with Files.
     /// </summary>

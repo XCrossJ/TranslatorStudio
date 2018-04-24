@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace TranslatorStudioClassLibrary.Interface
+﻿namespace TranslatorStudioClassLibrary.Interface
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Interface that defines the public properties and methods required to store Translation Data.
     /// </summary>
@@ -29,9 +29,13 @@ namespace TranslatorStudioClassLibrary.Interface
         /// </summary>
         string ProjectName { get; set; }
         /// <summary>
+        /// The url to the project source.
+        /// </summary>
+        string SourceLink { get; set; }
+        /// <summary>
         /// Contains all the lines in the translation.
         /// </summary>
-        List<IProjectLine> ProjectLines { get; set; }
+        IList<IProjectLine> ProjectLines { get; set; }
 
         #endregion
 
@@ -50,6 +54,10 @@ namespace TranslatorStudioClassLibrary.Interface
         /// The current translated line in the translation.
         /// </summary>
         string CurrentTranslation { get; set; }
+        /// <summary>
+        /// The comment of the current line in the translation.
+        /// </summary>
+        string CurrentComment { get; set; }
         /// <summary>
         /// The completion status of the current line in the translation.
         /// </summary>

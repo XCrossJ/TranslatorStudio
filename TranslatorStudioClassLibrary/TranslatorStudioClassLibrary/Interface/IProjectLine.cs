@@ -15,6 +15,10 @@
         /// </summary>
         string Translation { get; set; }
         /// <summary>
+        /// The Comment String of the Project Line.
+        /// </summary>
+        string Comment { get; set; }
+        /// <summary>
         /// The Completion Status of the Project Line.
         /// </summary>
         bool Completed { get; set; }

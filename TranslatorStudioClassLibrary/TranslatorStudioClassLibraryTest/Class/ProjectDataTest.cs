@@ -23,7 +23,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             /// <summary>
             /// Mock of Project Lines.
             /// </summary>
-            private readonly List<IProjectLine> mockProjectLines;
+            private readonly IList<IProjectLine> mockProjectLines;
 
             /// <summary>
             /// Mock of Project Data.
@@ -41,6 +41,25 @@ namespace TranslatorStudioClassLibraryTest.Class
 
             #region Properties Tests
             /// <summary>
+            /// Given that Save Format Version is assigned a valid integer, value of Project Name is changed.
+            /// </summary>
+            [Theory]
+            [InlineData(1)]
+            public void ProjectData_SaveFormatVersion_Test(int saveFormatVersion)
+            {
+                //Arrange
+                var expected = saveFormatVersion;
+
+                //Act
+                mockProjectData.SaveFormatVersion = saveFormatVersion;
+                var actual = mockProjectData.SaveFormatVersion;
+
+                //Assert
+                Assert.IsType<int>(actual);
+                Assert.Equal(expected, actual);
+            }
+
+            /// <summary>
             /// Given that Project Name is assigned a valid string, value of Project Name is changed.
             /// </summary>
             [Theory]
@@ -53,6 +72,25 @@ namespace TranslatorStudioClassLibraryTest.Class
                 //Act
                 mockProjectData.ProjectName = projectName;
                 var actual = mockProjectData.ProjectName;
+
+                //Assert
+                Assert.IsType<string>(actual);
+                Assert.Equal(expected, actual);
+            }
+
+            /// <summary>
+            /// Given that Source Link is assigned a valid string, value of Source Link is changed.
+            /// </summary>
+            [Theory]
+            [InlineData("Mock Source Link")]
+            public void ProjectData_SourceLink_Test(string sourceLink)
+            {
+                //Arrange
+                var expected = sourceLink;
+
+                //Act
+                mockProjectData.SourceLink = sourceLink;
+                var actual = mockProjectData.SourceLink;
 
                 //Assert
                 Assert.IsType<string>(actual);

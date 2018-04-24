@@ -9,13 +9,22 @@ namespace TranslatorStudioClassLibrary.Interface
     {
         #region Properties
         /// <summary>
+        /// The version number of the project save format.
+        /// Increments as changes are made to contract.
+        /// </summary>
+        int SaveFormatVersion { get; set; }
+        /// <summary>
         /// The name of the project.
         /// </summary>
         string ProjectName { get; set; }
         /// <summary>
+        /// The url to the project source.
+        /// </summary>
+        string SourceLink { get; set; }
+        /// <summary>
         /// Contains all lines in the project.
         /// </summary>
-        List<IProjectLine> ProjectLines { get; set; }
+        IList<IProjectLine> ProjectLines { get; set; }
         #endregion
 
         #region Methods

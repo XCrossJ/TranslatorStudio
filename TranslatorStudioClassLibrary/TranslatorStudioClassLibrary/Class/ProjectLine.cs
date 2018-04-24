@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using TranslatorStudioClassLibrary.Interface;
-
-namespace TranslatorStudioClassLibrary.Class
+﻿namespace TranslatorStudioClassLibrary.Class
 {
+    using System;
+    using System.Collections.Generic;
+    using Interface;
+
     /// <summary>
     /// Class that contains the properties and method relevant for Project Line.
     /// Implements Project Line Interface.
@@ -19,6 +19,10 @@ namespace TranslatorStudioClassLibrary.Class
         /// The Translation String of the Project Line.
         /// </summary>
         public string Translation { get; set; } = "";
+        /// <summary>
+        /// The Comment String of the Project Line.
+        /// </summary>
+        public string Comment { get; set; } = "";
         /// <summary>
         /// The Completion Status of the Project Line.
         /// </summary>
