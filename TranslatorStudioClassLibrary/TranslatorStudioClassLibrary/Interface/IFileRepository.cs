@@ -29,6 +29,13 @@
         /// <returns>Object that implements Translation Data Interface.</returns>
         ITranslationData OpenTSPFile(string path, string fileName);
         /// <summary>
+        /// Opens translation data from translation studio project file.
+        /// </summary>
+        /// <param name="path">Path of the file.</param>
+        /// <param name="fileName">Name of the file.</param>
+        /// <returns>Object that implements Translation Data Interface.</returns>
+        ITranslationData OpenTSProjFile(string path, string fileName);
+        /// <summary>
         /// Handler that returns Translation Data and Previous Save Path from parameters.
         /// </summary>
         /// <param name="fileExt">Extension of the file.</param>

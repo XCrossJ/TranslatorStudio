@@ -230,12 +230,20 @@
         {
             if (CurrentIndex != MaxIndex)
             {
-                CurrentIndex++;
                 if (_autoMode)
                 {
-                    var testIndex = _autoData.CurrentReference != 0 ? _autoData.CurrentReference - 1 : 0;
-                    if (string.IsNullOrWhiteSpace(ProjectLines[testIndex].Raw))
-                        ProjectLines[testIndex].Completed = true;
+                    var oldIndex = _autoData.CurrentReference;
+                    CurrentIndex++;
+                    var testIndex = _autoData.CurrentReference != 0 ? _autoData.CurrentReference : 0;
+                    for (int i = oldIndex + 1; i < testIndex; i++)
+                    {
+                        if (string.IsNullOrWhiteSpace(ProjectLines[i].Raw))
+                            ProjectLines[i].Completed = true;
+                    }
+                }
+                else
+                {
+                    CurrentIndex++;
                 }
             }
         }
@@ -246,12 +254,20 @@
         {
             if (CurrentIndex != 0)
             {
-                CurrentIndex--;
                 if (_autoMode)
                 {
-                    var testIndex = _autoData.CurrentReference != 0 ? _autoData.CurrentReference - 1 : 0;
-                    if (string.IsNullOrWhiteSpace(ProjectLines[testIndex].Raw))
-                        ProjectLines[testIndex].Completed = true;
+                    var oldIndex = _autoData.CurrentReference;
+                    CurrentIndex--;
+                    var testIndex = _autoData.CurrentReference != 0 ? _autoData.CurrentReference : 0;
+                    for (int i = oldIndex - 1; i > testIndex; i--)
+                    {
+                        if (string.IsNullOrWhiteSpace(ProjectLines[i].Raw))
+                            ProjectLines[i].Completed = true;
+                    }
+                }
+                else
+                {
+                    CurrentIndex--;
                 }
             }
         }

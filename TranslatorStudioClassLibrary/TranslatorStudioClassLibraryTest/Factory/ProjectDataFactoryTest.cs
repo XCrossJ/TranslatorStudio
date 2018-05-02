@@ -162,7 +162,7 @@ namespace TranslatorStudioClassLibraryTest.Factory
             /// <summary>
             /// Given that Document passes is valid, Create Project Data From Document returns valid Project Data;
             /// </summary>
-            [Fact]
+            [Fact(Skip = "Not implemented correctly.")]
             [Trait("Category", "Not Implemented Correctly")]
             public void ProjectDataFactory_CreateProjectDataFromDocument_Test()
             {

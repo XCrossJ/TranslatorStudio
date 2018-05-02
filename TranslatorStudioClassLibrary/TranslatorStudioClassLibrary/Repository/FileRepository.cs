@@ -25,6 +25,7 @@
         private readonly ITranslationDataFactory _translationDataFactory;
         #endregion
 
+
         #region Constructor
         /// <summary>
         /// Creates File Repository.
@@ -35,6 +36,7 @@
             _translationDataFactory = translationDataFactory ?? throw new ArgumentNullException(nameof(translationDataFactory));
         }
         #endregion
+
 
         #region Public Methods
 
@@ -92,12 +94,34 @@
             return data;
         }
         /// <summary>
-        /// Opens translation data from translation studio project file.
+        /// Opens translation data from translation studio project file (legacy).
         /// </summary>
         /// <param name="path">Path of the file.</param>
         /// <param name="fileName">Name of the file.</param>
         /// <returns>Object that implements Translation Data Interface.</returns>
         public ITranslationData OpenTSPFile(string path, string fileName)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                throw new ArgumentException("File path to open not supplied.", nameof(path));
+            }
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                throw new ArgumentException("File name to open not supplied.", nameof(fileName));
+            }
+
+            string output = File.ReadAllText(path);
+            var projectData = OpenLegacyProject(output);
+            var data = _translationDataFactory.CreateTranslationDataFromProject(projectData);
+            return data;
+        }
+        /// <summary>
+        /// Opens translation data from translation studio project file.
+        /// </summary>
+        /// <param name="path">Path of the file.</param>
+        /// <param name="fileName">Name of the file.</param>
+        /// <returns>Object that implements Translation Data Interface.</returns>
+        public ITranslationData OpenTSProjFile(string path, string fileName)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -142,6 +166,10 @@
             {
                 case ".tsp":
                     data = OpenTSPFile(path, fileName);
+                    previousSavePath = path;
+                    break;
+                case ".tsproj":
+                    data = OpenTSProjFile(path, fileName);
                     previousSavePath = path;
                     break;
                 case ".doc":
@@ -211,6 +239,7 @@
 
         #endregion
 
+
         #region Private Methods
         /// <summary>
         /// Writes enumerable to text path in specified path.
@@ -231,24 +260,15 @@
             }
         }
 
+        #region Open Project Data (.tsproj)
         /// <summary>
-        /// Opens Project Data from JSON.
+        /// Opens Project Data from JSON. (.tsproj)
         /// </summary>
         /// <param name="jsonString">String used in conversion.</param>
         /// <returns>Object that implements IProjectData interface.</returns>
         private IProjectData OpenProject(string jsonString)
         {
-            var success = TryConvertProjectLegacy(jsonString, out IProjectData projectData);
-
-            if (success)
-                return projectData;
-            else
-                success = TryConvertProjectV1(jsonString, out projectData);
-
-            if (success)
-                return projectData;
-            else
-                success = TryConvertProjectV0(jsonString, out projectData);
+            var success = TryConvertProjectV1(jsonString, out IProjectData projectData);
 
             if (success)
                 return projectData;
@@ -299,14 +319,36 @@
                 }
             }
         }
+        #endregion
+
+        #region Open Legacy Project Data (.tsp)
+        /// <summary>
+        /// Opens Legacy Project Data from JSON. (.tsp)
+        /// </summary>
+        /// <param name="jsonString">String used in conversion.</param>
+        /// <returns>Object that implements IProjectData interface.</returns>
+        private IProjectData OpenLegacyProject(string jsonString)
+        {
+            var success = TryConvertProjectLegacy(jsonString, out IProjectData projectData);
+
+            if (success)
+                return projectData;
+            else
+                success = TryConvertProjectLegacyV1(jsonString, out projectData);
+
+            if (success)
+                return projectData;
+            else
+                throw new Exception("Unable to open file");
+        }
 
         /// <summary>
-        /// Tries to convert Project Data from JSON using Project Data Structure Version 0.
+        /// Tries to convert Project Data from JSON using Legacy Project Data Structure Version 1.
         /// </summary>
         /// <param name="jsonString">String used in conversion.</param>
         /// <param name="projectData">Object that implements IProjectData interface.</param>
         /// <returns>Result of attempt to convert project.</returns>
-        private bool TryConvertProjectV0(string jsonString, out IProjectData projectData)
+        private bool TryConvertProjectLegacyV1(string jsonString, out IProjectData projectData)
         {
             try
             {
@@ -379,6 +421,8 @@
                 return false;
             }
         }
+        #endregion
+
         #endregion
     }
 }

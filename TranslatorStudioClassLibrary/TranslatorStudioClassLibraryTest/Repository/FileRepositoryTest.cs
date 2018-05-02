@@ -84,7 +84,7 @@ namespace TranslatorStudioClassLibraryTest.Repository
         public class ReadMethods
         {
             /// <summary>
-            /// Mock of Project Data;
+            /// Mock of Project Data.
             /// </summary>
             private readonly Mock<IProjectData> mockProjectData;
             /// <summary>
@@ -106,6 +106,36 @@ namespace TranslatorStudioClassLibraryTest.Repository
             /// </summary>
             private string fullPath;
 
+            /// <summary>
+            /// Member Data for OpenTSPFile Test. Contains objects that use legacy project data schemas.
+            /// </summary>
+            /// <returns></returns>
+            public static IEnumerable<object[]> GetOpenTSPFileTestData()
+            {
+                // Legacy Project Data
+                yield return new object[]
+                {
+                    new
+                    {
+                        ProjectName = "Legacy Test",
+                        RawLines = new List<string>(),
+                        TranslatedLines = new List<string>(),
+                        CompletedLines = new List<bool>(),
+                        MarkedLines = new List<bool>(),
+                    }
+                };
+
+                // Legacy Project Data Version 1
+                yield return new object[]
+                {
+                    new
+                    {
+                        ProjectName = "Legacy Version 1 Test",
+                        ProjectLines = new List<ProjectLine>()
+                    }
+                };
+            }
+
             public ReadMethods()
             {
                 mockProjectData = new Mock<IProjectData>();
@@ -126,6 +156,8 @@ namespace TranslatorStudioClassLibraryTest.Repository
             {
                 File.Delete(fullPath);
             }
+
+            #region Read Methods Tests
 
             /// <summary>
             /// Given that path is valid, Open Text File returns Translation Data.
@@ -171,13 +203,56 @@ namespace TranslatorStudioClassLibraryTest.Repository
             /// <summary>
             /// Given that path is valid, Open TSP File returns Translation Data.
             /// </summary>
-            [Fact]
-            public void FileRepository_OpenTSPFile_Test()
+            /// <param name="legacyProjectData">Object with Legacy Project Data schema.</param>
+            [Theory]
+            [MemberData(nameof(GetOpenTSPFileTestData))]
+            public void FileRepository_OpenTSPFile_Test(object legacyProjectData)
             {
                 //Arrange
                 var saveData = mockTranslationData.Object;
                 var filePath = Path.GetTempPath();
                 var fileName = "FileRepository_OpenTSPFile_Test.tsp";
+
+                fullPath = Path.Combine(filePath, fileName);
+
+                mockTranslationData.Setup(
+                    x => x.GetProjectSaveString())
+                    .Returns(legacyProjectData.ToJSONString());
+
+                var json = JObject.Parse(saveData.GetProjectSaveString());
+                File.WriteAllText(fullPath, json.ToString());
+
+                var expected = mockTranslationData.Object;
+
+                #region Mock Translation Data Factory
+                mockTranslationDataFactory.Setup(
+                    x => x.CreateTranslationDataFromProject(It.IsAny<IProjectData>()))
+                    .Returns(expected);
+                #endregion
+
+                //Act
+                var actual = fileRepository.OpenTSPFile(fullPath, fileName);
+
+                //Assert
+                mockTranslationDataFactory.Verify(x => x.CreateTranslationDataFromProject(It.IsAny<IProjectData>()), Times.Once);
+
+                Assert.NotNull(actual);
+                Assert.IsAssignableFrom<ITranslationData>(actual);
+                Assert.Equal(expected, actual);
+
+                Dispose();
+            }
+
+            /// <summary>
+            /// Given that path is valid, Open TSProj File returns Translation Data.
+            /// </summary>
+            [Fact]
+            public void FileRepository_OpenTSProjFile_Test()
+            {
+                //Arrange
+                var saveData = mockTranslationData.Object;
+                var filePath = Path.GetTempPath();
+                var fileName = "FileRepository_OpenTSPFile_Test.tsproj";
 
                 fullPath = Path.Combine(filePath, fileName);
 
@@ -193,7 +268,7 @@ namespace TranslatorStudioClassLibraryTest.Repository
                 #endregion
 
                 //Act
-                var actual = fileRepository.OpenTSPFile(fullPath, fileName);
+                var actual = fileRepository.OpenTSProjFile(fullPath, fileName);
 
                 //Assert
                 mockTranslationDataFactory.Verify(x => x.CreateTranslationDataFromProject(It.IsAny<IProjectData>()), Times.Once);
@@ -249,6 +324,7 @@ namespace TranslatorStudioClassLibraryTest.Repository
             [Theory]
             [InlineData("FileRepository_OpenFile_Text_Test", ".txt")]
             [InlineData("FileRepository_OpenFile_TSP_Test", ".tsp")]
+            [InlineData("FileRepository_OpenFile_TSProj_Test", ".tsproj")]
             [InlineData("FileRepository_OpenFile_Doc_Test", ".doc")]
             public void FileRepository_OpenFile_Test(string fileName, string fileExtension)
             {
@@ -260,10 +336,26 @@ namespace TranslatorStudioClassLibraryTest.Repository
 
                 fullPath = Path.Combine(filePath, fullFileName);
 
+                if (fileExtension == ".tsp")
+                {
+                    var legacyProjectData = new
+                    {
+                        ProjectName = "Legacy Test",
+                        RawLines = new List<string>(),
+                        TranslatedLines = new List<string>(),
+                        CompletedLines = new List<bool>(),
+                        MarkedLines = new List<bool>(),
+                    };
+                    mockTranslationData.Setup(
+                        x => x.GetProjectSaveString())
+                        .Returns(legacyProjectData.ToJSONString());
+                }
+
                 var json = JObject.Parse(saveData.GetProjectSaveString());
                 File.WriteAllText(fullPath, json.ToString());
 
                 var expected = mockTranslationData.Object;
+                var expectedPrevSavePath = (fileExtension == ".tsp" || fileExtension == ".tsproj") ? fullPath : "";
 
                 #region Mock Translation Data Factory
                 mockTranslationDataFactory.Setup(
@@ -282,7 +374,7 @@ namespace TranslatorStudioClassLibraryTest.Repository
                 //Act
                 var result = fileRepository.OpenFile(fileExtension, fullPath, fileName);
                 var actual = result.Item1;
-                var prevSavePath = result.Item2;
+                var actualPrevSavePath = result.Item2;
 
                 //Assert
                 mockTranslationDataFactory.Verify(x => x.CreateTranslationDataFromStream(It.IsAny<string>(), It.IsAny<StreamReader>()), Times.AtMostOnce);
@@ -292,9 +384,12 @@ namespace TranslatorStudioClassLibraryTest.Repository
                 Assert.NotNull(actual);
                 Assert.IsAssignableFrom<ITranslationData>(actual);
                 Assert.Equal(expected, actual);
+                Assert.Equal(expectedPrevSavePath, actualPrevSavePath);
 
                 Dispose();
             }
+
+            #endregion
         }
 
         /// <summary>
@@ -375,6 +470,8 @@ namespace TranslatorStudioClassLibraryTest.Repository
                 File.Delete(fullPath);
             }
 
+            #region Write Methods Tests
+
             /// <summary>
             /// Given that Translation Data and Path is valid, Save Project creates a file.
             /// </summary>
@@ -435,6 +532,8 @@ namespace TranslatorStudioClassLibraryTest.Repository
 
                 Dispose();
             }
+
+            #endregion
         }
     }
 }

@@ -1009,6 +1009,11 @@ namespace TranslatorStudioClassLibraryTest.Class
             private readonly List<IProjectLine> mockProjectLines;
 
             /// <summary>
+            /// Mock of Index References.
+            /// </summary>
+            private readonly List<int> mockIndexReference;
+
+            /// <summary>
             /// Mock of Sub Translation Data Factory.
             /// </summary>
             private readonly Mock<ISubTranslationDataFactory> mockSubTranslationDataFactory;
@@ -1035,19 +1040,23 @@ namespace TranslatorStudioClassLibraryTest.Class
                     new ProjectLine { Raw = "Raw Line 3",   Translation = "Translated Line 3",      Completed = true,   Marked = true },
                     new ProjectLine { Raw = "Raw Line 4",   Translation = "Translated Line 4",      Completed = false,  Marked = false },
                     new ProjectLine { Raw = "",             Translation = "Translated Line 5",      Completed = true,   Marked = false },
-                    new ProjectLine { Raw = "",             Translation = "Translated Line 6",      Completed = true,   Marked = true },
+                    new ProjectLine { Raw = "",             Translation = "Translated Line 6",      Completed = false,  Marked = true },
                     new ProjectLine { Raw = "Raw Line 7",   Translation = "Translated Line 7",      Completed = true,   Marked = false },
                     new ProjectLine { Raw = "",             Translation = "Translated Line 8",      Completed = false,  Marked = true },
                     new ProjectLine { Raw = "Raw Line 9",   Translation = "Translated Line 9",      Completed = true,   Marked = true },
                     new ProjectLine { Raw = "Raw Line 10",  Translation = "Translated Line 10",     Completed = false,  Marked = false }
                 };
 
-
                 mockProjectData = new Mock<IProjectData>();
 
                 mockProjectData.SetupAllProperties();
                 mockProjectData.Object.ProjectName = mockProjectName;
                 mockProjectData.Object.ProjectLines = mockProjectLines;
+
+                mockIndexReference = mockProjectLines
+                    .Select((v, i) => new { v, i })
+                    .Where(x => x.v.Raw.IsNotEmpty())
+                    .Select(x => x.i).ToList();
 
                 mockSubTranslationDataFactory = new Mock<ISubTranslationDataFactory>();
 
@@ -1069,10 +1078,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_ToggleAutoMode_On_Test()
             {
                 //Arrange
-                var indices = mockProjectLines
-                    .Select((v, i) => new { v, i })
-                    .Where(x => x.v.Raw.IsNotEmpty())
-                    .Select(x => x.i).ToList();
+                var indices = mockIndexReference;
 
                 mockSubData.Object.IndexReference = indices;
                 mockSubData.Setup(
@@ -1129,10 +1135,7 @@ namespace TranslatorStudioClassLibraryTest.Class
             public void TranslationData_ToggleAutoMode_Off_Test()
             {
                 //Arrange
-                var indices = mockProjectLines
-                    .Select((v, i) => new { v, i })
-                    .Where(x => x.v.Raw.IsNotEmpty())
-                    .Select(x => x.i).ToList();
+                var indices = mockIndexReference;
 
                 mockSubData.Object.IndexReference = indices;
                 mockSubData.Setup(
@@ -1176,6 +1179,98 @@ namespace TranslatorStudioClassLibraryTest.Class
                 for (int index = 0; index < expectedNumberOfLines; index++)
                 {
                     Assert.Equal(mockProjectLines[index], translationData.ProjectLines[index]);
+                }
+            }
+
+            /// <summary>
+            /// Given that Auto Mode is on, Increment Current Line marks empty lines skipped over as complete.
+            /// </summary>
+            /// <param name="startingIndex">A valid integer used to specify the project line to start on.</param>
+            [Theory]
+            [InlineData(3)]
+            [InlineData(6)]
+            public void TranslationData_IncrementCurrentLine_AutoMode_Test(int startingIndex)
+            {
+                //Arrange
+                var indices = mockIndexReference;
+
+                mockSubData.Object.IndexReference = indices;
+                mockSubData.Object.CurrentIndex = 0;
+                mockSubData.SetupGet(
+                        x => x.CurrentReference)
+                    .Returns(() => indices[mockSubData.Object.CurrentIndex]);
+                mockSubData.Setup(
+                        x => x.MaxIndex)
+                    .Returns(mockSubData.Object.IndexReference.Count - 1);
+                mockSubData.Setup(
+                        x => x.NumberOfLines)
+                    .Returns(mockSubData.Object.IndexReference.Count);
+
+                mockSubTranslationDataFactory.Setup(
+                        x => x.GetSubData(It.IsAny<List<bool>>()))
+                    .Returns(mockSubData.Object);
+
+                translationData.ToggleAutoMode(true);
+                translationData.CurrentIndex = indices.IndexOf(startingIndex);
+
+                var expectedIndex = indices[translationData.CurrentIndex + 1];
+
+                //Act
+                translationData.IncrementCurrentLine();
+                var actualIndex = indices[translationData.CurrentIndex];
+
+                //Assert
+                Assert.Equal(expectedIndex, actualIndex);
+
+                for (int i = startingIndex + 1; i < actualIndex; i++)
+                {
+                    Assert.True(translationData.ProjectLines[i].Completed);
+                }
+            }
+
+            /// <summary>
+            /// Given that Auto Mode is on, Decrement Current Line marks empty lines skipped over as complete.
+            /// </summary>
+            /// <param name="startingIndex">A valid integer used to specify the project line to start on.</param>
+            [Theory]
+            [InlineData(6)]
+            [InlineData(8)]
+            public void TranslationData_DecrementCurrentLine_AutoMode_Test(int startingIndex)
+            {
+                //Arrange
+                var indices = mockIndexReference;
+
+                mockSubData.Object.IndexReference = indices;
+                mockSubData.Object.CurrentIndex = 0;
+                mockSubData.SetupGet(
+                        x => x.CurrentReference)
+                    .Returns(() => indices[mockSubData.Object.CurrentIndex]);
+                mockSubData.Setup(
+                        x => x.MaxIndex)
+                    .Returns(mockSubData.Object.IndexReference.Count - 1);
+                mockSubData.Setup(
+                        x => x.NumberOfLines)
+                    .Returns(mockSubData.Object.IndexReference.Count);
+
+                mockSubTranslationDataFactory.Setup(
+                        x => x.GetSubData(It.IsAny<List<bool>>()))
+                    .Returns(mockSubData.Object);
+
+                translationData.ToggleAutoMode(true);
+                translationData.CurrentIndex = indices.IndexOf(startingIndex);
+
+                var expectedIndex = indices[translationData.CurrentIndex - 1];
+
+                //Act
+                translationData.DecrementCurrentLine();
+                var actualIndex = indices[translationData.CurrentIndex];
+
+                //Assert
+                Assert.Equal(expectedIndex, actualIndex);
+
+                for (int i = startingIndex - 1; i > actualIndex; i--)
+                {
+                    Assert.True(translationData.ProjectLines[i].Completed);
                 }
             }
 
