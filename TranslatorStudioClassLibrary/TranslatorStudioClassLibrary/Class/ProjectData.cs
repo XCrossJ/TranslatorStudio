@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 using TranslatorStudioClassLibrary.Interface;
 using TranslatorStudioClassLibrary.Utilities;
 
@@ -37,6 +39,16 @@ namespace TranslatorStudioClassLibrary.Class
         public ProjectData()
         {
 
+        }
+
+        /// <summary>
+        /// Constructor used in Json Serialisation.
+        /// </summary>
+        /// <param name="projectLines">Project Lines used to construct Project Data.</param>
+        [JsonConstructor]
+        public ProjectData(IList<ProjectLine> projectLines)
+        {
+            ProjectLines = projectLines != null ? projectLines.ToList<IProjectLine>() : null;
         }
         #endregion
 

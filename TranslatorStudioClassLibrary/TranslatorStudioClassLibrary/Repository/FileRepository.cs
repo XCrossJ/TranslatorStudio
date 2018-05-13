@@ -293,15 +293,16 @@
             {
                 try // Will need to fix later
                 {
-                    var definition = new
-                    {
-                        SaveFormatVersion = 0,
-                        ProjectName = "",
-                        SourceLink = "",
-                        ProjectLines = new List<ProjectLine>()
-                    };
+                    //var definition = new
+                    //{
+                    //    SaveFormatVersion = 0,
+                    //    ProjectName = "",
+                    //    SourceLink = "",
+                    //    ProjectLines = new List<ProjectLine>()
+                    //};
 
-                    var newProject = JsonConvert.DeserializeAnonymousType(jsonString, definition);
+                    //var newProject = JsonConvert.DeserializeAnonymousType(jsonString, definition);
+                    var newProject = JsonConvert.DeserializeObject<ProjectData>(jsonString);
 
                     projectData = new ProjectData
                     {
