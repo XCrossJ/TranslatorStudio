@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using TranslatorStudio.Consumers;
+using TranslatorStudio.Controls;
 using TranslatorStudio.Interfaces;
 using TranslatorStudioClassLibrary.Interface;
 
@@ -9,11 +10,11 @@ namespace TranslatorStudio.Forms
     public partial class FrmDesk : Form
     {
         #region Properties
-
         private readonly IDeskConsumer consumer;
 
         public FrmHub Hub { get; set; }
         public FrmPreview Preview { get; set; }
+        public FrmComment Comment { get; set; }
         public frmNew New { get; set; }
 
         public ITranslationData Data { get; set; }
@@ -21,13 +22,12 @@ namespace TranslatorStudio.Forms
         public string PreviousSavePath { get; set; }
         public int NumberOfLines { get; set; }
         public bool UnsavedData { get => Data.DataChanged; set => Data.DataChanged = value; }
-
         #endregion
 
 
         #region Public Controls
-
         public TextBox TxtProjectName => txtProjectName;
+        public TextBox TxtSourceLink => txtSourceLink;
         public Label LblMaxLine => lblMaxLine;
         public Label LblProgress => lblProgress;
         public ProgressBar PrgProgress => prgProgress;
@@ -37,15 +37,14 @@ namespace TranslatorStudio.Forms
         public CheckBox ChkComplete => chkComplete;
         public CheckBox ChkMark => chkMark;
 
-        public NumericUpDown NudLineNumber => nudLineNumber;
+        public CustomNumericUpDown NudLineNumber => nudLineNumber;
         public ComboBox CmbEditMode => cmbEditMode;
         public CheckBox ChkAuto => chkAuto;
-        
+        public CheckBox ChkRawReadOnly => chkRawReadOnly;
         #endregion
 
 
         #region Constructors
-
         public FrmDesk()
         {
             consumer = new DeskConsumer(this);
@@ -67,22 +66,25 @@ namespace TranslatorStudio.Forms
             Hub = hub ?? throw new ArgumentNullException(nameof(hub));
             ResetTranslationProject(data);
         }
-
         #endregion
 
 
         #region Control Events
 
         #region Basic Events
-
         private void FrmDesk_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         private void rtbRawContent_TextChanged(object sender, EventArgs e)
         {
             consumer.UpdateCurrentRaw(rtbRawContent.Text);
+        }
+
+        private void chkRawReadOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            consumer.ToggleRawReadOnly(chkRawReadOnly.Checked);
         }
 
         private void rtbTranslationContent_TextChanged(object sender, EventArgs e)
@@ -103,6 +105,11 @@ namespace TranslatorStudio.Forms
         private void txtProjectName_TextChanged(object sender, EventArgs e)
         {
             consumer.UpdateProjectName(txtProjectName.Text);
+        }
+
+        private void txtSourceLink_TextChanged(object sender, EventArgs e)
+        {
+            consumer.UpdateSourceLink(txtSourceLink.Text);
         }
 
         private void nudLineNumber_ValueChanged(object sender, EventArgs e)
@@ -130,6 +137,11 @@ namespace TranslatorStudio.Forms
             consumer.ChangeEditMode();
         }
 
+        private void btnComment_Click(object sender, EventArgs e)
+        {
+            consumer.ViewComment();
+        }
+
         private void chkAuto_CheckedChanged(object sender, EventArgs e)
         {
             consumer.ToggleAutoMode(chkAuto.Checked);
@@ -144,11 +156,9 @@ namespace TranslatorStudio.Forms
         {
             consumer.GoToNextLine();
         }
-
         #endregion
 
         #region Toolbar Events
-
         private void tsmiTools_Click(object sender, EventArgs e)
         {
             tsmiMarkComplete.Checked = Data.CurrentCompletion;
@@ -250,11 +260,9 @@ namespace TranslatorStudio.Forms
         {
             consumer.ShowAbout();
         }
-        
         #endregion
 
         #region Context Strip Events
-
         private void cmsDesk_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             tsmiContextComplete.Checked = Data.CurrentCompletion;
@@ -290,14 +298,22 @@ namespace TranslatorStudio.Forms
         {
             consumer.ShowShortcuts();
         }
-        
+
+        private void tsmiContextSave_Click(object sender, EventArgs e)
+        {
+            consumer.SaveProject();
+        }
+
+        private void tsmiContextExport_Click(object sender, EventArgs e)
+        {
+            consumer.ExportProject();
+        }
         #endregion
 
         #endregion
 
 
         #region Other Events
-
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
@@ -312,12 +328,10 @@ namespace TranslatorStudio.Forms
             else
                 return base.ProcessCmdKey(ref msg, keyData);
         }
-
         #endregion
 
 
         #region Methods
-
         public void UpdateTranslationData(ITranslationData data)
         {
             consumer.UpdateTranslationData(data);
@@ -332,8 +346,6 @@ namespace TranslatorStudio.Forms
         {
             consumer.ResetTranslationProject(data);
         }
-
         #endregion
-
     }
 }

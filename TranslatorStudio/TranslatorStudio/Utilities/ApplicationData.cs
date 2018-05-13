@@ -51,7 +51,7 @@ namespace TranslatorStudio.Utilities
 
         public static OpenFileDialog OpenProjectDialog()
         {
-            var filter = $@"Source and Project files (*.txt;*.docx;*.tsp)|*.txt;*.docx;*.tsp|All files (*.*)|*.*";
+            var filter = $@"Source and Project files (*.txt;*.docx;*.tsp;*.tsproj)|*.txt;*.docx;*.tsp;*.tsproj|All files (*.*)|*.*";
             var title = "Open Project or Raw Source File";
             return new OpenFileDialog
             {
@@ -62,9 +62,22 @@ namespace TranslatorStudio.Utilities
             };
         }
 
+        public static OpenFileDialog BatchConvertProjectDialog()
+        {
+            var filter = $@"Project files (*.tsp;*.tsproj)|*.tsp;*.tsproj|All files (*.*)|*.*";
+            var title = "Select Project Files to Convert";
+            return new OpenFileDialog
+            {
+                Multiselect = true,
+                Filter = filter,
+                Title = title,
+                CheckFileExists = true,
+            };
+        }
+
         public static SaveFileDialog SaveProjectDialog(string fileName)
         {
-            var filter = $@"Translator Studio Project files (*.tsp)|*.tsp";
+            var filter = $@"Translator Studio Project files (*.tsproj)|*.tsproj";
             var title = "Save the Translation Project";
             return new SaveFileDialog
             {
@@ -180,6 +193,16 @@ namespace TranslatorStudio.Utilities
             return MessageBox.Show(message, caption, buttons, icon);
         }
 
+        public static DialogResult MsgBox_CloseComment_Confirmation(IWin32Window owner)
+        {
+            var message = "Comment has been altered since last save. Do you want to save and close?";
+            var caption = "Closing";
+            var buttons = MessageBoxButtons.YesNoCancel;
+            var icon = MessageBoxIcon.Question;
+
+            return MessageBox.Show(owner, message, caption, buttons, icon);
+        }
+
         public static DialogResult MsgBox_ClosePreview_Confirmation(IWin32Window owner)
         {
             var message = "Do you want to bring the changes made in this preview to the original project?";
@@ -192,7 +215,7 @@ namespace TranslatorStudio.Utilities
 
         public static DialogResult MsgBox_CloseDesk_Confirmation(IWin32Window owner)
         {
-            var message = "Are you sure you want to close? (Any unsaved data will be lost)";
+            var message = "Project has been altered since last save. Do you want to save and close project? (Any unsaved data will be lost)";
             var caption = "Closing";
             var buttons = MessageBoxButtons.YesNoCancel;
             var icon = MessageBoxIcon.Question;

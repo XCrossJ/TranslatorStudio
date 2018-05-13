@@ -52,6 +52,11 @@ namespace TranslatorStudio.Forms
             consumer.OpenNewFile();
         }
 
+        private void btnConvert_Click(object sender, EventArgs e)
+        {
+            consumer.BatchConvert();
+        }
+
         #endregion
 
 

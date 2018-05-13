@@ -27,6 +27,7 @@ namespace TranslatorStudio.Interfaces
         bool CopyText(string copyText);
 
         bool UpdateProjectName(string newProjectName);
+        bool UpdateSourceLink(string newSourceLink);
         bool UpdateCurrentIndex(int newIndex);
         bool UpdateCurrentRaw(string newRaw);
         bool UpdateCurrentTranslation(string newTranslation);
@@ -35,8 +36,10 @@ namespace TranslatorStudio.Interfaces
 
         bool InsertLine();
         bool RemoveLine();
+        bool ViewComment();
         bool ChangeEditMode();
         bool ToggleAutoMode(bool autoOn);
+        bool ToggleRawReadOnly(bool isReadOnly);
 
         bool GoToNextLine();
         bool GoToPrevLine();
@@ -45,6 +48,7 @@ namespace TranslatorStudio.Interfaces
         bool FlipCompleteState();
         bool FlipMarkedState();
         bool FlipAutoState();
+        bool FlipRawReadOnlyState();
         bool NumberOfLinesChanged();
         
         bool BeginDefaultMode();

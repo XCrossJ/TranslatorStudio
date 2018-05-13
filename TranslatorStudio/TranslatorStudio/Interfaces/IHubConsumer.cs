@@ -20,6 +20,9 @@ namespace TranslatorStudio.Interfaces
         FrmDesk CreateDeskFromOpenFile(OpenFileDialog dialog);
 
         bool ProcessShortcuts(Keys keyData);
+
+        bool BatchConvert();
+
         #endregion
 
 

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using TranslatorStudio.Controls;
 
 namespace TranslatorStudio.Utilities
 {
@@ -15,16 +16,16 @@ namespace TranslatorStudio.Utilities
             progressBar.Refresh();
         }
 
-        public static void IncrementNumericUpDown(this NumericUpDown numericUpDown)
+        public static void IncrementNumericUpDown(this CustomNumericUpDown numericUpDown)
         {
             if (numericUpDown.Value < numericUpDown.Maximum)
-                numericUpDown.Value++;
+                numericUpDown.UpButton();
         }
 
-        public static void DecrementNumericUpDown(this NumericUpDown numericUpDown)
+        public static void DecrementNumericUpDown(this CustomNumericUpDown numericUpDown)
         {
             if (numericUpDown.Value > numericUpDown.Minimum)
-                numericUpDown.Value--;
+                numericUpDown.DownButton();
         }
 
         public static int ChangeNumericUpDownMaximum(this NumericUpDown numericUpDown, int NumberOfLines)
@@ -60,17 +61,14 @@ namespace TranslatorStudio.Utilities
                 currentFont = new Font(currentFont.Name, currentSize, currentFont.Style, currentFont.Unit);
             return currentFont;
         }
-
         #endregion
 
 
         #region Other Extension Methods
-
         public static void StartProcess(this string processName)
         {
             Process.Start(processName);
         }
-
         #endregion
     }
 }

@@ -90,15 +90,28 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="TranslatorStudioClassLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MayonakaSignal.XCrossJ.TranslatorStudioClassLibrary.1.0.4\lib\net452\TranslatorStudioClassLibrary.dll</HintPath>
+      <HintPath>..\packages\MayonakaSignal.XCrossJ.TranslatorStudioClassLibrary.1.0.5\lib\net452\TranslatorStudioClassLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Consumers\CommentConsumer.cs" />
     <Compile Include="Consumers\DeskConsumer.cs" />
     <Compile Include="Consumers\HubConsumer.cs" />
     <Compile Include="Consumers\NewConsumer.cs" />
     <Compile Include="Consumers\PreviewConsumer.cs" />
     <Compile Include="Consumers\ShortcutsConsumer.cs" />
+    <Compile Include="Controls\CustomNumericUpDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\CustomNumericUpDown.Designer.cs">
+      <DependentUpon>CustomNumericUpDown.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Translation Comment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Translation Comment.Designer.cs">
+      <DependentUpon>Translation Comment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Translation Hub.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +136,7 @@
     <Compile Include="Forms\Translation Shortcuts.Designer.cs">
       <DependentUpon>Translation Shortcuts.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\ICommentConsumer.cs" />
     <Compile Include="Interfaces\IDeskConsumer.cs" />
     <Compile Include="Interfaces\IHubConsumer.cs" />
     <Compile Include="Interfaces\IPreviewConsumer.cs" />
@@ -138,6 +152,9 @@
     </Compile>
     <Compile Include="Utilities\ApplicationData.cs" />
     <Compile Include="Utilities\FormHelper.cs" />
+    <EmbeddedResource Include="Forms\Translation Comment.resx">
+      <DependentUpon>Translation Comment.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Translation Desk.resx">
       <DependentUpon>Translation Desk.cs</DependentUpon>
     </EmbeddedResource>

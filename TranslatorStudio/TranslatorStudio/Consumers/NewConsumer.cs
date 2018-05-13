@@ -17,16 +17,13 @@ namespace TranslatorStudio.Consumers
     public class NewConsumer : INewConsumer
     {
         #region Properties
-
         private readonly ITranslationDataFactory translationDataFactory;
 
         public frmNew New { get; set; }
-
         #endregion
 
 
         #region Constructors
-
         public NewConsumer(frmNew frmNew)
         {
             New = frmNew ?? throw new ArgumentNullException(nameof(frmNew));
@@ -40,12 +37,10 @@ namespace TranslatorStudio.Consumers
             New = frmNew ?? throw new ArgumentNullException(nameof(frmNew));
             translationDataFactory = newTranslationDataRepository ?? throw new ArgumentNullException(nameof(newTranslationDataRepository));
         }
-
         #endregion
 
 
         #region Public Methods
-
         public bool CreateNewProject()
         {
             try
@@ -101,12 +96,10 @@ namespace TranslatorStudio.Consumers
                     return false;
             }
         }
-
         #endregion
 
 
         #region Private Methods
-
         private bool CreateTranslationProject(ITranslationData translationData)
         {
             if (New.Hub != null)
@@ -124,7 +117,6 @@ namespace TranslatorStudio.Consumers
             }
             return false;
         }
-
         #endregion
     }
 }

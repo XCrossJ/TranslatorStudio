@@ -14,19 +14,15 @@ namespace TranslatorStudio.Consumers
     public class DeskConsumer : IDeskConsumer
     {
         #region Properties
-
         private readonly IFileRepository fileRepository;
 
         public FrmDesk Desk { get; set; }
 
         public ITranslationData Data { get => Desk.Data; set => Desk.Data = value; }
-
-
         #endregion
 
 
         #region Constructors
-
         public DeskConsumer(FrmDesk frmDesk)
         {
             Desk = frmDesk ?? throw new ArgumentNullException(nameof(frmDesk));
@@ -35,16 +31,14 @@ namespace TranslatorStudio.Consumers
             ITranslationDataFactory translationFactory = new TranslationDataFactory(projectFactory, subFactory);
             fileRepository = new FileRepository(translationFactory);
         }
-
         #endregion
 
 
         #region Setup & Update Methods
-
         public bool DeskSetup()
         {
             Desk.NumberOfLines = Data.NumberOfLines;
-            Desk.NudLineNumber.Maximum = Data.NumberOfLines;
+            Desk.NudLineNumber.LoadTranslationData(Data);
 
             Desk.CmbEditMode.SelectedIndex = 0;
             return UpdateDesk();
@@ -74,12 +68,10 @@ namespace TranslatorStudio.Consumers
             Desk.PrgProgress.UpdateProgressBar(Data.NumberOfCompletedLines, Data.NumberOfLines);
             return true;
         }
-
         #endregion
 
 
         #region Public Methods
-
         public bool NewProject()
         {
             Desk.New = new frmNew(Desk);
@@ -121,7 +113,7 @@ namespace TranslatorStudio.Consumers
             if (!string.IsNullOrEmpty(Desk.PreviousSavePath))
                 Desk.UnsavedData = !fileRepository.SaveProject(Data, Desk.PreviousSavePath);
             else
-                SaveProjectAs();
+                return SaveProjectAs();
             return true;
         }
         public bool ExportProject()
@@ -159,6 +151,11 @@ namespace TranslatorStudio.Consumers
         public bool UpdateProjectName(string newProjectName)
         {
             Data.ProjectName = newProjectName;
+            return true;
+        }
+        public bool UpdateSourceLink(string newSourceLink)
+        {
+            Data.SourceLink = newSourceLink;
             return true;
         }
         public bool UpdateCurrentIndex(int newIndex)
@@ -204,6 +201,12 @@ namespace TranslatorStudio.Consumers
                 return UpdateDesk();
             }
             return false;
+        }
+        public bool ViewComment()
+        {
+            Desk.Comment = new FrmComment(Data);
+            Desk.Comment.ShowDialog();
+            return true;
         }
         public bool ChangeEditMode()
         {
@@ -255,6 +258,20 @@ namespace TranslatorStudio.Consumers
             }
             return UpdateDesk();
         }
+        public bool ToggleRawReadOnly(bool isReadOnly)
+        {
+            Desk.RtbRawContent.BackColor = System.Drawing.SystemColors.Window;
+            Desk.RtbRawContent.ReadOnly = isReadOnly;
+            if (Desk.RtbRawContent.ReadOnly)
+            {
+                Desk.RtbRawContent.BackColor = System.Drawing.SystemColors.Control;
+            }
+            else
+            {
+                Desk.RtbRawContent.BackColor = System.Drawing.SystemColors.Window;
+            }
+            return true;
+        }
 
         public bool GoToNextLine()
         {
@@ -293,6 +310,11 @@ namespace TranslatorStudio.Consumers
         public bool FlipAutoState()
         {
             Desk.ChkAuto.FlipCheckboxState();
+            return true;
+        }
+        public bool FlipRawReadOnlyState()
+        {
+            Desk.ChkRawReadOnly.FlipCheckboxState();
             return true;
         }
         public bool NumberOfLinesChanged()
@@ -439,6 +461,12 @@ namespace TranslatorStudio.Consumers
                 case (Keys.Control | Keys.M):
                     FlipMarkedState();
                     return true;
+                case (Keys.Control | Keys.Alt | Keys.A):
+                    FlipAutoState();
+                    return true;
+                case (Keys.Control | Keys.Alt | Keys.R):
+                    FlipRawReadOnlyState();
+                    return true;
                 default:
                     return false;
             }
@@ -451,9 +479,15 @@ namespace TranslatorStudio.Consumers
                 switch(ApplicationData.MsgBox_CloseDesk_Confirmation(Desk))
                 {
                     case DialogResult.Yes:
-                        Desk.Hub.Show();
+                        var result = SaveProject();
+                        if (result)
+                            Desk.Hub.Show();
+                        else
+                            e.Cancel = true;
                         break;
                     case DialogResult.No:
+                        Desk.Hub.Show();
+                        break;
                     case DialogResult.Cancel:
                     default:
                         e.Cancel = true;
@@ -470,12 +504,10 @@ namespace TranslatorStudio.Consumers
             Desk.Close();
             return true;
         }
-
         #endregion
 
 
         #region Private Methods
-
         private bool OpenFile(string fileExt, string path, string fileName)
         {
             var openData = fileRepository.OpenFile(fileExt, path, fileName);
@@ -484,7 +516,6 @@ namespace TranslatorStudio.Consumers
             ResetTranslationDesk(data);
             return true;
         }
-
         #endregion
     }
 }

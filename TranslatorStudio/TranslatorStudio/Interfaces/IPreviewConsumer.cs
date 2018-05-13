@@ -25,6 +25,5 @@ namespace TranslatorStudio.Interfaces
         bool LoadPreview(DataGridView dataGridView);
         bool ConfirmSave(FormClosingEventArgs e);
         #endregion
-
     }
 }

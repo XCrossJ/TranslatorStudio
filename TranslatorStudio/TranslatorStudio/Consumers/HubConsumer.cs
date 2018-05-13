@@ -14,15 +14,13 @@ namespace TranslatorStudio.Consumers
     public class HubConsumer : IHubConsumer
     {
         #region Properties
-
         private readonly IFileRepository fileRepository;
 
         public FrmHub Hub { get; set; }
-
         #endregion
 
-        #region Constructors
 
+        #region Constructors
         public HubConsumer(FrmHub frmHub)
         {
             Hub = frmHub ?? throw new ArgumentNullException(nameof(frmHub));
@@ -31,11 +29,10 @@ namespace TranslatorStudio.Consumers
             ITranslationDataFactory translationFactory = new TranslationDataFactory(projectFactory, subFactory);
             fileRepository = new FileRepository(translationFactory);
         }
-
         #endregion
 
-        #region Methods
 
+        #region Methods
         public void Quit()
         {
             Application.Exit();
@@ -112,6 +109,37 @@ namespace TranslatorStudio.Consumers
             }
         }
 
+        public bool BatchConvert()
+        {
+            try
+            {
+                var openFileDialog = ApplicationData.BatchConvertProjectDialog();
+                var listOfFileNames = openFileDialog.FileNames;
+                var listOfSafeFileNames = openFileDialog.SafeFileNames;
+                for (int i = 0; i < listOfFileNames.Length; i++)
+                {
+                    // Get File attributes
+                    var fileExt = Path.GetExtension(listOfFileNames[i]);
+                    var filePath = listOfFileNames[i];
+                    var fileName = Path.GetFileNameWithoutExtension(listOfSafeFileNames[i]);
+
+                    // Open data
+                    var openData = fileRepository.OpenFile(fileExt, filePath, fileName);
+                    ITranslationData data = openData.Item1;
+                    string previousSavePath = openData.Item2;
+
+                    // Save data
+                    fileRepository.SaveProject(data, previousSavePath);
+                }
+
+                return true;
+            }
+            catch (EmptyRawException)
+            {
+                ApplicationData.MsgBox_EmptyRawException(Hub);
+                return false;
+            }
+        }
         #endregion
     }
 }

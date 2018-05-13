@@ -13,7 +13,6 @@ namespace TranslatorStudio.Forms
         //https://www.experts-exchange.com/questions/27604665/Swap-2-cells-on-datagridview-with-drag-and-drop-VB-NET.html
 
         #region Properties
-
         private readonly IPreviewConsumer consumer;
 
         public FrmDesk Desk { get; set; }
@@ -22,12 +21,10 @@ namespace TranslatorStudio.Forms
 
         public int PreviewCurrentIndex { get => dgvPreview.CurrentRow.Index; }
         public DataGridViewRowCollection Rows { get => dgvPreview.Rows;}
-
         #endregion
 
 
         #region Constructors
-
         public FrmPreview(FrmDesk desk, ITranslationData data)
         {
             Desk = desk ?? throw new ArgumentNullException(nameof(desk));
@@ -49,12 +46,10 @@ namespace TranslatorStudio.Forms
 
             consumer.LoadPreview(dgvPreview);
         }
-
         #endregion
 
 
         #region Control Events
-
         private void Translation_Preview_Load(object sender, EventArgs e)
         {
             Text = consumer.GetPreviewTitle(Data.ProjectName);
@@ -91,12 +86,10 @@ namespace TranslatorStudio.Forms
         {
             consumer.SaveChanges();
         }
-
         #endregion
 
 
         #region Methods
-
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
@@ -104,7 +97,6 @@ namespace TranslatorStudio.Forms
             if (performSave)
                 Desk.ResetTranslationDesk(Data);
         }
-
         #endregion
     }
 }
