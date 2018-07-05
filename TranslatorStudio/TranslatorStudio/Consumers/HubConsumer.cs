@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using TranslatorStudio.Forms;
 using TranslatorStudio.Interfaces;
@@ -114,22 +115,31 @@ namespace TranslatorStudio.Consumers
             try
             {
                 var openFileDialog = ApplicationData.BatchConvertProjectDialog();
-                var listOfFileNames = openFileDialog.FileNames;
-                var listOfSafeFileNames = openFileDialog.SafeFileNames;
-                for (int i = 0; i < listOfFileNames.Length; i++)
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    // Get File attributes
-                    var fileExt = Path.GetExtension(listOfFileNames[i]);
-                    var filePath = listOfFileNames[i];
-                    var fileName = Path.GetFileNameWithoutExtension(listOfSafeFileNames[i]);
+                    var listOfFileNames = openFileDialog.FileNames;
+                    var listOfSafeFileNames = openFileDialog.SafeFileNames;
+                    for (int i = 0; i < listOfFileNames.Length; i++)
+                    {
+                        // Get File attributes
+                        var fileExt = Path.GetExtension(listOfFileNames[i]);
+                        var filePath = listOfFileNames[i];
+                        var fileName = Path.GetFileNameWithoutExtension(listOfSafeFileNames[i]);
 
-                    // Open data
-                    var openData = fileRepository.OpenFile(fileExt, filePath, fileName);
-                    ITranslationData data = openData.Item1;
-                    string previousSavePath = openData.Item2;
+                        // Open data
+                        var openData = fileRepository.OpenFile(fileExt, filePath, fileName);
+                        ITranslationData data = openData.Item1;
+                        string previousSavePath = openData.Item2;
 
-                    // Save data
-                    fileRepository.SaveProject(data, previousSavePath);
+                        // Save data
+                        fileRepository.SaveProject(data, previousSavePath);
+                    }
+                    var message = "The following have been converted: " + string.Join("; ", listOfSafeFileNames);
+                    foreach (var item in listOfSafeFileNames)
+                    {
+                        message += Environment.NewLine + $"  - {item}";
+                    }
+                    MessageBox.Show(message);
                 }
 
                 return true;
