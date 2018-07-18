@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PackageId>MayonakaSignal.XCrossJ.TranslatorStudioClassLibrary</PackageId>
+    <Version>0.0.1</Version>
+    <Authors>XCrossJ</Authors>
+    <Company />
+    <Description>Class Library that contains implementations for XCrossJ's Translator Studio.</Description>
+    <Copyright>Copyright 2018 (c) Mayonaka Signal. All rights reserved.</Copyright>
+    <PackageTags>XCrossJ Translator Studio Class Library</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TranslatorStudioClassLibrary.Contracts\TranslatorStudioClassLibrary.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

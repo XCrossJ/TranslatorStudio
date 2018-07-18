@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.0.1</Version>
+    <Authors>XCrossJ</Authors>
+    <Company />
+    <PackageId>MayonakaSignal.XCrossJ.TranslatorStudioClassLibrary.Contracts</PackageId>
+    <Product>TranslatorStudioClassLibrary.Contracts</Product>
+    <Description>Class Library that contains contracts for XCrossJ's Translator Studio.</Description>
+    <Copyright>Copyright 2018 (c) Mayonaka Signal. All rights reserved.</Copyright>
+    <PackageTags>XCrossJ Translator Studio Class Library Contracts</PackageTags>
+  </PropertyGroup>
+
+</Project>
